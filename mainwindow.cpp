@@ -491,11 +491,31 @@ void MainWindow::updateHighScoresList()
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    // 将按键事件传递给当前活动的窗口部件
-    if (stackedWidget->currentWidget() == gameWidget) {
-        // 直接发送事件给gameWidget
-        QApplication::sendEvent(gameWidget, event);
-    } else {
+    // 检查事件是否有效
+    if (!event) {
         QMainWindow::keyPressEvent(event);
+        return;
     }
+    
+    // 检查事件是否已被接受
+    if (event->isAccepted()) {
+        QMainWindow::keyPressEvent(event);
+        return;
+    }
+    
+    // 将按键事件传递给当前活动的窗口部件
+    if (stackedWidget && gameWidget && stackedWidget->currentWidget() == gameWidget) {
+        // 确保gameWidget有焦点并且可以接收键盘事件
+        if (gameWidget->isVisible() && gameWidget->isEnabled()) {
+            // 使用QApplication::sendEvent来正确传递事件
+            QApplication::sendEvent(gameWidget, event);
+            // 如果事件被gameWidget处理，直接返回
+            if (event->isAccepted()) {
+                return;
+            }
+        }
+    }
+    
+    // 如果事件未被处理，调用基类实现
+    QMainWindow::keyPressEvent(event);
 }

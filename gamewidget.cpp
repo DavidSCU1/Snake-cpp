@@ -34,7 +34,7 @@ GameWidget::GameWidget(QWidget *parent)
     setupUI();
     setupGame();
     loadHighScores();
-    
+
     // 连接信号
     connect(gameTimer, &QTimer::timeout, this, &GameWidget::gameLoop);
     connect(food, &Food::foodExpired, this, &GameWidget::onFoodExpired);
@@ -46,7 +46,7 @@ GameWidget::GameWidget(QWidget *parent)
     connect(networkManager, &NetworkManager::scoreUpdateReceived, this, &GameWidget::onScoreUpdateReceived);
     connect(networkManager, &NetworkManager::playerPositionReceived, this, &GameWidget::onPlayerPositionReceived);
     connect(networkManager, &NetworkManager::connectionError, this, &GameWidget::onNetworkError);
-    
+
     // 多人游戏管理器信号
     connect(multiPlayerManager, &MultiPlayerGameManager::roomCreated, this, &GameWidget::onRoomCreated);
     connect(multiPlayerManager, &MultiPlayerGameManager::playerJoinedRoom, this, &GameWidget::onPlayerJoinedRoom);
@@ -64,6 +64,11 @@ GameWidget::GameWidget(QWidget *parent)
     setMinimumSize(800, 600);
 }
 
+GameWidget::~GameWidget()
+{
+    qDebug() << "GameWidget destructor called";
+}
+
 void GameWidget::setupUI()
 {
     mainLayout = new QVBoxLayout(this);
@@ -74,7 +79,7 @@ void GameWidget::setupUI()
     // 游戏区域
     gameArea = new QWidget(this);
     gameArea->setMinimumSize(gridWidth * cellSize, gridHeight * cellSize);
-    gameArea->setStyleSheet("background-color: #87CEEB; border: 2px solid #4682B4;");
+    gameArea->setStyleSheet("");
     
     // 侧边面板
     sidePanel = new QWidget(this);
@@ -188,10 +193,32 @@ void GameWidget::startSinglePlayerGame()
 {
     qDebug() << "startSinglePlayerGame called";
     isMultiplayer = false;
-    playersLabel->setVisible(false);
-    playersList->setVisible(false);
     
-    resetGame();
+    // 确保UI组件已初始化后再使用
+    if (playersLabel) playersLabel->setVisible(false);
+    if (playersList) playersList->setVisible(false);
+    
+    // 重置游戏数据但不改变状态
+    gameTimer->stop();
+    specialFoodTimer->stop();
+    
+    score = 0;
+    level = 1;
+    currentSpeed = baseSpeed;
+    specialFoodCounter = 0;
+    
+    if (scoreLabel) scoreLabel->setText("分数: 0");
+    if (levelLabel) levelLabel->setText("等级: 1");
+    if (pauseButton) pauseButton->setText("暂停");
+    
+    // 清理多人游戏数据
+    otherPlayers.clear();
+    playerCharacters.clear();
+    playerScores.clear();
+    playerAliveStatus.clear();
+    playersList->clear();
+    
+    // 设置正确的游戏状态
     currentState = GameState::PLAYING;
     
     // 确保窗口可见
@@ -212,16 +239,17 @@ void GameWidget::startSinglePlayerGame()
     gameTimer->start(currentSpeed);
     qDebug() << "Game timer started with speed:" << currentSpeed;
     
-    update();
-    qDebug() << "Update called";
+    qDebug() << "Game started, initial update will be triggered by paint event";
 }
 
 void GameWidget::startMultiPlayerGame(bool isHost)
 {
     this->isHost = isHost;
     isMultiplayer = true;
-    playersLabel->setVisible(true);
-    playersList->setVisible(true);
+    
+    // 确保UI组件已初始化后再使用
+    if (playersLabel) playersLabel->setVisible(true);
+    if (playersList) playersList->setVisible(true);
     
     // 使用新的多人游戏管理器
     if (isHost) {
@@ -236,7 +264,20 @@ void GameWidget::startMultiPlayerGame(bool isHost)
         joinRoom(roomId, guestName);
     }
     
-    resetGame();
+    // 重置游戏数据但不改变状态
+    gameTimer->stop();
+    specialFoodTimer->stop();
+    
+    score = 0;
+    level = 1;
+    currentSpeed = baseSpeed;
+    specialFoodCounter = 0;
+    
+    if (scoreLabel) scoreLabel->setText("分数: 0");
+    if (levelLabel) levelLabel->setText("等级: 1");
+    if (pauseButton) pauseButton->setText("暂停");
+    
+    // 设置正确的游戏状态
     currentState = GameState::MULTIPLAYER_GAME;
     
     // 初始化蛇的位置
@@ -255,7 +296,7 @@ void GameWidget::pauseGame()
         gameTimer->stop();
         specialFoodTimer->stop();
         currentState = GameState::PAUSED;
-        pauseButton->setText("继续");
+        if (pauseButton) pauseButton->setText("继续");
         update();
     }
 }
@@ -269,7 +310,7 @@ void GameWidget::resumeGame()
             currentState = GameState::PLAYING;
         }
         gameTimer->start(currentSpeed);
-        pauseButton->setText("暂停");
+        if (pauseButton) pauseButton->setText("暂停");
         update();
     }
 }
@@ -284,16 +325,16 @@ void GameWidget::resetGame()
     currentSpeed = baseSpeed;
     specialFoodCounter = 0;
     
-    scoreLabel->setText("分数: 0");
-    levelLabel->setText("等级: 1");
-    pauseButton->setText("暂停");
+    if (scoreLabel) scoreLabel->setText("分数: 0");
+    if (levelLabel) levelLabel->setText("等级: 1");
+    if (pauseButton) pauseButton->setText("暂停");
     
     // 清理多人游戏数据
     otherPlayers.clear();
     playerCharacters.clear();
     playerScores.clear();
     playerAliveStatus.clear();
-    playersList->clear();
+    if (playersList) playersList->clear();
     
     if (isMultiplayer) {
         networkManager->stopServer();
@@ -306,6 +347,11 @@ void GameWidget::resetGame()
 
 void GameWidget::gameLoop()
 {
+    if (!snake) {
+        qCritical() << "Snake object is null in gameLoop";
+        return;
+    }
+    
     if (currentState != GameState::PLAYING && currentState != GameState::MULTIPLAYER_GAME) {
         return;
     }
@@ -352,6 +398,15 @@ void GameWidget::gameLoop()
 
 void GameWidget::checkCollisions()
 {
+    if (!snake || !food) {
+        qCritical() << "Collision check with null pointers! snake:" << snake << "food:" << food;
+        return;
+    }
+    if (!snake || !food) {
+        qDebug() << "Snake or Food object is null in checkCollisions";
+        return;
+    }
+    
     Point head = snake->getHead();
     
     // 检查边界碰撞
@@ -415,8 +470,10 @@ QSet<Point> GameWidget::getOccupiedPositions() const
     QSet<Point> positions;
     
     // 添加蛇身位置
-    for (const auto& point : snake->getBody()) {
-        positions.insert(point);
+    if (snake) {
+        for (const auto& point : snake->getBody()) {
+            positions.insert(point);
+        }
     }
     
     // 添加其他玩家的蛇身位置（多人游戏）
@@ -483,7 +540,7 @@ void GameWidget::loadHighScores()
 
 void GameWidget::sendNetworkUpdate()
 {
-    if (networkManager && isMultiplayer) {
+    if (networkManager && isMultiplayer && snake) {
         networkManager->sendPlayerPosition(snake->getBody());
     }
 }
@@ -556,43 +613,35 @@ void GameWidget::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     
-    // 计算游戏区域的实际位置
+    // 计算游戏区域的实际位置 - 使用gameArea的位置和大小
     QRect gameRect = gameArea->geometry();
-    qDebug() << "GameArea geometry:" << gameRect << "Widget size:" << size() << "CellSize:" << cellSize;
-    painter.setClipRect(gameRect);
-    
-    // 绘制背景
-    painter.fillRect(gameRect, QColor(135, 206, 235)); // 天蓝色背景
-    
-    qDebug() << "Current state:" << static_cast<int>(currentState) << "Snake body size:" << snake->getBody().size();
     
     if (currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME || currentState == GameState::PAUSED) {
-        // 绘制网格
-        drawGrid(painter);
+        // 设置绘制区域
+        painter.setClipRect(gameRect);
         
         // 绘制食物
-        drawFood(painter);
+        drawFood(painter, gameRect);
         
         // 绘制蛇
-        drawSnake(painter);
+        drawSnake(painter, gameRect);
         
         // 绘制其他玩家的蛇（多人游戏）
         if (isMultiplayer) {
-            drawMultiplayerSnakes(painter);
+            drawMultiplayerSnakes(painter, gameRect);
         }
     }
     
     // 绘制UI覆盖层
     if (currentState == GameState::PAUSED) {
-        drawPauseOverlay(painter);
+        drawPauseOverlay(painter, gameRect);
     } else if (currentState == GameState::GAME_OVER) {
-        drawGameOverOverlay(painter);
+        drawGameOverOverlay(painter, gameRect);
     }
 }
 
-void GameWidget::drawGrid(QPainter& painter)
+void GameWidget::drawGrid(QPainter& painter, const QRect& gameRect)
 {
-    QRect gameRect = gameArea->geometry();
     painter.setPen(QPen(QColor(100, 149, 237, 100), 1)); // 半透明网格线
     
     // 绘制垂直线
@@ -608,12 +657,16 @@ void GameWidget::drawGrid(QPainter& painter)
     }
 }
 
-void GameWidget::drawSnake(QPainter& painter)
+void GameWidget::drawSnake(QPainter& painter, const QRect& gameRect)
 {
-    QRect gameRect = gameArea->geometry();
     const auto& body = snake->getBody();
     
-    if (body.empty()) return;
+    if (body.empty()) {
+        qDebug() << "Snake body is empty, cannot draw";
+        return;
+    }
+    
+    qDebug() << "Drawing snake with" << body.size() << "segments";
     
     // 绘制蛇头
     Point head = body.front();
@@ -624,8 +677,10 @@ void GameWidget::drawSnake(QPainter& painter)
     QPixmap headPixmap = snake->getHeadPixmap();
     if (!headPixmap.isNull()) {
         painter.drawPixmap(headRect, headPixmap);
+        qDebug() << "Drew snake head with pixmap at" << headRect;
     } else {
         painter.fillRect(headRect, Qt::darkGreen);
+        qDebug() << "Drew snake head with color at" << headRect;
     }
     
     // 绘制蛇身
@@ -643,9 +698,8 @@ void GameWidget::drawSnake(QPainter& painter)
     }
 }
 
-void GameWidget::drawFood(QPainter& painter)
+void GameWidget::drawFood(QPainter& painter, const QRect& gameRect)
 {
-    QRect gameRect = gameArea->geometry();
     Point foodPos = food->getPosition();
     
     QRect foodRect(gameRect.x() + foodPos.x * cellSize + 2, 
@@ -666,9 +720,8 @@ void GameWidget::drawFood(QPainter& painter)
     }
 }
 
-void GameWidget::drawMultiplayerSnakes(QPainter& painter)
+void GameWidget::drawMultiplayerSnakes(QPainter& painter, const QRect& gameRect)
 {
-    QRect gameRect = gameArea->geometry();
     
     for (auto it = otherPlayers.begin(); it != otherPlayers.end(); ++it) {
         const QString& playerName = it.key();
@@ -718,10 +771,8 @@ void GameWidget::drawMultiplayerSnakes(QPainter& painter)
     }
 }
 
-void GameWidget::drawPauseOverlay(QPainter& painter)
+void GameWidget::drawPauseOverlay(QPainter& painter, const QRect& gameRect)
 {
-    QRect gameRect = gameArea->geometry();
-    
     // 半透明背景
     painter.fillRect(gameRect, QColor(0, 0, 0, 128));
     
@@ -735,10 +786,8 @@ void GameWidget::drawPauseOverlay(QPainter& painter)
     painter.drawText(gameRect, Qt::AlignCenter, "游戏暂停\n按空格键继续");
 }
 
-void GameWidget::drawGameOverOverlay(QPainter& painter)
+void GameWidget::drawGameOverOverlay(QPainter& painter, const QRect& gameRect)
 {
-    QRect gameRect = gameArea->geometry();
-    
     // 半透明背景
     painter.fillRect(gameRect, QColor(0, 0, 0, 150));
     
@@ -759,40 +808,63 @@ void GameWidget::drawGameOverOverlay(QPainter& painter)
 
 void GameWidget::keyPressEvent(QKeyEvent *event)
 {
+    // 首先检查事件是否有效
+    if (!event) {
+        QWidget::keyPressEvent(event);
+        return;
+    }
+    
+    // 处理方向键输入
+    bool handled = false;
+    
     switch (event->key()) {
     case Qt::Key_Up:
     case Qt::Key_W:
-        if (currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) {
-            snake->setDirection(Direction::UP);
+        if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
+            if (snake->canChangeDirection(Direction::UP)) {
+                snake->setDirection(Direction::UP);
+                handled = true;
+            }
         }
         break;
         
     case Qt::Key_Down:
     case Qt::Key_S:
-        if (currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) {
-            snake->setDirection(Direction::DOWN);
+        if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
+            if (snake->canChangeDirection(Direction::DOWN)) {
+                snake->setDirection(Direction::DOWN);
+                handled = true;
+            }
         }
         break;
         
     case Qt::Key_Left:
     case Qt::Key_A:
-        if (currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) {
-            snake->setDirection(Direction::LEFT);
+        if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
+            if (snake->canChangeDirection(Direction::LEFT)) {
+                snake->setDirection(Direction::LEFT);
+                handled = true;
+            }
         }
         break;
         
     case Qt::Key_Right:
     case Qt::Key_D:
-        if (currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) {
-            snake->setDirection(Direction::RIGHT);
+        if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
+            if (snake->canChangeDirection(Direction::RIGHT)) {
+                snake->setDirection(Direction::RIGHT);
+                handled = true;
+            }
         }
         break;
         
     case Qt::Key_Space:
         if (currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) {
             pauseGame();
+            handled = true;
         } else if (currentState == GameState::PAUSED) {
             resumeGame();
+            handled = true;
         }
         break;
         
@@ -803,6 +875,7 @@ void GameWidget::keyPressEvent(QKeyEvent *event)
             } else {
                 startSinglePlayerGame();
             }
+            handled = true;
         }
         break;
         
@@ -810,14 +883,22 @@ void GameWidget::keyPressEvent(QKeyEvent *event)
         if (currentState == GameState::GAME_OVER) {
             resetGame();
             emit backToMenu();
+            handled = true;
         } else if (currentState == GameState::PAUSED) {
             resetGame();
             emit backToMenu();
+            handled = true;
         }
         break;
     }
     
-    QWidget::keyPressEvent(event);
+    // 如果事件被处理，标记为已接受
+    if (handled) {
+        event->accept();
+    } else {
+        // 如果事件未被处理，调用基类实现
+        QWidget::keyPressEvent(event);
+    }
 }
 
 void GameWidget::resizeEvent(QResizeEvent *event)

@@ -32,6 +32,12 @@ void Snake::reset(const Point& startPos)
 
 void Snake::move()
 {
+    // 检查蛇身是否为空
+    if (body.empty()) {
+        return;
+    }
+    
+    // 更新当前方向
     if (canChangeDirection(nextDirection)) {
         currentDirection = nextDirection;
     }
@@ -39,6 +45,7 @@ void Snake::move()
     Point head = getHead();
     Point newHead = head;
     
+    // 根据当前方向计算新的头部位置
     switch (currentDirection) {
     case Direction::UP:
         newHead.y--;
@@ -54,8 +61,11 @@ void Snake::move()
         break;
     }
     
+    // 移动蛇身
     body.push_front(newHead);
-    body.pop_back();
+    if (!body.empty()) {
+        body.pop_back();
+    }
 }
 
 void Snake::grow()
@@ -68,7 +78,10 @@ void Snake::grow()
 
 void Snake::setDirection(Direction dir)
 {
-    nextDirection = dir;
+    // 只有在可以改变方向时才设置新方向
+    if (canChangeDirection(dir)) {
+        nextDirection = dir;
+    }
 }
 
 bool Snake::checkSelfCollision() const

@@ -31,6 +31,7 @@ public:
     QPixmap getBodyPixmap() const { return bodyPixmap; }
     
     int getLength() const { return body.size(); }
+    bool canChangeDirection(Direction newDir) const;
     
 private:
     void loadCharacterPixmaps();
@@ -42,8 +43,6 @@ private:
     
     QPixmap headPixmap;
     QPixmap bodyPixmap;
-    
-    bool canChangeDirection(Direction newDir) const;
 };
 
 #endif // SNAKE_H

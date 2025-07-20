@@ -26,6 +26,7 @@ class GameWidget : public QWidget
 
 public:
     explicit GameWidget(QWidget *parent = nullptr);
+    ~GameWidget();
     
     void setCharacter(CharacterType character);
     void setDifficulty(Difficulty difficulty);
@@ -89,13 +90,13 @@ private:
     void saveHighScore();
     void loadHighScores();
     void updateSpeed();
-    void drawGrid(QPainter& painter);
-    void drawSnake(QPainter& painter);
-    void drawFood(QPainter& painter);
-    void drawMultiplayerSnakes(QPainter& painter);
+    void drawGrid(QPainter& painter, const QRect& gameRect);
+    void drawSnake(QPainter& painter, const QRect& gameRect);
+    void drawFood(QPainter& painter, const QRect& gameRect);
+    void drawMultiplayerSnakes(QPainter& painter, const QRect& gameRect);
     void drawUI(QPainter& painter);
-    void drawPauseOverlay(QPainter& painter);
-    void drawGameOverOverlay(QPainter& painter);
+    void drawPauseOverlay(QPainter& painter, const QRect& gameRect);
+    void drawGameOverOverlay(QPainter& painter, const QRect& gameRect);
     
     QSet<Point> getOccupiedPositions() const;
     void sendNetworkUpdate();

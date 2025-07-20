@@ -59,6 +59,7 @@ void MainWindow::setupUI()
     
     // 创建多人游戏大厅
     multiPlayerLobby = new MultiPlayerLobby(this);
+    multiPlayerLobby->setGameWidget(gameWidget); // 建立GameWidget和MultiPlayerLobby的连接
     connect(multiPlayerLobby, &MultiPlayerLobby::backToMenu, this, &MainWindow::showMainMenu);
     connect(multiPlayerLobby, &MultiPlayerLobby::gameStarted, this, [this]() {
         stackedWidget->setCurrentWidget(gameWidget);

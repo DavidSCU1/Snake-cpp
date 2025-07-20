@@ -36,6 +36,7 @@ public:
     
     // 多人游戏管理器访问方法
     MultiPlayerGameManager* getMultiPlayerManager() const { return multiPlayerManager; }
+    void setMultiPlayerManager(MultiPlayerGameManager* manager);
     void setCurrentRoomId(const QString& roomId) { currentRoomId = roomId; }
     void setPlayerName(const QString& name) { playerName = name; }
     void pauseGame();

@@ -18,6 +18,7 @@ MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     connect(multiPlayerManager, &MultiPlayerGameManager::playerLeftRoom, this, &MultiPlayerLobby::onPlayerLeftRoom);
     connect(multiPlayerManager, &MultiPlayerGameManager::gameStarted, this, &MultiPlayerLobby::onGameStarted);
     connect(multiPlayerManager, &MultiPlayerGameManager::roomDestroyed, this, &MultiPlayerLobby::onRoomDestroyed);
+    connect(multiPlayerManager, &MultiPlayerGameManager::gameEnded, this, &MultiPlayerLobby::onGameEnded);
     
     // 设置定时刷新
     refreshTimer->setInterval(5000); // 每5秒刷新一次房间列表
@@ -178,29 +179,31 @@ void MultiPlayerLobby::setupUI()
 void MultiPlayerLobby::setGameWidget(GameWidget* gameWidget)
 {
     this->gameWidget = gameWidget;
-    if (gameWidget && gameWidget->getMultiPlayerManager()) {
-        // 使用GameWidget的多人游戏管理器
-        multiPlayerManager = gameWidget->getMultiPlayerManager();
-        
-        // 重新连接信号
-        connect(multiPlayerManager, &MultiPlayerGameManager::roomCreated, this, &MultiPlayerLobby::onRoomCreated);
-        connect(multiPlayerManager, &MultiPlayerGameManager::playerJoinedRoom, this, &MultiPlayerLobby::onPlayerJoinedRoom);
-        connect(multiPlayerManager, &MultiPlayerGameManager::playerLeftRoom, this, &MultiPlayerLobby::onPlayerLeftRoom);
-        connect(multiPlayerManager, &MultiPlayerGameManager::gameStarted, this, &MultiPlayerLobby::onGameStarted);
-        connect(multiPlayerManager, &MultiPlayerGameManager::roomDestroyed, this, &MultiPlayerLobby::onRoomDestroyed);
+    if (gameWidget) {
+        // 让GameWidget使用我们的多人游戏管理器，而不是相反
+        gameWidget->setMultiPlayerManager(multiPlayerManager);
     }
 }
 
 void MultiPlayerLobby::refreshRoomList()
 {
-    if (!multiPlayerManager) return;
+    if (!multiPlayerManager) {
+        return;
+    }
     
     QStringList availableRooms = multiPlayerManager->getAvailableRooms();
     
     roomListWidget->clear();
+    
     for (const QString& roomId : availableRooms) {
         GameRoom room = multiPlayerManager->getRoomInfo(roomId);
-        QString displayText = QString("房间 %1 (%2/%3)").arg(roomId).arg(room.players.size()).arg(room.maxPlayers);
+        
+        QString displayText = QString("%1 (%2/%3) - %4")
+                                .arg(room.hostName + "的房间")
+                                .arg(room.players.size())
+                                .arg(room.maxPlayers)
+                                .arg(room.isGameStarted ? "游戏中" : "等待中");
+        
         QListWidgetItem* item = new QListWidgetItem(displayText);
         item->setData(Qt::UserRole, roomId);
         roomListWidget->addItem(item);
@@ -228,8 +231,6 @@ void MultiPlayerLobby::onCreateRoomClicked()
     createRoomButton->setEnabled(false);
     joinRoomButton->setEnabled(false);
     playerNameEdit->setEnabled(false);
-    
-    qDebug() << "Created room:" << currentRoomId;
 }
 
 void MultiPlayerLobby::onJoinRoomClicked()
@@ -360,6 +361,28 @@ void MultiPlayerLobby::onGameStarted(const QString& roomId)
         
         // 隐藏大厅界面
         hide();
+    }
+}
+
+void MultiPlayerLobby::onGameEnded(const QString& roomId, const QString& winner)
+{
+    if (roomId == currentRoomId) {
+        qDebug() << "Game ended for room:" << roomId << "Winner:" << winner;
+        
+        // 游戏结束后重新启用按钮
+        createRoomButton->setEnabled(true);
+        joinRoomButton->setEnabled(true);
+        playerNameEdit->setEnabled(true);
+        
+        // 清除房间状态
+        isInRoom = false;
+        currentRoomId.clear();
+        
+        // 刷新房间列表
+        refreshRoomList();
+        
+        // 显示大厅界面
+        show();
     }
 }
 

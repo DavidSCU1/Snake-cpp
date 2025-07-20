@@ -44,6 +44,7 @@ private slots:
     void onPlayerJoinedRoom(const QString& roomId, const QString& playerName);
     void onPlayerLeftRoom(const QString& roomId, const QString& playerName);
     void onGameStarted(const QString& roomId);
+    void onGameEnded(const QString& roomId, const QString& winner);
     void onRoomDestroyed(const QString& roomId);
     
 private:

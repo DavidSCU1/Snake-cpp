@@ -1020,3 +1020,28 @@ void GameWidget::onFoodEaten(const QString& roomId, const QString& playerName, i
     
     update();
 }
+
+void GameWidget::setMultiPlayerManager(MultiPlayerGameManager* manager)
+{
+    if (multiPlayerManager && multiPlayerManager != manager) {
+        // 断开旧的连接
+        disconnect(multiPlayerManager, nullptr, this, nullptr);
+    }
+    
+    multiPlayerManager = manager;
+    
+    if (multiPlayerManager) {
+        // 连接新的信号
+        connect(multiPlayerManager, &MultiPlayerGameManager::roomCreated, this, &GameWidget::onRoomCreated);
+        connect(multiPlayerManager, &MultiPlayerGameManager::playerJoinedRoom, this, &GameWidget::onPlayerJoinedRoom);
+        connect(multiPlayerManager, &MultiPlayerGameManager::playerLeftRoom, this, &GameWidget::onPlayerLeftRoom);
+        connect(multiPlayerManager, &MultiPlayerGameManager::gameStarted, this, &GameWidget::onGameStarted);
+        connect(multiPlayerManager, &MultiPlayerGameManager::gameEnded, this, &GameWidget::onGameEnded);
+        connect(multiPlayerManager, &MultiPlayerGameManager::gameStateUpdated, this, &GameWidget::onGameStateUpdated);
+        connect(multiPlayerManager, &MultiPlayerGameManager::playerCollision, this, &GameWidget::onPlayerCollision);
+        connect(multiPlayerManager, &MultiPlayerGameManager::foodEaten, this, &GameWidget::onFoodEaten);
+        
+        // 设置网络管理器
+        multiPlayerManager->setNetworkManager(networkManager);
+    }
+}

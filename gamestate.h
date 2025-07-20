@@ -1,6 +1,9 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
+#include <QString>
+#include <QStringList>
+
 enum class GameState {
     MENU,
     CHARACTER_SELECTION,
@@ -54,6 +57,17 @@ struct PlayerInfo {
     bool isAlive;
     
     PlayerInfo() : name(""), score(0), character(CharacterType::SPONGEBOB), isAlive(true) {}
+};
+
+struct GameRoom {
+    QString roomId;
+    QString hostName;
+    QStringList playerNames;
+    int maxPlayers;
+    int currentPlayers;
+    bool isGameStarted;
+    
+    GameRoom() : maxPlayers(4), currentPlayers(0), isGameStarted(false) {}
 };
 
 #endif // GAMESTATE_H

@@ -44,7 +44,6 @@ template <> constexpr inline auto MultiPlayerGameManager::qt_create_metaobjectda
         "roomId",
         "GameRoom",
         "room",
-        "roomDestroyed",
         "playerJoinedRoom",
         "playerName",
         "playerLeftRoom",
@@ -57,6 +56,7 @@ template <> constexpr inline auto MultiPlayerGameManager::qt_create_metaobjectda
         "playerCollision",
         "foodEaten",
         "points",
+        "roomDestroyed",
         "onGameTick",
         "onNetworkPlayerInfoReceived",
         "PlayerInfo",
@@ -72,37 +72,37 @@ template <> constexpr inline auto MultiPlayerGameManager::qt_create_metaobjectda
         QtMocHelpers::SignalData<void(const QString &, const GameRoom &)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 3 }, { 0x80000000 | 4, 5 },
         }}),
-        // Signal 'roomDestroyed'
-        QtMocHelpers::SignalData<void(const QString &)>(6, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 3 },
-        }}),
         // Signal 'playerJoinedRoom'
-        QtMocHelpers::SignalData<void(const QString &, const QString &)>(7, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 3 }, { QMetaType::QString, 8 },
+        QtMocHelpers::SignalData<void(const QString &, const QString &)>(6, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 3 }, { QMetaType::QString, 7 },
         }}),
         // Signal 'playerLeftRoom'
-        QtMocHelpers::SignalData<void(const QString &, const QString &)>(9, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 3 }, { QMetaType::QString, 8 },
+        QtMocHelpers::SignalData<void(const QString &, const QString &)>(8, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 3 }, { QMetaType::QString, 7 },
         }}),
         // Signal 'gameStarted'
-        QtMocHelpers::SignalData<void(const QString &)>(10, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SignalData<void(const QString &)>(9, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 3 },
         }}),
         // Signal 'gameEnded'
-        QtMocHelpers::SignalData<void(const QString &, const QString &)>(11, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 3 }, { QMetaType::QString, 12 },
+        QtMocHelpers::SignalData<void(const QString &, const QString &)>(10, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 3 }, { QMetaType::QString, 11 },
         }}),
         // Signal 'gameStateUpdated'
-        QtMocHelpers::SignalData<void(const QString &, const MultiPlayerGameState &)>(13, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 3 }, { 0x80000000 | 14, 15 },
+        QtMocHelpers::SignalData<void(const QString &, const MultiPlayerGameState &)>(12, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 3 }, { 0x80000000 | 13, 14 },
         }}),
         // Signal 'playerCollision'
-        QtMocHelpers::SignalData<void(const QString &, const QString &)>(16, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 3 }, { QMetaType::QString, 8 },
+        QtMocHelpers::SignalData<void(const QString &, const QString &)>(15, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 3 }, { QMetaType::QString, 7 },
         }}),
         // Signal 'foodEaten'
-        QtMocHelpers::SignalData<void(const QString &, const QString &, int)>(17, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 3 }, { QMetaType::QString, 8 }, { QMetaType::Int, 18 },
+        QtMocHelpers::SignalData<void(const QString &, const QString &, int)>(16, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 3 }, { QMetaType::QString, 7 }, { QMetaType::Int, 17 },
+        }}),
+        // Signal 'roomDestroyed'
+        QtMocHelpers::SignalData<void(const QString &)>(18, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 3 },
         }}),
         // Slot 'onGameTick'
         QtMocHelpers::SlotData<void()>(19, 2, QMC::AccessPrivate, QMetaType::Void),
@@ -112,11 +112,11 @@ template <> constexpr inline auto MultiPlayerGameManager::qt_create_metaobjectda
         }}),
         // Slot 'onNetworkPlayerPositionReceived'
         QtMocHelpers::SlotData<void(const QString &, const std::deque<Point> &)>(23, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 8 }, { 0x80000000 | 24, 25 },
+            { QMetaType::QString, 7 }, { 0x80000000 | 24, 25 },
         }}),
         // Slot 'onNetworkPlayerDisconnected'
         QtMocHelpers::SlotData<void(const QString &)>(26, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 8 },
+            { QMetaType::QString, 7 },
         }}),
     };
     QtMocHelpers::UintData qt_properties {
@@ -142,14 +142,14 @@ void MultiPlayerGameManager::qt_static_metacall(QObject *_o, QMetaObject::Call _
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->roomCreated((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<GameRoom>>(_a[2]))); break;
-        case 1: _t->roomDestroyed((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 2: _t->playerJoinedRoom((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 3: _t->playerLeftRoom((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 4: _t->gameStarted((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 5: _t->gameEnded((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 6: _t->gameStateUpdated((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<MultiPlayerGameState>>(_a[2]))); break;
-        case 7: _t->playerCollision((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 8: _t->foodEaten((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[3]))); break;
+        case 1: _t->playerJoinedRoom((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 2: _t->playerLeftRoom((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 3: _t->gameStarted((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 4: _t->gameEnded((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 5: _t->gameStateUpdated((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<MultiPlayerGameState>>(_a[2]))); break;
+        case 6: _t->playerCollision((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 7: _t->foodEaten((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[3]))); break;
+        case 8: _t->roomDestroyed((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 9: _t->onGameTick(); break;
         case 10: _t->onNetworkPlayerInfoReceived((*reinterpret_cast< std::add_pointer_t<PlayerInfo>>(_a[1]))); break;
         case 11: _t->onNetworkPlayerPositionReceived((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<std::deque<Point>>>(_a[2]))); break;
@@ -160,21 +160,21 @@ void MultiPlayerGameManager::qt_static_metacall(QObject *_o, QMetaObject::Call _
     if (_c == QMetaObject::IndexOfMethod) {
         if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & , const GameRoom & )>(_a, &MultiPlayerGameManager::roomCreated, 0))
             return;
-        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & )>(_a, &MultiPlayerGameManager::roomDestroyed, 1))
+        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & , const QString & )>(_a, &MultiPlayerGameManager::playerJoinedRoom, 1))
             return;
-        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & , const QString & )>(_a, &MultiPlayerGameManager::playerJoinedRoom, 2))
+        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & , const QString & )>(_a, &MultiPlayerGameManager::playerLeftRoom, 2))
             return;
-        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & , const QString & )>(_a, &MultiPlayerGameManager::playerLeftRoom, 3))
+        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & )>(_a, &MultiPlayerGameManager::gameStarted, 3))
             return;
-        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & )>(_a, &MultiPlayerGameManager::gameStarted, 4))
+        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & , const QString & )>(_a, &MultiPlayerGameManager::gameEnded, 4))
             return;
-        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & , const QString & )>(_a, &MultiPlayerGameManager::gameEnded, 5))
+        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & , const MultiPlayerGameState & )>(_a, &MultiPlayerGameManager::gameStateUpdated, 5))
             return;
-        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & , const MultiPlayerGameState & )>(_a, &MultiPlayerGameManager::gameStateUpdated, 6))
+        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & , const QString & )>(_a, &MultiPlayerGameManager::playerCollision, 6))
             return;
-        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & , const QString & )>(_a, &MultiPlayerGameManager::playerCollision, 7))
+        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & , const QString & , int )>(_a, &MultiPlayerGameManager::foodEaten, 7))
             return;
-        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & , const QString & , int )>(_a, &MultiPlayerGameManager::foodEaten, 8))
+        if (QtMocHelpers::indexOfMethod<void (MultiPlayerGameManager::*)(const QString & )>(_a, &MultiPlayerGameManager::roomDestroyed, 8))
             return;
     }
 }
@@ -217,50 +217,50 @@ void MultiPlayerGameManager::roomCreated(const QString & _t1, const GameRoom & _
 }
 
 // SIGNAL 1
-void MultiPlayerGameManager::roomDestroyed(const QString & _t1)
+void MultiPlayerGameManager::playerJoinedRoom(const QString & _t1, const QString & _t2)
 {
-    QMetaObject::activate<void>(this, &staticMetaObject, 1, nullptr, _t1);
+    QMetaObject::activate<void>(this, &staticMetaObject, 1, nullptr, _t1, _t2);
 }
 
 // SIGNAL 2
-void MultiPlayerGameManager::playerJoinedRoom(const QString & _t1, const QString & _t2)
+void MultiPlayerGameManager::playerLeftRoom(const QString & _t1, const QString & _t2)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 2, nullptr, _t1, _t2);
 }
 
 // SIGNAL 3
-void MultiPlayerGameManager::playerLeftRoom(const QString & _t1, const QString & _t2)
+void MultiPlayerGameManager::gameStarted(const QString & _t1)
 {
-    QMetaObject::activate<void>(this, &staticMetaObject, 3, nullptr, _t1, _t2);
+    QMetaObject::activate<void>(this, &staticMetaObject, 3, nullptr, _t1);
 }
 
 // SIGNAL 4
-void MultiPlayerGameManager::gameStarted(const QString & _t1)
+void MultiPlayerGameManager::gameEnded(const QString & _t1, const QString & _t2)
 {
-    QMetaObject::activate<void>(this, &staticMetaObject, 4, nullptr, _t1);
+    QMetaObject::activate<void>(this, &staticMetaObject, 4, nullptr, _t1, _t2);
 }
 
 // SIGNAL 5
-void MultiPlayerGameManager::gameEnded(const QString & _t1, const QString & _t2)
+void MultiPlayerGameManager::gameStateUpdated(const QString & _t1, const MultiPlayerGameState & _t2)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 5, nullptr, _t1, _t2);
 }
 
 // SIGNAL 6
-void MultiPlayerGameManager::gameStateUpdated(const QString & _t1, const MultiPlayerGameState & _t2)
+void MultiPlayerGameManager::playerCollision(const QString & _t1, const QString & _t2)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 6, nullptr, _t1, _t2);
 }
 
 // SIGNAL 7
-void MultiPlayerGameManager::playerCollision(const QString & _t1, const QString & _t2)
+void MultiPlayerGameManager::foodEaten(const QString & _t1, const QString & _t2, int _t3)
 {
-    QMetaObject::activate<void>(this, &staticMetaObject, 7, nullptr, _t1, _t2);
+    QMetaObject::activate<void>(this, &staticMetaObject, 7, nullptr, _t1, _t2, _t3);
 }
 
 // SIGNAL 8
-void MultiPlayerGameManager::foodEaten(const QString & _t1, const QString & _t2, int _t3)
+void MultiPlayerGameManager::roomDestroyed(const QString & _t1)
 {
-    QMetaObject::activate<void>(this, &staticMetaObject, 8, nullptr, _t1, _t2, _t3);
+    QMetaObject::activate<void>(this, &staticMetaObject, 8, nullptr, _t1);
 }
 QT_WARNING_POP

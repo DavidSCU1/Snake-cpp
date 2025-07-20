@@ -1,16 +1,16 @@
 #include "multiplayergamemanager.h"
+#include <QDebug>
 #include <QRandomGenerator>
 #include <QJsonDocument>
-#include <QDebug>
-#include <QDateTime>
-#include <algorithm>
+#include <QJsonObject>
+#include <QJsonArray>
 
 MultiPlayerGameManager::MultiPlayerGameManager(QObject *parent)
     : QObject(parent)
-    , gameTimer(new QTimer(this))
     , networkManager(nullptr)
+    , gameTimer(new QTimer(this))
 {
-    gameTimer->setInterval(GAME_TICK_INTERVAL);
+    gameTimer->setInterval(200); // 200ms游戏循环
     connect(gameTimer, &QTimer::timeout, this, &MultiPlayerGameManager::onGameTick);
 }
 
@@ -21,22 +21,25 @@ QString MultiPlayerGameManager::createRoom(const QString& hostName, int maxPlaye
     GameRoom room;
     room.roomId = roomId;
     room.hostName = hostName;
-    room.maxPlayers = qMax(2, qMin(8, maxPlayers)); // 限制2-8人
-    room.players.append(hostName);
+    room.maxPlayers = maxPlayers;
+    room.currentPlayers = 1;
     room.isGameStarted = false;
-    
-    // 设置默认游戏配置
-    room.gameSettings["gridWidth"] = GRID_WIDTH;
-    room.gameSettings["gridHeight"] = GRID_HEIGHT;
-    room.gameSettings["gameSpeed"] = GAME_TICK_INTERVAL;
-    room.gameSettings["allowSpecialFood"] = true;
+    room.playerNames.append(hostName);
     
     rooms[roomId] = room;
+    
+    // 初始化游戏状态
     initializeGameState(roomId);
     
-    emit roomCreated(roomId, room);
-    qDebug() << "Room created:" << roomId << "by" << hostName;
+    // 将主机玩家添加到游戏状态
+    MultiPlayerGameState& gameState = gameStates[roomId];
+    gameState.playerAliveStatus[hostName] = true;
+    gameState.playerScores[hostName] = 0;
+    gameState.playerCharacters[hostName] = CharacterType::SPONGEBOB; // 默认角色
     
+    emit roomCreated(roomId, room);
+    
+    qDebug() << "Room created:" << roomId << "by" << hostName;
     return roomId;
 }
 
@@ -49,53 +52,37 @@ bool MultiPlayerGameManager::joinRoom(const QString& roomId, const QString& play
     
     GameRoom& room = rooms[roomId];
     
+    // 检查房间是否已满
+    if (room.currentPlayers >= room.maxPlayers) {
+        qDebug() << "Room is full:" << roomId;
+        return false;
+    }
+    
+    // 检查玩家名是否已存在
+    if (room.playerNames.contains(playerName)) {
+        qDebug() << "Player name already exists:" << playerName;
+        return false;
+    }
+    
+    // 检查游戏是否已开始
     if (room.isGameStarted) {
         qDebug() << "Game already started in room:" << roomId;
         return false;
     }
     
-    if (room.players.size() >= room.maxPlayers) {
-        qDebug() << "Room is full:" << roomId;
-        return false;
-    }
+    // 添加玩家到房间
+    room.playerNames.append(playerName);
+    room.currentPlayers++;
     
-    if (room.players.contains(playerName)) {
-        qDebug() << "Player already in room:" << playerName;
-        return false;
-    }
-    
-    room.players.append(playerName);
-    
-    // 初始化玩家游戏状态
+    // 添加玩家到游戏状态
     MultiPlayerGameState& gameState = gameStates[roomId];
-    gameState.playerScores[playerName] = 0;
     gameState.playerAliveStatus[playerName] = true;
-    gameState.playerCharacters[playerName] = CharacterType::SPONGEBOB;
-    gameState.playerDirections[playerName] = Direction::RIGHT;
-    
-    // 设置玩家初始位置
-    int playerIndex = room.players.size() - 1;
-    Point startPos;
-    switch (playerIndex) {
-    case 0: startPos = Point(5, 5); break;
-    case 1: startPos = Point(GRID_WIDTH - 6, 5); break;
-    case 2: startPos = Point(5, GRID_HEIGHT - 6); break;
-    case 3: startPos = Point(GRID_WIDTH - 6, GRID_HEIGHT - 6); break;
-    default:
-        // 随机位置
-        startPos = Point(QRandomGenerator::global()->bounded(5, GRID_WIDTH - 5),
-                        QRandomGenerator::global()->bounded(5, GRID_HEIGHT - 5));
-    }
-    
-    std::deque<Point> initialSnake;
-    initialSnake.push_back(startPos);
-    initialSnake.push_back(Point(startPos.x - 1, startPos.y));
-    initialSnake.push_back(Point(startPos.x - 2, startPos.y));
-    gameState.playerSnakes[playerName] = initialSnake;
+    gameState.playerScores[playerName] = 0;
+    gameState.playerCharacters[playerName] = CharacterType::PATRICK; // 默认角色
     
     emit playerJoinedRoom(roomId, playerName);
-    qDebug() << "Player joined room:" << playerName << "->" << roomId;
     
+    qDebug() << "Player" << playerName << "joined room" << roomId;
     return true;
 }
 
@@ -106,26 +93,36 @@ bool MultiPlayerGameManager::leaveRoom(const QString& roomId, const QString& pla
     }
     
     GameRoom& room = rooms[roomId];
-    room.players.removeAll(playerName);
     
-    // 清理玩家游戏状态
-    MultiPlayerGameState& gameState = gameStates[roomId];
-    gameState.playerSnakes.remove(playerName);
-    gameState.playerScores.remove(playerName);
-    gameState.playerAliveStatus.remove(playerName);
-    gameState.playerCharacters.remove(playerName);
-    gameState.playerDirections.remove(playerName);
+    if (!room.playerNames.contains(playerName)) {
+        return false;
+    }
+    
+    // 从房间移除玩家
+    room.playerNames.removeAll(playerName);
+    room.currentPlayers--;
+    
+    // 从游戏状态移除玩家
+    if (gameStates.contains(roomId)) {
+        MultiPlayerGameState& gameState = gameStates[roomId];
+        gameState.playerAliveStatus.remove(playerName);
+        gameState.playerScores.remove(playerName);
+        gameState.playerCharacters.remove(playerName);
+        gameState.playerSnakes.remove(playerName);
+        gameState.playerDirections.remove(playerName);
+    }
     
     emit playerLeftRoom(roomId, playerName);
     
-    // 如果房主离开或房间为空，销毁房间
-    if (room.players.isEmpty() || room.hostName == playerName) {
+    // 如果房间空了，销毁房间
+    if (room.currentPlayers == 0) {
         destroyRoom(roomId);
-    } else if (room.hostName == playerName && !room.players.isEmpty()) {
-        // 转移房主权限
-        room.hostName = room.players.first();
+    } else if (room.hostName == playerName && !room.playerNames.isEmpty()) {
+        // 如果主机离开，转移主机权限给第一个玩家
+        room.hostName = room.playerNames.first();
     }
     
+    qDebug() << "Player" << playerName << "left room" << roomId;
     return true;
 }
 
@@ -135,23 +132,30 @@ void MultiPlayerGameManager::destroyRoom(const QString& roomId)
         return;
     }
     
+    // 停止游戏定时器
+    if (gameStates.contains(roomId) && gameStates[roomId].isPaused == false) {
+        gameTimer->stop();
+    }
+    
     rooms.remove(roomId);
     gameStates.remove(roomId);
     
     emit roomDestroyed(roomId);
+    
     qDebug() << "Room destroyed:" << roomId;
 }
 
 QStringList MultiPlayerGameManager::getAvailableRooms() const
 {
-    QStringList availableRooms;
+    QStringList roomIds;
     for (auto it = rooms.begin(); it != rooms.end(); ++it) {
         const GameRoom& room = it.value();
-        if (!room.isGameStarted && room.players.size() < room.maxPlayers) {
-            availableRooms.append(it.key());
+        // 只返回未开始且未满的房间
+        if (!room.isGameStarted && room.currentPlayers < room.maxPlayers) {
+            roomIds.append(it.key());
         }
     }
-    return availableRooms;
+    return roomIds;
 }
 
 GameRoom MultiPlayerGameManager::getRoomInfo(const QString& roomId) const
@@ -166,15 +170,20 @@ bool MultiPlayerGameManager::startGame(const QString& roomId)
     }
     
     GameRoom& room = rooms[roomId];
-    if (room.isGameStarted || room.players.size() < 2) {
+    
+    if (room.isGameStarted) {
+        return false;
+    }
+    
+    if (room.currentPlayers < 2) {
+        qDebug() << "Not enough players to start game in room" << roomId;
         return false;
     }
     
     room.isGameStarted = true;
     
-    // 重新初始化游戏状态
+    // 初始化游戏状态
     initializeGameState(roomId);
-    generateNewFood(roomId, GRID_WIDTH, GRID_HEIGHT);
     
     // 启动游戏循环
     if (!gameTimer->isActive()) {
@@ -182,8 +191,8 @@ bool MultiPlayerGameManager::startGame(const QString& roomId)
     }
     
     emit gameStarted(roomId);
-    qDebug() << "Game started in room:" << roomId;
     
+    qDebug() << "Game started in room" << roomId;
     return true;
 }
 
@@ -191,7 +200,7 @@ void MultiPlayerGameManager::pauseGame(const QString& roomId)
 {
     if (gameStates.contains(roomId)) {
         gameStates[roomId].isPaused = true;
-        syncGameState(roomId);
+        qDebug() << "Game paused in room" << roomId;
     }
 }
 
@@ -199,83 +208,72 @@ void MultiPlayerGameManager::resumeGame(const QString& roomId)
 {
     if (gameStates.contains(roomId)) {
         gameStates[roomId].isPaused = false;
-        syncGameState(roomId);
+        qDebug() << "Game resumed in room" << roomId;
     }
 }
 
 void MultiPlayerGameManager::endGame(const QString& roomId)
 {
-    if (!rooms.contains(roomId)) {
+    if (!rooms.contains(roomId) || !gameStates.contains(roomId)) {
         return;
     }
     
     GameRoom& room = rooms[roomId];
     room.isGameStarted = false;
     
-    // 检查是否还有其他房间在游戏中
-    bool hasActiveGames = false;
-    for (const auto& r : rooms) {
-        if (r.isGameStarted) {
-            hasActiveGames = true;
-            break;
+    // 找出获胜者（得分最高的玩家）
+    const MultiPlayerGameState& gameState = gameStates[roomId];
+    QString winner;
+    int highestScore = -1;
+    
+    for (auto it = gameState.playerScores.begin(); it != gameState.playerScores.end(); ++it) {
+        if (it.value() > highestScore) {
+            highestScore = it.value();
+            winner = it.key();
         }
     }
     
-    if (!hasActiveGames) {
-        gameTimer->stop();
-    }
+    emit gameEnded(roomId, winner);
     
-    emit gameEnded(roomId, gameStates[roomId].winner);
-    qDebug() << "Game ended in room:" << roomId;
+    qDebug() << "Game ended in room" << roomId << "Winner:" << winner;
 }
 
 void MultiPlayerGameManager::updatePlayerDirection(const QString& roomId, const QString& playerName, Direction direction)
 {
-    if (!gameStates.contains(roomId)) {
-        return;
-    }
-    
-    MultiPlayerGameState& gameState = gameStates[roomId];
-    if (gameState.playerAliveStatus.value(playerName, false)) {
-        gameState.playerDirections[playerName] = direction;
+    if (gameStates.contains(roomId)) {
+        gameStates[roomId].playerDirections[playerName] = direction;
     }
 }
 
 void MultiPlayerGameManager::updatePlayerPosition(const QString& roomId, const QString& playerName, const std::deque<Point>& snakeBody)
 {
-    if (!gameStates.contains(roomId)) {
-        return;
+    if (gameStates.contains(roomId)) {
+        gameStates[roomId].playerSnakes[playerName] = snakeBody;
+        syncGameState(roomId);
     }
-    
-    gameStates[roomId].playerSnakes[playerName] = snakeBody;
 }
 
 void MultiPlayerGameManager::updatePlayerScore(const QString& roomId, const QString& playerName, int score)
 {
-    if (!gameStates.contains(roomId)) {
-        return;
+    if (gameStates.contains(roomId)) {
+        gameStates[roomId].playerScores[playerName] = score;
+        syncGameState(roomId);
     }
-    
-    gameStates[roomId].playerScores[playerName] = score;
 }
 
 void MultiPlayerGameManager::setPlayerCharacter(const QString& roomId, const QString& playerName, CharacterType character)
 {
-    if (!gameStates.contains(roomId)) {
-        return;
+    if (gameStates.contains(roomId)) {
+        gameStates[roomId].playerCharacters[playerName] = character;
     }
-    
-    gameStates[roomId].playerCharacters[playerName] = character;
 }
 
 void MultiPlayerGameManager::syncGameState(const QString& roomId)
 {
-    if (!gameStates.contains(roomId)) {
-        return;
+    if (gameStates.contains(roomId)) {
+        emit gameStateUpdated(roomId, gameStates[roomId]);
+        broadcastGameState(roomId);
     }
-    
-    emit gameStateUpdated(roomId, gameStates[roomId]);
-    broadcastGameState(roomId);
 }
 
 MultiPlayerGameState MultiPlayerGameManager::getGameState(const QString& roomId) const
@@ -296,21 +294,23 @@ bool MultiPlayerGameManager::checkPlayerCollision(const QString& roomId, const Q
         return true;
     }
     
-    // 检查与所有蛇的碰撞（包括自己的身体）
+    // 检查与所有蛇身的碰撞（包括自己的）
     for (auto it = gameState.playerSnakes.begin(); it != gameState.playerSnakes.end(); ++it) {
-        const QString& otherPlayer = it.key();
-        const std::deque<Point>& otherSnake = it.value();
+        const std::deque<Point>& snake = it.value();
         
-        if (!gameState.playerAliveStatus.value(otherPlayer, false)) {
-            continue;
-        }
-        
-        // 对于自己的蛇，跳过头部检查（因为头部会移动）
-        size_t startIndex = (otherPlayer == playerName) ? 1 : 0;
-        
-        for (size_t i = startIndex; i < otherSnake.size(); ++i) {
-            if (newHead == otherSnake[i]) {
-                return true;
+        // 对于自己的蛇，跳过头部（因为头部会移动）
+        if (it.key() == playerName && !snake.empty()) {
+            for (size_t i = 1; i < snake.size(); ++i) {
+                if (snake[i].x == newHead.x && snake[i].y == newHead.y) {
+                    return true;
+                }
+            }
+        } else {
+            // 对于其他玩家的蛇，检查整个身体
+            for (const Point& segment : snake) {
+                if (segment.x == newHead.x && segment.y == newHead.y) {
+                    return true;
+                }
             }
         }
     }
@@ -324,7 +324,8 @@ bool MultiPlayerGameManager::checkFoodCollision(const QString& roomId, const Poi
         return false;
     }
     
-    return gameStates[roomId].foodPosition == position;
+    const MultiPlayerGameState& gameState = gameStates[roomId];
+    return (gameState.foodPosition.x == position.x && gameState.foodPosition.y == position.y);
 }
 
 void MultiPlayerGameManager::generateNewFood(const QString& roomId, int gridWidth, int gridHeight)
@@ -334,20 +335,25 @@ void MultiPlayerGameManager::generateNewFood(const QString& roomId, int gridWidt
     }
     
     MultiPlayerGameState& gameState = gameStates[roomId];
+    
+    // 获取所有被占用的位置
     QSet<Point> occupiedPositions = getAllOccupiedPositions(roomId);
     
+    // 生成新的食物位置
     Point newFoodPos;
     int attempts = 0;
+    const int maxAttempts = 1000;
+    
     do {
-        newFoodPos = Point(QRandomGenerator::global()->bounded(gridWidth),
-                          QRandomGenerator::global()->bounded(gridHeight));
+        newFoodPos.x = QRandomGenerator::global()->bounded(gridWidth);
+        newFoodPos.y = QRandomGenerator::global()->bounded(gridHeight);
         attempts++;
-    } while (occupiedPositions.contains(newFoodPos) && attempts < 100);
+    } while (occupiedPositions.contains(newFoodPos) && attempts < maxAttempts);
     
-    gameState.foodPosition = newFoodPos;
-    
-    // 随机决定是否生成特殊食物
-    gameState.isSpecialFood = (QRandomGenerator::global()->bounded(100) < 20); // 20%概率
+    if (attempts < maxAttempts) {
+        gameState.foodPosition = newFoodPos;
+        syncGameState(roomId);
+    }
 }
 
 void MultiPlayerGameManager::setNetworkManager(NetworkManager* manager)
@@ -374,43 +380,36 @@ void MultiPlayerGameManager::broadcastGameState(const QString& roomId)
     
     QJsonObject stateObj;
     stateObj["roomId"] = roomId;
+    stateObj["foodPosition"] = QJsonObject{{"x", gameState.foodPosition.x}, {"y", gameState.foodPosition.y}};
+    stateObj["isSpecialFood"] = gameState.isSpecialFood;
+    stateObj["gameSpeed"] = gameState.gameSpeed;
     stateObj["isPaused"] = gameState.isPaused;
-    stateObj["winner"] = gameState.winner;
-    
-    // 食物信息
-    QJsonObject foodObj;
-    foodObj["x"] = gameState.foodPosition.x;
-    foodObj["y"] = gameState.foodPosition.y;
-    foodObj["isSpecial"] = gameState.isSpecialFood;
-    stateObj["food"] = foodObj;
     
     // 玩家信息
-    QJsonArray playersArray;
+    QJsonObject playersObj;
     for (auto it = gameState.playerSnakes.begin(); it != gameState.playerSnakes.end(); ++it) {
         const QString& playerName = it.key();
+        const std::deque<Point>& snake = it.value();
+        
+        QJsonArray snakeArray;
+        for (const Point& segment : snake) {
+            snakeArray.append(QJsonObject{{"x", segment.x}, {"y", segment.y}});
+        }
         
         QJsonObject playerObj;
-        playerObj["name"] = playerName;
+        playerObj["snake"] = snakeArray;
         playerObj["score"] = gameState.playerScores.value(playerName, 0);
-        playerObj["isAlive"] = gameState.playerAliveStatus.value(playerName, false);
         playerObj["character"] = static_cast<int>(gameState.playerCharacters.value(playerName, CharacterType::SPONGEBOB));
+        playerObj["alive"] = gameState.playerAliveStatus.value(playerName, true);
         
-        // 蛇身位置
-        QJsonArray bodyArray;
-        const std::deque<Point>& snake = it.value();
-        for (const Point& point : snake) {
-            QJsonObject pointObj;
-            pointObj["x"] = point.x;
-            pointObj["y"] = point.y;
-            bodyArray.append(pointObj);
-        }
-        playerObj["body"] = bodyArray;
-        
-        playersArray.append(playerObj);
+        playersObj[playerName] = playerObj;
     }
-    stateObj["players"] = playersArray;
+    stateObj["players"] = playersObj;
     
-    networkManager->sendGameState(stateObj);
+    QJsonObject message;
+    message["type"] = "gameState";
+    message["data"] = stateObj;
+    networkManager->broadcastMessage(message);
 }
 
 void MultiPlayerGameManager::sendPlayerUpdate(const QString& roomId, const QString& playerName)
@@ -421,22 +420,34 @@ void MultiPlayerGameManager::sendPlayerUpdate(const QString& roomId, const QStri
     
     const MultiPlayerGameState& gameState = gameStates[roomId];
     
-    if (gameState.playerSnakes.contains(playerName)) {
-        networkManager->sendPlayerPosition(gameState.playerSnakes[playerName]);
+    if (!gameState.playerSnakes.contains(playerName)) {
+        return;
     }
     
-    if (gameState.playerScores.contains(playerName)) {
-        networkManager->sendScoreUpdate(gameState.playerScores[playerName]);
+    const std::deque<Point>& snake = gameState.playerSnakes[playerName];
+    QJsonArray snakeArray;
+    for (const Point& segment : snake) {
+        snakeArray.append(QJsonObject{{"x", segment.x}, {"y", segment.y}});
     }
+    
+    QJsonObject updateObj;
+    updateObj["roomId"] = roomId;
+    updateObj["playerName"] = playerName;
+    updateObj["snake"] = snakeArray;
+    updateObj["score"] = gameState.playerScores.value(playerName, 0);
+    
+    QJsonObject message;
+    message["type"] = "playerUpdate";
+    message["data"] = updateObj;
+    networkManager->broadcastMessage(message);
 }
 
 void MultiPlayerGameManager::onGameTick()
 {
-    for (auto it = rooms.begin(); it != rooms.end(); ++it) {
+    // 更新所有活跃房间的游戏逻辑
+    for (auto it = gameStates.begin(); it != gameStates.end(); ++it) {
         const QString& roomId = it.key();
-        const GameRoom& room = it.value();
-        
-        if (room.isGameStarted && gameStates.contains(roomId) && !gameStates[roomId].isPaused) {
+        if (rooms.contains(roomId) && rooms[roomId].isGameStarted && !it.value().isPaused) {
             updateGameLogic(roomId);
         }
     }
@@ -444,16 +455,18 @@ void MultiPlayerGameManager::onGameTick()
 
 void MultiPlayerGameManager::onNetworkPlayerInfoReceived(const PlayerInfo& playerInfo)
 {
-    // 处理网络接收到的玩家信息
-    // 这里可以根据需要更新本地状态
+    // 处理网络玩家信息
+    qDebug() << "Received player info:" << playerInfo.name;
 }
 
 void MultiPlayerGameManager::onNetworkPlayerPositionReceived(const QString& playerName, const std::deque<Point>& snakeBody)
 {
-    // 更新其他玩家的位置信息
-    for (auto& gameState : gameStates) {
-        if (gameState.playerSnakes.contains(playerName)) {
-            gameState.playerSnakes[playerName] = snakeBody;
+    // 更新网络玩家位置
+    for (auto it = gameStates.begin(); it != gameStates.end(); ++it) {
+        if (it.value().playerSnakes.contains(playerName)) {
+            it.value().playerSnakes[playerName] = snakeBody;
+            syncGameState(it.key());
+            break;
         }
     }
 }
@@ -462,8 +475,10 @@ void MultiPlayerGameManager::onNetworkPlayerDisconnected(const QString& playerNa
 {
     // 处理玩家断线
     for (auto it = rooms.begin(); it != rooms.end(); ++it) {
-        const QString& roomId = it.key();
-        leaveRoom(roomId, playerName);
+        if (it.value().playerNames.contains(playerName)) {
+            leaveRoom(it.key(), playerName);
+            break;
+        }
     }
 }
 
@@ -474,33 +489,49 @@ void MultiPlayerGameManager::initializeGameState(const QString& roomId)
     }
     
     MultiPlayerGameState gameState;
-    const GameRoom& room = rooms[roomId];
+    gameState.gameSpeed = 200;
+    gameState.isPaused = false;
+    gameState.isSpecialFood = false;
     
-    // 初始化所有玩家状态
-    for (const QString& playerName : room.players) {
-        gameState.playerScores[playerName] = 0;
-        gameState.playerAliveStatus[playerName] = true;
-        gameState.playerCharacters[playerName] = CharacterType::SPONGEBOB;
-        gameState.playerDirections[playerName] = Direction::RIGHT;
-        
-        // 设置初始蛇位置
-        int playerIndex = room.players.indexOf(playerName);
+    // 初始化食物位置
+    gameState.foodPosition.x = QRandomGenerator::global()->bounded(GRID_WIDTH);
+    gameState.foodPosition.y = QRandomGenerator::global()->bounded(GRID_HEIGHT);
+    
+    // 为每个玩家初始化蛇的位置
+    const GameRoom& room = rooms[roomId];
+    int playerIndex = 0;
+    for (const QString& playerName : room.playerNames) {
+        // 在不同位置生成蛇
+        std::deque<Point> snake;
         Point startPos;
-        switch (playerIndex) {
-        case 0: startPos = Point(5, 5); break;
-        case 1: startPos = Point(GRID_WIDTH - 6, 5); break;
-        case 2: startPos = Point(5, GRID_HEIGHT - 6); break;
-        case 3: startPos = Point(GRID_WIDTH - 6, GRID_HEIGHT - 6); break;
-        default:
-            startPos = Point(QRandomGenerator::global()->bounded(5, GRID_WIDTH - 5),
-                            QRandomGenerator::global()->bounded(5, GRID_HEIGHT - 5));
+        
+        switch (playerIndex % 4) {
+        case 0: // 左上角
+            startPos = {5, 5};
+            break;
+        case 1: // 右上角
+            startPos = {GRID_WIDTH - 6, 5};
+            break;
+        case 2: // 左下角
+            startPos = {5, GRID_HEIGHT - 6};
+            break;
+        case 3: // 右下角
+            startPos = {GRID_WIDTH - 6, GRID_HEIGHT - 6};
+            break;
         }
         
-        std::deque<Point> initialSnake;
-        initialSnake.push_back(startPos);
-        initialSnake.push_back(Point(startPos.x - 1, startPos.y));
-        initialSnake.push_back(Point(startPos.x - 2, startPos.y));
-        gameState.playerSnakes[playerName] = initialSnake;
+        // 创建初始蛇身（3个段）
+        for (int i = 0; i < 3; ++i) {
+            Point segment = {startPos.x, startPos.y + i};
+            snake.push_back(segment);
+        }
+        
+        gameState.playerSnakes[playerName] = snake;
+        gameState.playerDirections[playerName] = Direction::UP;
+        gameState.playerAliveStatus[playerName] = true;
+        gameState.playerScores[playerName] = 0;
+        
+        playerIndex++;
     }
     
     gameStates[roomId] = gameState;
@@ -514,7 +545,7 @@ void MultiPlayerGameManager::updateGameLogic(const QString& roomId)
     
     MultiPlayerGameState& gameState = gameStates[roomId];
     
-    // 移动所有活着的玩家的蛇
+    // 更新每个玩家的蛇
     for (auto it = gameState.playerSnakes.begin(); it != gameState.playerSnakes.end(); ++it) {
         const QString& playerName = it.key();
         std::deque<Point>& snake = it.value();
@@ -523,16 +554,24 @@ void MultiPlayerGameManager::updateGameLogic(const QString& roomId)
             continue;
         }
         
-        // 计算新的头部位置
-        Point head = snake.front();
-        Point newHead = head;
-        Direction direction = gameState.playerDirections.value(playerName, Direction::RIGHT);
+        // 获取当前方向
+        Direction direction = gameState.playerDirections.value(playerName, Direction::UP);
         
+        // 计算新的头部位置
+        Point newHead = snake.front();
         switch (direction) {
-        case Direction::UP: newHead.y--; break;
-        case Direction::DOWN: newHead.y++; break;
-        case Direction::LEFT: newHead.x--; break;
-        case Direction::RIGHT: newHead.x++; break;
+        case Direction::UP:
+            newHead.y--;
+            break;
+        case Direction::DOWN:
+            newHead.y++;
+            break;
+        case Direction::LEFT:
+            newHead.x--;
+            break;
+        case Direction::RIGHT:
+            newHead.x++;
+            break;
         }
         
         // 检查碰撞
@@ -547,28 +586,30 @@ void MultiPlayerGameManager::updateGameLogic(const QString& roomId)
         
         // 检查是否吃到食物
         if (checkFoodCollision(roomId, newHead)) {
-            int points = gameState.isSpecialFood ? 50 : 10;
-            gameState.playerScores[playerName] += points;
-            emit foodEaten(roomId, playerName, points);
-            
+            gameState.playerScores[playerName] += 10;
             generateNewFood(roomId, GRID_WIDTH, GRID_HEIGHT);
+            emit foodEaten(roomId, playerName, 10);
         } else {
-            snake.pop_back(); // 没吃到食物，移除尾部
+            // 没吃到食物，移除尾部
+            snake.pop_back();
         }
     }
     
+    // 检查游戏结束条件
     checkWinCondition(roomId);
+    
+    // 同步游戏状态
     syncGameState(roomId);
 }
 
 void MultiPlayerGameManager::checkAllCollisions(const QString& roomId)
 {
-    // 这个函数在updateGameLogic中已经包含了碰撞检测逻辑
+    // 这个方法可以用于更复杂的碰撞检测逻辑
 }
 
 void MultiPlayerGameManager::updateScores(const QString& roomId)
 {
-    // 分数更新在updateGameLogic中处理
+    // 这个方法可以用于更复杂的得分逻辑
 }
 
 void MultiPlayerGameManager::checkWinCondition(const QString& roomId)
@@ -577,65 +618,55 @@ void MultiPlayerGameManager::checkWinCondition(const QString& roomId)
         return;
     }
     
-    MultiPlayerGameState& gameState = gameStates[roomId];
+    const MultiPlayerGameState& gameState = gameStates[roomId];
     
-    // 统计活着的玩家
-    QStringList alivePlayers;
+    // 计算存活玩家数量
+    int aliveCount = 0;
+    QString lastAlivePlayer;
+    
     for (auto it = gameState.playerAliveStatus.begin(); it != gameState.playerAliveStatus.end(); ++it) {
         if (it.value()) {
-            alivePlayers.append(it.key());
+            aliveCount++;
+            lastAlivePlayer = it.key();
         }
     }
     
-    // 如果只剩一个玩家或没有玩家，游戏结束
-    if (alivePlayers.size() <= 1) {
-        if (alivePlayers.size() == 1) {
-            gameState.winner = alivePlayers.first();
-        } else {
-            // 平局，选择分数最高的玩家
-            QString topPlayer;
-            int topScore = -1;
-            for (auto it = gameState.playerScores.begin(); it != gameState.playerScores.end(); ++it) {
-                if (it.value() > topScore) {
-                    topScore = it.value();
-                    topPlayer = it.key();
-                }
-            }
-            gameState.winner = topPlayer;
-        }
-        
+    // 如果只剩一个玩家或没有玩家存活，游戏结束
+    if (aliveCount <= 1) {
         endGame(roomId);
     }
 }
 
 QSet<Point> MultiPlayerGameManager::getAllOccupiedPositions(const QString& roomId) const
 {
-    QSet<Point> positions;
+    QSet<Point> occupied;
     
     if (!gameStates.contains(roomId)) {
-        return positions;
+        return occupied;
     }
     
     const MultiPlayerGameState& gameState = gameStates[roomId];
     
-    // 添加所有蛇的位置
+    // 添加所有蛇身位置
     for (auto it = gameState.playerSnakes.begin(); it != gameState.playerSnakes.end(); ++it) {
-        if (gameState.playerAliveStatus.value(it.key(), false)) {
-            for (const Point& point : it.value()) {
-                positions.insert(point);
-            }
+        const std::deque<Point>& snake = it.value();
+        for (const Point& segment : snake) {
+            occupied.insert(segment);
         }
     }
     
-    return positions;
+    // 添加食物位置
+    occupied.insert(gameState.foodPosition);
+    
+    return occupied;
 }
 
 QString MultiPlayerGameManager::generateRoomId() const
 {
+    // 生成6位随机房间ID
     QString roomId;
-    do {
-        roomId = QString::number(QRandomGenerator::global()->bounded(100000, 999999));
-    } while (rooms.contains(roomId));
-    
+    for (int i = 0; i < 6; ++i) {
+        roomId += QString::number(QRandomGenerator::global()->bounded(10));
+    }
     return roomId;
 }

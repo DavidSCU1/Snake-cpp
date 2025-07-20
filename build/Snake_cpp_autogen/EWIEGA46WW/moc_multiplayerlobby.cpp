@@ -49,6 +49,7 @@ template <> constexpr inline auto MultiPlayerLobby::qt_create_metaobjectdata<qt_
         "onBackClicked",
         "onRoomSelectionChanged",
         "onPlayerNameChanged",
+        "refreshRoomList",
         "onRoomCreated",
         "roomId",
         "GameRoom",
@@ -79,29 +80,31 @@ template <> constexpr inline auto MultiPlayerLobby::qt_create_metaobjectdata<qt_
         QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onPlayerNameChanged'
         QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'refreshRoomList'
+        QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onRoomCreated'
-        QtMocHelpers::SlotData<void(const QString &, const GameRoom &)>(10, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 11 }, { 0x80000000 | 12, 13 },
+        QtMocHelpers::SlotData<void(const QString &, const GameRoom &)>(11, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QString, 12 }, { 0x80000000 | 13, 14 },
         }}),
         // Slot 'onPlayerJoinedRoom'
-        QtMocHelpers::SlotData<void(const QString &, const QString &)>(14, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 11 }, { QMetaType::QString, 15 },
+        QtMocHelpers::SlotData<void(const QString &, const QString &)>(15, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QString, 12 }, { QMetaType::QString, 16 },
         }}),
         // Slot 'onPlayerLeftRoom'
-        QtMocHelpers::SlotData<void(const QString &, const QString &)>(16, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 11 }, { QMetaType::QString, 15 },
+        QtMocHelpers::SlotData<void(const QString &, const QString &)>(17, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QString, 12 }, { QMetaType::QString, 16 },
         }}),
         // Slot 'onGameStarted'
-        QtMocHelpers::SlotData<void(const QString &)>(17, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 11 },
+        QtMocHelpers::SlotData<void(const QString &)>(18, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QString, 12 },
         }}),
         // Slot 'onGameEnded'
-        QtMocHelpers::SlotData<void(const QString &, const QString &)>(18, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 11 }, { QMetaType::QString, 19 },
+        QtMocHelpers::SlotData<void(const QString &, const QString &)>(19, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QString, 12 }, { QMetaType::QString, 20 },
         }}),
         // Slot 'onRoomDestroyed'
-        QtMocHelpers::SlotData<void(const QString &)>(20, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 11 },
+        QtMocHelpers::SlotData<void(const QString &)>(21, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QString, 12 },
         }}),
     };
     QtMocHelpers::UintData qt_properties {
@@ -134,12 +137,13 @@ void MultiPlayerLobby::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int
         case 5: _t->onBackClicked(); break;
         case 6: _t->onRoomSelectionChanged(); break;
         case 7: _t->onPlayerNameChanged(); break;
-        case 8: _t->onRoomCreated((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<GameRoom>>(_a[2]))); break;
-        case 9: _t->onPlayerJoinedRoom((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 10: _t->onPlayerLeftRoom((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 11: _t->onGameStarted((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 12: _t->onGameEnded((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 13: _t->onRoomDestroyed((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 8: _t->refreshRoomList(); break;
+        case 9: _t->onRoomCreated((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<GameRoom>>(_a[2]))); break;
+        case 10: _t->onPlayerJoinedRoom((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 11: _t->onPlayerLeftRoom((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 12: _t->onGameStarted((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 13: _t->onGameEnded((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 14: _t->onRoomDestroyed((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         default: ;
         }
     }
@@ -170,14 +174,14 @@ int MultiPlayerLobby::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 14)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 14;
+        _id -= 15;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 14)
+        if (_id < 15)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 14;
+        _id -= 15;
     }
     return _id;
 }

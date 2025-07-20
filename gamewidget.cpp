@@ -859,10 +859,10 @@ void GameWidget::onRoomCreated(const QString& roomId, const GameRoom& room)
 {
     qDebug() << "Room created signal received:" << roomId;
     // 更新UI显示房间信息
-    playersLabel->setText(QString("房间: %1 (%2/%3)").arg(roomId).arg(room.players.size()).arg(room.maxPlayers));
+    playersLabel->setText(QString("房间: %1 (%2/%3)").arg(roomId).arg(room.playerNames.size()).arg(room.maxPlayers));
     
     playersList->clear();
-    for (const QString& player : room.players) {
+    for (const QString& player : room.playerNames) {
         playersList->addItem(player + (player == room.hostName ? " (房主)" : ""));
     }
 }
@@ -875,15 +875,15 @@ void GameWidget::onPlayerJoinedRoom(const QString& roomId, const QString& player
     
     // 更新玩家列表
     GameRoom room = multiPlayerManager->getRoomInfo(roomId);
-    playersLabel->setText(QString("房间: %1 (%2/%3)").arg(roomId).arg(room.players.size()).arg(room.maxPlayers));
+    playersLabel->setText(QString("房间: %1 (%2/%3)").arg(roomId).arg(room.playerNames.size()).arg(room.maxPlayers));
     
     playersList->clear();
-    for (const QString& player : room.players) {
+    for (const QString& player : room.playerNames) {
         playersList->addItem(player + (player == room.hostName ? " (房主)" : ""));
     }
     
     // 如果是房主且人数足够，可以开始游戏
-    if (isHost && room.players.size() >= 2) {
+    if (isHost && room.playerNames.size() >= 2) {
         // 这里可以添加自动开始游戏的逻辑，或者显示开始按钮
         QTimer::singleShot(2000, [this, roomId]() {
             multiPlayerManager->startGame(roomId);
@@ -900,10 +900,10 @@ void GameWidget::onPlayerLeftRoom(const QString& roomId, const QString& playerNa
     // 更新玩家列表
     GameRoom room = multiPlayerManager->getRoomInfo(roomId);
     if (!room.roomId.isEmpty()) {
-        playersLabel->setText(QString("房间: %1 (%2/%3)").arg(roomId).arg(room.players.size()).arg(room.maxPlayers));
+        playersLabel->setText(QString("房间: %1 (%2/%3)").arg(roomId).arg(room.playerNames.size()).arg(room.maxPlayers));
         
         playersList->clear();
-        for (const QString& player : room.players) {
+        for (const QString& player : room.playerNames) {
             playersList->addItem(player + (player == room.hostName ? " (房主)" : ""));
         }
     }

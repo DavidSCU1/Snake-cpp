@@ -6,6 +6,8 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_multiplayergamemanager.cpp: 
   D:/Qt/6.9.1/mingw_64/include/QtCore/QMap \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QObject \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QSet \
+  D:/Qt/6.9.1/mingw_64/include/QtCore/QString \
+  D:/Qt/6.9.1/mingw_64/include/QtCore/QStringList \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QTimer \
   D:/Qt/6.9.1/mingw_64/include/QtCore/q17memory.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/q20functional.h \

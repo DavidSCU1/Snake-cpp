@@ -4,17 +4,18 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QGridLayout>
-#include <QLabel>
-#include <QLineEdit>
-#include <QPushButton>
 #include <QListWidget>
+#include <QPushButton>
+#include <QLineEdit>
+#include <QLabel>
 #include <QSpinBox>
-#include <QGroupBox>
-#include <QMessageBox>
 #include <QTimer>
+#include <QMessageBox>
+#include <QGroupBox>
+#include "gamestate.h"
 #include "multiplayergamemanager.h"
-#include "gamewidget.h"
+
+class GameWidget;
 
 class MultiPlayerLobby : public QWidget
 {
@@ -25,7 +26,6 @@ public:
     ~MultiPlayerLobby();
     
     void setGameWidget(GameWidget* gameWidget);
-    void refreshRoomList();
     
 signals:
     void backToMenu();
@@ -38,8 +38,9 @@ private slots:
     void onBackClicked();
     void onRoomSelectionChanged();
     void onPlayerNameChanged();
+    void refreshRoomList();
     
-    // 多人游戏管理器信号槽
+    // MultiPlayerGameManager 信号槽
     void onRoomCreated(const QString& roomId, const GameRoom& room);
     void onPlayerJoinedRoom(const QString& roomId, const QString& playerName);
     void onPlayerLeftRoom(const QString& roomId, const QString& playerName);
@@ -55,51 +56,52 @@ private:
     
     // UI 组件
     QVBoxLayout* mainLayout;
-    QHBoxLayout* topLayout;
-    QHBoxLayout* bottomLayout;
+    QHBoxLayout* contentLayout;
     
-    // 左侧面板 - 房间列表
-    QGroupBox* roomListGroup;
+    // 左侧房间列表
+    QWidget* roomListWidget;
     QVBoxLayout* roomListLayout;
-    QListWidget* roomListWidget;
+    QLabel* roomListLabel;
+    QListWidget* roomList;
     QPushButton* refreshButton;
     
-    // 中间面板 - 房间信息
-    QGroupBox* roomInfoGroup;
+    // 右侧房间信息和控制
+    QWidget* roomInfoWidget;
     QVBoxLayout* roomInfoLayout;
+    
+    // 房间信息显示
+    QGroupBox* roomInfoGroup;
+    QVBoxLayout* roomInfoGroupLayout;
     QLabel* roomIdLabel;
-    QLabel* hostNameLabel;
+    QLabel* roomNameLabel;
     QLabel* playerCountLabel;
-    QLabel* gameStatusLabel;
-    QListWidget* playersListWidget;
+    QLabel* roomStatusLabel;
+    QListWidget* playerListWidget;
     
-    // 右侧面板 - 操作
-    QGroupBox* actionGroup;
-    QVBoxLayout* actionLayout;
-    
-    // 玩家信息
+    // 玩家设置
+    QGroupBox* playerSettingsGroup;
+    QVBoxLayout* playerSettingsLayout;
     QLabel* playerNameLabel;
     QLineEdit* playerNameEdit;
     
-    // 创建房间
+    // 房间创建设置
+    QGroupBox* createRoomGroup;
+    QVBoxLayout* createRoomLayout;
     QLabel* maxPlayersLabel;
     QSpinBox* maxPlayersSpinBox;
+    
+    // 控制按钮
+    QWidget* buttonWidget;
+    QHBoxLayout* buttonLayout;
     QPushButton* createRoomButton;
-    
-    // 加入房间
     QPushButton* joinRoomButton;
-    
-    // 底部按钮
     QPushButton* backButton;
     
     // 游戏相关
     GameWidget* gameWidget;
     MultiPlayerGameManager* multiPlayerManager;
-    
-    // 状态
     QString currentRoomId;
     QString playerName;
-    bool isInRoom;
     
     // 定时器
     QTimer* refreshTimer;

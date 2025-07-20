@@ -32,6 +32,7 @@ public:
     void sendGameState(const QJsonObject& gameState);
     void sendScoreUpdate(int score);
     void sendPlayerPosition(const std::deque<Point>& snakeBody);
+    void broadcastMessage(const QJsonObject& message, QTcpSocket* excludeSocket = nullptr);
     
     // 获取连接的玩家数量
     int getConnectedPlayersCount() const;
@@ -55,7 +56,6 @@ private slots:
     
 private:
     void processMessage(const QJsonObject& message, QTcpSocket* sender = nullptr);
-    void broadcastMessage(const QJsonObject& message, QTcpSocket* excludeSocket = nullptr);
     QJsonObject createMessage(const QString& type, const QJsonObject& data = QJsonObject());
     
     // 服务器相关

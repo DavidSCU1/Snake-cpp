@@ -4,23 +4,15 @@
 #include <QObject>
 #include <QTimer>
 #include <QMap>
-#include <QSet>
+#include <QStringList>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QSet>
+#include <deque>
 #include "gamestate.h"
 #include "networkmanager.h"
 
-struct GameRoom {
-    QString roomId;
-    QString hostName;
-    QStringList players;
-    int maxPlayers;
-    bool isGameStarted;
-    QJsonObject gameSettings;
-    
-    GameRoom() : maxPlayers(4), isGameStarted(false) {}
-};
-
+// 多人游戏状态结构体
 struct MultiPlayerGameState {
     QMap<QString, std::deque<Point>> playerSnakes;
     QMap<QString, CharacterType> playerCharacters;
@@ -28,10 +20,12 @@ struct MultiPlayerGameState {
     QMap<QString, bool> playerAliveStatus;
     QMap<QString, Direction> playerDirections;
     Point foodPosition;
+    Point specialFoodPosition;
     bool isSpecialFood;
     int gameSpeed;
     bool isPaused;
-    QString winner;
+    QString currentTurn;
+    int turnTimeLeft;
     
     MultiPlayerGameState() : isSpecialFood(false), gameSpeed(200), isPaused(false) {}
 };
@@ -51,7 +45,7 @@ public:
     QStringList getAvailableRooms() const;
     GameRoom getRoomInfo(const QString& roomId) const;
     
-    // 游戏管理
+    // 游戏控制
     bool startGame(const QString& roomId);
     void pauseGame(const QString& roomId);
     void resumeGame(const QString& roomId);
@@ -63,7 +57,7 @@ public:
     void updatePlayerScore(const QString& roomId, const QString& playerName, int score);
     void setPlayerCharacter(const QString& roomId, const QString& playerName, CharacterType character);
     
-    // 游戏状态同步
+    // 游戏状态
     void syncGameState(const QString& roomId);
     MultiPlayerGameState getGameState(const QString& roomId) const;
     
@@ -79,7 +73,6 @@ public:
     
 signals:
     void roomCreated(const QString& roomId, const GameRoom& room);
-    void roomDestroyed(const QString& roomId);
     void playerJoinedRoom(const QString& roomId, const QString& playerName);
     void playerLeftRoom(const QString& roomId, const QString& playerName);
     void gameStarted(const QString& roomId);
@@ -87,6 +80,7 @@ signals:
     void gameStateUpdated(const QString& roomId, const MultiPlayerGameState& state);
     void playerCollision(const QString& roomId, const QString& playerName);
     void foodEaten(const QString& roomId, const QString& playerName, int points);
+    void roomDestroyed(const QString& roomId);
     
 private slots:
     void onGameTick();
@@ -105,13 +99,11 @@ private:
     
     QMap<QString, GameRoom> rooms;
     QMap<QString, MultiPlayerGameState> gameStates;
-    QTimer* gameTimer;
     NetworkManager* networkManager;
+    QTimer* gameTimer;
     
-    // 游戏配置
-    static const int GRID_WIDTH = 30;
-    static const int GRID_HEIGHT = 20;
-    static const int GAME_TICK_INTERVAL = 200; // 毫秒
+    static const int GRID_WIDTH = 40;
+    static const int GRID_HEIGHT = 30;
 };
 
 #endif // MULTIPLAYERGAMEMANAGER_H

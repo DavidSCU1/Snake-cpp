@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QSettings>
 #include <QHostAddress>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,8 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
     , selectedDifficulty(Difficulty::NORMAL)
     , isMultiplayerHost(false)
 {
+    qDebug() << "MainWindow constructor started";
     ui->setupUi(this);
+    qDebug() << "UI setup completed";
     setupUI();
+    qDebug() << "Custom UI setup completed";
     
     setWindowTitle("海绵宝宝贪吃蛇");
     setMinimumSize(1000, 700);
@@ -66,6 +70,12 @@ void MainWindow::setupUI()
         gameWidget->setFocus();
     });
     stackedWidget->addWidget(multiPlayerLobby);
+    
+    // 创建单人模式选择界面
+    singleModeSelection = new SingleModeSelection(this);
+    connect(singleModeSelection, &SingleModeSelection::modeSelected, this, &MainWindow::onSingleModeSelected);
+    connect(singleModeSelection, &SingleModeSelection::backToMenu, this, &MainWindow::showMainMenu);
+    stackedWidget->addWidget(singleModeSelection);
     
     // 设置样式
     setStyleSheet(
@@ -351,10 +361,21 @@ void MainWindow::showHighScores()
     stackedWidget->setCurrentWidget(highScoresWidget);
 }
 
+void MainWindow::showSingleModeSelection()
+{
+    stackedWidget->setCurrentWidget(singleModeSelection);
+}
+
 void MainWindow::startSinglePlayerGame()
+{
+    showSingleModeSelection();
+}
+
+void MainWindow::onSingleModeSelected(SinglePlayerMode mode)
 {
     gameWidget->setCharacter(selectedCharacter);
     gameWidget->setDifficulty(selectedDifficulty);
+    gameWidget->setSinglePlayerGameMode(mode);
     stackedWidget->setCurrentWidget(gameWidget);
     gameWidget->startSinglePlayerGame();
     gameWidget->setFocus();

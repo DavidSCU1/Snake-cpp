@@ -349,6 +349,12 @@ Qt6NetworkPrivate_DIR:PATH=D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6NetworkPrivate
 //The directory containing a CMake configuration file for Qt6Network.
 Qt6Network_DIR:PATH=D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Network
 
+//The directory containing a CMake configuration file for Qt6SvgPrivate.
+Qt6SvgPrivate_DIR:PATH=D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6SvgPrivate
+
+//The directory containing a CMake configuration file for Qt6Svg.
+Qt6Svg_DIR:PATH=D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Svg
+
 //The directory containing a CMake configuration file for Qt6WidgetsPrivate.
 Qt6WidgetsPrivate_DIR:PATH=D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6WidgetsPrivate
 

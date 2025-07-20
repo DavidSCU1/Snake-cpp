@@ -13,6 +13,7 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget.cpp: D:/Snake_cpp
   D:/Qt/6.9.1/mingw_64/include/QtCore/QSizeF \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QString \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QStringList \
+  D:/Qt/6.9.1/mingw_64/include/QtCore/QTime \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QTimer \
   D:/Qt/6.9.1/mingw_64/include/QtCore/q17memory.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/q20functional.h \
@@ -469,4 +470,5 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget.cpp: D:/Snake_cpp
   D:/Snake_cpp/gamestate.h \
   D:/Snake_cpp/multiplayergamemanager.h \
   D:/Snake_cpp/networkmanager.h \
+  D:/Snake_cpp/singleplayergamemanager.h \
   D:/Snake_cpp/snake.h

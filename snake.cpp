@@ -1,6 +1,8 @@
 #include "snake.h"
 #include <QPixmap>
 #include <QDebug>
+#include <QSvgRenderer>
+#include <QPainter>
 
 Snake::Snake(QObject *parent)
     : QObject(parent)
@@ -107,22 +109,42 @@ void Snake::loadCharacterPixmaps()
         characterName = "sandy";
         break;
     case CharacterType::MR_KRABS:
-        characterName = "mrkribs";
+        characterName = "mrcrabs";
         break;
     case CharacterType::PLANKTON:
         characterName = "plankton";
         break;
     }
     
-    headPixmap = QPixmap(basePath + characterName + "_head.png");
-    bodyPixmap = QPixmap(basePath + characterName + "_body.png");
+    // 使用QSvgRenderer加载SVG文件
+    QString headPath = basePath + characterName + "_head.svg";
+    QString bodyPath = basePath + characterName + "_body.svg";
     
-    // 如果资源文件不存在，创建默认颜色方块
-    if (headPixmap.isNull()) {
+    QSvgRenderer headRenderer;
+    QSvgRenderer bodyRenderer;
+    headRenderer.load(QString(headPath));
+    bodyRenderer.load(QString(bodyPath));
+    
+    if (headRenderer.isValid()) {
+        qDebug() << "Successfully loaded head SVG:" << headPath;
+        headPixmap = QPixmap(20, 20);
+        headPixmap.fill(Qt::transparent);
+        QPainter painter(&headPixmap);
+        headRenderer.render(&painter);
+    } else {
+        qDebug() << "Failed to load head SVG:" << headPath;
         headPixmap = QPixmap(20, 20);
         headPixmap.fill(Qt::darkGreen);
     }
-    if (bodyPixmap.isNull()) {
+    
+    if (bodyRenderer.isValid()) {
+        qDebug() << "Successfully loaded body SVG:" << bodyPath;
+        bodyPixmap = QPixmap(20, 20);
+        bodyPixmap.fill(Qt::transparent);
+        QPainter painter(&bodyPixmap);
+        bodyRenderer.render(&painter);
+    } else {
+        qDebug() << "Failed to load body SVG:" << bodyPath;
         bodyPixmap = QPixmap(20, 20);
         bodyPixmap.fill(Qt::green);
     }

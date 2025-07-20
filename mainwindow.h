@@ -17,6 +17,7 @@
 #include "characterselection.h"
 #include "networkmanager.h"
 #include "multiplayerlobby.h"
+#include "singlemodeselection.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -42,6 +43,7 @@ private slots:
     void showMultiplayerMenu();
     void showMultiplayerLobby();
     void showHighScores();
+    void showSingleModeSelection();
     void startSinglePlayerGame();
     void startMultiplayerHost();
     void startMultiplayerJoin();
@@ -50,6 +52,7 @@ private slots:
     void onDifficultySelected();
     void connectToServer();
     void onNetworkError(const QString& error);
+    void onSingleModeSelected(SinglePlayerMode mode);
     
 private:
     void setupUI();
@@ -67,6 +70,7 @@ private:
     CharacterSelection* characterSelection;
     NetworkManager* networkManager;
     MultiPlayerLobby* multiPlayerLobby;
+    SingleModeSelection* singleModeSelection;
     
     // 菜单页面
     QWidget* mainMenuWidget;

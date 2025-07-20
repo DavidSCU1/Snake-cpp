@@ -26,9 +26,11 @@ GameWidget::GameWidget(QWidget *parent)
     , currentSpeed(200)
     , networkManager(new NetworkManager(this))
     , multiPlayerManager(new MultiPlayerGameManager(this))
+    , singlePlayerManager(new SinglePlayerGameManager(this))
     , settings(new QSettings("SnakeGame", "SpongeBobSnake", this))
     , specialFoodCounter(0)
 {
+    qDebug() << "GameWidget constructor called";
     setupUI();
     setupGame();
     loadHighScores();
@@ -137,6 +139,9 @@ void GameWidget::setupUI()
     gameLayout->addWidget(sidePanel);
     
     mainLayout->addLayout(gameLayout);
+    
+    // 确保游戏区域尺寸正确
+    updateGameArea();
 }
 
 void GameWidget::setupGame()
@@ -172,8 +177,16 @@ void GameWidget::setDifficulty(Difficulty difficulty)
     currentSpeed = baseSpeed;
 }
 
+void GameWidget::setSinglePlayerGameMode(SinglePlayerMode mode)
+{
+    if (singlePlayerManager) {
+        singlePlayerManager->setGameMode(mode);
+    }
+}
+
 void GameWidget::startSinglePlayerGame()
 {
+    qDebug() << "startSinglePlayerGame called";
     isMultiplayer = false;
     playersLabel->setVisible(false);
     playersList->setVisible(false);
@@ -181,17 +194,26 @@ void GameWidget::startSinglePlayerGame()
     resetGame();
     currentState = GameState::PLAYING;
     
+    // 确保窗口可见
+    show();
+    setFocus();
+    qDebug() << "GameWidget shown and focused. Size:" << size() << "Visible:" << isVisible();
+    
     // 初始化蛇的位置
     Point startPos(gridWidth / 2, gridHeight / 2);
+    qDebug() << "Snake reset to position:" << startPos.x << "," << startPos.y;
     snake->reset(startPos);
     
     // 生成第一个食物
     generateFood();
+    qDebug() << "Food generated at:" << food->getPosition().x << "," << food->getPosition().y;
     
     // 启动游戏循环
     gameTimer->start(currentSpeed);
+    qDebug() << "Game timer started with speed:" << currentSpeed;
     
     update();
+    qDebug() << "Update called";
 }
 
 void GameWidget::startMultiPlayerGame(bool isHost)
@@ -536,10 +558,13 @@ void GameWidget::paintEvent(QPaintEvent *event)
     
     // 计算游戏区域的实际位置
     QRect gameRect = gameArea->geometry();
+    qDebug() << "GameArea geometry:" << gameRect << "Widget size:" << size() << "CellSize:" << cellSize;
     painter.setClipRect(gameRect);
     
     // 绘制背景
     painter.fillRect(gameRect, QColor(135, 206, 235)); // 天蓝色背景
+    
+    qDebug() << "Current state:" << static_cast<int>(currentState) << "Snake body size:" << snake->getBody().size();
     
     if (currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME || currentState == GameState::PAUSED) {
         // 绘制网格

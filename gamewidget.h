@@ -18,6 +18,7 @@
 #include "food.h"
 #include "networkmanager.h"
 #include "multiplayergamemanager.h"
+#include "singleplayergamemanager.h"
 
 class GameWidget : public QWidget
 {
@@ -28,6 +29,7 @@ public:
     
     void setCharacter(CharacterType character);
     void setDifficulty(Difficulty difficulty);
+    void setSinglePlayerGameMode(SinglePlayerMode mode);
     void startSinglePlayerGame();
     void startMultiPlayerGame(bool isHost = false);
     void createRoom(const QString& playerName, int maxPlayers = 4);
@@ -140,6 +142,9 @@ private:
     QMap<QString, CharacterType> playerCharacters;
     QMap<QString, int> playerScores;
     QMap<QString, bool> playerAliveStatus;
+    
+    // 单人游戏管理器
+    SinglePlayerGameManager* singlePlayerManager;
     
     // 高分记录
     QList<int> highScores;

@@ -2,6 +2,8 @@
 #include <QRandomGenerator>
 #include <QPixmap>
 #include <QPainter>
+#include <QSvgRenderer>
+#include <QDebug>
 
 Food::Food(QObject *parent)
     : QObject(parent)
@@ -85,12 +87,20 @@ void Food::onTimeout()
 
 void Food::loadFoodPixmaps()
 {
-    // 尝试加载海绵宝宝主题的食物图片
-    normalFoodPixmap = QPixmap(":/images/krabby_patty.png");
-    specialFoodPixmap = QPixmap(":/images/golden_spatula.png");
+    // 使用QSvgRenderer加载SVG文件
+    QSvgRenderer normalRenderer;
+    QSvgRenderer specialRenderer;
+    normalRenderer.load(QString(":/images/krabby_patty.svg"));
+    specialRenderer.load(QString(":/images/golden_spatula.svg"));
     
-    // 如果资源文件不存在，创建默认食物
-    if (normalFoodPixmap.isNull()) {
+    if (normalRenderer.isValid()) {
+        qDebug() << "Successfully loaded normal food SVG";
+        normalFoodPixmap = QPixmap(20, 20);
+        normalFoodPixmap.fill(Qt::transparent);
+        QPainter painter(&normalFoodPixmap);
+        normalRenderer.render(&painter);
+    } else {
+        qDebug() << "Failed to load normal food SVG";
         normalFoodPixmap = QPixmap(20, 20);
         QPainter painter(&normalFoodPixmap);
         painter.fillRect(0, 0, 20, 20, Qt::red);
@@ -98,7 +108,14 @@ void Food::loadFoodPixmaps()
         painter.drawEllipse(2, 2, 16, 16);
     }
     
-    if (specialFoodPixmap.isNull()) {
+    if (specialRenderer.isValid()) {
+        qDebug() << "Successfully loaded special food SVG";
+        specialFoodPixmap = QPixmap(20, 20);
+        specialFoodPixmap.fill(Qt::transparent);
+        QPainter painter(&specialFoodPixmap);
+        specialRenderer.render(&painter);
+    } else {
+        qDebug() << "Failed to load special food SVG";
         specialFoodPixmap = QPixmap(20, 20);
         QPainter painter(&specialFoodPixmap);
         painter.fillRect(0, 0, 20, 20, Qt::yellow);

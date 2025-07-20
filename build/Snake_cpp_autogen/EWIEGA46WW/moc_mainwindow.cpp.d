@@ -6,6 +6,7 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow.cpp: D:/Snake_cpp
   D:/Qt/6.9.1/mingw_64/include/QtCore/QList \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QMap \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QObject \
+  D:/Qt/6.9.1/mingw_64/include/QtCore/QPropertyAnimation \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QRect \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QSet \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QSettings \
@@ -13,6 +14,7 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow.cpp: D:/Snake_cpp
   D:/Qt/6.9.1/mingw_64/include/QtCore/QSizeF \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QString \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QStringList \
+  D:/Qt/6.9.1/mingw_64/include/QtCore/QTime \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QTimer \
   D:/Qt/6.9.1/mingw_64/include/QtCore/q17memory.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/q20functional.h \
@@ -21,6 +23,7 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow.cpp: D:/Snake_cpp
   D:/Qt/6.9.1/mingw_64/include/QtCore/q20type_traits.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/q20utility.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/q23utility.h \
+  D:/Qt/6.9.1/mingw_64/include/QtCore/qabstractanimation.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qabstracteventdispatcher.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qabstractitemmodel.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qalgorithms.h \
@@ -60,6 +63,7 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow.cpp: D:/Snake_cpp
   D:/Qt/6.9.1/mingw_64/include/QtCore/qdatetime.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qdeadlinetimer.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qdebug.h \
+  D:/Qt/6.9.1/mingw_64/include/QtCore/qeasingcurve.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qelapsedtimer.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qendian.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qeventloop.h \
@@ -107,6 +111,7 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow.cpp: D:/Snake_cpp
   D:/Qt/6.9.1/mingw_64/include/QtCore/qpair.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qpoint.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qprocessordetection.h \
+  D:/Qt/6.9.1/mingw_64/include/QtCore/qpropertyanimation.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qrect.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qrefcount.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qregularexpression.h \
@@ -162,6 +167,7 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow.cpp: D:/Snake_cpp
   D:/Qt/6.9.1/mingw_64/include/QtCore/qutf8stringview.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/quuid.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qvariant.h \
+  D:/Qt/6.9.1/mingw_64/include/QtCore/qvariantanimation.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qvarlengtharray.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qxptype_traits.h \
@@ -224,6 +230,8 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow.cpp: D:/Snake_cpp
   D:/Qt/6.9.1/mingw_64/include/QtNetwork/qtnetworkexports.h \
   D:/Qt/6.9.1/mingw_64/include/QtNetwork/qtnetworkglobal.h \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/QComboBox \
+  D:/Qt/6.9.1/mingw_64/include/QtWidgets/QFrame \
+  D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGridLayout \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGroupBox \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/QHBoxLayout \
@@ -233,7 +241,9 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow.cpp: D:/Snake_cpp
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/QListWidget \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/QMainWindow \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/QMessageBox \
+  D:/Qt/6.9.1/mingw_64/include/QtWidgets/QProgressBar \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/QPushButton \
+  D:/Qt/6.9.1/mingw_64/include/QtWidgets/QScrollArea \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/QSpinBox \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/QStackedWidget \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/QVBoxLayout \
@@ -249,6 +259,7 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow.cpp: D:/Snake_cpp
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/qdialog.h \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/qframe.h \
+  D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgridlayout.h \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgroupbox.h \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/qinputdialog.h \
@@ -260,8 +271,10 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow.cpp: D:/Snake_cpp
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlistwidget.h \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/qmainwindow.h \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/qmessagebox.h \
+  D:/Qt/6.9.1/mingw_64/include/QtWidgets/qprogressbar.h \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/qpushbutton.h \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/qrubberband.h \
+  D:/Qt/6.9.1/mingw_64/include/QtWidgets/qscrollarea.h \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/qsizepolicy.h \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/qslider.h \
   D:/Qt/6.9.1/mingw_64/include/QtWidgets/qspinbox.h \
@@ -495,4 +508,6 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow.cpp: D:/Snake_cpp
   D:/Snake_cpp/multiplayergamemanager.h \
   D:/Snake_cpp/multiplayerlobby.h \
   D:/Snake_cpp/networkmanager.h \
+  D:/Snake_cpp/singlemodeselection.h \
+  D:/Snake_cpp/singleplayergamemanager.h \
   D:/Snake_cpp/snake.h

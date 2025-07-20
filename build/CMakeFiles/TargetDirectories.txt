@@ -1,0 +1,9 @@
+D:/Snake_cpp/build/CMakeFiles/Snake_cpp.dir
+D:/Snake_cpp/build/CMakeFiles/edit_cache.dir
+D:/Snake_cpp/build/CMakeFiles/rebuild_cache.dir
+D:/Snake_cpp/build/CMakeFiles/list_install_components.dir
+D:/Snake_cpp/build/CMakeFiles/install.dir
+D:/Snake_cpp/build/CMakeFiles/install/local.dir
+D:/Snake_cpp/build/CMakeFiles/install/strip.dir
+D:/Snake_cpp/build/CMakeFiles/Snake_cpp_autogen_timestamp_deps.dir
+D:/Snake_cpp/build/CMakeFiles/Snake_cpp_autogen.dir

@@ -1,0 +1,10 @@
+^D:\SNAKE_CPP\BUILD\CMAKEFILES\34A35260A97FB73193283C77722346D4\GENERATE.STAMP.RULE
+setlocal
+D:\cmake-4.1.0-rc2-windows-x86_64\cmake-4.1.0-rc2-windows-x86_64\bin\cmake.exe -SD:/Snake_cpp -BD:/Snake_cpp/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/Snake_cpp/build/Snake_cpp.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

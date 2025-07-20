@@ -1,0 +1,36 @@
+^D:\SNAKE_CPP\BUILD\CMAKEFILES\401CF0749C180C79D657D2D18CFA8EA5\AUTOUIC_(CONFIG).STAMP.RULE
+setlocal
+cd D:\Snake_cpp\build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\SNAKE_CPP\BUILD\CMAKEFILES\256306C6556747E537FC3D7A3AD7C793\QRC_RESOURCES.CPP.RULE
+setlocal
+cd D:\Snake_cpp\build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+D:\cmake-4.1.0-rc2-windows-x86_64\cmake-4.1.0-rc2-windows-x86_64\bin\cmake.exe -E cmake_autorcc D:/Snake_cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutoRcc_resources_EWIEGA46WW_Info.json Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\SNAKE_CPP\CMAKELISTS.TXT
+setlocal
+D:\cmake-4.1.0-rc2-windows-x86_64\cmake-4.1.0-rc2-windows-x86_64\bin\cmake.exe -SD:/Snake_cpp -BD:/Snake_cpp/build --check-stamp-file D:/Snake_cpp/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,30 @@
+{
+    "cmake.cmakePath": "cmake",
+    "cmake.configureOnOpen": true,
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.generator": "Ninja",
+    "cmake.configureArgs": [
+        "-DCMAKE_BUILD_TYPE=Debug"
+    ],
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "C_Cpp.default.intelliSenseMode": "gcc-x64",
+    "C_Cpp.default.compilerPath": "D:/Qt/Tools/mingw1310_64/bin/g++.exe",
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/**",
+        "D:/Qt/6.9.1/mingw_64/include/**"
+    ],
+    "files.associations": {
+        "*.h": "cpp",
+        "*.cpp": "cpp",
+        "*.qrc": "xml"
+    },
+    
+    "cmake.buildBeforeRun": true,
+    "cmake.clearOutputBeforeBuild": true,
+    "liveshare.guestApprovalRequired": false,
+    "liveshare.allowGuestDebugControl": true,
+    "liveshare.allowGuestTaskControl": true,
+    "liveshare.allowGuestCommandControl": true,
+    
+}

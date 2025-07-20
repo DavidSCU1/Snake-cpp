@@ -1,0 +1,21 @@
+# ninja log v6
+4	50	7746785972668685	CMakeFiles/clean.additional	adcc2f785672e3a3
+50	94	7746785973132127	clean	101d0f6048d5fe99
+4	37	7746786013312394	CMakeFiles/clean.additional	adcc2f785672e3a3
+38	53	7746786013645730	clean	101d0f6048d5fe99
+3	3621	7746786050492169	Snake_cpp_autogen/timestamp	e0befaa9757d227c
+3	3621	7746786050492169	Snake_cpp_autogen/mocs_compilation.cpp	e0befaa9757d227c
+3	3621	7746786050492169	D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/Snake_cpp_autogen/timestamp	e0befaa9757d227c
+3	3621	7746786050492169	D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/Snake_cpp_autogen/mocs_compilation.cpp	e0befaa9757d227c
+3626	3770	7746786052480686	Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp	bd8a7f75743eb2c
+3626	3770	7746786052480686	D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp	bd8a7f75743eb2c
+4030	4376	7746786055270764	CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj	93bafeba5997e9d8
+3855	6606	7746786053512206	CMakeFiles/Snake_cpp.dir/snake.cpp.obj	244057c9acd313bc
+3887	6638	7746786053825791	CMakeFiles/Snake_cpp.dir/food.cpp.obj	358ade690c85fdc4
+3921	7512	7746786054174009	CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj	cb04997c62771e2f
+3960	7557	7746786054561342	CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj	a527f4c35eb4f3f9
+3776	7600	7746786052729346	CMakeFiles/Snake_cpp.dir/main.cpp.obj	3ba751dcc95a0bed
+3797	7985	7746786052929374	CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj	d4446b90fa2c079b
+3771	8246	7746786052671074	CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj	54855c3864b420a8
+3826	9366	7746786053218942	CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj	152d443d9ab0d9df
+9367	13357	7746786108620209	Snake_cpp.exe	ff7334dbb848fee6

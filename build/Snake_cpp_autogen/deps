@@ -1,4 +1,5 @@
 Snake_cpp_autogen/timestamp: \
+	D:/Qt/6.9.1/mingw_64/include/QtCore/QJsonArray \
 	D:/Qt/6.9.1/mingw_64/include/QtCore/QJsonDocument \
 	D:/Qt/6.9.1/mingw_64/include/QtCore/QJsonObject \
 	D:/Qt/6.9.1/mingw_64/include/QtCore/QList \
@@ -75,6 +76,7 @@ Snake_cpp_autogen/timestamp: \
 	D:/Qt/6.9.1/mingw_64/include/QtCore/qitemselectionmodel.h \
 	D:/Qt/6.9.1/mingw_64/include/QtCore/qiterable.h \
 	D:/Qt/6.9.1/mingw_64/include/QtCore/qiterator.h \
+	D:/Qt/6.9.1/mingw_64/include/QtCore/qjsonarray.h \
 	D:/Qt/6.9.1/mingw_64/include/QtCore/qjsondocument.h \
 	D:/Qt/6.9.1/mingw_64/include/QtCore/qjsonobject.h \
 	D:/Qt/6.9.1/mingw_64/include/QtCore/qjsonparseerror.h \
@@ -220,6 +222,7 @@ Snake_cpp_autogen/timestamp: \
 	D:/Qt/6.9.1/mingw_64/include/QtNetwork/qtnetworkglobal.h \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/QComboBox \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGridLayout \
+	D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGroupBox \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/QHBoxLayout \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/QInputDialog \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/QLabel \
@@ -228,6 +231,7 @@ Snake_cpp_autogen/timestamp: \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/QMainWindow \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/QMessageBox \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/QPushButton \
+	D:/Qt/6.9.1/mingw_64/include/QtWidgets/QSpinBox \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/QStackedWidget \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/QVBoxLayout \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/QWidget \
@@ -243,6 +247,7 @@ Snake_cpp_autogen/timestamp: \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/qframe.h \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgridlayout.h \
+	D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgroupbox.h \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/qinputdialog.h \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlabel.h \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/qlayout.h \
@@ -256,6 +261,7 @@ Snake_cpp_autogen/timestamp: \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/qrubberband.h \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/qsizepolicy.h \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/qslider.h \
+	D:/Qt/6.9.1/mingw_64/include/QtWidgets/qspinbox.h \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/qstackedwidget.h \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/qstyle.h \
 	D:/Qt/6.9.1/mingw_64/include/QtWidgets/qstyleoption.h \
@@ -305,6 +311,7 @@ Snake_cpp_autogen/timestamp: \
 	D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6/QtPublicToolHelpers.cmake \
 	D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6/QtPublicWalkLibsHelpers.cmake \
 	D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6/QtPublicWindowsHelpers.cmake \
+	D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6/qt.toolchain.cmake \
 	D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Core/Qt6CoreAdditionalTargetInfo.cmake \
 	D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfig.cmake \
 	D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfigExtras.cmake \
@@ -469,6 +476,38 @@ Snake_cpp_autogen/timestamp: \
 	D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateConfigVersionImpl.cmake \
 	D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateTargets.cmake \
 	D:/Qt/6.9.1/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateVersionlessAliasTargets.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCXXInformation.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCommonLanguageInclude.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeGenericSystem.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeInitializeConfigs.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeLanguageInformation.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeRCInformation.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeSystemSpecificInformation.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeSystemSpecificInitialize.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CheckCXXCompilerFlag.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CheckCXXSourceCompiles.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CheckIncludeFileCXX.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CheckLibraryExists.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/GNU-CXX.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/GNU.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageMessage.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindThreads.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindVulkan.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/GNUInstallDirs.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Internal/CheckCompilerFlag.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Internal/CheckFlagCommonConfig.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Internal/CheckSourceCompiles.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX-ABI.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-Initialize.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-windres.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows.cmake \
+	D:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/WindowsPaths.cmake \
 	D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/algorithm \
 	D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/array \
 	D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/atomic \
@@ -684,9 +723,9 @@ Snake_cpp_autogen/timestamp: \
 	D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
 	D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
 	D:/Snake_cpp/CMakeLists.txt \
-	D:/Snake_cpp/build/CMakeFiles/4.1.0-rc2/CMakeCXXCompiler.cmake \
-	D:/Snake_cpp/build/CMakeFiles/4.1.0-rc2/CMakeRCCompiler.cmake \
-	D:/Snake_cpp/build/CMakeFiles/4.1.0-rc2/CMakeSystem.cmake \
+	D:/Snake_cpp/build/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake \
+	D:/Snake_cpp/build/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
+	D:/Snake_cpp/build/CMakeFiles/3.30.5/CMakeSystem.cmake \
 	D:/Snake_cpp/build/Snake_cpp_autogen/moc_predefs.h \
 	D:/Snake_cpp/characterselection.cpp \
 	D:/Snake_cpp/characterselection.h \
@@ -698,49 +737,14 @@ Snake_cpp_autogen/timestamp: \
 	D:/Snake_cpp/main.cpp \
 	D:/Snake_cpp/mainwindow.cpp \
 	D:/Snake_cpp/mainwindow.h \
+	D:/Snake_cpp/multiplayergamemanager.cpp \
+	D:/Snake_cpp/multiplayergamemanager.h \
+	D:/Snake_cpp/multiplayerlobby.cpp \
+	D:/Snake_cpp/multiplayerlobby.h \
 	D:/Snake_cpp/networkmanager.cpp \
 	D:/Snake_cpp/networkmanager.h \
 	D:/Snake_cpp/resources.qrc \
 	D:/Snake_cpp/snake.cpp \
 	D:/Snake_cpp/snake.h \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/CMakeCXXInformation.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/CMakeCommonLanguageInclude.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/CMakeFindDependencyMacro.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/CMakeGenericSystem.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/CMakeInitializeConfigs.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/CMakeLanguageInformation.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/CMakeRCInformation.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/CMakeSystemSpecificInformation.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/CMakeSystemSpecificInitialize.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/CheckCXXCompilerFlag.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/CheckCXXSourceCompiles.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/CheckIncludeFileCXX.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/CheckLibraryExists.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Compiler/GNU-CXX.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Compiler/GNU.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/FindPackageHandleStandardArgs.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/FindPackageMessage.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/FindThreads.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/FindVulkan.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/GNUInstallDirs.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Internal/CMakeCXXLinkerInformation.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Internal/CheckCompilerFlag.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Internal/CheckFlagCommonConfig.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Internal/CheckSourceCompiles.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Platform/Linker/GNU.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Platform/Linker/Windows-CXX.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Platform/Linker/Windows-GNU-CXX.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Platform/Linker/Windows-GNU.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Platform/Windows-GNU-CXX-ABI.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Platform/Windows-GNU-CXX.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Platform/Windows-GNU.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Platform/Windows-Initialize.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Platform/Windows-windres.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Platform/Windows.cmake \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/share/cmake-4.1/Modules/Platform/WindowsPaths.cmake \
-	d:/qt/6.9.1/mingw_64/lib/cmake/Qt6/qt.toolchain.cmake \
 	D:/Snake_cpp/mainwindow.ui \
-	D:/cmake-4.1.0-rc2-windows-x86_64/cmake-4.1.0-rc2-windows-x86_64/bin/cmake.exe
+	D:/Qt/Tools/CMake_64/bin/cmake.exe

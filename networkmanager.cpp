@@ -97,7 +97,7 @@ bool NetworkManager::isConnectedToServer() const
 void NetworkManager::sendPlayerInfo(const PlayerInfo& playerInfo)
 {
     QJsonObject data;
-    data["name"] = playerInfo.name;
+    data["name"] = QString::fromStdString(playerInfo.name);
     data["score"] = playerInfo.score;
     data["character"] = static_cast<int>(playerInfo.character);
     data["isAlive"] = playerInfo.isAlive;
@@ -257,14 +257,15 @@ void NetworkManager::processMessage(const QJsonObject& message, QTcpSocket* send
     
     if (type == "playerInfo") {
         PlayerInfo playerInfo;
-        playerInfo.name = data["name"].toString();
+        playerInfo.name = data["name"].toString().toStdString();
         playerInfo.score = data["score"].toInt();
         playerInfo.character = static_cast<CharacterType>(data["character"].toInt());
         playerInfo.isAlive = data["isAlive"].toBool();
         
         if (isServer && sender) {
-            clientNames[sender] = playerInfo.name;
-            emit playerConnected(playerInfo.name);
+            QString playerName = QString::fromStdString(playerInfo.name);
+            clientNames[sender] = playerName;
+            emit playerConnected(playerName);
             // 转发给其他客户端
             broadcastMessage(message, sender);
         }

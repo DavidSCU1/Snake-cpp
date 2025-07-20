@@ -41,6 +41,12 @@ struct Point {
     }
 };
 
+// 为Point类型添加qHash函数支持
+inline size_t qHash(const Point& point, size_t seed = 0)
+{
+    return qHash(static_cast<int>(point.x), seed) ^ qHash(static_cast<int>(point.y), seed << 1);
+}
+
 struct PlayerInfo {
     std::string name;
     int score;

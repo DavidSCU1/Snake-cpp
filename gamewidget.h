@@ -17,6 +17,7 @@
 #include "snake.h"
 #include "food.h"
 #include "networkmanager.h"
+#include "multiplayergamemanager.h"
 
 class GameWidget : public QWidget
 {
@@ -29,6 +30,14 @@ public:
     void setDifficulty(Difficulty difficulty);
     void startSinglePlayerGame();
     void startMultiPlayerGame(bool isHost = false);
+    void createRoom(const QString& playerName, int maxPlayers = 4);
+    void joinRoom(const QString& roomId, const QString& playerName);
+    void leaveRoom();
+    
+    // 多人游戏管理器访问方法
+    MultiPlayerGameManager* getMultiPlayerManager() const { return multiPlayerManager; }
+    void setCurrentRoomId(const QString& roomId) { currentRoomId = roomId; }
+    void setPlayerName(const QString& name) { playerName = name; }
     void pauseGame();
     void resumeGame();
     void resetGame();
@@ -55,6 +64,16 @@ private slots:
     void onScoreUpdateReceived(const QString& playerName, int score);
     void onPlayerPositionReceived(const QString& playerName, const std::deque<Point>& snakeBody);
     void onNetworkError(const QString& error);
+    
+    // 多人游戏管理器槽函数
+    void onRoomCreated(const QString& roomId, const GameRoom& room);
+    void onPlayerJoinedRoom(const QString& roomId, const QString& playerName);
+    void onPlayerLeftRoom(const QString& roomId, const QString& playerName);
+    void onGameStarted(const QString& roomId);
+    void onGameEnded(const QString& roomId, const QString& winner);
+    void onGameStateUpdated(const QString& roomId, const MultiPlayerGameState& gameState);
+    void onPlayerCollision(const QString& roomId, const QString& playerName);
+    void onFoodEaten(const QString& roomId, const QString& playerName, int points);
     
 private:
     void setupUI();
@@ -113,6 +132,9 @@ private:
     
     // 多人游戏
     NetworkManager* networkManager;
+    MultiPlayerGameManager* multiPlayerManager;
+    QString currentRoomId;
+    QString playerName;
     QMap<QString, std::deque<Point>> otherPlayers;
     QMap<QString, CharacterType> playerCharacters;
     QMap<QString, int> playerScores;

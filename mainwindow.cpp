@@ -57,6 +57,15 @@ void MainWindow::setupUI()
     networkManager = new NetworkManager(this);
     connect(networkManager, &NetworkManager::connectionError, this, &MainWindow::onNetworkError);
     
+    // 创建多人游戏大厅
+    multiPlayerLobby = new MultiPlayerLobby(this);
+    connect(multiPlayerLobby, &MultiPlayerLobby::backToMenu, this, &MainWindow::showMainMenu);
+    connect(multiPlayerLobby, &MultiPlayerLobby::gameStarted, this, [this]() {
+        stackedWidget->setCurrentWidget(gameWidget);
+        gameWidget->setFocus();
+    });
+    stackedWidget->addWidget(multiPlayerLobby);
+    
     // 设置样式
     setStyleSheet(
         "QMainWindow { background-color: #F0F8FF; }"
@@ -107,7 +116,7 @@ void MainWindow::setupMainMenu()
     // 多人游戏按钮
     multiplayerButton = new QPushButton("👥 多人游戏", buttonContainer);
     multiplayerButton->setFixedSize(200, 50);
-    connect(multiplayerButton, &QPushButton::clicked, this, &MainWindow::showMultiplayerMenu);
+    connect(multiplayerButton, &QPushButton::clicked, this, &MainWindow::showMultiplayerLobby);
     buttonLayout->addWidget(multiplayerButton);
     
     // 高分榜按钮
@@ -328,6 +337,11 @@ void MainWindow::showDifficultySelection()
 void MainWindow::showMultiplayerMenu()
 {
     stackedWidget->setCurrentWidget(multiplayerMenuWidget);
+}
+
+void MainWindow::showMultiplayerLobby()
+{
+    stackedWidget->setCurrentWidget(multiPlayerLobby);
 }
 
 void MainWindow::showHighScores()

@@ -396,6 +396,18 @@
 			null
 		],
 		[
+			"D:/Snake_cpp/multiplayergamemanager.h",
+			"MU",
+			"EWIEGA46WW/moc_multiplayergamemanager.cpp",
+			null
+		],
+		[
+			"D:/Snake_cpp/multiplayerlobby.h",
+			"MU",
+			"EWIEGA46WW/moc_multiplayerlobby.cpp",
+			null
+		],
+		[
 			"D:/Snake_cpp/networkmanager.h",
 			"MU",
 			"EWIEGA46WW/moc_networkmanager.cpp",
@@ -481,6 +493,8 @@
 		[ "D:/Snake_cpp/gamewidget.cpp", "MU", null ],
 		[ "D:/Snake_cpp/main.cpp", "MU", null ],
 		[ "D:/Snake_cpp/mainwindow.cpp", "MU", null ],
+		[ "D:/Snake_cpp/multiplayergamemanager.cpp", "MU", null ],
+		[ "D:/Snake_cpp/multiplayerlobby.cpp", "MU", null ],
 		[ "D:/Snake_cpp/networkmanager.cpp", "MU", null ],
 		[ "D:/Snake_cpp/snake.cpp", "MU", null ]
 	],

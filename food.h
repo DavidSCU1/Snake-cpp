@@ -21,6 +21,9 @@ public:
     bool isSpecial() const { return special; }
     int getValue() const { return value; }
     
+    void setPosition(const Point& pos) { position = pos; }
+    void setSpecial(bool isSpecial) { special = isSpecial; value = isSpecial ? 20 : 10; }
+    
     QPixmap getPixmap() const;
     
     bool isExpired() const;
@@ -44,11 +47,5 @@ private:
     
     void loadFoodPixmaps();
 };
-
-// 为Point类型添加qHash函数支持
-inline size_t qHash(const Point& point, size_t seed = 0)
-{
-    return qHash(static_cast<int>(point.x), seed) ^ qHash(static_cast<int>(point.y), seed << 1);
-}
 
 #endif // FOOD_H

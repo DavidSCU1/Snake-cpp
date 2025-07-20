@@ -16,6 +16,7 @@
 #include "gamewidget.h"
 #include "characterselection.h"
 #include "networkmanager.h"
+#include "multiplayerlobby.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -39,6 +40,7 @@ private slots:
     void showCharacterSelection();
     void showDifficultySelection();
     void showMultiplayerMenu();
+    void showMultiplayerLobby();
     void showHighScores();
     void startSinglePlayerGame();
     void startMultiplayerHost();
@@ -64,6 +66,7 @@ private:
     GameWidget* gameWidget;
     CharacterSelection* characterSelection;
     NetworkManager* networkManager;
+    MultiPlayerLobby* multiPlayerLobby;
     
     // 菜单页面
     QWidget* mainMenuWidget;

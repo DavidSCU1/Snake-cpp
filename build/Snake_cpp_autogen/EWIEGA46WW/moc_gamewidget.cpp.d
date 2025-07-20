@@ -1,5 +1,6 @@
 D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget.cpp: D:/Snake_cpp/gamewidget.h \
   D:/Snake_cpp/build/Snake_cpp_autogen/moc_predefs.h \
+  D:/Qt/6.9.1/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QJsonDocument \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QJsonObject \
   D:/Qt/6.9.1/mingw_64/include/QtCore/QList \
@@ -76,6 +77,7 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget.cpp: D:/Snake_cpp
   D:/Qt/6.9.1/mingw_64/include/QtCore/qitemselectionmodel.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qiterable.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qiterator.h \
+  D:/Qt/6.9.1/mingw_64/include/QtCore/qjsonarray.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qjsondocument.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qjsonobject.h \
   D:/Qt/6.9.1/mingw_64/include/QtCore/qjsonparseerror.h \
@@ -463,5 +465,6 @@ D:/Snake_cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget.cpp: D:/Snake_cpp
   D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
   D:/Snake_cpp/food.h \
   D:/Snake_cpp/gamestate.h \
+  D:/Snake_cpp/multiplayergamemanager.h \
   D:/Snake_cpp/networkmanager.h \
   D:/Snake_cpp/snake.h

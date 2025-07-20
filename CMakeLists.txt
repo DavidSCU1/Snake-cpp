@@ -28,6 +28,10 @@ set(PROJECT_SOURCES
         networkmanager.h
         characterselection.cpp
         characterselection.h
+        multiplayergamemanager.cpp
+        multiplayergamemanager.h
+        multiplayerlobby.cpp
+        multiplayerlobby.h
         resources.qrc
 )
 

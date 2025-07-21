@@ -1,0 +1,4 @@
+# Hashes of file build rules.
+188c7acc517eb471a8f9299b37ec02db CMakeFiles/Snake_cpp_autogen
+84f954707beaae22a9e3ef6a31bec09e Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp
+81a06783757de44a115efd9e6fb3b864 Snake_cpp_autogen/timestamp

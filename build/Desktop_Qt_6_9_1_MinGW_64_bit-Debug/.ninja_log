@@ -1,0 +1,23 @@
+# ninja log v6
+3	77	7747701195262377	CMakeFiles/clean.additional	adcc2f785672e3a3
+78	107	7747701196004753	clean	101d0f6048d5fe99
+6	2462	7747701223617012	Snake_cpp_autogen/timestamp	e0befaa9757d227c
+6	2462	7747701223617012	Snake_cpp_autogen/mocs_compilation.cpp	e0befaa9757d227c
+6	2462	7747701223617012	D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/Snake_cpp_autogen/timestamp	e0befaa9757d227c
+6	2462	7747701223617012	D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/Snake_cpp_autogen/mocs_compilation.cpp	e0befaa9757d227c
+2472	3178	7747701231880807	Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp	bd8a7f75743eb2c
+2472	3178	7747701231880807	D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp	bd8a7f75743eb2c
+3262	7440	7747701232962971	CMakeFiles/Snake_cpp.dir/snake.cpp.obj	29bc9449b0e244aa
+3295	8455	7747701233299963	CMakeFiles/Snake_cpp.dir/food.cpp.obj	4058d822c8654153
+3198	8598	7747701232338216	CMakeFiles/Snake_cpp.dir/main.cpp.obj	930f2c3d59bc2ef
+3333	8896	7747701233679192	CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj	e92bbd69dcb6b878
+3429	10101	7747701234648994	CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj	d39ed89018e475b9
+3209	10552	7747701232446301	CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj	64c39e97fccfd722
+3872	10598	7747701239076186	CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj	bd9689d7fc9e5d15
+3698	10837	7747701237324992	CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj	81e50601bc7070ac
+3178	10952	7747701232137451	CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj	ce663655db2c045c
+3753	10962	7747701237895699	CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj	cf215fbdaf41d5df
+3630	11492	7747701236649466	CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj	35b7a7d2c3061e24
+3519	13008	7747701235542610	CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj	6dca4871024bddf5
+3220	13226	7747701232552406	CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj	f6b96582204779f5
+13227	18963	7747701332624395	Snake_cpp.exe	9ce69f5bcafa2f79

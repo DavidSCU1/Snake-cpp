@@ -1,0 +1,49 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+<<<<<<<< HEAD:build/.cmake/api/v1/reply/directory-.-Debug-0d5c22567cd883a9b9b6.json
+				"line" : 89,
+========
+				"line" : 87,
+>>>>>>>> 091ff83518800e3f51e9c106924672ae975ad4f4:build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/.cmake/api/v1/reply/directory-.-Debug-5054f6eb6b25a8aa56f8.json
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "bin",
+			"paths" : 
+			[
+				"Snake_cpp.exe"
+			],
+			"targetId" : "Snake_cpp::@6890427a1f51a3e7e1df",
+			"targetIndex" : 0,
+			"type" : "target"
+		}
+	],
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	}
+}

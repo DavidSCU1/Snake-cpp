@@ -16,7 +16,6 @@ enum class SinglePlayerMode {
     TIME_ATTACK,    // 时间挑战模式
     SURVIVAL,       // 生存模式
     SPEED_RUN,      // 极速模式
-    PUZZLE,         // 解谜模式
     AI_BATTLE       // 人机对战模式
 };
 
@@ -51,6 +50,7 @@ public:
     
     // 游戏模式管理
     void setGameMode(SinglePlayerMode mode);
+    SinglePlayerMode getGameMode() const { return currentMode; }
     SinglePlayerMode getCurrentMode() const { return currentMode; }
     QString getModeDescription(SinglePlayerMode mode) const;
     
@@ -76,7 +76,6 @@ public:
     int getTimeRemaining() const;  // 时间挑战模式
     int getSurvivalWaves() const;  // 生存模式
     double getSpeedMultiplier() const;  // 极速模式
-    int getPuzzleLevel() const;  // 解谜模式
     int getAIScore() const;  // 人机对战模式 - AI分数
     int getPlayerScore() const;  // 人机对战模式 - 玩家分数
     
@@ -91,7 +90,6 @@ signals:
     void timeWarning(int secondsLeft);  // 时间挑战模式警告
     void waveCompleted(int wave);  // 生存模式波次完成
     void speedIncreased(double multiplier);  // 极速模式速度提升
-    void puzzleSolved(int level);  // 解谜模式关卡完成
     void aiScoreUpdated(int aiScore, int playerScore);  // AI对战分数更新
     void gameEnded(SinglePlayerMode mode, const GameStats& finalStats);
     
@@ -106,7 +104,6 @@ private:
     void updateTimeAttackMode();
     void updateSurvivalMode();
     void updateSpeedRunMode();
-    void updatePuzzleMode();
     void updateAIBattleMode();
     
     // AI对战相关方法
@@ -141,9 +138,6 @@ private:
     int survivalWave;           // 当前生存波次
     int survivalEnemies;        // 当前波次敌人数量
     double speedMultiplier;     // 速度倍数
-    int puzzleLevel;            // 解谜关卡
-    QList<QPoint> puzzleTargets; // 解谜目标点
-    
     // AI对战模式数据
     int aiScore;                // AI当前分数
     int playerScore;            // 玩家当前分数
@@ -160,7 +154,6 @@ private:
     static constexpr int TIME_ATTACK_DEFAULT_DURATION = 180;  // 3分钟
     static constexpr int SURVIVAL_BASE_ENEMIES = 5;
     static constexpr double SPEED_RUN_INCREMENT = 0.1;
-    static constexpr int PUZZLE_MAX_LEVEL = 20;
 };
 
 #endif // SINGLEPLAYERGAMEMANAGER_H

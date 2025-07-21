@@ -14,7 +14,6 @@ SinglePlayerGameManager::SinglePlayerGameManager(QObject *parent)
     , survivalWave(1)
     , survivalEnemies(SURVIVAL_BASE_ENEMIES)
     , speedMultiplier(1.0)
-    , puzzleLevel(1)
     , aiScore(0)
     , playerScore(0)
     , aiDirection(Direction::UP)
@@ -59,10 +58,6 @@ void SinglePlayerGameManager::setGameMode(SinglePlayerMode mode)
         case SinglePlayerMode::SPEED_RUN:
             speedMultiplier = 1.0;
             break;
-        case SinglePlayerMode::PUZZLE:
-            puzzleLevel = 1;
-            puzzleTargets.clear();
-            break;
         case SinglePlayerMode::AI_BATTLE:
             aiScore = 0;
             playerScore = 0;
@@ -86,8 +81,6 @@ QString SinglePlayerGameManager::getModeDescription(SinglePlayerMode mode) const
         return "生存模式：面对越来越多的障碍物，看你能坚持多久！";
     case SinglePlayerMode::SPEED_RUN:
         return "极速模式：速度会不断增加，考验你的反应能力！";
-    case SinglePlayerMode::PUZZLE:
-        return "解谜模式：按照指定路径收集食物，挑战你的策略思维！";
     case SinglePlayerMode::AI_BATTLE:
         return "人机对战：与智能AI比拼积分，看谁能获得更高的分数！";
     default:
@@ -177,10 +170,6 @@ void SinglePlayerGameManager::resetGame()
     case SinglePlayerMode::SPEED_RUN:
         speedMultiplier = 1.0;
         break;
-    case SinglePlayerMode::PUZZLE:
-        puzzleLevel = 1;
-        puzzleTargets.clear();
-        break;
     case SinglePlayerMode::AI_BATTLE:
         aiScore = 0;
         playerScore = 0;
@@ -239,10 +228,6 @@ double SinglePlayerGameManager::getSpeedMultiplier() const
     return speedMultiplier;
 }
 
-int SinglePlayerGameManager::getPuzzleLevel() const
-{
-    return puzzleLevel;
-}
 
 int SinglePlayerGameManager::getAIScore() const
 {
@@ -281,9 +266,6 @@ void SinglePlayerGameManager::onGameTimer()
         break;
     case SinglePlayerMode::SPEED_RUN:
         updateSpeedRunMode();
-        break;
-    case SinglePlayerMode::PUZZLE:
-        updatePuzzleMode();
         break;
     case SinglePlayerMode::AI_BATTLE:
         updateAIBattleMode();
@@ -349,7 +331,6 @@ void SinglePlayerGameManager::initializeAchievements()
     achievements.append({"time_attack_master", "时间大师", "时间挑战模式获得1000分", false, 0, 1000});
     achievements.append({"survival_wave_10", "生存专家", "生存模式坚持到第10波", false, 0, 10});
     achievements.append({"speed_run_5x", "极速之王", "极速模式达到5倍速度", false, 0, 5});
-    achievements.append({"puzzle_level_10", "解谜高手", "解谜模式通过第10关", false, 0, 10});
     achievements.append({"ai_battle_win", "人机对战胜利者", "在人机对战中击败AI", false, 0, 1});
     achievements.append({"ai_battle_500", "AI挑战者", "人机对战模式获得500分", false, 0, 500});
     achievements.append({"ai_battle_master", "AI征服者", "人机对战模式获得1000分", false, 0, 1000});
@@ -401,18 +382,6 @@ void SinglePlayerGameManager::updateSpeedRunMode()
     // 速度增加在speedTimer中处理
 }
 
-void SinglePlayerGameManager::updatePuzzleMode()
-{
-    // 解谜模式的更新逻辑
-    // 检查是否完成当前关卡
-    if (puzzleTargets.isEmpty()) {
-        puzzleLevel++;
-        emit puzzleSolved(puzzleLevel - 1);
-        
-        // 生成新的解谜目标
-        // 这里可以添加更复杂的解谜逻辑
-    }
-}
 
 void SinglePlayerGameManager::checkAchievements()
 {
@@ -598,6 +567,7 @@ void SinglePlayerGameManager::initializeAI()
     aiDirection = Direction::DOWN;
     aiTarget = {20, 15}; // 初始目标位置
 }
+
 
 void SinglePlayerGameManager::updateAIMovement()
 {

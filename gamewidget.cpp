@@ -60,6 +60,7 @@ GameWidget::GameWidget(QWidget *parent)
     // 设置网络管理器
     multiPlayerManager->setNetworkManager(networkManager);
     
+    
     setFocusPolicy(Qt::StrongFocus);
     setMinimumSize(800, 600);
 }
@@ -83,7 +84,7 @@ void GameWidget::setupUI()
     
     // 侧边面板
     sidePanel = new QWidget(this);
-    sidePanel->setFixedWidth(200);
+    sidePanel->setFixedWidth(350);
     sidePanel->setStyleSheet("background-color: #F0F8FF; border: 2px solid #4682B4; border-radius: 10px;");
     
     QVBoxLayout* sidePanelLayout = new QVBoxLayout(sidePanel);
@@ -112,6 +113,7 @@ void GameWidget::setupUI()
     playersList->setStyleSheet("background-color: white; border: 1px solid #ccc; border-radius: 5px;");
     playersList->setVisible(false);
     sidePanelLayout->addWidget(playersList);
+    
     
     sidePanelLayout->addStretch();
     
@@ -197,6 +199,8 @@ void GameWidget::startSinglePlayerGame()
     // 确保UI组件已初始化后再使用
     if (playersLabel) playersLabel->setVisible(false);
     if (playersList) playersList->setVisible(false);
+    
+    // 根据游戏模式显示相应的UI组件
     
     // 重置游戏数据但不改变状态
     gameTimer->stop();
@@ -390,6 +394,8 @@ void GameWidget::gameLoop()
     } else {
         // 单人游戏模式：原有逻辑
         snake->move();
+        
+        
         checkCollisions();
     }
     
@@ -430,6 +436,7 @@ void GameWidget::checkCollisions()
         update();
         return;
     }
+    
     
     // 检查食物碰撞
     if (head == food->getPosition()) {
@@ -482,6 +489,8 @@ QSet<Point> GameWidget::getOccupiedPositions() const
             positions.insert(point);
         }
     }
+    
+
     
     return positions;
 }
@@ -637,6 +646,8 @@ void GameWidget::paintEvent(QPaintEvent *event)
         if (isMultiplayer) {
             drawMultiplayerSnakes(painter, gameRect);
         }
+        
+
     }
     
     // 绘制UI覆盖层
@@ -820,6 +831,7 @@ void GameWidget::drawGameOverOverlay(QPainter& painter, const QRect& gameRect)
     
     painter.drawText(gameRect, Qt::AlignCenter, gameOverText);
 }
+
 
 void GameWidget::keyPressEvent(QKeyEvent *event)
 {

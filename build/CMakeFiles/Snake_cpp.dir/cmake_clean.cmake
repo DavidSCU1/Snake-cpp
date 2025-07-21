@@ -1,0 +1,43 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj"
+  "CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj.d"
+  "CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj"
+  "CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj.d"
+  "CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj"
+  "CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj.d"
+  "CMakeFiles/Snake_cpp.dir/food.cpp.obj"
+  "CMakeFiles/Snake_cpp.dir/food.cpp.obj.d"
+  "CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj"
+  "CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj.d"
+  "CMakeFiles/Snake_cpp.dir/main.cpp.obj"
+  "CMakeFiles/Snake_cpp.dir/main.cpp.obj.d"
+  "CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj"
+  "CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj.d"
+  "CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj"
+  "CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj.d"
+  "CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj"
+  "CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj.d"
+  "CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj"
+  "CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj.d"
+  "CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj"
+  "CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj.d"
+  "CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj"
+  "CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj.d"
+  "CMakeFiles/Snake_cpp.dir/snake.cpp.obj"
+  "CMakeFiles/Snake_cpp.dir/snake.cpp.obj.d"
+  "CMakeFiles/Snake_cpp_autogen.dir/AutogenUsed.txt"
+  "CMakeFiles/Snake_cpp_autogen.dir/ParseCache.txt"
+  "Snake_cpp_autogen"
+  "Snake_cpp.exe"
+  "Snake_cpp.exe.manifest"
+  "Snake_cpp.pdb"
+  "Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp"
+  "Snake_cpp_autogen/mocs_compilation.cpp"
+  "Snake_cpp_autogen/timestamp"
+  "libSnake_cpp.dll.a"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/Snake_cpp.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

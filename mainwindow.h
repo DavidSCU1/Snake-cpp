@@ -19,6 +19,8 @@
 #include "multiplayerlobby.h"
 #include "singlemodeselection.h"
 #include "oceanbackground.h"
+#include "multiplayermodeselection.h"
+#include "localcoopcharacterselection.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -44,6 +46,8 @@ private slots:
     void showDifficultySelection();
     void showMultiplayerMenu();
     void showMultiplayerLobby();
+    void showMultiplayerModeSelection();
+    void showLocalCoopCharacterSelection();
     void showHighScores();
     void showSingleModeSelection();
     void startSinglePlayerGame();
@@ -55,6 +59,8 @@ private slots:
     void connectToServer();
     void onNetworkError(const QString& error);
     void onSingleModeSelected(SinglePlayerMode mode);
+    void onMultiplayerModeSelected(MultiplayerMode mode);
+    void onLocalCoopCharactersSelected(CharacterType player1Character, CharacterType player2Character);
     
 private:
     void setupUI();
@@ -73,6 +79,8 @@ private:
     NetworkManager* networkManager;
     MultiPlayerLobby* multiPlayerLobby;
     SingleModeSelection* singleModeSelection;
+    MultiplayerModeSelection* multiplayerModeSelection;
+    LocalCoopCharacterSelection* localCoopCharacterSelection;
     OceanBackground* oceanBackground;
     
     // 菜单页面

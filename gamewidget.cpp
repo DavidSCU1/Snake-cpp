@@ -12,8 +12,10 @@ GameWidget::GameWidget(QWidget *parent)
     , currentState(GameState::MENU)
     , currentDifficulty(Difficulty::NORMAL)
     , isMultiplayer(false)
+    , isLocalCoop(false)
     , isHost(false)
     , snake(new Snake(this))
+    , player2Snake(new Snake(this))
     , food(new Food(this))
     , gameTimer(new QTimer(this))
     , specialFoodTimer(new QTimer(this))
@@ -27,6 +29,12 @@ GameWidget::GameWidget(QWidget *parent)
     , networkManager(new NetworkManager(this))
     , multiPlayerManager(new MultiPlayerGameManager(this))
     , singlePlayerManager(new SinglePlayerGameManager(this))
+    , player1Character(CharacterType::SPONGEBOB)
+    , player2Character(CharacterType::PATRICK)
+    , player1Score(0)
+    , player2Score(0)
+    , player1Alive(true)
+    , player2Alive(true)
     , settings(new QSettings("SnakeGame", "SpongeBobSnake", this))
     , specialFoodCounter(0)
 {
@@ -340,11 +348,21 @@ void GameWidget::resetGame()
     playerAliveStatus.clear();
     if (playersList) playersList->clear();
     
+    // 重置本地双人游戏状态
+    isLocalCoop = false;
+    player1Score = 0;
+    player2Score = 0;
+    player1Alive = true;
+    player2Alive = true;
+    player1Character = CharacterType::SPONGEBOB;
+    player2Character = CharacterType::PATRICK;
+    
     if (isMultiplayer) {
         networkManager->stopServer();
         networkManager->disconnectFromServer();
     }
     
+    isMultiplayer = false;
     currentState = GameState::MENU;
     update();
 }
@@ -360,7 +378,17 @@ void GameWidget::gameLoop()
         return;
     }
     
-    if (currentState == GameState::MULTIPLAYER_GAME && !currentRoomId.isEmpty()) {
+    if (isLocalCoop) {
+        // 本地双人游戏模式
+        if (player1Alive) {
+            snake->move();
+        }
+        if (player2Alive && player2Snake) {
+            player2Snake->move();
+        }
+        
+        checkLocalCoopCollisions();
+    } else if (currentState == GameState::MULTIPLAYER_GAME && !currentRoomId.isEmpty()) {
         // 多人游戏模式：通过游戏管理器处理
         Point head = snake->getHead();
         Direction currentDirection = snake->getDirection();
@@ -640,11 +668,40 @@ void GameWidget::paintEvent(QPaintEvent *event)
         drawFood(painter, gameRect);
         
         // 绘制蛇
-        drawSnake(painter, gameRect);
+        if (isLocalCoop) {
+            drawLocalCoopSnakes(painter, gameRect);
+        } else {
+            drawSnake(painter, gameRect);
+        }
         
         // 绘制其他玩家的蛇（多人游戏）
         if (isMultiplayer) {
             drawMultiplayerSnakes(painter, gameRect);
+        }
+        
+        // 绘制本地双人游戏的分数
+        if (isLocalCoop) {
+            painter.setClipRect(rect()); // 重置裁剪区域以绘制UI
+            painter.setPen(Qt::black);
+            painter.setFont(QFont("Arial", 14, QFont::Bold));
+            
+            QString player1Text = QString("玩家1 (WASD): %1").arg(player1Score);
+            QString player2Text = QString("玩家2 (方向键): %1").arg(player2Score);
+            
+            painter.drawText(10, 30, player1Text);
+            painter.drawText(10, 55, player2Text);
+            
+            // 显示存活状态
+            if (!player1Alive) {
+                painter.setPen(Qt::red);
+                painter.drawText(200, 30, "已死亡");
+                painter.setPen(Qt::black);
+            }
+            if (!player2Alive) {
+                painter.setPen(Qt::red);
+                painter.drawText(200, 55, "已死亡");
+                painter.setPen(Qt::black);
+            }
         }
         
 
@@ -846,8 +903,13 @@ void GameWidget::keyPressEvent(QKeyEvent *event)
     
     switch (event->key()) {
     case Qt::Key_Up:
-    case Qt::Key_W:
-        if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
+        if (isLocalCoop && player2Alive && player2Snake) {
+            // 本地双人模式：方向键控制玩家2
+            if (player2Snake->canChangeDirection(Direction::UP)) {
+                player2Snake->setDirection(Direction::UP);
+                handled = true;
+            }
+        } else if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
             if (snake->canChangeDirection(Direction::UP)) {
                 snake->setDirection(Direction::UP);
                 handled = true;
@@ -856,8 +918,13 @@ void GameWidget::keyPressEvent(QKeyEvent *event)
         break;
         
     case Qt::Key_Down:
-    case Qt::Key_S:
-        if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
+        if (isLocalCoop && player2Alive && player2Snake) {
+            // 本地双人模式：方向键控制玩家2
+            if (player2Snake->canChangeDirection(Direction::DOWN)) {
+                player2Snake->setDirection(Direction::DOWN);
+                handled = true;
+            }
+        } else if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
             if (snake->canChangeDirection(Direction::DOWN)) {
                 snake->setDirection(Direction::DOWN);
                 handled = true;
@@ -866,8 +933,13 @@ void GameWidget::keyPressEvent(QKeyEvent *event)
         break;
         
     case Qt::Key_Left:
-    case Qt::Key_A:
-        if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
+        if (isLocalCoop && player2Alive && player2Snake) {
+            // 本地双人模式：方向键控制玩家2
+            if (player2Snake->canChangeDirection(Direction::LEFT)) {
+                player2Snake->setDirection(Direction::LEFT);
+                handled = true;
+            }
+        } else if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
             if (snake->canChangeDirection(Direction::LEFT)) {
                 snake->setDirection(Direction::LEFT);
                 handled = true;
@@ -876,8 +948,73 @@ void GameWidget::keyPressEvent(QKeyEvent *event)
         break;
         
     case Qt::Key_Right:
+        if (isLocalCoop && player2Alive && player2Snake) {
+            // 本地双人模式：方向键控制玩家2
+            if (player2Snake->canChangeDirection(Direction::RIGHT)) {
+                player2Snake->setDirection(Direction::RIGHT);
+                handled = true;
+            }
+        } else if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
+            if (snake->canChangeDirection(Direction::RIGHT)) {
+                snake->setDirection(Direction::RIGHT);
+                handled = true;
+            }
+        }
+        break;
+        
+    case Qt::Key_W:
+        if (isLocalCoop && player1Alive && snake) {
+            // 本地双人模式：WASD控制玩家1
+            if (snake->canChangeDirection(Direction::UP)) {
+                snake->setDirection(Direction::UP);
+                handled = true;
+            }
+        } else if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
+            if (snake->canChangeDirection(Direction::UP)) {
+                snake->setDirection(Direction::UP);
+                handled = true;
+            }
+        }
+        break;
+        
+    case Qt::Key_S:
+        if (isLocalCoop && player1Alive && snake) {
+            // 本地双人模式：WASD控制玩家1
+            if (snake->canChangeDirection(Direction::DOWN)) {
+                snake->setDirection(Direction::DOWN);
+                handled = true;
+            }
+        } else if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
+            if (snake->canChangeDirection(Direction::DOWN)) {
+                snake->setDirection(Direction::DOWN);
+                handled = true;
+            }
+        }
+        break;
+        
+    case Qt::Key_A:
+        if (isLocalCoop && player1Alive && snake) {
+            // 本地双人模式：WASD控制玩家1
+            if (snake->canChangeDirection(Direction::LEFT)) {
+                snake->setDirection(Direction::LEFT);
+                handled = true;
+            }
+        } else if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
+            if (snake->canChangeDirection(Direction::LEFT)) {
+                snake->setDirection(Direction::LEFT);
+                handled = true;
+            }
+        }
+        break;
+        
     case Qt::Key_D:
-        if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
+        if (isLocalCoop && player1Alive && snake) {
+            // 本地双人模式：WASD控制玩家1
+            if (snake->canChangeDirection(Direction::RIGHT)) {
+                snake->setDirection(Direction::RIGHT);
+                handled = true;
+            }
+        } else if ((currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) && snake) {
             if (snake->canChangeDirection(Direction::RIGHT)) {
                 snake->setDirection(Direction::RIGHT);
                 handled = true;
@@ -897,7 +1034,9 @@ void GameWidget::keyPressEvent(QKeyEvent *event)
         
     case Qt::Key_R:
         if (currentState == GameState::GAME_OVER) {
-            if (isMultiplayer) {
+            if (isLocalCoop) {
+                startLocalCoopGame();
+            } else if (isMultiplayer) {
                 startMultiPlayerGame(isHost);
             } else {
                 startSinglePlayerGame();
@@ -1176,5 +1315,219 @@ void GameWidget::setMultiPlayerManager(MultiPlayerGameManager* manager)
         
         // 设置网络管理器
         multiPlayerManager->setNetworkManager(networkManager);
+    }
+}
+
+void GameWidget::setLocalCoopMode(CharacterType player1Character, CharacterType player2Character)
+{
+    this->player1Character = player1Character;
+    this->player2Character = player2Character;
+    isLocalCoop = true;
+    isMultiplayer = false;
+}
+
+void GameWidget::startLocalCoopGame()
+{
+    qDebug() << "Starting local coop game";
+    
+    currentState = GameState::PLAYING;
+    isLocalCoop = true;
+    isMultiplayer = false;
+    
+    // 重置游戏状态
+    player1Score = 0;
+    player2Score = 0;
+    player1Alive = true;
+    player2Alive = true;
+    level = 1;
+    currentSpeed = baseSpeed;
+    
+    // 设置玩家角色
+    snake->setCharacter(player1Character);
+    player2Snake->setCharacter(player2Character);
+    
+    // 初始化蛇的位置
+    snake->reset(Point(5, gridHeight / 2));
+    snake->setDirection(Direction::RIGHT);
+    
+    player2Snake->reset(Point(gridWidth - 6, gridHeight / 2));
+    player2Snake->setDirection(Direction::LEFT);
+    
+    // 生成食物
+    generateFood();
+    
+    // 启动游戏循环
+    gameTimer->start(currentSpeed);
+    
+    update();
+}
+
+void GameWidget::checkLocalCoopCollisions()
+{
+    // 检查玩家1的碰撞
+    if (player1Alive) {
+        Point head1 = snake->getHead();
+        
+        // 检查边界碰撞
+        if (head1.x < 0 || head1.x >= gridWidth || head1.y < 0 || head1.y >= gridHeight) {
+            player1Alive = false;
+        }
+        
+        // 检查自身碰撞
+        auto body1 = snake->getBody();
+        for (size_t i = 1; i < body1.size(); ++i) {
+            if (head1 == body1[i]) {
+                player1Alive = false;
+                break;
+            }
+        }
+        
+        // 检查与玩家2蛇身的碰撞
+        if (player2Alive && player2Snake) {
+            auto body2 = player2Snake->getBody();
+            for (const auto& segment : body2) {
+                if (head1 == segment) {
+                    player1Alive = false;
+                    break;
+                }
+            }
+        }
+        
+        // 检查食物碰撞
+        if (head1 == food->getPosition()) {
+            snake->grow();
+            player1Score += 10;
+            generateFood();
+        }
+    }
+    
+    // 检查玩家2的碰撞
+    if (player2Alive && player2Snake) {
+        Point head2 = player2Snake->getHead();
+        
+        // 检查边界碰撞
+        if (head2.x < 0 || head2.x >= gridWidth || head2.y < 0 || head2.y >= gridHeight) {
+            player2Alive = false;
+        }
+        
+        // 检查自身碰撞
+        auto body2 = player2Snake->getBody();
+        for (size_t i = 1; i < body2.size(); ++i) {
+            if (head2 == body2[i]) {
+                player2Alive = false;
+                break;
+            }
+        }
+        
+        // 检查与玩家1蛇身的碰撞
+        if (player1Alive) {
+            auto body1 = snake->getBody();
+            for (const auto& segment : body1) {
+                if (head2 == segment) {
+                    player2Alive = false;
+                    break;
+                }
+            }
+        }
+        
+        // 检查食物碰撞
+        if (head2 == food->getPosition()) {
+            player2Snake->grow();
+            player2Score += 10;
+            generateFood();
+        }
+    }
+    
+    // 检查游戏结束条件
+    if (!player1Alive && !player2Alive) {
+        // 平局
+        gameTimer->stop();
+        currentState = GameState::GAME_OVER;
+        QMessageBox::information(this, "游戏结束", "平局！");
+    } else if (!player1Alive) {
+        // 玩家2胜利
+        gameTimer->stop();
+        currentState = GameState::GAME_OVER;
+        QMessageBox::information(this, "游戏结束", "玩家2胜利！");
+    } else if (!player2Alive) {
+        // 玩家1胜利
+        gameTimer->stop();
+        currentState = GameState::GAME_OVER;
+        QMessageBox::information(this, "游戏结束", "玩家1胜利！");
+     }
+ }
+
+void GameWidget::drawLocalCoopSnakes(QPainter& painter, const QRect& gameRect)
+{
+    // 绘制玩家1的蛇
+    if (player1Alive && snake) {
+        const auto& body1 = snake->getBody();
+        if (!body1.empty()) {
+            // 绘制蛇头
+            Point head1 = body1.front();
+            QRect headRect1(gameRect.x() + head1.x * cellSize, 
+                           gameRect.y() + head1.y * cellSize, 
+                           cellSize, cellSize);
+            
+            QPixmap headPixmap1 = snake->getHeadPixmap();
+            if (!headPixmap1.isNull()) {
+                painter.drawPixmap(headRect1, headPixmap1);
+            } else {
+                painter.fillRect(headRect1, QColor(255, 215, 0)); // 金色备用
+            }
+            
+            // 绘制蛇身
+            QPixmap bodyPixmap1 = snake->getBodyPixmap();
+            for (auto it = body1.begin() + 1; it != body1.end(); ++it) {
+                int maxBodySize = (snake->getCharacter() == CharacterType::SPONGEBOB) ? 100 : 50;
+                int bodySize = qMin(maxBodySize, cellSize);
+                int bodyOffset = (cellSize - bodySize) / 2;
+                QRect bodyRect1(gameRect.x() + it->x * cellSize + bodyOffset, 
+                               gameRect.y() + it->y * cellSize + bodyOffset, 
+                               bodySize, bodySize);
+                
+                if (!bodyPixmap1.isNull()) {
+                    painter.drawPixmap(bodyRect1, bodyPixmap1);
+                } else {
+                    painter.fillRect(bodyRect1, QColor(255, 215, 0)); // 金色备用
+                }
+            }
+        }
+    }
+    
+    // 绘制玩家2的蛇
+    if (player2Alive && player2Snake) {
+        const auto& body2 = player2Snake->getBody();
+        if (!body2.empty()) {
+            // 绘制蛇头
+            Point head2 = body2.front();
+            QRect headRect2(gameRect.x() + head2.x * cellSize, 
+                           gameRect.y() + head2.y * cellSize, 
+                           cellSize, cellSize);
+            
+            QPixmap headPixmap2 = player2Snake->getHeadPixmap();
+            if (!headPixmap2.isNull()) {
+                painter.drawPixmap(headRect2, headPixmap2);
+            } else {
+                painter.fillRect(headRect2, QColor(255, 20, 147)); // 深粉色备用
+            }
+            
+            // 绘制蛇身
+            QPixmap bodyPixmap2 = player2Snake->getBodyPixmap();
+            for (auto it = body2.begin() + 1; it != body2.end(); ++it) {
+                int maxBodySize = (player2Snake->getCharacter() == CharacterType::SPONGEBOB) ? 100 : 50;
+                int bodySize = qMin(maxBodySize, cellSize);
+                int bodyOffset = (cellSize - bodySize) / 2;
+                QRect bodyRect2(gameRect.x() + it->x * cellSize + bodyOffset, 
+                               gameRect.y() + it->y * cellSize + bodyOffset, 
+                               bodySize, bodySize);
+                
+                if (!bodyPixmap2.isNull()) {
+                    painter.drawPixmap(bodyRect2, bodyPixmap2);
+                } else {
+                    painter.fillRect(bodyRect2, QColor(255, 20, 147)); // 深粉色备用
+                }
+            }
+        }
     }
 }

@@ -34,6 +34,8 @@ public:
     void setSinglePlayerGameMode(SinglePlayerMode mode);
     void startSinglePlayerGame();
     void startMultiPlayerGame(bool isHost = false);
+    void startLocalCoopGame();
+    void setLocalCoopMode(CharacterType player1Character, CharacterType player2Character);
     void createRoom(const QString& playerName, int maxPlayers = 4);
     void joinRoom(const QString& roomId, const QString& playerName);
     void leaveRoom();
@@ -87,12 +89,14 @@ private:
     void generateFood();
     void generateSpecialFood();
     void checkCollisions();
+    void checkLocalCoopCollisions();
     void updateScore(int points);
     void saveHighScore();
     void loadHighScores();
     void updateSpeed();
     void drawGrid(QPainter& painter, const QRect& gameRect);
     void drawSnake(QPainter& painter, const QRect& gameRect);
+    void drawLocalCoopSnakes(QPainter& painter, const QRect& gameRect);
     void drawFood(QPainter& painter, const QRect& gameRect);
     void drawMultiplayerSnakes(QPainter& painter, const QRect& gameRect);
     void drawUI(QPainter& painter);
@@ -119,10 +123,12 @@ private:
     GameState currentState;
     Difficulty currentDifficulty;
     bool isMultiplayer;
+    bool isLocalCoop;
     bool isHost;
     
     // 游戏对象
     Snake* snake;
+    Snake* player2Snake;  // 本地双人游戏的第二个玩家
     Food* food;
     QTimer* gameTimer;
     QTimer* specialFoodTimer;
@@ -148,6 +154,14 @@ private:
     
     // 单人游戏管理器
     SinglePlayerGameManager* singlePlayerManager;
+    
+    // 本地双人游戏相关
+    CharacterType player1Character;
+    CharacterType player2Character;
+    int player1Score;
+    int player2Score;
+    bool player1Alive;
+    bool player2Alive;
     
     // 高分记录
     QList<int> highScores;

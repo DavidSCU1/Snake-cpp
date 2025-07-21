@@ -36,6 +36,10 @@ set(PROJECT_SOURCES
         singleplayergamemanager.h
         singlemodeselection.cpp
         singlemodeselection.h
+        multiplayermodeselection.cpp
+        multiplayermodeselection.h
+        localcoopcharacterselection.cpp
+        localcoopcharacterselection.h
         oceanbackground.cpp
         oceanbackground.h
         resources.qrc

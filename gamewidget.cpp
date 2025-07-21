@@ -617,8 +617,15 @@ void GameWidget::paintEvent(QPaintEvent *event)
     QRect gameRect = gameArea->geometry();
     
     if (currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME || currentState == GameState::PAUSED) {
+        // 绘制游戏边框
+        painter.setPen(QPen(Qt::black, 3)); // 黑色边框，3像素宽度
+        painter.drawRect(gameRect);
+        
         // 设置绘制区域
         painter.setClipRect(gameRect);
+        
+        // 绘制网格
+        drawGrid(painter, gameRect);
         
         // 绘制食物
         drawFood(painter, gameRect);
@@ -670,10 +677,10 @@ void GameWidget::drawSnake(QPainter& painter, const QRect& gameRect)
     
     // 绘制蛇头
     Point head = body.front();
-    QRect headRect(gameRect.x() + head.x * cellSize + 1, 
-                   gameRect.y() + head.y * cellSize + 1, 
-                   cellSize - 2, cellSize - 2);
-    
+    QRect headRect(gameRect.x() + head.x * cellSize, 
+                   gameRect.y() + head.y * cellSize, 
+                   cellSize, cellSize);
+
     QPixmap headPixmap = snake->getHeadPixmap();
     if (!headPixmap.isNull()) {
         painter.drawPixmap(headRect, headPixmap);
@@ -682,13 +689,17 @@ void GameWidget::drawSnake(QPainter& painter, const QRect& gameRect)
         painter.fillRect(headRect, Qt::darkGreen);
         qDebug() << "Drew snake head with color at" << headRect;
     }
-    
+
     // 绘制蛇身
     QPixmap bodyPixmap = snake->getBodyPixmap();
     for (auto it = body.begin() + 1; it != body.end(); ++it) {
-        QRect bodyRect(gameRect.x() + it->x * cellSize + 1, 
-                       gameRect.y() + it->y * cellSize + 1, 
-                       cellSize - 2, cellSize - 2);
+        // 根据角色动态计算身体大小：海绵宝宝100像素，其他角色50像素
+        int maxBodySize = (snake->getCharacter() == CharacterType::SPONGEBOB) ? 100 : 50;
+        int bodySize = qMin(maxBodySize, cellSize);
+        int bodyOffset = (cellSize - bodySize) / 2;
+        QRect bodyRect(gameRect.x() + it->x * cellSize + bodyOffset, 
+                       gameRect.y() + it->y * cellSize + bodyOffset, 
+                       bodySize, bodySize);
         
         if (!bodyPixmap.isNull()) {
             painter.drawPixmap(bodyRect, bodyPixmap);
@@ -745,16 +756,22 @@ void GameWidget::drawMultiplayerSnakes(QPainter& painter, const QRect& gameRect)
         // 绘制其他玩家的蛇
         for (size_t i = 0; i < body.size(); ++i) {
             const Point& point = body[i];
-            QRect rect(gameRect.x() + point.x * cellSize + 1, 
-                       gameRect.y() + point.y * cellSize + 1, 
-                       cellSize - 2, cellSize - 2);
             
             if (i == 0) {
-                // 蛇头，颜色稍深
-                painter.fillRect(rect, playerColor.darker(120));
+                // 蛇头，使用完整的cellSize
+                QRect headRect(gameRect.x() + point.x * cellSize, 
+                               gameRect.y() + point.y * cellSize, 
+                               cellSize, cellSize);
+                painter.fillRect(headRect, playerColor.darker(120));
             } else {
-                // 蛇身
-                painter.fillRect(rect, playerColor);
+                // 蛇身，根据角色动态计算身体大小：海绵宝宝100像素，其他角色50像素
+                int maxBodySize = (character == CharacterType::SPONGEBOB) ? 100 : 50;
+                int bodySize = qMin(maxBodySize, cellSize);
+                int bodyOffset = (cellSize - bodySize) / 2;
+                QRect bodyRect(gameRect.x() + point.x * cellSize + bodyOffset, 
+                               gameRect.y() + point.y * cellSize + bodyOffset, 
+                               bodySize, bodySize);
+                painter.fillRect(bodyRect, playerColor);
             }
         }
         

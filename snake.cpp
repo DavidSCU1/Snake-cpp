@@ -140,25 +140,29 @@ void Snake::loadCharacterPixmaps()
     
     if (headRenderer.isValid()) {
         qDebug() << "Successfully loaded head SVG:" << headPath;
-        headPixmap = QPixmap(20, 20);
+        headPixmap = QPixmap(28, 28);  // 头部调大
         headPixmap.fill(Qt::transparent);
         QPainter painter(&headPixmap);
         headRenderer.render(&painter);
     } else {
         qDebug() << "Failed to load head SVG:" << headPath;
-        headPixmap = QPixmap(20, 20);
+        headPixmap = QPixmap(28, 28);
         headPixmap.fill(Qt::darkGreen);
     }
-    
+
     if (bodyRenderer.isValid()) {
         qDebug() << "Successfully loaded body SVG:" << bodyPath;
-        bodyPixmap = QPixmap(20, 20);
+        // 海绵宝宝使用100x100像素，其他角色使用50x50像素
+        int bodySize = (character == CharacterType::SPONGEBOB) ? 100 : 50;
+        bodyPixmap = QPixmap(bodySize, bodySize);
         bodyPixmap.fill(Qt::transparent);
         QPainter painter(&bodyPixmap);
         bodyRenderer.render(&painter);
     } else {
         qDebug() << "Failed to load body SVG:" << bodyPath;
-        bodyPixmap = QPixmap(20, 20);
+        // 海绵宝宝使用100x100像素，其他角色使用50x50像素
+        int bodySize = (character == CharacterType::SPONGEBOB) ? 100 : 50;
+        bodyPixmap = QPixmap(bodySize, bodySize);
         bodyPixmap.fill(Qt::green);
     }
 }

@@ -13,7 +13,7 @@ CharacterButton::CharacterButton(CharacterType character, QWidget *parent)
     loadCharacterInfo();
     setFixedSize(120, 150);
     setCheckable(true);
-    setStyleSheet("QPushButton { border: 2px solid #333; border-radius: 10px; background-color: #f0f0f0; }"
+    setStyleSheet("QPushButton { border: 2px solid #333; border-radius: 10px; background-color: #f0f0f0; font-family: '华文彩云'; }"
                   "QPushButton:checked { border: 3px solid #ff6b35; background-color: #ffe0d6; }"
                   "QPushButton:hover { background-color: #e0e0e0; }");
 }
@@ -32,8 +32,7 @@ void CharacterButton::paintEvent(QPaintEvent *event)
     }
     
     // 绘制角色名称
-    QFont font = painter.font();
-    font.setPointSize(10);
+    QFont font("华文彩云", 10);
     font.setBold(true);
     painter.setFont(font);
     painter.setPen(Qt::black);
@@ -131,8 +130,7 @@ void CharacterSelection::setupUI()
     // 标题
     titleLabel = new QLabel("选择你的角色", this);
     titleLabel->setAlignment(Qt::AlignCenter);
-    QFont titleFont = titleLabel->font();
-    titleFont.setPointSize(24);
+    QFont titleFont("华文彩云", 24);
     titleFont.setBold(true);
     titleLabel->setFont(titleFont);
     titleLabel->setStyleSheet("color: #ff6b35; margin: 20px;");
@@ -179,14 +177,14 @@ void CharacterSelection::setupUI()
     
     backButton = new QPushButton("返回", this);
     backButton->setFixedSize(100, 40);
-    backButton->setStyleSheet("QPushButton { background-color: #6c757d; color: white; border: none; border-radius: 5px; font-size: 14px; }"
+    backButton->setStyleSheet("QPushButton { background-color: #6c757d; color: white; border: none; border-radius: 5px; font-size: 14px; font-family: '华文彩云'; }"
                               "QPushButton:hover { background-color: #5a6268; }"
                               "QPushButton:pressed { background-color: #545b62; }");
     connect(backButton, &QPushButton::clicked, this, &CharacterSelection::onBackButtonClicked);
     
     startButton = new QPushButton("开始游戏", this);
     startButton->setFixedSize(120, 40);
-    startButton->setStyleSheet("QPushButton { background-color: #28a745; color: white; border: none; border-radius: 5px; font-size: 14px; }"
+    startButton->setStyleSheet("QPushButton { background-color: #28a745; color: white; border: none; border-radius: 5px; font-size: 14px; font-family: '华文彩云'; }"
                                "QPushButton:hover { background-color: #218838; }"
                                "QPushButton:pressed { background-color: #1e7e34; }");
     connect(startButton, &QPushButton::clicked, this, &CharacterSelection::onStartButtonClicked);

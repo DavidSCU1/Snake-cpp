@@ -36,6 +36,13 @@ set(PROJECT_SOURCES
         singleplayergamemanager.h
         singlemodeselection.cpp
         singlemodeselection.h
+        oceanbackground.cpp
+        oceanbackground.h
+        resources.qrc
+)
+
+set(TEST_RESOURCE_SOURCES
+        test_resource_simple.cpp
         resources.qrc
 )
 
@@ -84,6 +91,24 @@ install(TARGETS Snake_cpp
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+# Add test resource executable
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_executable(TestResource
+        MANUAL_FINALIZATION
+        ${TEST_RESOURCE_SOURCES}
+    )
+else()
+    add_executable(TestResource
+        ${TEST_RESOURCE_SOURCES}
+    )
+endif()
+
+target_link_libraries(TestResource PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+
+if(${QT_VERSION_MAJOR} EQUAL 6)
+    qt_finalize_executable(TestResource)
+endif()
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(Snake_cpp)

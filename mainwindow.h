@@ -18,6 +18,7 @@
 #include "networkmanager.h"
 #include "multiplayerlobby.h"
 #include "singlemodeselection.h"
+#include "oceanbackground.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -35,6 +36,7 @@ public:
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private slots:
     void showMainMenu();
@@ -71,6 +73,7 @@ private:
     NetworkManager* networkManager;
     MultiPlayerLobby* multiPlayerLobby;
     SingleModeSelection* singleModeSelection;
+    OceanBackground* oceanBackground;
     
     // 菜单页面
     QWidget* mainMenuWidget;

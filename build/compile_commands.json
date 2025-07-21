@@ -1,80 +1,104 @@
 [
 {
-  "directory": "D:/Snake_cpp/build",
-  "command": "D:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:/Snake_cpp/build/Snake_cpp_autogen/include -isystem D:/Qt/6.9.1/mingw_64/include/QtCore -isystem D:/Qt/6.9.1/mingw_64/include -isystem D:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/Qt/6.9.1/mingw_64/include/QtWidgets -isystem D:/Qt/6.9.1/mingw_64/include/QtGui -isystem D:/Qt/6.9.1/mingw_64/include/QtNetwork -isystem D:/Qt/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\Snake_cpp_autogen\\mocs_compilation.cpp.obj -c D:\\Snake_cpp\\build\\Snake_cpp_autogen\\mocs_compilation.cpp",
-  "file": "D:\\Snake_cpp\\build\\Snake_cpp_autogen\\mocs_compilation.cpp",
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\Snake_cpp_autogen\\mocs_compilation.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\build\\Snake_cpp_autogen\\mocs_compilation.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\build\\Snake_cpp_autogen\\mocs_compilation.cpp",
   "output": "CMakeFiles\\Snake_cpp.dir\\Snake_cpp_autogen\\mocs_compilation.cpp.obj"
 },
 {
-  "directory": "D:/Snake_cpp/build",
-  "command": "D:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:/Snake_cpp/build/Snake_cpp_autogen/include -isystem D:/Qt/6.9.1/mingw_64/include/QtCore -isystem D:/Qt/6.9.1/mingw_64/include -isystem D:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/Qt/6.9.1/mingw_64/include/QtWidgets -isystem D:/Qt/6.9.1/mingw_64/include/QtGui -isystem D:/Qt/6.9.1/mingw_64/include/QtNetwork -isystem D:/Qt/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\main.cpp.obj -c D:\\Snake_cpp\\main.cpp",
-  "file": "D:\\Snake_cpp\\main.cpp",
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\main.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\main.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\main.cpp",
   "output": "CMakeFiles\\Snake_cpp.dir\\main.cpp.obj"
 },
 {
-  "directory": "D:/Snake_cpp/build",
-  "command": "D:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:/Snake_cpp/build/Snake_cpp_autogen/include -isystem D:/Qt/6.9.1/mingw_64/include/QtCore -isystem D:/Qt/6.9.1/mingw_64/include -isystem D:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/Qt/6.9.1/mingw_64/include/QtWidgets -isystem D:/Qt/6.9.1/mingw_64/include/QtGui -isystem D:/Qt/6.9.1/mingw_64/include/QtNetwork -isystem D:/Qt/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\mainwindow.cpp.obj -c D:\\Snake_cpp\\mainwindow.cpp",
-  "file": "D:\\Snake_cpp\\mainwindow.cpp",
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\mainwindow.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\mainwindow.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\mainwindow.cpp",
   "output": "CMakeFiles\\Snake_cpp.dir\\mainwindow.cpp.obj"
 },
 {
-  "directory": "D:/Snake_cpp/build",
-  "command": "D:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:/Snake_cpp/build/Snake_cpp_autogen/include -isystem D:/Qt/6.9.1/mingw_64/include/QtCore -isystem D:/Qt/6.9.1/mingw_64/include -isystem D:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/Qt/6.9.1/mingw_64/include/QtWidgets -isystem D:/Qt/6.9.1/mingw_64/include/QtGui -isystem D:/Qt/6.9.1/mingw_64/include/QtNetwork -isystem D:/Qt/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\gamewidget.cpp.obj -c D:\\Snake_cpp\\gamewidget.cpp",
-  "file": "D:\\Snake_cpp\\gamewidget.cpp",
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\gamewidget.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\gamewidget.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\gamewidget.cpp",
   "output": "CMakeFiles\\Snake_cpp.dir\\gamewidget.cpp.obj"
 },
 {
-  "directory": "D:/Snake_cpp/build",
-  "command": "D:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:/Snake_cpp/build/Snake_cpp_autogen/include -isystem D:/Qt/6.9.1/mingw_64/include/QtCore -isystem D:/Qt/6.9.1/mingw_64/include -isystem D:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/Qt/6.9.1/mingw_64/include/QtWidgets -isystem D:/Qt/6.9.1/mingw_64/include/QtGui -isystem D:/Qt/6.9.1/mingw_64/include/QtNetwork -isystem D:/Qt/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\snake.cpp.obj -c D:\\Snake_cpp\\snake.cpp",
-  "file": "D:\\Snake_cpp\\snake.cpp",
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\snake.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\snake.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\snake.cpp",
   "output": "CMakeFiles\\Snake_cpp.dir\\snake.cpp.obj"
 },
 {
-  "directory": "D:/Snake_cpp/build",
-  "command": "D:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:/Snake_cpp/build/Snake_cpp_autogen/include -isystem D:/Qt/6.9.1/mingw_64/include/QtCore -isystem D:/Qt/6.9.1/mingw_64/include -isystem D:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/Qt/6.9.1/mingw_64/include/QtWidgets -isystem D:/Qt/6.9.1/mingw_64/include/QtGui -isystem D:/Qt/6.9.1/mingw_64/include/QtNetwork -isystem D:/Qt/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\food.cpp.obj -c D:\\Snake_cpp\\food.cpp",
-  "file": "D:\\Snake_cpp\\food.cpp",
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\food.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\food.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\food.cpp",
   "output": "CMakeFiles\\Snake_cpp.dir\\food.cpp.obj"
 },
 {
-  "directory": "D:/Snake_cpp/build",
-  "command": "D:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:/Snake_cpp/build/Snake_cpp_autogen/include -isystem D:/Qt/6.9.1/mingw_64/include/QtCore -isystem D:/Qt/6.9.1/mingw_64/include -isystem D:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/Qt/6.9.1/mingw_64/include/QtWidgets -isystem D:/Qt/6.9.1/mingw_64/include/QtGui -isystem D:/Qt/6.9.1/mingw_64/include/QtNetwork -isystem D:/Qt/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\networkmanager.cpp.obj -c D:\\Snake_cpp\\networkmanager.cpp",
-  "file": "D:\\Snake_cpp\\networkmanager.cpp",
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\networkmanager.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\networkmanager.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\networkmanager.cpp",
   "output": "CMakeFiles\\Snake_cpp.dir\\networkmanager.cpp.obj"
 },
 {
-  "directory": "D:/Snake_cpp/build",
-  "command": "D:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:/Snake_cpp/build/Snake_cpp_autogen/include -isystem D:/Qt/6.9.1/mingw_64/include/QtCore -isystem D:/Qt/6.9.1/mingw_64/include -isystem D:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/Qt/6.9.1/mingw_64/include/QtWidgets -isystem D:/Qt/6.9.1/mingw_64/include/QtGui -isystem D:/Qt/6.9.1/mingw_64/include/QtNetwork -isystem D:/Qt/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\characterselection.cpp.obj -c D:\\Snake_cpp\\characterselection.cpp",
-  "file": "D:\\Snake_cpp\\characterselection.cpp",
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\characterselection.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\characterselection.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\characterselection.cpp",
   "output": "CMakeFiles\\Snake_cpp.dir\\characterselection.cpp.obj"
 },
 {
-  "directory": "D:/Snake_cpp/build",
-  "command": "D:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:/Snake_cpp/build/Snake_cpp_autogen/include -isystem D:/Qt/6.9.1/mingw_64/include/QtCore -isystem D:/Qt/6.9.1/mingw_64/include -isystem D:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/Qt/6.9.1/mingw_64/include/QtWidgets -isystem D:/Qt/6.9.1/mingw_64/include/QtGui -isystem D:/Qt/6.9.1/mingw_64/include/QtNetwork -isystem D:/Qt/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\multiplayergamemanager.cpp.obj -c D:\\Snake_cpp\\multiplayergamemanager.cpp",
-  "file": "D:\\Snake_cpp\\multiplayergamemanager.cpp",
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\multiplayergamemanager.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\multiplayergamemanager.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\multiplayergamemanager.cpp",
   "output": "CMakeFiles\\Snake_cpp.dir\\multiplayergamemanager.cpp.obj"
 },
 {
-  "directory": "D:/Snake_cpp/build",
-  "command": "D:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:/Snake_cpp/build/Snake_cpp_autogen/include -isystem D:/Qt/6.9.1/mingw_64/include/QtCore -isystem D:/Qt/6.9.1/mingw_64/include -isystem D:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/Qt/6.9.1/mingw_64/include/QtWidgets -isystem D:/Qt/6.9.1/mingw_64/include/QtGui -isystem D:/Qt/6.9.1/mingw_64/include/QtNetwork -isystem D:/Qt/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\multiplayerlobby.cpp.obj -c D:\\Snake_cpp\\multiplayerlobby.cpp",
-  "file": "D:\\Snake_cpp\\multiplayerlobby.cpp",
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\multiplayerlobby.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\multiplayerlobby.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\multiplayerlobby.cpp",
   "output": "CMakeFiles\\Snake_cpp.dir\\multiplayerlobby.cpp.obj"
 },
 {
-  "directory": "D:/Snake_cpp/build",
-  "command": "D:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:/Snake_cpp/build/Snake_cpp_autogen/include -isystem D:/Qt/6.9.1/mingw_64/include/QtCore -isystem D:/Qt/6.9.1/mingw_64/include -isystem D:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/Qt/6.9.1/mingw_64/include/QtWidgets -isystem D:/Qt/6.9.1/mingw_64/include/QtGui -isystem D:/Qt/6.9.1/mingw_64/include/QtNetwork -isystem D:/Qt/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\singleplayergamemanager.cpp.obj -c D:\\Snake_cpp\\singleplayergamemanager.cpp",
-  "file": "D:\\Snake_cpp\\singleplayergamemanager.cpp",
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\singleplayergamemanager.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\singleplayergamemanager.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\singleplayergamemanager.cpp",
   "output": "CMakeFiles\\Snake_cpp.dir\\singleplayergamemanager.cpp.obj"
 },
 {
-  "directory": "D:/Snake_cpp/build",
-  "command": "D:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:/Snake_cpp/build/Snake_cpp_autogen/include -isystem D:/Qt/6.9.1/mingw_64/include/QtCore -isystem D:/Qt/6.9.1/mingw_64/include -isystem D:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/Qt/6.9.1/mingw_64/include/QtWidgets -isystem D:/Qt/6.9.1/mingw_64/include/QtGui -isystem D:/Qt/6.9.1/mingw_64/include/QtNetwork -isystem D:/Qt/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\singlemodeselection.cpp.obj -c D:\\Snake_cpp\\singlemodeselection.cpp",
-  "file": "D:\\Snake_cpp\\singlemodeselection.cpp",
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\singlemodeselection.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\singlemodeselection.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\singlemodeselection.cpp",
   "output": "CMakeFiles\\Snake_cpp.dir\\singlemodeselection.cpp.obj"
 },
 {
-  "directory": "D:/Snake_cpp/build",
-  "command": "D:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:/Snake_cpp/build/Snake_cpp_autogen/include -isystem D:/Qt/6.9.1/mingw_64/include/QtCore -isystem D:/Qt/6.9.1/mingw_64/include -isystem D:/Qt/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/Qt/6.9.1/mingw_64/include/QtWidgets -isystem D:/Qt/6.9.1/mingw_64/include/QtGui -isystem D:/Qt/6.9.1/mingw_64/include/QtNetwork -isystem D:/Qt/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\Snake_cpp_autogen\\EWIEGA46WW\\qrc_resources.cpp.obj -c D:\\Snake_cpp\\build\\Snake_cpp_autogen\\EWIEGA46WW\\qrc_resources.cpp",
-  "file": "D:\\Snake_cpp\\build\\Snake_cpp_autogen\\EWIEGA46WW\\qrc_resources.cpp",
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\oceanbackground.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\oceanbackground.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\oceanbackground.cpp",
+  "output": "CMakeFiles\\Snake_cpp.dir\\oceanbackground.cpp.obj"
+},
+{
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg -g -std=gnu++17 -o CMakeFiles\\Snake_cpp.dir\\Snake_cpp_autogen\\EWIEGA46WW\\qrc_resources.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\build\\Snake_cpp_autogen\\EWIEGA46WW\\qrc_resources.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\build\\Snake_cpp_autogen\\EWIEGA46WW\\qrc_resources.cpp",
   "output": "CMakeFiles\\Snake_cpp.dir\\Snake_cpp_autogen\\EWIEGA46WW\\qrc_resources.cpp.obj"
+},
+{
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/TestResource_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -g -std=gnu++17 -o CMakeFiles\\TestResource.dir\\TestResource_autogen\\mocs_compilation.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\build\\TestResource_autogen\\mocs_compilation.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\build\\TestResource_autogen\\mocs_compilation.cpp",
+  "output": "CMakeFiles\\TestResource.dir\\TestResource_autogen\\mocs_compilation.cpp.obj"
+},
+{
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/TestResource_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -g -std=gnu++17 -o CMakeFiles\\TestResource.dir\\test_resource_simple.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\test_resource_simple.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\test_resource_simple.cpp",
+  "output": "CMakeFiles\\TestResource.dir\\test_resource_simple.cpp.obj"
+},
+{
+  "directory": "C:/Users/ROG/Desktop/Snake-cpp/build",
+  "command": "D:\\QT\\Tools\\mingw1310_64\\bin\\c++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/Users/ROG/Desktop/Snake-cpp/build/TestResource_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -g -std=gnu++17 -o CMakeFiles\\TestResource.dir\\TestResource_autogen\\EWIEGA46WW\\qrc_resources.cpp.obj -c C:\\Users\\ROG\\Desktop\\Snake-cpp\\build\\TestResource_autogen\\EWIEGA46WW\\qrc_resources.cpp",
+  "file": "C:\\Users\\ROG\\Desktop\\Snake-cpp\\build\\TestResource_autogen\\EWIEGA46WW\\qrc_resources.cpp",
+  "output": "CMakeFiles\\TestResource.dir\\TestResource_autogen\\EWIEGA46WW\\qrc_resources.cpp.obj"
 }
 ]

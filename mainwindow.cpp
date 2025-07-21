@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     , selectedCharacter(CharacterType::SPONGEBOB)
     , selectedDifficulty(Difficulty::NORMAL)
     , isMultiplayerHost(false)
+    , oceanBackground(nullptr)
 {
     qDebug() << "MainWindow constructor started";
     ui->setupUi(this);
@@ -34,9 +35,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupUI()
 {
+    // 创建海洋背景
+    oceanBackground = new OceanBackground(this);
+    oceanBackground->setGeometry(0, 0, width(), height());
+    
     // 创建堆叠窗口部件
     stackedWidget = new QStackedWidget(this);
+    stackedWidget->setStyleSheet("QStackedWidget { background: transparent; }");
     setCentralWidget(stackedWidget);
+    
+    // 确保背景在最底层
+    oceanBackground->lower();
+    stackedWidget->raise();
     
     // 创建各个页面
     setupMainMenu();
@@ -79,7 +89,7 @@ void MainWindow::setupUI()
     
     // 设置样式
     setStyleSheet(
-        "QMainWindow { background-color: #F0F8FF; }"
+        "QMainWindow { background: transparent; }"
         "QPushButton { "
         "    background-color: #4169E1; "
         "    color: white; "
@@ -88,6 +98,7 @@ void MainWindow::setupUI()
         "    padding: 12px 24px; "
         "    font-size: 14px; "
         "    font-weight: bold; "
+        "    font-family: '华文彩云'; "
         "}"
         "QPushButton:hover { background-color: #6495ED; }"
         "QPushButton:pressed { background-color: #0000CD; }"
@@ -98,6 +109,8 @@ void MainWindow::setupUI()
 void MainWindow::setupMainMenu()
 {
     mainMenuWidget = new QWidget(this);
+    mainMenuWidget->setStyleSheet("QWidget#mainMenuWidget { background: transparent; }");
+    mainMenuWidget->setObjectName("mainMenuWidget");
     QVBoxLayout* layout = new QVBoxLayout(mainMenuWidget);
     layout->setAlignment(Qt::AlignCenter);
     layout->setSpacing(30);
@@ -105,8 +118,7 @@ void MainWindow::setupMainMenu()
     // 标题
     titleLabel = new QLabel("🧽 海绵宝宝贪吃蛇 🧽", mainMenuWidget);
     titleLabel->setAlignment(Qt::AlignCenter);
-    QFont titleFont = titleLabel->font();
-    titleFont.setPointSize(36);
+    QFont titleFont("华文彩云", 48);
     titleFont.setBold(true);
     titleLabel->setFont(titleFont);
     titleLabel->setStyleSheet("color: #FF6347; margin: 30px;");
@@ -153,6 +165,8 @@ void MainWindow::setupMainMenu()
 void MainWindow::setupDifficultyMenu()
 {
     difficultyMenuWidget = new QWidget(this);
+    difficultyMenuWidget->setStyleSheet("QWidget#difficultyMenuWidget { background: transparent; }");
+    difficultyMenuWidget->setObjectName("difficultyMenuWidget");
     QVBoxLayout* layout = new QVBoxLayout(difficultyMenuWidget);
     layout->setAlignment(Qt::AlignCenter);
     layout->setSpacing(30);
@@ -160,8 +174,7 @@ void MainWindow::setupDifficultyMenu()
     // 标题
     difficultyLabel = new QLabel("选择难度", difficultyMenuWidget);
     difficultyLabel->setAlignment(Qt::AlignCenter);
-    QFont font = difficultyLabel->font();
-    font.setPointSize(24);
+    QFont font("华文彩云", 24);
     font.setBold(true);
     difficultyLabel->setFont(font);
     difficultyLabel->setStyleSheet("color: #FF6347; margin: 20px;");
@@ -217,6 +230,8 @@ void MainWindow::setupDifficultyMenu()
 void MainWindow::setupMultiplayerMenu()
 {
     multiplayerMenuWidget = new QWidget(this);
+    multiplayerMenuWidget->setStyleSheet("QWidget#multiplayerMenuWidget { background: transparent; }");
+    multiplayerMenuWidget->setObjectName("multiplayerMenuWidget");
     QVBoxLayout* layout = new QVBoxLayout(multiplayerMenuWidget);
     layout->setAlignment(Qt::AlignCenter);
     layout->setSpacing(30);
@@ -224,8 +239,7 @@ void MainWindow::setupMultiplayerMenu()
     // 标题
     multiplayerLabel = new QLabel("多人游戏", multiplayerMenuWidget);
     multiplayerLabel->setAlignment(Qt::AlignCenter);
-    QFont font = multiplayerLabel->font();
-    font.setPointSize(24);
+    QFont font("华文彩云", 24);
     font.setBold(true);
     multiplayerLabel->setFont(font);
     multiplayerLabel->setStyleSheet("color: #FF6347; margin: 20px;");
@@ -284,6 +298,8 @@ void MainWindow::setupMultiplayerMenu()
 void MainWindow::setupHighScoresMenu()
 {
     highScoresWidget = new QWidget(this);
+    highScoresWidget->setStyleSheet("QWidget#highScoresWidget { background: transparent; }");
+    highScoresWidget->setObjectName("highScoresWidget");
     QVBoxLayout* layout = new QVBoxLayout(highScoresWidget);
     layout->setAlignment(Qt::AlignCenter);
     layout->setSpacing(20);
@@ -291,8 +307,7 @@ void MainWindow::setupHighScoresMenu()
     // 标题
     highScoresLabel = new QLabel("🏆 高分榜 🏆", highScoresWidget);
     highScoresLabel->setAlignment(Qt::AlignCenter);
-    QFont font = highScoresLabel->font();
-    font.setPointSize(24);
+    QFont font("华文彩云", 24);
     font.setBold(true);
     highScoresLabel->setFont(font);
     highScoresLabel->setStyleSheet("color: #FF6347; margin: 20px;");
@@ -518,4 +533,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     
     // 如果事件未被处理，调用基类实现
     QMainWindow::keyPressEvent(event);
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    QMainWindow::resizeEvent(event);
+    if (oceanBackground) {
+        oceanBackground->setGeometry(0, 0, width(), height());
+    }
 }

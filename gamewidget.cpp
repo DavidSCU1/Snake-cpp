@@ -92,17 +92,17 @@ void GameWidget::setupUI()
     
     // 分数标签
     scoreLabel = new QLabel("分数: 0", sidePanel);
-    scoreLabel->setStyleSheet("font-size: 16px; font-weight: bold; color: #FF6347;");
+    scoreLabel->setStyleSheet("font-size: 16px; font-weight: bold; color: #FF6347; font-family: '华文彩云';");
     sidePanelLayout->addWidget(scoreLabel);
     
     // 等级标签
     levelLabel = new QLabel("等级: 1", sidePanel);
-    levelLabel->setStyleSheet("font-size: 14px; font-weight: bold; color: #32CD32;");
+    levelLabel->setStyleSheet("font-size: 14px; font-weight: bold; color: #32CD32; font-family: '华文彩云';");
     sidePanelLayout->addWidget(levelLabel);
     
     // 玩家标签（多人游戏时显示）
     playersLabel = new QLabel("在线玩家:", sidePanel);
-    playersLabel->setStyleSheet("font-size: 14px; font-weight: bold; color: #4169E1;");
+    playersLabel->setStyleSheet("font-size: 14px; font-weight: bold; color: #4169E1; font-family: '华文彩云';");
     playersLabel->setVisible(false);
     sidePanelLayout->addWidget(playersLabel);
     
@@ -117,7 +117,7 @@ void GameWidget::setupUI()
     
     // 暂停按钮
     pauseButton = new QPushButton("暂停", sidePanel);
-    pauseButton->setStyleSheet("QPushButton { background-color: #FFA500; color: white; border: none; border-radius: 5px; padding: 8px; font-size: 12px; }"
+    pauseButton->setStyleSheet("QPushButton { background-color: #FFA500; color: white; border: none; border-radius: 5px; padding: 8px; font-size: 12px; font-family: '华文彩云'; }"
                                "QPushButton:hover { background-color: #FF8C00; }"
                                "QPushButton:pressed { background-color: #FF7F00; }");
     connect(pauseButton, &QPushButton::clicked, [this]() {
@@ -131,7 +131,7 @@ void GameWidget::setupUI()
     
     // 返回菜单按钮
     menuButton = new QPushButton("返回菜单", sidePanel);
-    menuButton->setStyleSheet("QPushButton { background-color: #DC143C; color: white; border: none; border-radius: 5px; padding: 8px; font-size: 12px; }"
+    menuButton->setStyleSheet("QPushButton { background-color: #DC143C; color: white; border: none; border-radius: 5px; padding: 8px; font-size: 12px; font-family: '华文彩云'; }"
                               "QPushButton:hover { background-color: #B22222; }"
                               "QPushButton:pressed { background-color: #A0522D; }");
     connect(menuButton, &QPushButton::clicked, [this]() {
@@ -765,7 +765,7 @@ void GameWidget::drawMultiplayerSnakes(QPainter& painter, const QRect& gameRect)
                            gameRect.y() + head.y * cellSize - 15, 
                            cellSize * 3, 15);
             painter.setPen(Qt::black);
-            painter.setFont(QFont("Arial", 8));
+            painter.setFont(QFont("华文彩云", 8));
             painter.drawText(nameRect, Qt::AlignCenter, playerName);
         }
     }
@@ -778,8 +778,7 @@ void GameWidget::drawPauseOverlay(QPainter& painter, const QRect& gameRect)
     
     // 暂停文字
     painter.setPen(Qt::white);
-    QFont font = painter.font();
-    font.setPointSize(24);
+    QFont font("华文彩云", 24);
     font.setBold(true);
     painter.setFont(font);
     
@@ -793,8 +792,7 @@ void GameWidget::drawGameOverOverlay(QPainter& painter, const QRect& gameRect)
     
     // 游戏结束文字
     painter.setPen(Qt::red);
-    QFont font = painter.font();
-    font.setPointSize(28);
+    QFont font("华文彩云", 28);
     font.setBold(true);
     painter.setFont(font);
     

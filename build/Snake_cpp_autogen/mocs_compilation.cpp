@@ -6,6 +6,7 @@
 #include "EWIEGA46WW/moc_multiplayergamemanager.cpp"
 #include "EWIEGA46WW/moc_multiplayerlobby.cpp"
 #include "EWIEGA46WW/moc_networkmanager.cpp"
+#include "EWIEGA46WW/moc_oceanbackground.cpp"
 #include "EWIEGA46WW/moc_singlemodeselection.cpp"
 #include "EWIEGA46WW/moc_singleplayergamemanager.cpp"
 #include "EWIEGA46WW/moc_snake.cpp"

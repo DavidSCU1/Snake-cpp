@@ -1,9 +1,0 @@
-D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/Snake_cpp.dir
-D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
-D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
-D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
-D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/install.dir
-D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
-D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
-D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/Snake_cpp_autogen_timestamp_deps.dir
-D:/Snake_cpp/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/CMakeFiles/Snake_cpp_autogen.dir

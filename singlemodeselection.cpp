@@ -22,7 +22,7 @@ SingleModeSelection::SingleModeSelection(QWidget *parent)
         "    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, "
         "        stop:0 #1e3c72, stop:1 #2a5298); "
         "    color: white; "
-        "    font-family: 'Microsoft YaHei', Arial, sans-serif; "
+        "    font-family: '华文彩云', Arial, sans-serif; "
         "}"
     );
 }
@@ -512,7 +512,7 @@ void AchievementWidget::setupUI(const Achievement& achievement)
     iconLabel = new QLabel(achievement.unlocked ? "🏆" : "🔒", this);
     iconLabel->setFixedSize(30, 30);
     iconLabel->setAlignment(Qt::AlignCenter);
-    iconLabel->setStyleSheet("font-size: 20px;");
+    iconLabel->setStyleSheet("font-size: 20px; font-family: '华文彩云';");
     layout->addWidget(iconLabel);
     
     // 文本信息

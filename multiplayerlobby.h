@@ -26,6 +26,8 @@ public:
     ~MultiPlayerLobby();
     
     void setGameWidget(GameWidget* gameWidget);
+    void setNetworkMode(bool isNetworkMode); // 新增：设置网络模式
+    void requestRoomListFromServer(); // 新增：从服务器请求房间列表
     
 signals:
     void backToMenu();
@@ -54,9 +56,12 @@ private:
     void clearRoomInfo();
     bool validatePlayerName() const;
     
-    // UI 组件
+    // UI组件
     QVBoxLayout* mainLayout;
     QHBoxLayout* contentLayout;
+    
+    // 网络模式
+    bool isNetworkMode;
     
     // 左侧房间列表
     QWidget* roomListWidget;

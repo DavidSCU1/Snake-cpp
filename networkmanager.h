@@ -37,14 +37,18 @@ public:
     // 获取连接的玩家数量
     int getConnectedPlayersCount() const;
     
+    void sendRoomList(const QJsonArray& roomList); // 新增：服务器向客户端发送房间列表
+    void requestRoomList(); // 新增：客户端请求房间列表
 signals:
     void playerConnected(const QString& playerName);
     void playerDisconnected(const QString& playerName);
-    void playerInfoReceived(const PlayerInfo& playerInfo);
+    void playerInfoReceived(const QJsonObject& data, QTcpSocket* sender = nullptr);
     void gameStateReceived(const QJsonObject& gameState);
-    void scoreUpdateReceived(const QString& playerName, int score);
-    void playerPositionReceived(const QString& playerName, const std::deque<Point>& snakeBody);
+    void scoreUpdateReceived(const QJsonObject& data);
+    void playerPositionReceived(const QJsonObject& data);
     void connectionError(const QString& error);
+    void requestRoomListReceived(QTcpSocket* requester); // 新增：收到房间列表请求信号
+    void roomListReceived(const QJsonArray& rooms); // 新增：收到房间列表信号
     
 private slots:
     void onNewConnection();

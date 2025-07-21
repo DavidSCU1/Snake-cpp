@@ -174,6 +174,19 @@ Snake_cpp/fast:
 .PHONY : Snake_cpp/fast
 
 #=============================================================================
+# Target rules for targets named TestResource
+
+# Build rule for target.
+TestResource: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 TestResource
+.PHONY : TestResource
+
+# fast build rule for target.
+TestResource/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TestResource.dir\build.make CMakeFiles/TestResource.dir/build
+.PHONY : TestResource/fast
+
+#=============================================================================
 # Target rules for targets named Snake_cpp_autogen_timestamp_deps
 
 # Build rule for target.
@@ -198,6 +211,32 @@ Snake_cpp_autogen: cmake_check_build_system
 Snake_cpp_autogen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp_autogen.dir\build.make CMakeFiles/Snake_cpp_autogen.dir/build
 .PHONY : Snake_cpp_autogen/fast
+
+#=============================================================================
+# Target rules for targets named TestResource_autogen_timestamp_deps
+
+# Build rule for target.
+TestResource_autogen_timestamp_deps: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 TestResource_autogen_timestamp_deps
+.PHONY : TestResource_autogen_timestamp_deps
+
+# fast build rule for target.
+TestResource_autogen_timestamp_deps/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TestResource_autogen_timestamp_deps.dir\build.make CMakeFiles/TestResource_autogen_timestamp_deps.dir/build
+.PHONY : TestResource_autogen_timestamp_deps/fast
+
+#=============================================================================
+# Target rules for targets named TestResource_autogen
+
+# Build rule for target.
+TestResource_autogen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 TestResource_autogen
+.PHONY : TestResource_autogen
+
+# fast build rule for target.
+TestResource_autogen/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TestResource_autogen.dir\build.make CMakeFiles/TestResource_autogen.dir/build
+.PHONY : TestResource_autogen/fast
 
 Snake_cpp_autogen/EWIEGA46WW/qrc_resources.obj: Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj
 .PHONY : Snake_cpp_autogen/EWIEGA46WW/qrc_resources.obj
@@ -246,6 +285,54 @@ Snake_cpp_autogen/mocs_compilation.s: Snake_cpp_autogen/mocs_compilation.cpp.s
 Snake_cpp_autogen/mocs_compilation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp.dir\build.make CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.s
 .PHONY : Snake_cpp_autogen/mocs_compilation.cpp.s
+
+TestResource_autogen/EWIEGA46WW/qrc_resources.obj: TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj
+.PHONY : TestResource_autogen/EWIEGA46WW/qrc_resources.obj
+
+# target to build an object file
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TestResource.dir\build.make CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj
+.PHONY : TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj
+
+TestResource_autogen/EWIEGA46WW/qrc_resources.i: TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.i
+.PHONY : TestResource_autogen/EWIEGA46WW/qrc_resources.i
+
+# target to preprocess a source file
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TestResource.dir\build.make CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.i
+.PHONY : TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.i
+
+TestResource_autogen/EWIEGA46WW/qrc_resources.s: TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.s
+.PHONY : TestResource_autogen/EWIEGA46WW/qrc_resources.s
+
+# target to generate assembly for a file
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TestResource.dir\build.make CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.s
+.PHONY : TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.s
+
+TestResource_autogen/mocs_compilation.obj: TestResource_autogen/mocs_compilation.cpp.obj
+.PHONY : TestResource_autogen/mocs_compilation.obj
+
+# target to build an object file
+TestResource_autogen/mocs_compilation.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TestResource.dir\build.make CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.obj
+.PHONY : TestResource_autogen/mocs_compilation.cpp.obj
+
+TestResource_autogen/mocs_compilation.i: TestResource_autogen/mocs_compilation.cpp.i
+.PHONY : TestResource_autogen/mocs_compilation.i
+
+# target to preprocess a source file
+TestResource_autogen/mocs_compilation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TestResource.dir\build.make CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.i
+.PHONY : TestResource_autogen/mocs_compilation.cpp.i
+
+TestResource_autogen/mocs_compilation.s: TestResource_autogen/mocs_compilation.cpp.s
+.PHONY : TestResource_autogen/mocs_compilation.s
+
+# target to generate assembly for a file
+TestResource_autogen/mocs_compilation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TestResource.dir\build.make CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.s
+.PHONY : TestResource_autogen/mocs_compilation.cpp.s
 
 characterselection.obj: characterselection.cpp.obj
 .PHONY : characterselection.obj
@@ -318,6 +405,30 @@ gamewidget.s: gamewidget.cpp.s
 gamewidget.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp.dir\build.make CMakeFiles/Snake_cpp.dir/gamewidget.cpp.s
 .PHONY : gamewidget.cpp.s
+
+localcoopcharacterselection.obj: localcoopcharacterselection.cpp.obj
+.PHONY : localcoopcharacterselection.obj
+
+# target to build an object file
+localcoopcharacterselection.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp.dir\build.make CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj
+.PHONY : localcoopcharacterselection.cpp.obj
+
+localcoopcharacterselection.i: localcoopcharacterselection.cpp.i
+.PHONY : localcoopcharacterselection.i
+
+# target to preprocess a source file
+localcoopcharacterselection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp.dir\build.make CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.i
+.PHONY : localcoopcharacterselection.cpp.i
+
+localcoopcharacterselection.s: localcoopcharacterselection.cpp.s
+.PHONY : localcoopcharacterselection.s
+
+# target to generate assembly for a file
+localcoopcharacterselection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp.dir\build.make CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.s
+.PHONY : localcoopcharacterselection.cpp.s
 
 main.obj: main.cpp.obj
 .PHONY : main.obj
@@ -415,6 +526,30 @@ multiplayerlobby.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp.dir\build.make CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.s
 .PHONY : multiplayerlobby.cpp.s
 
+multiplayermodeselection.obj: multiplayermodeselection.cpp.obj
+.PHONY : multiplayermodeselection.obj
+
+# target to build an object file
+multiplayermodeselection.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp.dir\build.make CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj
+.PHONY : multiplayermodeselection.cpp.obj
+
+multiplayermodeselection.i: multiplayermodeselection.cpp.i
+.PHONY : multiplayermodeselection.i
+
+# target to preprocess a source file
+multiplayermodeselection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp.dir\build.make CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.i
+.PHONY : multiplayermodeselection.cpp.i
+
+multiplayermodeselection.s: multiplayermodeselection.cpp.s
+.PHONY : multiplayermodeselection.s
+
+# target to generate assembly for a file
+multiplayermodeselection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp.dir\build.make CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.s
+.PHONY : multiplayermodeselection.cpp.s
+
 networkmanager.obj: networkmanager.cpp.obj
 .PHONY : networkmanager.obj
 
@@ -438,6 +573,30 @@ networkmanager.s: networkmanager.cpp.s
 networkmanager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp.dir\build.make CMakeFiles/Snake_cpp.dir/networkmanager.cpp.s
 .PHONY : networkmanager.cpp.s
+
+oceanbackground.obj: oceanbackground.cpp.obj
+.PHONY : oceanbackground.obj
+
+# target to build an object file
+oceanbackground.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp.dir\build.make CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj
+.PHONY : oceanbackground.cpp.obj
+
+oceanbackground.i: oceanbackground.cpp.i
+.PHONY : oceanbackground.i
+
+# target to preprocess a source file
+oceanbackground.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp.dir\build.make CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.i
+.PHONY : oceanbackground.cpp.i
+
+oceanbackground.s: oceanbackground.cpp.s
+.PHONY : oceanbackground.s
+
+# target to generate assembly for a file
+oceanbackground.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp.dir\build.make CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.s
+.PHONY : oceanbackground.cpp.s
 
 singlemodeselection.obj: singlemodeselection.cpp.obj
 .PHONY : singlemodeselection.obj
@@ -511,6 +670,30 @@ snake.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Snake_cpp.dir\build.make CMakeFiles/Snake_cpp.dir/snake.cpp.s
 .PHONY : snake.cpp.s
 
+test_resource_simple.obj: test_resource_simple.cpp.obj
+.PHONY : test_resource_simple.obj
+
+# target to build an object file
+test_resource_simple.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TestResource.dir\build.make CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj
+.PHONY : test_resource_simple.cpp.obj
+
+test_resource_simple.i: test_resource_simple.cpp.i
+.PHONY : test_resource_simple.i
+
+# target to preprocess a source file
+test_resource_simple.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TestResource.dir\build.make CMakeFiles/TestResource.dir/test_resource_simple.cpp.i
+.PHONY : test_resource_simple.cpp.i
+
+test_resource_simple.s: test_resource_simple.cpp.s
+.PHONY : test_resource_simple.s
+
+# target to generate assembly for a file
+test_resource_simple.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TestResource.dir\build.make CMakeFiles/TestResource.dir/test_resource_simple.cpp.s
+.PHONY : test_resource_simple.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -525,13 +708,22 @@ help:
 	@echo ... rebuild_cache
 	@echo ... Snake_cpp_autogen
 	@echo ... Snake_cpp_autogen_timestamp_deps
+	@echo ... TestResource_autogen
+	@echo ... TestResource_autogen_timestamp_deps
 	@echo ... Snake_cpp
+	@echo ... TestResource
 	@echo ... Snake_cpp_autogen/EWIEGA46WW/qrc_resources.obj
 	@echo ... Snake_cpp_autogen/EWIEGA46WW/qrc_resources.i
 	@echo ... Snake_cpp_autogen/EWIEGA46WW/qrc_resources.s
 	@echo ... Snake_cpp_autogen/mocs_compilation.obj
 	@echo ... Snake_cpp_autogen/mocs_compilation.i
 	@echo ... Snake_cpp_autogen/mocs_compilation.s
+	@echo ... TestResource_autogen/EWIEGA46WW/qrc_resources.obj
+	@echo ... TestResource_autogen/EWIEGA46WW/qrc_resources.i
+	@echo ... TestResource_autogen/EWIEGA46WW/qrc_resources.s
+	@echo ... TestResource_autogen/mocs_compilation.obj
+	@echo ... TestResource_autogen/mocs_compilation.i
+	@echo ... TestResource_autogen/mocs_compilation.s
 	@echo ... characterselection.obj
 	@echo ... characterselection.i
 	@echo ... characterselection.s
@@ -541,6 +733,9 @@ help:
 	@echo ... gamewidget.obj
 	@echo ... gamewidget.i
 	@echo ... gamewidget.s
+	@echo ... localcoopcharacterselection.obj
+	@echo ... localcoopcharacterselection.i
+	@echo ... localcoopcharacterselection.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
@@ -553,9 +748,15 @@ help:
 	@echo ... multiplayerlobby.obj
 	@echo ... multiplayerlobby.i
 	@echo ... multiplayerlobby.s
+	@echo ... multiplayermodeselection.obj
+	@echo ... multiplayermodeselection.i
+	@echo ... multiplayermodeselection.s
 	@echo ... networkmanager.obj
 	@echo ... networkmanager.i
 	@echo ... networkmanager.s
+	@echo ... oceanbackground.obj
+	@echo ... oceanbackground.i
+	@echo ... oceanbackground.s
 	@echo ... singlemodeselection.obj
 	@echo ... singlemodeselection.i
 	@echo ... singlemodeselection.s
@@ -565,6 +766,9 @@ help:
 	@echo ... snake.obj
 	@echo ... snake.i
 	@echo ... snake.s
+	@echo ... test_resource_simple.obj
+	@echo ... test_resource_simple.i
+	@echo ... test_resource_simple.s
 .PHONY : help
 
 

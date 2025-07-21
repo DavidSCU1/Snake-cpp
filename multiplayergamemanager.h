@@ -68,6 +68,7 @@ public:
     
     // 网络管理
     void setNetworkManager(NetworkManager* manager);
+    NetworkManager* getNetworkManager() const; // 新增：获取NetworkManager实例
     void broadcastGameState(const QString& roomId);
     void sendPlayerUpdate(const QString& roomId, const QString& playerName);
     
@@ -81,12 +82,17 @@ signals:
     void playerCollision(const QString& roomId, const QString& playerName);
     void foodEaten(const QString& roomId, const QString& playerName, int points);
     void roomDestroyed(const QString& roomId);
+    void roomListUpdated(); // 新增：房间列表更新信号
     
 private slots:
     void onGameTick();
+    void onPlayerInfoReceived(const QJsonObject& data, QTcpSocket* sender = nullptr);
+    void onPlayerPositionReceived(const QJsonObject& data);
     void onNetworkPlayerInfoReceived(const PlayerInfo& playerInfo);
     void onNetworkPlayerPositionReceived(const QString& playerName, const std::deque<Point>& snakeBody);
     void onNetworkPlayerDisconnected(const QString& playerName);
+    void onRoomListRequested(QTcpSocket* requester);
+    void onRoomListReceived(const QJsonArray& roomArray); // 新增：处理收到的房间列表
     
 private:
     void initializeGameState(const QString& roomId);
@@ -96,6 +102,10 @@ private:
     void checkWinCondition(const QString& roomId);
     QSet<Point> getAllOccupiedPositions(const QString& roomId) const;
     QString generateRoomId() const;
+    
+    // 房间列表相关
+    QJsonArray getRoomListJson() const;
+    void syncRoomList();
     
     QMap<QString, GameRoom> rooms;
     QMap<QString, MultiPlayerGameState> gameStates;

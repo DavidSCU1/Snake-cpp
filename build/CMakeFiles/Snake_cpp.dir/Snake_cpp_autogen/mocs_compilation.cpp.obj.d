@@ -510,6 +510,10 @@ CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: \
  D:/Snake_cpp/singleplayergamemanager.h \
  D:/Qt/6.9.1/mingw_64/include/QtCore/QTime \
  D:/Qt/6.9.1/mingw_64/include/QtCore/qdatetime.h \
+ D:\Snake_cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_localcoopcharacterselection.cpp \
+ D:/Snake_cpp/localcoopcharacterselection.h \
+ D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGroupBox \
+ D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgroupbox.h \
  D:\Snake_cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_mainwindow.cpp \
  D:/Snake_cpp/mainwindow.h \
  D:/Qt/6.9.1/mingw_64/include/QtWidgets/QMainWindow \
@@ -531,8 +535,6 @@ CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: \
  D:/Snake_cpp/multiplayerlobby.h \
  D:/Qt/6.9.1/mingw_64/include/QtWidgets/QSpinBox \
  D:/Qt/6.9.1/mingw_64/include/QtWidgets/qspinbox.h \
- D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGroupBox \
- D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgroupbox.h \
  D:/Snake_cpp/singlemodeselection.h \
  D:/Qt/6.9.1/mingw_64/include/QtWidgets/QScrollArea \
  D:/Qt/6.9.1/mingw_64/include/QtWidgets/qscrollarea.h \
@@ -547,12 +549,38 @@ CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: \
  D:/Qt/6.9.1/mingw_64/include/QtCore/qeasingcurve.h \
  D:/Qt/6.9.1/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
  D:/Qt/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
+ D:/Snake_cpp/oceanbackground.h \
+ D:/Qt/6.9.1/mingw_64/include/QtGui/QPainter \
+ D:/Qt/6.9.1/mingw_64/include/QtGui/qpainter.h \
+ D:/Qt/6.9.1/mingw_64/include/QtCore/QParallelAnimationGroup \
+ D:/Qt/6.9.1/mingw_64/include/QtCore/qparallelanimationgroup.h \
+ D:/Qt/6.9.1/mingw_64/include/QtCore/qanimationgroup.h \
+ D:/Qt/6.9.1/mingw_64/include/QtCore/QSequentialAnimationGroup \
+ D:/Qt/6.9.1/mingw_64/include/QtCore/qsequentialanimationgroup.h \
+ D:/Qt/6.9.1/mingw_64/include/QtCore/QRandomGenerator \
+ D:/Qt/6.9.1/mingw_64/include/QtCore/qrandom.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/random \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/random.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/opt_random.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/pmmintrin.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/emmintrin.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/xmmintrin.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mmintrin.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mwaitintrin.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/random.tcc \
+ D:/Qt/6.9.1/mingw_64/include/QtGui/QResizeEvent \
+ D:/Snake_cpp/multiplayermodeselection.h \
+ D:/Snake_cpp/localcoopcharacterselection.h \
  D:\Snake_cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_multiplayergamemanager.cpp \
  D:/Snake_cpp/multiplayergamemanager.h \
  D:\Snake_cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_multiplayerlobby.cpp \
  D:/Snake_cpp/multiplayerlobby.h \
+ D:\Snake_cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_multiplayermodeselection.cpp \
+ D:/Snake_cpp/multiplayermodeselection.h \
  D:\Snake_cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_networkmanager.cpp \
  D:/Snake_cpp/networkmanager.h \
+ D:\Snake_cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_oceanbackground.cpp \
+ D:/Snake_cpp/oceanbackground.h \
  D:\Snake_cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_singlemodeselection.cpp \
  D:/Snake_cpp/singlemodeselection.h \
  D:\Snake_cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_singleplayergamemanager.cpp \

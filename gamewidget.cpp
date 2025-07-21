@@ -6,6 +6,9 @@
 #include <QFont>
 #include <QDebug>
 #include <QApplication>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QTcpSocket>
 
 GameWidget::GameWidget(QWidget *parent)
     : QWidget(parent)
@@ -50,7 +53,9 @@ GameWidget::GameWidget(QWidget *parent)
     // 网络信号
     connect(networkManager, &NetworkManager::playerConnected, this, &GameWidget::onPlayerConnected);
     connect(networkManager, &NetworkManager::playerDisconnected, this, &GameWidget::onPlayerDisconnected);
-    connect(networkManager, &NetworkManager::playerInfoReceived, this, &GameWidget::onPlayerInfoReceived);
+    connect(networkManager, &NetworkManager::playerInfoReceived, this, [this](const QJsonObject& data, QTcpSocket* sender) {
+        onPlayerInfoReceived(data, sender);
+    });
     connect(networkManager, &NetworkManager::scoreUpdateReceived, this, &GameWidget::onScoreUpdateReceived);
     connect(networkManager, &NetworkManager::playerPositionReceived, this, &GameWidget::onPlayerPositionReceived);
     connect(networkManager, &NetworkManager::connectionError, this, &GameWidget::onNetworkError);
@@ -605,16 +610,25 @@ void GameWidget::onPlayerDisconnected(const QString& playerName)
     playerAliveStatus.remove(playerName);
 }
 
-void GameWidget::onPlayerInfoReceived(const PlayerInfo& playerInfo)
+void GameWidget::onPlayerInfoReceived(const QJsonObject& data, QTcpSocket* sender)
 {
-    QString playerName = QString::fromStdString(playerInfo.name);
-    playerCharacters[playerName] = playerInfo.character;
-    playerScores[playerName] = playerInfo.score;
-    playerAliveStatus[playerName] = playerInfo.isAlive;
+    Q_UNUSED(sender)
+    QString playerName = data["name"].toString();
+    int characterInt = data["character"].toInt();
+    CharacterType character = static_cast<CharacterType>(characterInt);
+    int score = data["score"].toInt();
+    bool isAlive = data["isAlive"].toBool();
+    
+    playerCharacters[playerName] = character;
+    playerScores[playerName] = score;
+    playerAliveStatus[playerName] = isAlive;
 }
 
-void GameWidget::onScoreUpdateReceived(const QString& playerName, int score)
+void GameWidget::onScoreUpdateReceived(const QJsonObject& data)
 {
+    QString playerName = data["playerName"].toString();
+    int score = data["score"].toInt();
+    
     playerScores[playerName] = score;
     
     // 更新玩家列表显示
@@ -627,8 +641,20 @@ void GameWidget::onScoreUpdateReceived(const QString& playerName, int score)
     }
 }
 
-void GameWidget::onPlayerPositionReceived(const QString& playerName, const std::deque<Point>& snakeBody)
+void GameWidget::onPlayerPositionReceived(const QJsonObject& data)
 {
+    QString playerName = data["playerName"].toString();
+    QJsonArray bodyArray = data["snakeBody"].toArray();
+    
+    std::deque<Point> snakeBody;
+    for (const QJsonValue& value : bodyArray) {
+        QJsonObject pointObj = value.toObject();
+        Point point;
+        point.x = pointObj["x"].toInt();
+        point.y = pointObj["y"].toInt();
+        snakeBody.push_back(point);
+    }
+    
     otherPlayers[playerName] = snakeBody;
 }
 

@@ -4,6 +4,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QDateTime>
 
 MultiPlayerGameManager::MultiPlayerGameManager(QObject *parent)
     : QObject(parent)
@@ -40,6 +41,7 @@ QString MultiPlayerGameManager::createRoom(const QString& hostName, int maxPlaye
     emit roomCreated(roomId, room);
     
     qDebug() << "Room created:" << roomId << "by" << hostName;
+    syncRoomList();
     return roomId;
 }
 
@@ -362,12 +364,22 @@ void MultiPlayerGameManager::setNetworkManager(NetworkManager* manager)
     
     if (networkManager) {
         connect(networkManager, &NetworkManager::playerInfoReceived,
-                this, &MultiPlayerGameManager::onNetworkPlayerInfoReceived);
+                this, &MultiPlayerGameManager::onPlayerInfoReceived);
         connect(networkManager, &NetworkManager::playerPositionReceived,
-                this, &MultiPlayerGameManager::onNetworkPlayerPositionReceived);
+                this, &MultiPlayerGameManager::onPlayerPositionReceived);
         connect(networkManager, &NetworkManager::playerDisconnected,
                 this, &MultiPlayerGameManager::onNetworkPlayerDisconnected);
+        // 连接房间列表相关信号
+        connect(networkManager, &NetworkManager::requestRoomListReceived,
+                this, &MultiPlayerGameManager::onRoomListRequested);
+        connect(networkManager, &NetworkManager::roomListReceived,
+                this, &MultiPlayerGameManager::onRoomListReceived);
     }
+}
+
+NetworkManager* MultiPlayerGameManager::getNetworkManager() const
+{
+    return networkManager;
 }
 
 void MultiPlayerGameManager::broadcastGameState(const QString& roomId)
@@ -481,6 +493,86 @@ void MultiPlayerGameManager::onNetworkPlayerDisconnected(const QString& playerNa
         }
     }
 }
+
+void MultiPlayerGameManager::onRoomListRequested(QTcpSocket* requester)
+{
+    // 当收到房间列表请求时，发送当前可用房间列表给请求者
+    if (networkManager && requester) {
+        QJsonArray roomList = getRoomListJson();
+        QJsonObject data;
+        data["rooms"] = roomList;
+        
+        // 手动创建消息格式
+        QJsonObject message;
+        message["type"] = "roomList";
+        message["timestamp"] = QDateTime::currentMSecsSinceEpoch();
+        message["data"] = data;
+        
+        QJsonDocument doc(message);
+        requester->write(doc.toJson(QJsonDocument::Compact) + "\n");
+        
+        qDebug() << "Sent room list to client:" << requester->peerAddress().toString();
+    }
+}
+
+void MultiPlayerGameManager::onRoomListReceived(const QJsonArray& roomArray)
+{
+    // 客户端收到房间列表时的处理
+    
+    // 清空本地房间列表，使用服务器发送的房间列表
+    rooms.clear();
+    
+    for (const QJsonValue& roomValue : roomArray) {
+        QJsonObject roomObj = roomValue.toObject();
+        
+        GameRoom room;
+        room.roomId = roomObj["roomId"].toString();
+        room.hostName = roomObj["hostName"].toString();
+        room.maxPlayers = roomObj["maxPlayers"].toInt();
+        room.currentPlayers = roomObj["currentPlayers"].toInt();
+        room.isGameStarted = false; // 只显示未开始的房间
+        
+        rooms[room.roomId] = room;
+    }
+    
+    qDebug() << "Received room list with" << roomArray.size() << "rooms";
+    
+    // 通知UI刷新房间列表
+    emit roomListUpdated();
+}
+
+void MultiPlayerGameManager::onPlayerInfoReceived(const QJsonObject& data, QTcpSocket* sender)
+{
+    Q_UNUSED(sender)
+    // 处理接收到的玩家信息
+    QString playerName = data["name"].toString();
+    int score = data["score"].toInt();
+    bool isAlive = data["isAlive"].toBool();
+    
+    // 这里可以根据需要处理玩家信息
+    qDebug() << "Received player info:" << playerName << "Score:" << score << "Alive:" << isAlive;
+}
+
+void MultiPlayerGameManager::onPlayerPositionReceived(const QJsonObject& data)
+{
+    // 处理接收到的玩家位置信息
+    QString playerName = data["playerName"].toString();
+    QJsonArray bodyArray = data["body"].toArray();
+    
+    std::deque<Point> snakeBody;
+    for (const QJsonValue& pointValue : bodyArray) {
+        QJsonObject pointObj = pointValue.toObject();
+        Point point;
+        point.x = pointObj["x"].toInt();
+        point.y = pointObj["y"].toInt();
+        snakeBody.push_back(point);
+    }
+    
+    // 这里可以根据需要处理玩家位置信息
+    qDebug() << "Received player position for:" << playerName;
+}
+
+
 
 void MultiPlayerGameManager::initializeGameState(const QString& roomId)
 {
@@ -669,4 +761,28 @@ QString MultiPlayerGameManager::generateRoomId() const
         roomId += QString::number(QRandomGenerator::global()->bounded(10));
     }
     return roomId;
+}
+
+QJsonArray MultiPlayerGameManager::getRoomListJson() const
+{
+    QJsonArray arr;
+    for (auto it = rooms.begin(); it != rooms.end(); ++it) {
+        const GameRoom& room = it.value();
+        if (!room.isGameStarted && room.currentPlayers < room.maxPlayers) {
+            QJsonObject obj;
+            obj["roomId"] = room.roomId;
+            obj["hostName"] = room.hostName;
+            obj["maxPlayers"] = room.maxPlayers;
+            obj["currentPlayers"] = room.currentPlayers;
+            arr.append(obj);
+        }
+    }
+    return arr;
+}
+
+void MultiPlayerGameManager::syncRoomList()
+{
+    if (networkManager) {
+        networkManager->sendRoomList(getRoomListJson());
+    }
 }

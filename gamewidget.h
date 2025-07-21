@@ -67,9 +67,9 @@ private slots:
     void onFoodExpired();
     void onPlayerConnected(const QString& playerName);
     void onPlayerDisconnected(const QString& playerName);
-    void onPlayerInfoReceived(const PlayerInfo& playerInfo);
-    void onScoreUpdateReceived(const QString& playerName, int score);
-    void onPlayerPositionReceived(const QString& playerName, const std::deque<Point>& snakeBody);
+    void onPlayerInfoReceived(const QJsonObject& data, QTcpSocket* sender = nullptr);
+    void onScoreUpdateReceived(const QJsonObject& data);
+    void onPlayerPositionReceived(const QJsonObject& data);
     void onNetworkError(const QString& error);
     
     // 多人游戏管理器槽函数

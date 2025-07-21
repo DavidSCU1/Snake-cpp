@@ -71,7 +71,7 @@ Snake_cpp_autogen/timestamp: D:/Qt/6.9.1/mingw_64/bin/moc.exe
 Snake_cpp_autogen/timestamp: D:/Qt/6.9.1/mingw_64/bin/uic.exe
 Snake_cpp_autogen/timestamp: CMakeFiles/Snake_cpp_autogen.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=D:\Snake_cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target Snake_cpp"
-	D:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autogen D:/Snake_cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutogenInfo.json ""
+	D:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autogen D:/Snake_cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutogenInfo.json Debug
 	D:\Qt\Tools\CMake_64\bin\cmake.exe -E touch D:/Snake_cpp/build/Snake_cpp_autogen/timestamp
 
 Snake_cpp_autogen: CMakeFiles/Snake_cpp_autogen

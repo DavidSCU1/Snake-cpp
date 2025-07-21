@@ -7,6 +7,7 @@ MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     , gameWidget(nullptr)
     , multiPlayerManager(new MultiPlayerGameManager(this))
     , refreshTimer(new QTimer(this))
+    , isNetworkMode(false)
 {
     setupUI();
     
@@ -17,6 +18,7 @@ MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     connect(multiPlayerManager, &MultiPlayerGameManager::gameStarted, this, &MultiPlayerLobby::onGameStarted);
     connect(multiPlayerManager, &MultiPlayerGameManager::roomDestroyed, this, &MultiPlayerLobby::onRoomDestroyed);
     connect(multiPlayerManager, &MultiPlayerGameManager::gameEnded, this, &MultiPlayerLobby::onGameEnded);
+    connect(multiPlayerManager, &MultiPlayerGameManager::roomListUpdated, this, &MultiPlayerLobby::refreshRoomList);
     
     // 设置定时刷新
     connect(refreshTimer, &QTimer::timeout, this, &MultiPlayerLobby::refreshRoomList);
@@ -183,8 +185,16 @@ void MultiPlayerLobby::refreshRoomList()
         return;
     }
     
-    QStringList availableRooms = multiPlayerManager->getAvailableRooms();
     roomList->clear();
+    
+    // 如果是网络模式，请求服务器房间列表
+    if (isNetworkMode) {
+        requestRoomListFromServer();
+        return;
+    }
+    
+    // 本地模式：直接获取本地房间
+    QStringList availableRooms = multiPlayerManager->getAvailableRooms();
     
     for (const QString& roomId : availableRooms) {
         GameRoom room = multiPlayerManager->getRoomInfo(roomId);
@@ -400,4 +410,24 @@ bool MultiPlayerLobby::validatePlayerName() const
 {
     QString name = playerNameEdit->text().trimmed();
     return !name.isEmpty() && name.length() >= 2 && name.length() <= 20;
+}
+
+void MultiPlayerLobby::setNetworkMode(bool networkMode)
+{
+    isNetworkMode = networkMode;
+    
+    // 如果是网络模式，进入大厅时请求房间列表
+    if (isNetworkMode) {
+        requestRoomListFromServer();
+    }
+}
+
+void MultiPlayerLobby::requestRoomListFromServer()
+{
+    if (isNetworkMode && multiPlayerManager) {
+        // 通过NetworkManager请求房间列表
+        if (multiPlayerManager->getNetworkManager()) {
+            multiPlayerManager->getNetworkManager()->requestRoomList();
+        }
+    }
 }

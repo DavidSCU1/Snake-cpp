@@ -198,11 +198,9 @@ void NetworkManager::onClientDisconnected()
     if (!socket) return;
     
     if (isServer) {
-        QString playerName = clientNames.value(socket, "Unknown");
         clients.removeAll(socket);
         clientNames.remove(socket);
-        emit playerDisconnected(playerName);
-        qDebug() << "Client disconnected:" << playerName;
+        qDebug() << "Client disconnected";
     } else {
         qDebug() << "Disconnected from server";
         heartbeatTimer->stop();
@@ -217,7 +215,7 @@ void NetworkManager::onDataReceived()
     if (!socket) return;
     
     QByteArray data = socket->readAll();
-    QStringList messages = QString::fromUtf8(data).split("\n", Qt::SkipEmptyParts);
+    QStringList messages = QString::fromUtf8(data).split('\n', Qt::SkipEmptyParts);
     
     for (const QString& messageStr : messages) {
         QJsonParseError error;
@@ -233,7 +231,6 @@ void NetworkManager::onSocketError(QAbstractSocket::SocketError error)
 {
     QTcpSocket* socket = qobject_cast<QTcpSocket*>(sender());
     if (socket) {
-        emit connectionError(socket->errorString());
         qDebug() << "Socket error:" << socket->errorString();
     }
 }
@@ -244,7 +241,23 @@ void NetworkManager::sendHeartbeat()
     
     if (isServer) {
         broadcastMessage(message);
-    } else if (clientSocket) {
+    }
+}
+
+void NetworkManager::sendRoomList(const QJsonArray& rooms)
+{
+    QJsonObject data;
+    data["rooms"] = rooms;
+    
+    QJsonObject message = createMessage("roomList", data);
+    broadcastMessage(message);
+}
+
+void NetworkManager::requestRoomList()
+{
+    QJsonObject message = createMessage("requestRoomList");
+    
+    if (clientSocket) {
         QJsonDocument doc(message);
         clientSocket->write(doc.toJson(QJsonDocument::Compact) + "\n");
     }
@@ -256,65 +269,20 @@ void NetworkManager::processMessage(const QJsonObject& message, QTcpSocket* send
     QJsonObject data = message["data"].toObject();
     
     if (type == "playerInfo") {
-        PlayerInfo playerInfo;
-        playerInfo.name = data["name"].toString().toStdString();
-        playerInfo.score = data["score"].toInt();
-        playerInfo.character = static_cast<CharacterType>(data["character"].toInt());
-        playerInfo.isAlive = data["isAlive"].toBool();
-        
-        if (isServer && sender) {
-            QString playerName = QString::fromStdString(playerInfo.name);
-            clientNames[sender] = playerName;
-            emit playerConnected(playerName);
-            // 转发给其他客户端
-            broadcastMessage(message, sender);
-        }
-        
-        emit playerInfoReceived(playerInfo);
-    }
-    else if (type == "gameState") {
-        if (isServer && sender) {
-            broadcastMessage(message, sender);
-        }
+        emit playerInfoReceived(data, sender);
+    } else if (type == "gameState") {
         emit gameStateReceived(data);
-    }
-    else if (type == "scoreUpdate") {
-        QString playerName = clientNames.value(sender, "Unknown");
-        int score = data["score"].toInt();
-        
-        if (isServer && sender) {
-            broadcastMessage(message, sender);
-        }
-        
-        emit scoreUpdateReceived(playerName, score);
-    }
-    else if (type == "playerPosition") {
-        QString playerName = clientNames.value(sender, "Unknown");
-        QJsonArray bodyArray = data["body"].toArray();
-        
-        std::deque<Point> snakeBody;
-        for (const auto& value : bodyArray) {
-            QJsonObject pointObj = value.toObject();
-            snakeBody.push_back(Point(pointObj["x"].toInt(), pointObj["y"].toInt()));
-        }
-        
-        if (isServer && sender) {
-            broadcastMessage(message, sender);
-        }
-        
-        emit playerPositionReceived(playerName, snakeBody);
-    }
-    // 忽略心跳消息
-}
-
-void NetworkManager::broadcastMessage(const QJsonObject& message, QTcpSocket* excludeSocket)
-{
-    QJsonDocument doc(message);
-    QByteArray data = doc.toJson(QJsonDocument::Compact) + "\n";
-    
-    for (auto client : clients) {
-        if (client != excludeSocket && client->state() == QAbstractSocket::ConnectedState) {
-            client->write(data);
+    } else if (type == "scoreUpdate") {
+        emit scoreUpdateReceived(data);
+    } else if (type == "playerPosition") {
+        emit playerPositionReceived(data);
+    } else if (type == "heartbeat") {
+        // 心跳消息，无需处理
+    } else if (type == "roomList") {
+        emit roomListReceived(data["rooms"].toArray());
+    } else if (type == "requestRoomList") {
+        if (isServer) {
+            emit requestRoomListReceived(sender);
         }
     }
 }
@@ -328,4 +296,18 @@ QJsonObject NetworkManager::createMessage(const QString& type, const QJsonObject
         message["data"] = data;
     }
     return message;
+}
+
+void NetworkManager::broadcastMessage(const QJsonObject& message, QTcpSocket* excludeSocket)
+{
+    if (!isServer) return;
+    
+    QJsonDocument doc(message);
+    QByteArray data = doc.toJson(QJsonDocument::Compact) + "\n";
+    
+    for (QTcpSocket* client : clients) {
+        if (client != excludeSocket && client->state() == QAbstractSocket::ConnectedState) {
+            client->write(data);
+        }
+    }
 }

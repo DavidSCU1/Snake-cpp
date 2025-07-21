@@ -342,6 +342,8 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/3.30.5/CMakeCXXCompiler.cmake"
   "CMakeFiles/Snake_cpp_autogen.dir/AutogenInfo.json"
   "CMakeFiles/Snake_cpp_autogen.dir/AutoRcc_resources_EWIEGA46WW_Info.json"
+  "CMakeFiles/TestResource_autogen.dir/AutogenInfo.json"
+  "CMakeFiles/TestResource_autogen.dir/AutoRcc_resources_EWIEGA46WW_Info.json"
   ".qt/QtDeploySupport.cmake"
   ".qt/QtDeployTargets.cmake"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
@@ -350,6 +352,9 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/Snake_cpp.dir/DependInfo.cmake"
+  "CMakeFiles/TestResource.dir/DependInfo.cmake"
   "CMakeFiles/Snake_cpp_autogen_timestamp_deps.dir/DependInfo.cmake"
   "CMakeFiles/Snake_cpp_autogen.dir/DependInfo.cmake"
+  "CMakeFiles/TestResource_autogen_timestamp_deps.dir/DependInfo.cmake"
+  "CMakeFiles/TestResource_autogen.dir/DependInfo.cmake"
   )

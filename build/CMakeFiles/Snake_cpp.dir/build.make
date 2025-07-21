@@ -72,7 +72,7 @@ Snake_cpp_autogen/timestamp: D:/Qt/6.9.1/mingw_64/bin/moc.exe
 Snake_cpp_autogen/timestamp: D:/Qt/6.9.1/mingw_64/bin/uic.exe
 Snake_cpp_autogen/timestamp: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=D:\Snake_cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target Snake_cpp"
-	D:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autogen D:/Snake_cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutogenInfo.json ""
+	D:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autogen D:/Snake_cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutogenInfo.json Debug
 	D:\Qt\Tools\CMake_64\bin\cmake.exe -E touch D:/Snake_cpp/build/Snake_cpp_autogen/timestamp
 
 Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake_cpp/resources.qrc
@@ -82,6 +82,7 @@ Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake_cpp/images/plankton_hea
 Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake_cpp/images/patrick_head.svg
 Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake_cpp/images/squidward_head.svg
 Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake_cpp/images/krabby_patty.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake_cpp/images/ocean-background.png
 Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake_cpp/images/patrick_body.svg
 Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake_cpp/images/spongebob_head.svg
 Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake_cpp/images/sandy_head.svg
@@ -94,7 +95,7 @@ Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake_cpp/images/plankton_bod
 Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Qt/6.9.1/mingw_64/bin/rcc.exe
 Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Qt/6.9.1/mingw_64/bin/rcc.exe
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=D:\Snake_cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Automatic RCC for resources.qrc"
-	D:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autorcc D:/Snake_cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutoRcc_resources_EWIEGA46WW_Info.json 
+	D:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autorcc D:/Snake_cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutoRcc_resources_EWIEGA46WW_Info.json Debug
 
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
@@ -276,11 +277,56 @@ CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.s"
 	D:\Qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake_cpp\singlemodeselection.cpp -o CMakeFiles\Snake_cpp.dir\singlemodeselection.cpp.s
 
+CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
+CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
+CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj: D:/Snake_cpp/multiplayermodeselection.cpp
+CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake_cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj"
+	D:\Qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj -MF CMakeFiles\Snake_cpp.dir\multiplayermodeselection.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\multiplayermodeselection.cpp.obj -c D:\Snake_cpp\multiplayermodeselection.cpp
+
+CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.i"
+	D:\Qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake_cpp\multiplayermodeselection.cpp > CMakeFiles\Snake_cpp.dir\multiplayermodeselection.cpp.i
+
+CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.s"
+	D:\Qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake_cpp\multiplayermodeselection.cpp -o CMakeFiles\Snake_cpp.dir\multiplayermodeselection.cpp.s
+
+CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
+CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
+CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj: D:/Snake_cpp/localcoopcharacterselection.cpp
+CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake_cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj"
+	D:\Qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj -MF CMakeFiles\Snake_cpp.dir\localcoopcharacterselection.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\localcoopcharacterselection.cpp.obj -c D:\Snake_cpp\localcoopcharacterselection.cpp
+
+CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.i"
+	D:\Qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake_cpp\localcoopcharacterselection.cpp > CMakeFiles\Snake_cpp.dir\localcoopcharacterselection.cpp.i
+
+CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.s"
+	D:\Qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake_cpp\localcoopcharacterselection.cpp -o CMakeFiles\Snake_cpp.dir\localcoopcharacterselection.cpp.s
+
+CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
+CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
+CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj: D:/Snake_cpp/oceanbackground.cpp
+CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake_cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj"
+	D:\Qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj -MF CMakeFiles\Snake_cpp.dir\oceanbackground.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\oceanbackground.cpp.obj -c D:\Snake_cpp\oceanbackground.cpp
+
+CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.i"
+	D:\Qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake_cpp\oceanbackground.cpp > CMakeFiles\Snake_cpp.dir\oceanbackground.cpp.i
+
+CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.s"
+	D:\Qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake_cpp\oceanbackground.cpp -o CMakeFiles\Snake_cpp.dir\oceanbackground.cpp.s
+
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj: Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake_cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake_cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj"
 	D:\Qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj -MF CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp.obj -c D:\Snake_cpp\build\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp
 
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.i: cmake_force
@@ -305,6 +351,9 @@ Snake_cpp_OBJECTS = \
 "CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj" \
 "CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj" \
 "CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj" \
+"CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj" \
+"CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj" \
+"CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj" \
 "CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj"
 
 # External object files for target Snake_cpp
@@ -322,6 +371,9 @@ Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj
 Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj
 Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj
 Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj
+Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj
+Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj
+Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj
 Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj
 Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/build.make
 Snake_cpp.exe: D:/Qt/6.9.1/mingw_64/lib/libQt6Widgets.a
@@ -333,7 +385,7 @@ Snake_cpp.exe: D:/Qt/6.9.1/mingw_64/lib/libQt6EntryPoint.a
 Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/linkLibs.rsp
 Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/objects1.rsp
 Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Snake_cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX executable Snake_cpp.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Snake_cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Linking CXX executable Snake_cpp.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Snake_cpp.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

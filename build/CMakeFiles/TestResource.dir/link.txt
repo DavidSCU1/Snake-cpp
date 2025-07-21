@@ -1,0 +1,3 @@
+D:\Qt\Tools\CMake_64\bin\cmake.exe -E rm -f CMakeFiles\TestResource.dir/objects.a
+D:\Qt\Tools\mingw1310_64\bin\ar.exe qc CMakeFiles\TestResource.dir/objects.a @CMakeFiles\TestResource.dir\objects1.rsp
+D:\Qt\Tools\mingw1310_64\bin\c++.exe -g -Wl,--whole-archive CMakeFiles\TestResource.dir/objects.a -Wl,--no-whole-archive -o TestResource.exe -Wl,--out-implib,libTestResource.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\TestResource.dir\linkLibs.rsp

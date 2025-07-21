@@ -16,6 +16,7 @@
 #include "gamestate.h"
 #include "snake.h"
 #include "food.h"
+#include "wall.h"
 #include "networkmanager.h"
 #include "multiplayergamemanager.h"
 #include "singleplayergamemanager.h"
@@ -81,13 +82,16 @@ private slots:
     void onGameStateUpdated(const QString& roomId, const MultiPlayerGameState& gameState);
     void onPlayerCollision(const QString& roomId, const QString& playerName);
     void onFoodEaten(const QString& roomId, const QString& playerName, int points);
+    void updateCountdown();  // 更新倒计时
     
 private:
     void setupUI();
     void setupGame();
     void updateGameArea();
+    void updateButtonPositions();
     void generateFood();
     void generateSpecialFood();
+    void generateWalls();
     void checkCollisions();
     void checkLocalCoopCollisions();
     void updateScore(int points);
@@ -98,6 +102,7 @@ private:
     void drawSnake(QPainter& painter, const QRect& gameRect);
     void drawLocalCoopSnakes(QPainter& painter, const QRect& gameRect);
     void drawFood(QPainter& painter, const QRect& gameRect);
+    void drawWalls(QPainter& painter, const QRect& gameRect);
     void drawMultiplayerSnakes(QPainter& painter, const QRect& gameRect);
     void drawUI(QPainter& painter);
     void drawPauseOverlay(QPainter& painter, const QRect& gameRect);
@@ -115,6 +120,7 @@ private:
     QLabel* scoreLabel;
     QLabel* levelLabel;
     QLabel* playersLabel;
+    QLabel* timeLabel;  // 时间挑战模式的倒计时标签
     QListWidget* playersList;
     QPushButton* pauseButton;
     QPushButton* menuButton;
@@ -130,8 +136,10 @@ private:
     Snake* snake;
     Snake* player2Snake;  // 本地双人游戏的第二个玩家
     Food* food;
+    Wall* wall;
     QTimer* gameTimer;
     QTimer* specialFoodTimer;
+    QTimer* countdownTimer;  // 时间挑战模式的倒计时器
     
     // 游戏参数
     int gridWidth;
@@ -141,6 +149,8 @@ private:
     int level;
     int baseSpeed;
     int currentSpeed;
+    int remainingTime;  // 时间挑战模式的剩余时间（秒）
+    const int TIME_CHALLENGE_DURATION = 300;  // 时间挑战模式的总时长（5分钟 = 300秒）
     
     // 多人游戏
     NetworkManager* networkManager;

@@ -6,12 +6,15 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget
   C:/Users/ROG/Desktop/Snake-cpp/networkmanager.h \
   C:/Users/ROG/Desktop/Snake-cpp/singleplayergamemanager.h \
   C:/Users/ROG/Desktop/Snake-cpp/snake.h \
+  C:/Users/ROG/Desktop/Snake-cpp/wall.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/QJsonArray \
   D:/QT/6.9.1/mingw_64/include/QtCore/QJsonDocument \
   D:/QT/6.9.1/mingw_64/include/QtCore/QJsonObject \
   D:/QT/6.9.1/mingw_64/include/QtCore/QList \
   D:/QT/6.9.1/mingw_64/include/QtCore/QMap \
   D:/QT/6.9.1/mingw_64/include/QtCore/QObject \
+  D:/QT/6.9.1/mingw_64/include/QtCore/QPoint \
+  D:/QT/6.9.1/mingw_64/include/QtCore/QRandomGenerator \
   D:/QT/6.9.1/mingw_64/include/QtCore/QRect \
   D:/QT/6.9.1/mingw_64/include/QtCore/QSet \
   D:/QT/6.9.1/mingw_64/include/QtCore/QSettings \
@@ -21,6 +24,7 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget
   D:/QT/6.9.1/mingw_64/include/QtCore/QStringList \
   D:/QT/6.9.1/mingw_64/include/QtCore/QTime \
   D:/QT/6.9.1/mingw_64/include/QtCore/QTimer \
+  D:/QT/6.9.1/mingw_64/include/QtCore/QVector \
   D:/QT/6.9.1/mingw_64/include/QtCore/q17memory.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/q20functional.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/q20iterator.h \
@@ -114,6 +118,7 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget
   D:/QT/6.9.1/mingw_64/include/QtCore/qpair.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qpoint.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qprocessordetection.h \
+  D:/QT/6.9.1/mingw_64/include/QtCore/qrandom.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qrect.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qrefcount.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qregularexpression.h \
@@ -170,6 +175,7 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget
   D:/QT/6.9.1/mingw_64/include/QtCore/quuid.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qvariant.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qvarlengtharray.h \
+  D:/QT/6.9.1/mingw_64/include/QtCore/qvector.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qversiontagging.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qxptype_traits.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qyieldcpu.h \
@@ -308,6 +314,8 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/postypes.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/predefined_ops.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ptr_traits.h \
+  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/random.h \
+  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/random.tcc \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/range_access.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/refwrap.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/requires_hosted.h \
@@ -394,6 +402,7 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/glue_algorithm_defs.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/glue_memory_defs.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/glue_numeric_defs.h \
+  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/random \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ratio \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/set \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/stdexcept \
@@ -430,13 +439,20 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/error_constants.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/gthr-default.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/gthr.h \
+  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/opt_random.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/os_defines.h \
+  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/emmintrin.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/limits.h \
+  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm_malloc.h \
+  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mmintrin.h \
+  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mwaitintrin.h \
+  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/pmmintrin.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/stdarg.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/stdbool.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/stddef.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/stdint.h \
   D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/syslimits.h \
+  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/xmmintrin.h \
   D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/_mingw.h \
   D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/_mingw_mac.h \
   D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/_mingw_off_t.h \

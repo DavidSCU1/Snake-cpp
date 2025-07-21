@@ -7,7 +7,32 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QGroupBox>
+#include <QGridLayout>
 #include "gamestate.h"
+
+class LocalCoopCharacterButton : public QPushButton
+{
+    Q_OBJECT
+    
+public:
+    explicit LocalCoopCharacterButton(CharacterType character, QWidget *parent = nullptr);
+    CharacterType getCharacter() const { return character; }
+    void setDisabled(bool disabled);
+    
+protected:
+    void paintEvent(QPaintEvent *event) override;
+    void enterEvent(QEnterEvent *event) override;
+    void leaveEvent(QEvent *event) override;
+    
+private:
+    CharacterType character;
+    QPixmap characterPixmap;
+    QString characterName;
+    bool hovered;
+    bool isDisabledCustom;
+    
+    void loadCharacterInfo();
+};
 
 class LocalCoopCharacterSelection : public QWidget
 {
@@ -16,41 +41,39 @@ class LocalCoopCharacterSelection : public QWidget
 public:
     explicit LocalCoopCharacterSelection(QWidget *parent = nullptr);
     ~LocalCoopCharacterSelection();
+    
+    CharacterType getPlayer1Character() const;
+    CharacterType getPlayer2Character() const;
+    void resetSelection();
 
 private slots:
-    void onPlayer1CharacterSelected(CharacterType character);
-    void onPlayer2CharacterSelected(CharacterType character);
-    void onStartGameClicked();
-    void onBackClicked();
+    void onCharacterButtonClicked(CharacterType character);
+    void onNextClicked();
 
 signals:
     void startLocalCoopGame(CharacterType player1Character, CharacterType player2Character);
-    void backToModeSelection();
+    void backClicked();
 
 private:
     void setupUI();
-    void createCharacterButton(QWidget* parent, QVBoxLayout* layout, CharacterType character, bool isPlayer1);
-    void updateStartButtonState();
-    QString getCharacterName(CharacterType character);
-    QString getCharacterEmoji(CharacterType character);
+    void setupPlayer1Selection();
+    void setupPlayer2Selection();
     
     // UI组件
     QVBoxLayout* mainLayout;
     QLabel* titleLabel;
-    QGroupBox* player1Group;
-    QGroupBox* player2Group;
-    QPushButton* startGameButton;
+    QGroupBox* characterGroup;
     QPushButton* backButton;
+    QPushButton* nextButton;
     
     // 角色选择状态
     CharacterType player1Character;
     CharacterType player2Character;
-    bool player1Selected;
-    bool player2Selected;
+    bool isPlayer1Turn;
+    LocalCoopCharacterButton* selectedButton;
     
-    // 角色按钮
-    QMap<CharacterType, QPushButton*> player1Buttons;
-    QMap<CharacterType, QPushButton*> player2Buttons;
+    // 角色按钮映射
+    QMap<CharacterType, LocalCoopCharacterButton*> characterButtons;
 };
 
 #endif // LOCALCOOPCHARACTERSELECTION_H

@@ -17,15 +17,18 @@ GameWidget::GameWidget(QWidget *parent)
     , snake(new Snake(this))
     , player2Snake(new Snake(this))
     , food(new Food(this))
+    , wall(new Wall())
     , gameTimer(new QTimer(this))
     , specialFoodTimer(new QTimer(this))
-    , gridWidth(30)
-    , gridHeight(20)
+    , countdownTimer(new QTimer(this))
+    , gridWidth(40)
+    , gridHeight(25)
     , cellSize(20)
     , score(0)
     , level(1)
     , baseSpeed(200)
     , currentSpeed(200)
+    , remainingTime(TIME_CHALLENGE_DURATION)
     , networkManager(new NetworkManager(this))
     , multiPlayerManager(new MultiPlayerGameManager(this))
     , singlePlayerManager(new SinglePlayerGameManager(this))
@@ -46,6 +49,7 @@ GameWidget::GameWidget(QWidget *parent)
     // 连接信号
     connect(gameTimer, &QTimer::timeout, this, &GameWidget::gameLoop);
     connect(food, &Food::foodExpired, this, &GameWidget::onFoodExpired);
+    connect(countdownTimer, &QTimer::timeout, this, &GameWidget::updateCountdown);
     
     // 网络信号
     connect(networkManager, &NetworkManager::playerConnected, this, &GameWidget::onPlayerConnected);
@@ -76,6 +80,7 @@ GameWidget::GameWidget(QWidget *parent)
 GameWidget::~GameWidget()
 {
     qDebug() << "GameWidget destructor called";
+    delete wall;
 }
 
 void GameWidget::setupUI()
@@ -83,53 +88,53 @@ void GameWidget::setupUI()
     mainLayout = new QVBoxLayout(this);
     mainLayout->setContentsMargins(10, 10, 10, 10);
     
-    gameLayout = new QHBoxLayout();
-    
-    // 游戏区域
+    // 游戏区域占据整个窗口
     gameArea = new QWidget(this);
     gameArea->setMinimumSize(gridWidth * cellSize, gridHeight * cellSize);
     gameArea->setStyleSheet("");
     
-    // 侧边面板
-    sidePanel = new QWidget(this);
-    sidePanel->setFixedWidth(350);
-    sidePanel->setStyleSheet("background-color: #F0F8FF; border: 2px solid #4682B4; border-radius: 10px;");
+    // 分数标签 - 左上角
+    scoreLabel = new QLabel("分数: 0", this);
+    scoreLabel->setStyleSheet("font-size: 16px; font-weight: bold; color: #FF6347; font-family: '华文彩云'; background-color: rgba(255, 255, 255, 200); padding: 5px; border-radius: 5px;");
+    scoreLabel->move(10, 10);
+    scoreLabel->raise();
     
-    QVBoxLayout* sidePanelLayout = new QVBoxLayout(sidePanel);
-    sidePanelLayout->setSpacing(15);
-    sidePanelLayout->setContentsMargins(15, 15, 15, 15);
+    // 等级标签 - 左上角，分数下方
+    levelLabel = new QLabel("等级: 1", this);
+    levelLabel->setStyleSheet("font-size: 14px; font-weight: bold; color: #32CD32; font-family: '华文彩云'; background-color: rgba(255, 255, 255, 200); padding: 5px; border-radius: 5px;");
+    levelLabel->move(10, 40);
+    levelLabel->raise();
     
-    // 分数标签
-    scoreLabel = new QLabel("分数: 0", sidePanel);
-    scoreLabel->setStyleSheet("font-size: 16px; font-weight: bold; color: #FF6347; font-family: '华文彩云';");
-    sidePanelLayout->addWidget(scoreLabel);
-    
-    // 等级标签
-    levelLabel = new QLabel("等级: 1", sidePanel);
-    levelLabel->setStyleSheet("font-size: 14px; font-weight: bold; color: #32CD32; font-family: '华文彩云';");
-    sidePanelLayout->addWidget(levelLabel);
+    // 时间标签（时间挑战模式时显示）- 游戏界面正上方中央
+    timeLabel = new QLabel("Time: 05:00", this);
+    timeLabel->setStyleSheet("font-size: 18px; font-weight: bold; color: #FF0000; font-family: Arial, sans-serif; background-color: rgba(255, 255, 255, 220); padding: 8px 15px; border-radius: 8px; border: 2px solid #FF0000;");
+    timeLabel->setVisible(false);
+    timeLabel->setAlignment(Qt::AlignCenter);
+    timeLabel->setFixedSize(150, 40);  // 设置固定大小确保显示完整
+    timeLabel->raise();
     
     // 玩家标签（多人游戏时显示）
-    playersLabel = new QLabel("在线玩家:", sidePanel);
-    playersLabel->setStyleSheet("font-size: 14px; font-weight: bold; color: #4169E1; font-family: '华文彩云';");
+    playersLabel = new QLabel("在线玩家:", this);
+    playersLabel->setStyleSheet("font-size: 14px; font-weight: bold; color: #4169E1; font-family: '华文彩云'; background-color: rgba(255, 255, 255, 200); padding: 5px; border-radius: 5px;");
     playersLabel->setVisible(false);
-    sidePanelLayout->addWidget(playersLabel);
+    playersLabel->move(10, 70);
+    playersLabel->raise();
     
     // 玩家列表
-    playersList = new QListWidget(sidePanel);
+    playersList = new QListWidget(this);
     playersList->setMaximumHeight(150);
-    playersList->setStyleSheet("background-color: white; border: 1px solid #ccc; border-radius: 5px;");
+    playersList->setMaximumWidth(200);
+    playersList->setStyleSheet("background-color: rgba(255, 255, 255, 200); border: 1px solid #ccc; border-radius: 5px;");
     playersList->setVisible(false);
-    sidePanelLayout->addWidget(playersList);
+    playersList->move(10, 100);
+    playersList->raise();
     
-    
-    sidePanelLayout->addStretch();
-    
-    // 暂停按钮
-    pauseButton = new QPushButton("暂停", sidePanel);
+    // 暂停按钮 - 右上角
+    pauseButton = new QPushButton("暂停", this);
     pauseButton->setStyleSheet("QPushButton { background-color: #FFA500; color: white; border: none; border-radius: 5px; padding: 8px; font-size: 12px; font-family: '华文彩云'; }"
                                "QPushButton:hover { background-color: #FF8C00; }"
                                "QPushButton:pressed { background-color: #FF7F00; }");
+    pauseButton->setFixedSize(100, 45);
     connect(pauseButton, &QPushButton::clicked, [this]() {
         if (currentState == GameState::PLAYING) {
             pauseGame();
@@ -137,26 +142,27 @@ void GameWidget::setupUI()
             resumeGame();
         }
     });
-    sidePanelLayout->addWidget(pauseButton);
+    pauseButton->raise();
     
-    // 返回菜单按钮
-    menuButton = new QPushButton("返回菜单", sidePanel);
+    // 返回菜单按钮 - 右下角
+    menuButton = new QPushButton("返回菜单", this);
     menuButton->setStyleSheet("QPushButton { background-color: #DC143C; color: white; border: none; border-radius: 5px; padding: 8px; font-size: 12px; font-family: '华文彩云'; }"
                               "QPushButton:hover { background-color: #B22222; }"
                               "QPushButton:pressed { background-color: #A0522D; }");
+    menuButton->setFixedSize(120, 45);
     connect(menuButton, &QPushButton::clicked, [this]() {
         resetGame();
         emit backToMenu();
     });
-    sidePanelLayout->addWidget(menuButton);
+    menuButton->raise();
     
-    gameLayout->addWidget(gameArea, 1);
-    gameLayout->addWidget(sidePanel);
-    
-    mainLayout->addLayout(gameLayout);
+    mainLayout->addWidget(gameArea);
     
     // 确保游戏区域尺寸正确
     updateGameArea();
+    
+    // 初始化按钮位置
+    updateButtonPositions();
 }
 
 void GameWidget::setupGame()
@@ -247,6 +253,45 @@ void GameWidget::startSinglePlayerGame()
     generateFood();
     qDebug() << "Food generated at:" << food->getPosition().x << "," << food->getPosition().y;
     
+    // 生成墙体（在经典模式和时间挑战模式下）
+    if (singlePlayerManager && 
+        (singlePlayerManager->getCurrentMode() == SinglePlayerMode::CLASSIC ||
+         singlePlayerManager->getCurrentMode() == SinglePlayerMode::TIME_ATTACK) &&
+        (currentDifficulty == Difficulty::NORMAL || currentDifficulty == Difficulty::HARD)) {
+        generateWalls();
+        qDebug() << "Walls generated, count:" << wall->getWallPositions().size();
+    }
+    
+    // 检查是否为时间挑战模式，启动倒计时
+    if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::TIME_ATTACK) {
+        // 重置倒计时时间
+        remainingTime = TIME_CHALLENGE_DURATION;
+        
+        // 显示时间标签
+        if (timeLabel) {
+            timeLabel->setVisible(true);
+            timeLabel->setStyleSheet("font-size: 18px; font-weight: bold; color: #00FF00; font-family: Arial, sans-serif; background-color: rgba(0, 0, 0, 180); padding: 8px 15px; border-radius: 8px; border: 2px solid #00FF00;");
+            
+            // 初始化时间显示
+            int minutes = remainingTime / 60;
+            int seconds = remainingTime % 60;
+            QString timeText = QString("Time: %1:%2")
+                              .arg(minutes, 2, 10, QChar('0'))
+                              .arg(seconds, 2, 10, QChar('0'));
+            timeLabel->setText(timeText);
+        }
+        
+        // 启动倒计时器
+        countdownTimer->start(1000); // 每秒更新一次
+        qDebug() << "Time challenge mode: countdown timer started";
+    } else {
+        // 非时间挑战模式，隐藏时间标签
+        if (timeLabel) {
+            timeLabel->setVisible(false);
+        }
+        countdownTimer->stop();
+    }
+    
     // 启动游戏循环
     gameTimer->start(currentSpeed);
     qDebug() << "Game timer started with speed:" << currentSpeed;
@@ -299,6 +344,12 @@ void GameWidget::startMultiPlayerGame(bool isHost)
     // 生成第一个食物
     generateFood();
     
+    // 生成墙体（多人模式使用经典模式的墙机制）
+    if (currentDifficulty == Difficulty::NORMAL || currentDifficulty == Difficulty::HARD) {
+        generateWalls();
+        qDebug() << "Multiplayer walls generated, count:" << wall->getWallPositions().size();
+    }
+    
     update();
 }
 
@@ -307,6 +358,7 @@ void GameWidget::pauseGame()
     if (currentState == GameState::PLAYING || currentState == GameState::MULTIPLAYER_GAME) {
         gameTimer->stop();
         specialFoodTimer->stop();
+        countdownTimer->stop();  // 暂停倒计时器
         currentState = GameState::PAUSED;
         if (pauseButton) pauseButton->setText("继续");
         update();
@@ -322,6 +374,12 @@ void GameWidget::resumeGame()
             currentState = GameState::PLAYING;
         }
         gameTimer->start(currentSpeed);
+        
+        // 如果是时间挑战模式，重新启动倒计时器
+        if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::TIME_ATTACK && remainingTime > 0) {
+            countdownTimer->start(1000);
+        }
+        
         if (pauseButton) pauseButton->setText("暂停");
         update();
     }
@@ -331,6 +389,12 @@ void GameWidget::resetGame()
 {
     gameTimer->stop();
     specialFoodTimer->stop();
+    countdownTimer->stop();  // 停止倒计时器
+    
+    // 隐藏时间标签
+    if (timeLabel) {
+        timeLabel->setVisible(false);
+    }
     
     score = 0;
     level = 1;
@@ -347,6 +411,9 @@ void GameWidget::resetGame()
     playerScores.clear();
     playerAliveStatus.clear();
     if (playersList) playersList->clear();
+    
+    // 清空墙体
+    if (wall) wall->clear();
     
     // 重置本地双人游戏状态
     isLocalCoop = false;
@@ -465,6 +532,16 @@ void GameWidget::checkCollisions()
         return;
     }
     
+    // 检查墙体碰撞
+    if (wall && wall->hasWallAt(head)) {
+        currentState = GameState::GAME_OVER;
+        gameTimer->stop();
+        specialFoodTimer->stop();
+        saveHighScore();
+        emit gameOver(score);
+        update();
+        return;
+    }
     
     // 检查食物碰撞
     if (head == food->getPosition()) {
@@ -500,6 +577,21 @@ void GameWidget::generateSpecialFood()
     food->generateSpecialFood(gridWidth, gridHeight, occupiedPositions);
 }
 
+void GameWidget::generateWalls()
+{
+    QSet<Point> occupiedPositions = getOccupiedPositions();
+    
+    // 添加食物位置到占用位置集合
+    if (food) {
+        Point foodPos = food->getPosition();
+        if (foodPos.x >= 0 && foodPos.y >= 0) {
+            occupiedPositions.insert(foodPos);
+        }
+    }
+    
+    wall->generateWalls(gridWidth, gridHeight, occupiedPositions);
+}
+
 QSet<Point> GameWidget::getOccupiedPositions() const
 {
     QSet<Point> positions;
@@ -518,7 +610,19 @@ QSet<Point> GameWidget::getOccupiedPositions() const
         }
     }
     
-
+    // 添加本地双人游戏第二个玩家的蛇身位置
+    if (isLocalCoop && player2Snake) {
+        for (const auto& point : player2Snake->getBody()) {
+            positions.insert(point);
+        }
+    }
+    
+    // 添加墙体位置
+    if (wall) {
+        for (const Point& wallPos : wall->getWallPositions()) {
+            positions.insert(wallPos);
+        }
+    }
     
     return positions;
 }
@@ -667,6 +771,9 @@ void GameWidget::paintEvent(QPaintEvent *event)
         // 绘制食物
         drawFood(painter, gameRect);
         
+        // 绘制墙体
+        drawWalls(painter, gameRect);
+        
         // 绘制蛇
         if (isLocalCoop) {
             drawLocalCoopSnakes(painter, gameRect);
@@ -796,6 +903,34 @@ void GameWidget::drawFood(QPainter& painter, const QRect& gameRect)
         } else {
             painter.fillRect(foodRect, Qt::red);
         }
+    }
+}
+
+void GameWidget::drawWalls(QPainter& painter, const QRect& gameRect)
+{
+    if (!wall) return;
+    
+    const QSet<Point>& wallPositions = wall->getWallPositions();
+    
+    painter.setBrush(QBrush(Qt::darkGray));
+    painter.setPen(QPen(Qt::black, 2));
+    
+    for (const Point& wallPos : wallPositions) {
+        QRect wallRect(gameRect.x() + wallPos.x * cellSize + 1,
+                       gameRect.y() + wallPos.y * cellSize + 1,
+                       cellSize - 2, cellSize - 2);
+        
+        // 绘制墙体，使用深灰色填充，黑色边框
+        painter.fillRect(wallRect, Qt::darkGray);
+        painter.drawRect(wallRect);
+        
+        // 添加一些纹理效果
+        painter.setPen(QPen(Qt::lightGray, 1));
+        painter.drawLine(wallRect.topLeft() + QPoint(2, 2), 
+                        wallRect.bottomRight() - QPoint(2, 2));
+        painter.drawLine(wallRect.topRight() + QPoint(-2, 2), 
+                        wallRect.bottomLeft() + QPoint(2, -2));
+        painter.setPen(QPen(Qt::black, 2));
     }
 }
 
@@ -1071,17 +1206,37 @@ void GameWidget::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
     updateGameArea();
+    updateButtonPositions();
 }
 
 void GameWidget::updateGameArea()
 {
-    // 根据窗口大小调整游戏区域
-    QSize availableSize = size() - QSize(220, 40); // 减去侧边栏和边距
+    // 根据窗口大小调整游戏区域，现在游戏区域占据整个窗口
+    QSize availableSize = size() - QSize(20, 20); // 减去边距
     
     int maxCellSize = qMin(availableSize.width() / gridWidth, availableSize.height() / gridHeight);
     cellSize = qMax(15, qMin(25, maxCellSize)); // 限制格子大小在15-25之间
     
     gameArea->setFixedSize(gridWidth * cellSize, gridHeight * cellSize);
+}
+
+void GameWidget::updateButtonPositions()
+{
+    if (pauseButton) {
+        // 暂停按钮位置 - 右上角
+        pauseButton->move(width() - pauseButton->width() - 10, 10);
+    }
+    
+    if (menuButton) {
+        // 返回菜单按钮位置 - 右下角
+        menuButton->move(width() - menuButton->width() - 10, height() - menuButton->height() - 10);
+    }
+    
+    if (timeLabel) {
+        // 时间标签位置 - 游戏界面正上方中央
+        int labelWidth = timeLabel->width();
+        timeLabel->move((width() - labelWidth) / 2, 10);
+    }
 }
 
 // 多人游戏管理器相关函数实现
@@ -1356,6 +1511,12 @@ void GameWidget::startLocalCoopGame()
     // 生成食物
     generateFood();
     
+    // 生成墙体（仅在经典模式下）
+    if (currentDifficulty == Difficulty::NORMAL || currentDifficulty == Difficulty::HARD) {
+        generateWalls();
+        qDebug() << "Walls generated for local coop, count:" << wall->getWallPositions().size();
+    }
+    
     // 启动游戏循环
     gameTimer->start(currentSpeed);
     
@@ -1393,6 +1554,11 @@ void GameWidget::checkLocalCoopCollisions()
             }
         }
         
+        // 检查墙体碰撞
+        if (wall && wall->hasWallAt(head1)) {
+            player1Alive = false;
+        }
+        
         // 检查食物碰撞
         if (head1 == food->getPosition()) {
             snake->grow();
@@ -1428,6 +1594,11 @@ void GameWidget::checkLocalCoopCollisions()
                     break;
                 }
             }
+        }
+        
+        // 检查墙体碰撞
+        if (wall && wall->hasWallAt(head2)) {
+            player2Alive = false;
         }
         
         // 检查食物碰撞
@@ -1529,5 +1700,41 @@ void GameWidget::drawLocalCoopSnakes(QPainter& painter, const QRect& gameRect)
                 }
             }
         }
+    }
+}
+
+void GameWidget::updateCountdown()
+{
+    if (remainingTime > 0) {
+        remainingTime--;
+        
+        // 更新时间显示
+        int minutes = remainingTime / 60;
+        int seconds = remainingTime % 60;
+        QString timeText = QString("Time: %1:%2")
+                          .arg(minutes, 2, 10, QChar('0'))
+                          .arg(seconds, 2, 10, QChar('0'));
+        timeLabel->setText(timeText);
+        
+        // 时间不足30秒时改变颜色警告
+        if (remainingTime <= 30) {
+            timeLabel->setStyleSheet("font-size: 18px; font-weight: bold; color: #FFFFFF; font-family: Arial, sans-serif; background-color: rgba(255, 0, 0, 220); padding: 8px 15px; border-radius: 8px; border: 2px solid #FF0000;");
+        } else if (remainingTime <= 60) {
+            timeLabel->setStyleSheet("font-size: 18px; font-weight: bold; color: #FFFF00; font-family: Arial, sans-serif; background-color: rgba(255, 165, 0, 220); padding: 8px 15px; border-radius: 8px; border: 2px solid #FFA500;");
+        }
+        
+        // 更新标签位置
+        updateButtonPositions();
+    } else {
+        // 时间到，结束游戏
+        countdownTimer->stop();
+        gameTimer->stop();
+        currentState = GameState::GAME_OVER;
+        
+        QMessageBox::information(this, "Time's Up!", QString("Time Challenge Ended!\nFinal Score: %1").arg(score));
+        
+        // 重置游戏
+        resetGame();
+        emit backToMenu();
     }
 }

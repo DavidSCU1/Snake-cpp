@@ -4,13 +4,16 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow
   C:/Users/ROG/Desktop/Snake-cpp/food.h \
   C:/Users/ROG/Desktop/Snake-cpp/gamestate.h \
   C:/Users/ROG/Desktop/Snake-cpp/gamewidget.h \
+  C:/Users/ROG/Desktop/Snake-cpp/localcoopcharacterselection.h \
   C:/Users/ROG/Desktop/Snake-cpp/multiplayergamemanager.h \
   C:/Users/ROG/Desktop/Snake-cpp/multiplayerlobby.h \
+  C:/Users/ROG/Desktop/Snake-cpp/multiplayermodeselection.h \
   C:/Users/ROG/Desktop/Snake-cpp/networkmanager.h \
   C:/Users/ROG/Desktop/Snake-cpp/oceanbackground.h \
   C:/Users/ROG/Desktop/Snake-cpp/singlemodeselection.h \
   C:/Users/ROG/Desktop/Snake-cpp/singleplayergamemanager.h \
   C:/Users/ROG/Desktop/Snake-cpp/snake.h \
+  C:/Users/ROG/Desktop/Snake-cpp/wall.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/QJsonArray \
   D:/QT/6.9.1/mingw_64/include/QtCore/QJsonDocument \
   D:/QT/6.9.1/mingw_64/include/QtCore/QJsonObject \
@@ -18,6 +21,7 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow
   D:/QT/6.9.1/mingw_64/include/QtCore/QMap \
   D:/QT/6.9.1/mingw_64/include/QtCore/QObject \
   D:/QT/6.9.1/mingw_64/include/QtCore/QParallelAnimationGroup \
+  D:/QT/6.9.1/mingw_64/include/QtCore/QPoint \
   D:/QT/6.9.1/mingw_64/include/QtCore/QPropertyAnimation \
   D:/QT/6.9.1/mingw_64/include/QtCore/QRandomGenerator \
   D:/QT/6.9.1/mingw_64/include/QtCore/QRect \
@@ -30,6 +34,7 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow
   D:/QT/6.9.1/mingw_64/include/QtCore/QStringList \
   D:/QT/6.9.1/mingw_64/include/QtCore/QTime \
   D:/QT/6.9.1/mingw_64/include/QtCore/QTimer \
+  D:/QT/6.9.1/mingw_64/include/QtCore/QVector \
   D:/QT/6.9.1/mingw_64/include/QtCore/q17memory.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/q20functional.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/q20iterator.h \
@@ -187,6 +192,7 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_mainwindow
   D:/QT/6.9.1/mingw_64/include/QtCore/qvariant.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qvariantanimation.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qvarlengtharray.h \
+  D:/QT/6.9.1/mingw_64/include/QtCore/qvector.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qversiontagging.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qxptype_traits.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/qyieldcpu.h \

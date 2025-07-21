@@ -42,6 +42,8 @@ set(PROJECT_SOURCES
         localcoopcharacterselection.h
         oceanbackground.cpp
         oceanbackground.h
+        wall.cpp
+        wall.h
         resources.qrc
 )
 

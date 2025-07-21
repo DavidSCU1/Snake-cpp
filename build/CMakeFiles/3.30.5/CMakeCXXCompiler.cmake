@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 set(CMAKE_CXX_COMPILER "D:/QT/Tools/mingw1310_64/bin/c++.exe")
-=======
-set(CMAKE_CXX_COMPILER "D:/Qt/Tools/mingw1310_64/bin/c++.exe")
->>>>>>> 091ff83518800e3f51e9c106924672ae975ad4f4
 set(CMAKE_CXX_COMPILER_ARG1 "")
 set(CMAKE_CXX_COMPILER_ID "GNU")
 set(CMAKE_CXX_COMPILER_VERSION "13.1.0")

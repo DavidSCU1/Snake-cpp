@@ -96,7 +96,7 @@ void MainWindow::setupUI()
     // 创建本地双人角色选择界面
     localCoopCharacterSelection = new LocalCoopCharacterSelection(this);
     connect(localCoopCharacterSelection, &LocalCoopCharacterSelection::startLocalCoopGame, this, &MainWindow::onLocalCoopCharactersSelected);
-    connect(localCoopCharacterSelection, &LocalCoopCharacterSelection::backToModeSelection, this, &MainWindow::showMultiplayerModeSelection);
+    connect(localCoopCharacterSelection, &LocalCoopCharacterSelection::backClicked, this, &MainWindow::showMultiplayerModeSelection);
     stackedWidget->addWidget(localCoopCharacterSelection);
     
     // 设置样式
@@ -562,6 +562,7 @@ void MainWindow::showMultiplayerModeSelection()
 
 void MainWindow::showLocalCoopCharacterSelection()
 {
+    localCoopCharacterSelection->resetSelection();
     stackedWidget->setCurrentWidget(localCoopCharacterSelection);
 }
 

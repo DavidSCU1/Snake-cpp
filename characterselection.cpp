@@ -3,6 +3,7 @@
 #include <QFont>
 #include <QEnterEvent>
 #include <QDebug>
+#include <QSvgRenderer>
 
 // CharacterButton 实现
 CharacterButton::CharacterButton(CharacterType character, QWidget *parent)
@@ -56,36 +57,47 @@ void CharacterButton::leaveEvent(QEvent *event)
 void CharacterButton::loadCharacterInfo()
 {
     QString basePath = ":/images/";
+    QString characterName_en;
     
     switch (character) {
     case CharacterType::SPONGEBOB:
         characterName = "海绵宝宝";
-        characterPixmap = QPixmap(basePath + "spongebob_portrait.png");
+        characterName_en = "spongebob";
         break;
     case CharacterType::PATRICK:
         characterName = "派大星";
-        characterPixmap = QPixmap(basePath + "patrick_portrait.png");
+        characterName_en = "patrick";
         break;
     case CharacterType::SQUIDWARD:
         characterName = "章鱼哥";
-        characterPixmap = QPixmap(basePath + "squidward_portrait.png");
+        characterName_en = "squidward";
         break;
     case CharacterType::SANDY:
         characterName = "珊迪";
-        characterPixmap = QPixmap(basePath + "sandy_portrait.png");
+        characterName_en = "sandy";
         break;
     case CharacterType::MR_KRABS:
         characterName = "蟹老板";
-        characterPixmap = QPixmap(basePath + "mrkribs_portrait.png");
+        characterName_en = "mrcrabs";
         break;
     case CharacterType::PLANKTON:
         characterName = "痞老板";
-        characterPixmap = QPixmap(basePath + "plankton_portrait.png");
+        characterName_en = "plankton";
         break;
     }
     
-    // 如果资源文件不存在，创建默认图片
-    if (characterPixmap.isNull()) {
+    // 使用蛇头图片
+    QString headPath = basePath + characterName_en + "_head.svg";
+    QSvgRenderer headRenderer;
+    headRenderer.load(headPath);
+    
+    if (headRenderer.isValid()) {
+        characterPixmap = QPixmap(100, 100);
+        characterPixmap.fill(Qt::transparent);
+        QPainter painter(&characterPixmap);
+        headRenderer.render(&painter);
+    } else {
+        // 如果蛇头SVG不存在，创建默认图片
         characterPixmap = QPixmap(100, 100);
         QPainter painter(&characterPixmap);
         

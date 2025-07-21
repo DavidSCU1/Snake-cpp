@@ -145,6 +145,22 @@ build CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj: CXX_COMPILER__Snake_
   OBJECT_DIR = CMakeFiles\Snake_cpp.dir
   OBJECT_FILE_DIR = CMakeFiles\Snake_cpp.dir
 
+build CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj: CXX_COMPILER__Snake_cpp_unscanned_Debug C$:/Users/ROG/Desktop/Snake-cpp/multiplayermodeselection.cpp || cmake_object_order_depends_target_Snake_cpp
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\Snake_cpp.dir\multiplayermodeselection.cpp.obj.d
+  FLAGS = -g -std=gnu++17
+  INCLUDES = -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg
+  OBJECT_DIR = CMakeFiles\Snake_cpp.dir
+  OBJECT_FILE_DIR = CMakeFiles\Snake_cpp.dir
+
+build CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj: CXX_COMPILER__Snake_cpp_unscanned_Debug C$:/Users/ROG/Desktop/Snake-cpp/localcoopcharacterselection.cpp || cmake_object_order_depends_target_Snake_cpp
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\Snake_cpp.dir\localcoopcharacterselection.cpp.obj.d
+  FLAGS = -g -std=gnu++17
+  INCLUDES = -IC:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include -isystem D:/QT/6.9.1/mingw_64/include/QtCore -isystem D:/QT/6.9.1/mingw_64/include -isystem D:/QT/6.9.1/mingw_64/mkspecs/win32-g++ -isystem D:/QT/6.9.1/mingw_64/include/QtWidgets -isystem D:/QT/6.9.1/mingw_64/include/QtGui -isystem D:/QT/6.9.1/mingw_64/include/QtNetwork -isystem D:/QT/6.9.1/mingw_64/include/QtSvg
+  OBJECT_DIR = CMakeFiles\Snake_cpp.dir
+  OBJECT_FILE_DIR = CMakeFiles\Snake_cpp.dir
+
 build CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj: CXX_COMPILER__Snake_cpp_unscanned_Debug C$:/Users/ROG/Desktop/Snake-cpp/oceanbackground.cpp || cmake_object_order_depends_target_Snake_cpp
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\Snake_cpp.dir\oceanbackground.cpp.obj.d
@@ -169,7 +185,7 @@ build CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.ob
 #############################################
 # Link the executable Snake_cpp.exe
 
-build Snake_cpp.exe: CXX_EXECUTABLE_LINKER__Snake_cpp_Debug CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj CMakeFiles/Snake_cpp.dir/main.cpp.obj CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj CMakeFiles/Snake_cpp.dir/snake.cpp.obj CMakeFiles/Snake_cpp.dir/food.cpp.obj CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj | D$:/QT/6.9.1/mingw_64/lib/libQt6Widgets.a D$:/QT/6.9.1/mingw_64/lib/libQt6Network.a D$:/QT/6.9.1/mingw_64/lib/libQt6Svg.a D$:/QT/6.9.1/mingw_64/lib/libQt6Gui.a D$:/QT/6.9.1/mingw_64/lib/libQt6Core.a D$:/QT/6.9.1/mingw_64/lib/libQt6EntryPoint.a || Snake_cpp_autogen Snake_cpp_autogen_timestamp_deps
+build Snake_cpp.exe: CXX_EXECUTABLE_LINKER__Snake_cpp_Debug CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj CMakeFiles/Snake_cpp.dir/main.cpp.obj CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj CMakeFiles/Snake_cpp.dir/snake.cpp.obj CMakeFiles/Snake_cpp.dir/food.cpp.obj CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj | D$:/QT/6.9.1/mingw_64/lib/libQt6Widgets.a D$:/QT/6.9.1/mingw_64/lib/libQt6Network.a D$:/QT/6.9.1/mingw_64/lib/libQt6Svg.a D$:/QT/6.9.1/mingw_64/lib/libQt6Gui.a D$:/QT/6.9.1/mingw_64/lib/libQt6Core.a D$:/QT/6.9.1/mingw_64/lib/libQt6EntryPoint.a || Snake_cpp_autogen Snake_cpp_autogen_timestamp_deps
   FLAGS = -g
   LINK_FLAGS = -mwindows
   LINK_LIBRARIES = D:/QT/6.9.1/mingw_64/lib/libQt6Widgets.a  D:/QT/6.9.1/mingw_64/lib/libQt6Network.a  D:/QT/6.9.1/mingw_64/lib/libQt6Svg.a  -lws2_32  D:/QT/6.9.1/mingw_64/lib/libQt6Gui.a  D:/QT/6.9.1/mingw_64/lib/libQt6Core.a  -lmpr  -luserenv  -lmingw32  D:/QT/6.9.1/mingw_64/lib/libQt6EntryPoint.a  -lshell32  -ld3d11  -ldxgi  -ldxguid  -ld3d12  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

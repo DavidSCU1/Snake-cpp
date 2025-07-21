@@ -5,13 +5,8 @@
 	"CMAKE_CURRENT_SOURCE_DIR" : "C:/Users/ROG/Desktop/Snake-cpp",
 	"CMAKE_SOURCE_DIR" : "C:/Users/ROG/Desktop/Snake-cpp",
 	"CROSS_CONFIG" : false,
-<<<<<<< HEAD
-	"GENERATOR" : "Ninja",
-	"INCLUDE_DIR" : "C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include",
-=======
 	"GENERATOR" : "MinGW Makefiles",
-	"INCLUDE_DIR" : "D:/Snake_cpp/build/Snake_cpp_autogen/include",
->>>>>>> 091ff83518800e3f51e9c106924672ae975ad4f4
+	"INCLUDE_DIR" : "C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include",
 	"INPUTS" : 
 	[
 		"C:/Users/ROG/Desktop/Snake-cpp/images/mrcrabs_head.svg",

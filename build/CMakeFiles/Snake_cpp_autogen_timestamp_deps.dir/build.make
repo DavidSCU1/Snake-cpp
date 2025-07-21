@@ -43,19 +43,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = D:\Qt\Tools\CMake_64\bin\cmake.exe
+CMAKE_COMMAND = D:\QT\Tools\CMake_64\bin\cmake.exe
 
 # The command to remove a file.
-RM = D:\Qt\Tools\CMake_64\bin\cmake.exe -E rm -f
+RM = D:\QT\Tools\CMake_64\bin\cmake.exe -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = D:\Snake_cpp
+CMAKE_SOURCE_DIR = C:\Users\ROG\Desktop\Snake-cpp
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = D:\Snake_cpp\build
+CMAKE_BINARY_DIR = C:\Users\ROG\Desktop\Snake-cpp\build
 
 # Utility rule file for Snake_cpp_autogen_timestamp_deps.
 
@@ -77,6 +77,6 @@ CMakeFiles/Snake_cpp_autogen_timestamp_deps.dir/clean:
 .PHONY : CMakeFiles/Snake_cpp_autogen_timestamp_deps.dir/clean
 
 CMakeFiles/Snake_cpp_autogen_timestamp_deps.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" D:\Snake_cpp D:\Snake_cpp D:\Snake_cpp\build D:\Snake_cpp\build D:\Snake_cpp\build\CMakeFiles\Snake_cpp_autogen_timestamp_deps.dir\DependInfo.cmake "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\ROG\Desktop\Snake-cpp C:\Users\ROG\Desktop\Snake-cpp C:\Users\ROG\Desktop\Snake-cpp\build C:\Users\ROG\Desktop\Snake-cpp\build C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles\Snake_cpp_autogen_timestamp_deps.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/Snake_cpp_autogen_timestamp_deps.dir/depend
 

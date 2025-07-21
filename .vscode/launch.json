@@ -31,7 +31,7 @@
                 }
             ],
             "preLaunchTask": "CMake: build",
-            "visualizerFile": "c:\\Users\\31888\\AppData\\Roaming\\Trae\\User\\workspaceStorage\\6c71d005090a6806ff8f518bcc1c8230\\tonka3000.qtvsctools\\qt.natvis.xml"
+            "visualizerFile": "c:\\Users\\Trist\\AppData\\Roaming\\Trae\\User\\workspaceStorage\\cabf4a904c6d70c2b6e7783dade294e2\\tonka3000.qtvsctools\\qt.natvis.xml"
         },
         {
             "name": "Run Snake Game (No Debug)",
@@ -51,7 +51,7 @@
             "MIMode": "gdb",
             "miDebuggerPath": "D:\\Qt\\Tools\\mingw1310_64\\bin\\gdb.exe",
             "preLaunchTask": "CMake: build",
-            "visualizerFile": "c:\\Users\\31888\\AppData\\Roaming\\Trae\\User\\workspaceStorage\\6c71d005090a6806ff8f518bcc1c8230\\tonka3000.qtvsctools\\qt.natvis.xml"
+            "visualizerFile": "c:\\Users\\Trist\\AppData\\Roaming\\Trae\\User\\workspaceStorage\\cabf4a904c6d70c2b6e7783dade294e2\\tonka3000.qtvsctools\\qt.natvis.xml"
         }
     ]
 }

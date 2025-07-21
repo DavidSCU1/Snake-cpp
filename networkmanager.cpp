@@ -10,6 +10,8 @@
 NetworkManager::NetworkManager(QObject* parent)
     : QObject(parent)
     , udpSocket(new QUdpSocket(this))
+    , heartbeatTimer(new QTimer(this))
+    , roomBroadcastTimer(new QTimer(this))
     , allowJoinMidGame(true)
 {
     heartbeatTimer->setInterval(5000); // 5秒心跳

@@ -1,5 +1,5 @@
-C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_oceanbackground.cpp: C:/Users/ROG/Desktop/Snake-cpp/oceanbackground.h \
-  C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/moc_predefs.h \
+D:/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_oceanbackground.cpp: D:/Snake-cpp/oceanbackground.h \
+  D:/Snake-cpp/build/Snake_cpp_autogen/moc_predefs.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/QList \
   D:/QT/6.9.1/mingw_64/include/QtCore/QObject \
   D:/QT/6.9.1/mingw_64/include/QtCore/QParallelAnimationGroup \

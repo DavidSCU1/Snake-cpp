@@ -1,40 +1,4 @@
 Snake_cpp_autogen/timestamp: \
-	C:/Users/ROG/Desktop/Snake-cpp/CMakeLists.txt \
-	C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake \
-	C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
-	C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/3.30.5/CMakeSystem.cmake \
-	C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/moc_predefs.h \
-	C:/Users/ROG/Desktop/Snake-cpp/characterselection.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/characterselection.h \
-	C:/Users/ROG/Desktop/Snake-cpp/food.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/food.h \
-	C:/Users/ROG/Desktop/Snake-cpp/gamestate.h \
-	C:/Users/ROG/Desktop/Snake-cpp/gamewidget.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/gamewidget.h \
-	C:/Users/ROG/Desktop/Snake-cpp/localcoopcharacterselection.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/localcoopcharacterselection.h \
-	C:/Users/ROG/Desktop/Snake-cpp/main.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/mainwindow.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/mainwindow.h \
-	C:/Users/ROG/Desktop/Snake-cpp/multiplayergamemanager.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/multiplayergamemanager.h \
-	C:/Users/ROG/Desktop/Snake-cpp/multiplayerlobby.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/multiplayerlobby.h \
-	C:/Users/ROG/Desktop/Snake-cpp/multiplayermodeselection.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/multiplayermodeselection.h \
-	C:/Users/ROG/Desktop/Snake-cpp/networkmanager.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/networkmanager.h \
-	C:/Users/ROG/Desktop/Snake-cpp/oceanbackground.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/oceanbackground.h \
-	C:/Users/ROG/Desktop/Snake-cpp/resources.qrc \
-	C:/Users/ROG/Desktop/Snake-cpp/singlemodeselection.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/singlemodeselection.h \
-	C:/Users/ROG/Desktop/Snake-cpp/singleplayergamemanager.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/singleplayergamemanager.h \
-	C:/Users/ROG/Desktop/Snake-cpp/snake.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/snake.h \
-	C:/Users/ROG/Desktop/Snake-cpp/wall.cpp \
-	C:/Users/ROG/Desktop/Snake-cpp/wall.h \
 	D:/QT/6.9.1/mingw_64/include/QtCore/QJsonArray \
 	D:/QT/6.9.1/mingw_64/include/QtCore/QJsonDocument \
 	D:/QT/6.9.1/mingw_64/include/QtCore/QJsonObject \
@@ -270,6 +234,7 @@ Snake_cpp_autogen/timestamp: \
 	D:/QT/6.9.1/mingw_64/include/QtGui/qwindowdefs_win.h \
 	D:/QT/6.9.1/mingw_64/include/QtNetwork/QTcpServer \
 	D:/QT/6.9.1/mingw_64/include/QtNetwork/QTcpSocket \
+	D:/QT/6.9.1/mingw_64/include/QtNetwork/QUdpSocket \
 	D:/QT/6.9.1/mingw_64/include/QtNetwork/qabstractsocket.h \
 	D:/QT/6.9.1/mingw_64/include/QtNetwork/qhostaddress.h \
 	D:/QT/6.9.1/mingw_64/include/QtNetwork/qtcpserver.h \
@@ -277,6 +242,7 @@ Snake_cpp_autogen/timestamp: \
 	D:/QT/6.9.1/mingw_64/include/QtNetwork/qtnetwork-config.h \
 	D:/QT/6.9.1/mingw_64/include/QtNetwork/qtnetworkexports.h \
 	D:/QT/6.9.1/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+	D:/QT/6.9.1/mingw_64/include/QtNetwork/qudpsocket.h \
 	D:/QT/6.9.1/mingw_64/include/QtWidgets/QComboBox \
 	D:/QT/6.9.1/mingw_64/include/QtWidgets/QFrame \
 	D:/QT/6.9.1/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
@@ -810,5 +776,41 @@ Snake_cpp_autogen/timestamp: \
 	D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
 	D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
 	D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
-	C:/Users/ROG/Desktop/Snake-cpp/mainwindow.ui \
+	D:/Snake-cpp/CMakeLists.txt \
+	D:/Snake-cpp/build/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake \
+	D:/Snake-cpp/build/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
+	D:/Snake-cpp/build/CMakeFiles/3.30.5/CMakeSystem.cmake \
+	D:/Snake-cpp/build/Snake_cpp_autogen/moc_predefs.h \
+	D:/Snake-cpp/characterselection.cpp \
+	D:/Snake-cpp/characterselection.h \
+	D:/Snake-cpp/food.cpp \
+	D:/Snake-cpp/food.h \
+	D:/Snake-cpp/gamestate.h \
+	D:/Snake-cpp/gamewidget.cpp \
+	D:/Snake-cpp/gamewidget.h \
+	D:/Snake-cpp/localcoopcharacterselection.cpp \
+	D:/Snake-cpp/localcoopcharacterselection.h \
+	D:/Snake-cpp/main.cpp \
+	D:/Snake-cpp/mainwindow.cpp \
+	D:/Snake-cpp/mainwindow.h \
+	D:/Snake-cpp/multiplayergamemanager.cpp \
+	D:/Snake-cpp/multiplayergamemanager.h \
+	D:/Snake-cpp/multiplayerlobby.cpp \
+	D:/Snake-cpp/multiplayerlobby.h \
+	D:/Snake-cpp/multiplayermodeselection.cpp \
+	D:/Snake-cpp/multiplayermodeselection.h \
+	D:/Snake-cpp/networkmanager.cpp \
+	D:/Snake-cpp/networkmanager.h \
+	D:/Snake-cpp/oceanbackground.cpp \
+	D:/Snake-cpp/oceanbackground.h \
+	D:/Snake-cpp/resources.qrc \
+	D:/Snake-cpp/singlemodeselection.cpp \
+	D:/Snake-cpp/singlemodeselection.h \
+	D:/Snake-cpp/singleplayergamemanager.cpp \
+	D:/Snake-cpp/singleplayergamemanager.h \
+	D:/Snake-cpp/snake.cpp \
+	D:/Snake-cpp/snake.h \
+	D:/Snake-cpp/wall.cpp \
+	D:/Snake-cpp/wall.h \
+	D:/Snake-cpp/mainwindow.ui \
 	D:/QT/Tools/CMake_64/bin/cmake.exe

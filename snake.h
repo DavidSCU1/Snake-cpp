@@ -14,6 +14,7 @@ public:
     explicit Snake(QObject *parent = nullptr);
     
     void setCharacter(CharacterType character);
+    void setBody(const std::deque<Point>& newBody) { body = newBody; }
     void reset(const Point& startPos);
     void move();
     void grow();

@@ -1,6 +1,6 @@
 CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj: \
- C:\Users\ROG\Desktop\Snake-cpp\singleplayergamemanager.cpp \
- C:\Users\ROG\Desktop\Snake-cpp\singleplayergamemanager.h \
+ D:\Snake-cpp\singleplayergamemanager.cpp \
+ D:\Snake-cpp\singleplayergamemanager.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QObject \
  D:/QT/6.9.1/mingw_64/include/QtCore/qobject.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/qobjectdefs.h \
@@ -358,13 +358,11 @@ CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj: \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/deque \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_deque.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/deque.tcc \
- C:\Users\ROG\Desktop\Snake-cpp\gamestate.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/QString \
+ D:\Snake-cpp\gamestate.h D:/QT/6.9.1/mingw_64/include/QtCore/QString \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstring.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QStringList \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstringlist.h \
- C:\Users\ROG\Desktop\Snake-cpp\gamewidget.h \
- D:/QT/6.9.1/mingw_64/include/QtWidgets/QWidget \
+ D:\Snake-cpp\gamewidget.h D:/QT/6.9.1/mingw_64/include/QtWidgets/QWidget \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qwidget.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
  D:/QT/6.9.1/mingw_64/include/QtGui/qtguiglobal.h \
@@ -471,13 +469,10 @@ CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtCore/QSet \
  D:/QT/6.9.1/mingw_64/include/QtCore/qset.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QMap \
- D:/QT/6.9.1/mingw_64/include/QtCore/qmap.h \
- C:\Users\ROG\Desktop\Snake-cpp\snake.h \
+ D:/QT/6.9.1/mingw_64/include/QtCore/qmap.h D:\Snake-cpp\snake.h \
  D:/QT/6.9.1/mingw_64/include/QtGui/QPixmap \
- D:/QT/6.9.1/mingw_64/include/QtGui/qpixmap.h \
- C:\Users\ROG\Desktop\Snake-cpp\food.h \
- C:\Users\ROG\Desktop\Snake-cpp\wall.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/QVector \
+ D:/QT/6.9.1/mingw_64/include/QtGui/qpixmap.h D:\Snake-cpp\food.h \
+ D:\Snake-cpp\wall.h D:/QT/6.9.1/mingw_64/include/QtCore/QVector \
  D:/QT/6.9.1/mingw_64/include/QtCore/qvector.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QPoint \
  D:/QT/6.9.1/mingw_64/include/QtCore/qpoint.h \
@@ -492,7 +487,7 @@ CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj: \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mmintrin.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mwaitintrin.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/random.tcc \
- C:\Users\ROG\Desktop\Snake-cpp\networkmanager.h \
+ D:\Snake-cpp\networkmanager.h \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/QTcpServer \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/qtcpserver.h \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/qtnetworkglobal.h \
@@ -513,7 +508,9 @@ CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtCore/qjsonparseerror.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QJsonDocument \
  D:/QT/6.9.1/mingw_64/include/QtCore/qjsondocument.h \
- C:\Users\ROG\Desktop\Snake-cpp\multiplayergamemanager.h \
+ D:/QT/6.9.1/mingw_64/include/QtNetwork/QUdpSocket \
+ D:/QT/6.9.1/mingw_64/include/QtNetwork/qudpsocket.h \
+ D:\Snake-cpp\multiplayergamemanager.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QJsonArray \
  D:/QT/6.9.1/mingw_64/include/QtCore/qjsonarray.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QDebug \

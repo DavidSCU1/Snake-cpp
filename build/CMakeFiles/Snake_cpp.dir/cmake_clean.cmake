@@ -1,7 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Snake_cpp_autogen.dir/AutogenUsed.txt"
-  "CMakeFiles/Snake_cpp_autogen.dir/ParseCache.txt"
-  "Snake_cpp_autogen"
   "CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj"
   "CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj.d"
   "CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj"
@@ -36,6 +33,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/Snake_cpp.dir/snake.cpp.obj.d"
   "CMakeFiles/Snake_cpp.dir/wall.cpp.obj"
   "CMakeFiles/Snake_cpp.dir/wall.cpp.obj.d"
+  "CMakeFiles/Snake_cpp_autogen.dir/AutogenUsed.txt"
+  "CMakeFiles/Snake_cpp_autogen.dir/ParseCache.txt"
+  "Snake_cpp_autogen"
   "Snake_cpp.exe"
   "Snake_cpp.exe.manifest"
   "Snake_cpp.pdb"

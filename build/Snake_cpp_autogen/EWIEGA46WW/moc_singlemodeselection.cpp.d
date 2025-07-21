@@ -1,7 +1,5 @@
-C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_singlemodeselection.cpp: C:/Users/ROG/Desktop/Snake-cpp/singlemodeselection.h \
-  C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/moc_predefs.h \
-  C:/Users/ROG/Desktop/Snake-cpp/gamestate.h \
-  C:/Users/ROG/Desktop/Snake-cpp/singleplayergamemanager.h \
+D:/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_singlemodeselection.cpp: D:/Snake-cpp/singlemodeselection.h \
+  D:/Snake-cpp/build/Snake_cpp_autogen/moc_predefs.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/QObject \
   D:/QT/6.9.1/mingw_64/include/QtCore/QPropertyAnimation \
   D:/QT/6.9.1/mingw_64/include/QtCore/QSettings \
@@ -418,4 +416,6 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_singlemode
   D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/sys/types.h \
   D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
   D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
-  D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
+  D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
+  D:/Snake-cpp/gamestate.h \
+  D:/Snake-cpp/singleplayergamemanager.h

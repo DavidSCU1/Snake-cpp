@@ -52,10 +52,10 @@ RM = D:\QT\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\ROG\Desktop\Snake-cpp
+CMAKE_SOURCE_DIR = D:\Snake-cpp
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\ROG\Desktop\Snake-cpp\build
+CMAKE_BINARY_DIR = D:\Snake-cpp\build
 
 # Utility rule file for Snake_cpp_autogen.
 
@@ -70,9 +70,9 @@ CMakeFiles/Snake_cpp_autogen: Snake_cpp_autogen/timestamp
 Snake_cpp_autogen/timestamp: D:/QT/6.9.1/mingw_64/bin/moc.exe
 Snake_cpp_autogen/timestamp: D:/QT/6.9.1/mingw_64/bin/uic.exe
 Snake_cpp_autogen/timestamp: CMakeFiles/Snake_cpp_autogen.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target Snake_cpp"
-	D:\QT\Tools\CMake_64\bin\cmake.exe -E cmake_autogen C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutogenInfo.json ""
-	D:\QT\Tools\CMake_64\bin\cmake.exe -E touch C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/timestamp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target Snake_cpp"
+	D:\QT\Tools\CMake_64\bin\cmake.exe -E cmake_autogen D:/Snake-cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutogenInfo.json ""
+	D:\QT\Tools\CMake_64\bin\cmake.exe -E touch D:/Snake-cpp/build/Snake_cpp_autogen/timestamp
 
 Snake_cpp_autogen: CMakeFiles/Snake_cpp_autogen
 Snake_cpp_autogen: Snake_cpp_autogen/timestamp
@@ -88,6 +88,6 @@ CMakeFiles/Snake_cpp_autogen.dir/clean:
 .PHONY : CMakeFiles/Snake_cpp_autogen.dir/clean
 
 CMakeFiles/Snake_cpp_autogen.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\ROG\Desktop\Snake-cpp C:\Users\ROG\Desktop\Snake-cpp C:\Users\ROG\Desktop\Snake-cpp\build C:\Users\ROG\Desktop\Snake-cpp\build C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles\Snake_cpp_autogen.dir\DependInfo.cmake "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" D:\Snake-cpp D:\Snake-cpp D:\Snake-cpp\build D:\Snake-cpp\build D:\Snake-cpp\build\CMakeFiles\Snake_cpp_autogen.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/Snake_cpp_autogen.dir/depend
 

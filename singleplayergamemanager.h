@@ -67,6 +67,13 @@ public:
     void recordFoodEaten(bool isSpecial = false);
     void recordPerfectMove();
     
+    // 获取AI蛇的身体
+    const std::deque<Point>& getAISnake() const { return aiSnake; }
+    CharacterType getAISnakeCharacter() const { return aiSnakeCharacter; }
+    
+    // 设置食物位置
+    void setFoodPosition(const Point& foodPos) { foodPosition = foodPos; }
+    
     // 成就系统
     QList<Achievement> getAchievements() const { return achievements; }
     QList<Achievement> getUnlockedAchievements() const;
@@ -93,6 +100,11 @@ signals:
     void aiScoreUpdated(int aiScore, int playerScore);  // AI对战分数更新
     void gameEnded(SinglePlayerMode mode, const GameStats& finalStats);
     
+public:
+    // AI对战相关方法
+    void initializeAI();
+    void updateAIMovement();
+
 private slots:
     void onGameTimer();
     void onModeTimer();
@@ -106,9 +118,6 @@ private:
     void updateSpeedRunMode();
     void updateAIBattleMode();
     
-    // AI对战相关方法
-    void initializeAI();
-    void updateAIMovement();
     Direction calculateAIDirection();
     bool isValidAIMove(Direction direction);
     
@@ -130,6 +139,9 @@ private:
     QTimer* speedTimer;     // 速度变化计时器
     QTime gameStartTime;
     
+    // AI蛇的目标食物位置
+    Point foodPosition;
+    
     // 统计数据
     GameStats gameStats;
     
@@ -142,6 +154,7 @@ private:
     int aiScore;                // AI当前分数
     int playerScore;            // 玩家当前分数
     std::deque<Point> aiSnake;  // AI蛇身
+    CharacterType aiSnakeCharacter;  // AI蛇的角色
     Direction aiDirection;      // AI移动方向
     Point aiTarget;             // AI目标食物位置
     QTimer* aiMoveTimer;        // AI移动计时器

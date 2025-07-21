@@ -52,10 +52,10 @@ RM = D:\QT\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\ROG\Desktop\Snake-cpp
+CMAKE_SOURCE_DIR = D:\Snake-cpp
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\ROG\Desktop\Snake-cpp\build
+CMAKE_BINARY_DIR = D:\Snake-cpp\build
 
 # Utility rule file for Snake_cpp_autogen_timestamp_deps.
 
@@ -77,6 +77,6 @@ CMakeFiles/Snake_cpp_autogen_timestamp_deps.dir/clean:
 .PHONY : CMakeFiles/Snake_cpp_autogen_timestamp_deps.dir/clean
 
 CMakeFiles/Snake_cpp_autogen_timestamp_deps.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\ROG\Desktop\Snake-cpp C:\Users\ROG\Desktop\Snake-cpp C:\Users\ROG\Desktop\Snake-cpp\build C:\Users\ROG\Desktop\Snake-cpp\build C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles\Snake_cpp_autogen_timestamp_deps.dir\DependInfo.cmake "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" D:\Snake-cpp D:\Snake-cpp D:\Snake-cpp\build D:\Snake-cpp\build D:\Snake-cpp\build\CMakeFiles\Snake_cpp_autogen_timestamp_deps.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/Snake_cpp_autogen_timestamp_deps.dir/depend
 

@@ -1,6 +1,6 @@
 CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj: \
- C:\Users\ROG\Desktop\Snake-cpp\multiplayermodeselection.cpp \
- C:\Users\ROG\Desktop\Snake-cpp\multiplayermodeselection.h \
+ D:\Snake-cpp\multiplayermodeselection.cpp \
+ D:\Snake-cpp\multiplayermodeselection.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QWidget \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qwidget.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -399,8 +399,7 @@ CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QPushButton \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qpushbutton.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qabstractbutton.h \
- C:\Users\ROG\Desktop\Snake-cpp\gamestate.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/QString \
+ D:\Snake-cpp\gamestate.h D:/QT/6.9.1/mingw_64/include/QtCore/QString \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstring.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QStringList \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstringlist.h \

@@ -1,6 +1,5 @@
-C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_multiplayermodeselection.cpp: C:/Users/ROG/Desktop/Snake-cpp/multiplayermodeselection.h \
-  C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/moc_predefs.h \
-  C:/Users/ROG/Desktop/Snake-cpp/gamestate.h \
+D:/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_multiplayermodeselection.cpp: D:/Snake-cpp/multiplayermodeselection.h \
+  D:/Snake-cpp/build/Snake_cpp_autogen/moc_predefs.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/QString \
   D:/QT/6.9.1/mingw_64/include/QtCore/QStringList \
   D:/QT/6.9.1/mingw_64/include/QtCore/q17memory.h \
@@ -386,4 +385,5 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_multiplaye
   D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/sys/types.h \
   D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
   D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
-  D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
+  D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
+  D:/Snake-cpp/gamestate.h

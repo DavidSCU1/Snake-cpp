@@ -1,7 +1,5 @@
-CMakeFiles/Snake_cpp.dir/food.cpp.obj: \
- C:\Users\ROG\Desktop\Snake-cpp\food.cpp \
- C:\Users\ROG\Desktop\Snake-cpp\food.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/QObject \
+CMakeFiles/Snake_cpp.dir/food.cpp.obj: D:\Snake-cpp\food.cpp \
+ D:\Snake-cpp\food.h D:/QT/6.9.1/mingw_64/include/QtCore/QObject \
  D:/QT/6.9.1/mingw_64/include/QtCore/qobject.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/qobjectdefs.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/qnamespace.h \
@@ -358,8 +356,7 @@ CMakeFiles/Snake_cpp.dir/food.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtCore/qelapsedtimer.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QSet \
  D:/QT/6.9.1/mingw_64/include/QtCore/qset.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/qhash.h \
- C:\Users\ROG\Desktop\Snake-cpp\gamestate.h \
+ D:/QT/6.9.1/mingw_64/include/QtCore/qhash.h D:\Snake-cpp\gamestate.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QString \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstring.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QStringList \

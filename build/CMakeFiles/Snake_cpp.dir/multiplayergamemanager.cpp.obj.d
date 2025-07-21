@@ -1,6 +1,6 @@
 CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj: \
- C:\Users\ROG\Desktop\Snake-cpp\multiplayergamemanager.cpp \
- C:\Users\ROG\Desktop\Snake-cpp\multiplayergamemanager.h \
+ D:\Snake-cpp\multiplayergamemanager.cpp \
+ D:\Snake-cpp\multiplayergamemanager.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QObject \
  D:/QT/6.9.1/mingw_64/include/QtCore/qobject.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/qobjectdefs.h \
@@ -374,10 +374,9 @@ CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj: \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/deque \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_deque.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/deque.tcc \
- C:\Users\ROG\Desktop\Snake-cpp\gamestate.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/QString \
+ D:\Snake-cpp\gamestate.h D:/QT/6.9.1/mingw_64/include/QtCore/QString \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstring.h \
- C:\Users\ROG\Desktop\Snake-cpp\networkmanager.h \
+ D:\Snake-cpp\networkmanager.h \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/QTcpServer \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/qtcpserver.h \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/qtnetworkglobal.h \
@@ -393,6 +392,8 @@ CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/qtcpsocket.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QJsonDocument \
  D:/QT/6.9.1/mingw_64/include/QtCore/qjsondocument.h \
+ D:/QT/6.9.1/mingw_64/include/QtNetwork/QUdpSocket \
+ D:/QT/6.9.1/mingw_64/include/QtNetwork/qudpsocket.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QDebug \
  D:/QT/6.9.1/mingw_64/include/QtCore/qdebug.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QRandomGenerator \

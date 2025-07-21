@@ -1,5 +1,5 @@
 CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj: \
- C:\Users\ROG\Desktop\Snake-cpp\test_resource_simple.cpp \
+ D:\Snake-cpp\test_resource_simple.cpp \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QApplication \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qtwidgetsglobal.h \

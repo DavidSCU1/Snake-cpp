@@ -52,10 +52,10 @@ RM = D:\QT\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\ROG\Desktop\Snake-cpp
+CMAKE_SOURCE_DIR = D:\Snake-cpp
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\ROG\Desktop\Snake-cpp\build
+CMAKE_BINARY_DIR = D:\Snake-cpp\build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/TestResource.dir/depend.make
@@ -71,76 +71,76 @@ include CMakeFiles/TestResource.dir/flags.make
 TestResource_autogen/timestamp: D:/QT/6.9.1/mingw_64/bin/moc.exe
 TestResource_autogen/timestamp: D:/QT/6.9.1/mingw_64/bin/uic.exe
 TestResource_autogen/timestamp: CMakeFiles/TestResource.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target TestResource"
-	D:\QT\Tools\CMake_64\bin\cmake.exe -E cmake_autogen C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/TestResource_autogen.dir/AutogenInfo.json ""
-	D:\QT\Tools\CMake_64\bin\cmake.exe -E touch C:/Users/ROG/Desktop/Snake-cpp/build/TestResource_autogen/timestamp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target TestResource"
+	D:\QT\Tools\CMake_64\bin\cmake.exe -E cmake_autogen D:/Snake-cpp/build/CMakeFiles/TestResource_autogen.dir/AutogenInfo.json ""
+	D:\QT\Tools\CMake_64\bin\cmake.exe -E touch D:/Snake-cpp/build/TestResource_autogen/timestamp
 
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/resources.qrc
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/resources.qrc
 TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: CMakeFiles/TestResource_autogen.dir/AutoRcc_resources_EWIEGA46WW_Info.json
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/mrcrabs_head.svg
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/plankton_head.svg
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/patrick_head.svg
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/squidward_head.svg
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/krabby_patty.svg
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/ocean-background.png
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/patrick_body.svg
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/spongebob_head.svg
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/sandy_head.svg
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/spongebob_body.svg
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/sandy_body.svg
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/golden_spatula.svg
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/mrcrabs_body.svg
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/squidward_body.svg
-TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/plankton_body.svg
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/mrcrabs_head.svg
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/plankton_head.svg
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/patrick_head.svg
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/squidward_head.svg
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/krabby_patty.svg
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/ocean-background.png
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/patrick_body.svg
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/spongebob_head.svg
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/sandy_head.svg
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/spongebob_body.svg
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/sandy_body.svg
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/golden_spatula.svg
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/mrcrabs_body.svg
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/squidward_body.svg
+TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/plankton_body.svg
 TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/QT/6.9.1/mingw_64/bin/rcc.exe
 TestResource_autogen/EWIEGA46WW/qrc_resources.cpp: D:/QT/6.9.1/mingw_64/bin/rcc.exe
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Automatic RCC for resources.qrc"
-	D:\QT\Tools\CMake_64\bin\cmake.exe -E cmake_autorcc C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/TestResource_autogen.dir/AutoRcc_resources_EWIEGA46WW_Info.json 
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Automatic RCC for resources.qrc"
+	D:\QT\Tools\CMake_64\bin\cmake.exe -E cmake_autorcc D:/Snake-cpp/build/CMakeFiles/TestResource_autogen.dir/AutoRcc_resources_EWIEGA46WW_Info.json 
 
 CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.obj: CMakeFiles/TestResource.dir/flags.make
 CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.obj: CMakeFiles/TestResource.dir/includes_CXX.rsp
 CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.obj: TestResource_autogen/mocs_compilation.cpp
 CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.obj: CMakeFiles/TestResource.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.obj -MF CMakeFiles\TestResource.dir\TestResource_autogen\mocs_compilation.cpp.obj.d -o CMakeFiles\TestResource.dir\TestResource_autogen\mocs_compilation.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\build\TestResource_autogen\mocs_compilation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.obj -MF CMakeFiles\TestResource.dir\TestResource_autogen\mocs_compilation.cpp.obj.d -o CMakeFiles\TestResource.dir\TestResource_autogen\mocs_compilation.cpp.obj -c D:\Snake-cpp\build\TestResource_autogen\mocs_compilation.cpp
 
 CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\build\TestResource_autogen\mocs_compilation.cpp > CMakeFiles\TestResource.dir\TestResource_autogen\mocs_compilation.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\build\TestResource_autogen\mocs_compilation.cpp > CMakeFiles\TestResource.dir\TestResource_autogen\mocs_compilation.cpp.i
 
 CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\build\TestResource_autogen\mocs_compilation.cpp -o CMakeFiles\TestResource.dir\TestResource_autogen\mocs_compilation.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\build\TestResource_autogen\mocs_compilation.cpp -o CMakeFiles\TestResource.dir\TestResource_autogen\mocs_compilation.cpp.s
 
 CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj: CMakeFiles/TestResource.dir/flags.make
 CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj: CMakeFiles/TestResource.dir/includes_CXX.rsp
-CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/test_resource_simple.cpp
+CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj: D:/Snake-cpp/test_resource_simple.cpp
 CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj: CMakeFiles/TestResource.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj -MF CMakeFiles\TestResource.dir\test_resource_simple.cpp.obj.d -o CMakeFiles\TestResource.dir\test_resource_simple.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\test_resource_simple.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj -MF CMakeFiles\TestResource.dir\test_resource_simple.cpp.obj.d -o CMakeFiles\TestResource.dir\test_resource_simple.cpp.obj -c D:\Snake-cpp\test_resource_simple.cpp
 
 CMakeFiles/TestResource.dir/test_resource_simple.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TestResource.dir/test_resource_simple.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\test_resource_simple.cpp > CMakeFiles\TestResource.dir\test_resource_simple.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\test_resource_simple.cpp > CMakeFiles\TestResource.dir\test_resource_simple.cpp.i
 
 CMakeFiles/TestResource.dir/test_resource_simple.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TestResource.dir/test_resource_simple.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\test_resource_simple.cpp -o CMakeFiles\TestResource.dir\test_resource_simple.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\test_resource_simple.cpp -o CMakeFiles\TestResource.dir\test_resource_simple.cpp.s
 
 CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj: CMakeFiles/TestResource.dir/flags.make
 CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj: CMakeFiles/TestResource.dir/includes_CXX.rsp
 CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj: TestResource_autogen/EWIEGA46WW/qrc_resources.cpp
 CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj: CMakeFiles/TestResource.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj -MF CMakeFiles\TestResource.dir\TestResource_autogen\EWIEGA46WW\qrc_resources.cpp.obj.d -o CMakeFiles\TestResource.dir\TestResource_autogen\EWIEGA46WW\qrc_resources.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\build\TestResource_autogen\EWIEGA46WW\qrc_resources.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj -MF CMakeFiles\TestResource.dir\TestResource_autogen\EWIEGA46WW\qrc_resources.cpp.obj.d -o CMakeFiles\TestResource.dir\TestResource_autogen\EWIEGA46WW\qrc_resources.cpp.obj -c D:\Snake-cpp\build\TestResource_autogen\EWIEGA46WW\qrc_resources.cpp
 
 CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\build\TestResource_autogen\EWIEGA46WW\qrc_resources.cpp > CMakeFiles\TestResource.dir\TestResource_autogen\EWIEGA46WW\qrc_resources.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\build\TestResource_autogen\EWIEGA46WW\qrc_resources.cpp > CMakeFiles\TestResource.dir\TestResource_autogen\EWIEGA46WW\qrc_resources.cpp.i
 
 CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\build\TestResource_autogen\EWIEGA46WW\qrc_resources.cpp -o CMakeFiles\TestResource.dir\TestResource_autogen\EWIEGA46WW\qrc_resources.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\build\TestResource_autogen\EWIEGA46WW\qrc_resources.cpp -o CMakeFiles\TestResource.dir\TestResource_autogen\EWIEGA46WW\qrc_resources.cpp.s
 
 # Object files for target TestResource
 TestResource_OBJECTS = \
@@ -161,7 +161,7 @@ TestResource.exe: D:/QT/6.9.1/mingw_64/lib/libQt6Core.a
 TestResource.exe: CMakeFiles/TestResource.dir/linkLibs.rsp
 TestResource.exe: CMakeFiles/TestResource.dir/objects1.rsp
 TestResource.exe: CMakeFiles/TestResource.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable TestResource.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable TestResource.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\TestResource.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -174,6 +174,6 @@ CMakeFiles/TestResource.dir/clean:
 
 CMakeFiles/TestResource.dir/depend: TestResource_autogen/EWIEGA46WW/qrc_resources.cpp
 CMakeFiles/TestResource.dir/depend: TestResource_autogen/timestamp
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\ROG\Desktop\Snake-cpp C:\Users\ROG\Desktop\Snake-cpp C:\Users\ROG\Desktop\Snake-cpp\build C:\Users\ROG\Desktop\Snake-cpp\build C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles\TestResource.dir\DependInfo.cmake "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" D:\Snake-cpp D:\Snake-cpp D:\Snake-cpp\build D:\Snake-cpp\build D:\Snake-cpp\build\CMakeFiles\TestResource.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/TestResource.dir/depend
 

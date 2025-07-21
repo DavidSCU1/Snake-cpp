@@ -1,6 +1,5 @@
-CMakeFiles/Snake_cpp.dir/main.cpp.obj: \
- C:\Users\ROG\Desktop\Snake-cpp\main.cpp \
- C:\Users\ROG\Desktop\Snake-cpp\mainwindow.h \
+CMakeFiles/Snake_cpp.dir/main.cpp.obj: D:\Snake-cpp\main.cpp \
+ D:\Snake-cpp\mainwindow.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QMainWindow \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qmainwindow.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -435,13 +434,11 @@ CMakeFiles/Snake_cpp.dir/main.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QInputDialog \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qinputdialog.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
- C:\Users\ROG\Desktop\Snake-cpp\gamestate.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/QString \
+ D:\Snake-cpp\gamestate.h D:/QT/6.9.1/mingw_64/include/QtCore/QString \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstring.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QStringList \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstringlist.h \
- C:\Users\ROG\Desktop\Snake-cpp\gamewidget.h \
- D:/QT/6.9.1/mingw_64/include/QtWidgets/QWidget \
+ D:\Snake-cpp\gamewidget.h D:/QT/6.9.1/mingw_64/include/QtWidgets/QWidget \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qwidget.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QTimer \
  D:/QT/6.9.1/mingw_64/include/QtCore/qtimer.h \
@@ -483,16 +480,14 @@ CMakeFiles/Snake_cpp.dir/main.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtCore/QSet \
  D:/QT/6.9.1/mingw_64/include/QtCore/qset.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QMap \
- D:/QT/6.9.1/mingw_64/include/QtCore/qmap.h \
- C:\Users\ROG\Desktop\Snake-cpp\snake.h \
+ D:/QT/6.9.1/mingw_64/include/QtCore/qmap.h D:\Snake-cpp\snake.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QObject \
  D:/QT/6.9.1/mingw_64/include/QtGui/QPixmap \
  D:/QT/6.9.1/mingw_64/include/QtGui/qpixmap.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/deque \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_deque.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/deque.tcc \
- C:\Users\ROG\Desktop\Snake-cpp\food.h \
- C:\Users\ROG\Desktop\Snake-cpp\wall.h \
+ D:\Snake-cpp\food.h D:\Snake-cpp\wall.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QVector \
  D:/QT/6.9.1/mingw_64/include/QtCore/qvector.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QPoint \
@@ -508,7 +503,7 @@ CMakeFiles/Snake_cpp.dir/main.cpp.obj: \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mmintrin.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mwaitintrin.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/random.tcc \
- C:\Users\ROG\Desktop\Snake-cpp\networkmanager.h \
+ D:\Snake-cpp\networkmanager.h \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/QTcpServer \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/qtcpserver.h \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/qtnetworkglobal.h \
@@ -530,21 +525,23 @@ CMakeFiles/Snake_cpp.dir/main.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtCore/qjsonparseerror.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QJsonDocument \
  D:/QT/6.9.1/mingw_64/include/QtCore/qjsondocument.h \
- C:\Users\ROG\Desktop\Snake-cpp\multiplayergamemanager.h \
+ D:/QT/6.9.1/mingw_64/include/QtNetwork/QUdpSocket \
+ D:/QT/6.9.1/mingw_64/include/QtNetwork/qudpsocket.h \
+ D:\Snake-cpp\multiplayergamemanager.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QJsonArray \
  D:/QT/6.9.1/mingw_64/include/QtCore/qjsonarray.h \
- C:\Users\ROG\Desktop\Snake-cpp\singleplayergamemanager.h \
+ D:\Snake-cpp\singleplayergamemanager.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QTime \
  D:/QT/6.9.1/mingw_64/include/QtCore/qdatetime.h \
- C:\Users\ROG\Desktop\Snake-cpp\characterselection.h \
+ D:\Snake-cpp\characterselection.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QGridLayout \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qgridlayout.h \
- C:\Users\ROG\Desktop\Snake-cpp\multiplayerlobby.h \
+ D:\Snake-cpp\multiplayerlobby.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QSpinBox \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qspinbox.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QGroupBox \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qgroupbox.h \
- C:\Users\ROG\Desktop\Snake-cpp\singlemodeselection.h \
+ D:\Snake-cpp\singlemodeselection.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QScrollArea \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qscrollarea.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QProgressBar \
@@ -558,7 +555,7 @@ CMakeFiles/Snake_cpp.dir/main.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtCore/qeasingcurve.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
- C:\Users\ROG\Desktop\Snake-cpp\oceanbackground.h \
+ D:\Snake-cpp\oceanbackground.h \
  D:/QT/6.9.1/mingw_64/include/QtGui/QPainter \
  D:/QT/6.9.1/mingw_64/include/QtGui/qpainter.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QParallelAnimationGroup \
@@ -567,9 +564,263 @@ CMakeFiles/Snake_cpp.dir/main.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtCore/QSequentialAnimationGroup \
  D:/QT/6.9.1/mingw_64/include/QtCore/qsequentialanimationgroup.h \
  D:/QT/6.9.1/mingw_64/include/QtGui/QResizeEvent \
- C:\Users\ROG\Desktop\Snake-cpp\multiplayermodeselection.h \
- C:\Users\ROG\Desktop\Snake-cpp\localcoopcharacterselection.h \
+ D:\Snake-cpp\multiplayermodeselection.h \
+ D:\Snake-cpp\localcoopcharacterselection.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QApplication \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
+ D:/QT/6.9.1/mingw_64/include/QtCore/QCommandLineParser \
+ D:/QT/6.9.1/mingw_64/include/QtCore/qcommandlineparser.h \
+ D:/QT/6.9.1/mingw_64/include/QtCore/qcommandlineoption.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QDebug \
- D:/QT/6.9.1/mingw_64/include/QtCore/qdebug.h
+ D:/QT/6.9.1/mingw_64/include/QtCore/qdebug.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/iostream \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ostream \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ios \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_ios.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cwctype \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wctype.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/ctype_base.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/ctype_inline.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets.tcc \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_ios.tcc \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ostream.tcc \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/istream \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/istream.tcc \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/io.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/fcntl.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/windows.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/sdkddkver.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/excpt.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/windef.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winapifamily.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/minwindef.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/specstrings.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/sal.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/concurrencysal.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/driverspecs.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winnt.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/_mingw_unicode.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/apiset.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/psdk_inc/intrin-impl.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/basetsd.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/guiddef.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/x86intrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/x86gprintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/ia32intrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/adxintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/bmiintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/bmi2intrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/cetintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/cldemoteintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/clflushoptintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/clwbintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/clzerointrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/cmpccxaddintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/enqcmdintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/fxsrintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/lzcntintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/lwpintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/movdirintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mwaitxintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/pconfigintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/popcntintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/pkuintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/prfchiintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/raointintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/rdseedintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/rtmintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/serializeintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/sgxintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/tbmintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/tsxldtrkintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/uintrintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/waitpkgintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/wbnoinvdintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/xsaveintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/xsavecintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/xsaveoptintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/xsavesintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/xtestintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/hresetintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/immintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/tmmintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/smmintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/wmmintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avxintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avxvnniintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avxifmaintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avxvnniint8intrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx2intrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512fintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512erintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512pfintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512cdintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512vlintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512bwintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512dqintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512vlbwintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512vldqintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512ifmaintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512ifmavlintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512vbmiintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512vbmivlintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx5124fmapsintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx5124vnniwintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512vpopcntdqintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512vbmi2intrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512vbmi2vlintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512vnniintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512vnnivlintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512vpopcntdqvlintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512bitalgintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512vp2intersectintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512vp2intersectvlintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512fp16intrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512fp16vlintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/shaintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/fmaintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/f16cintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/gfniintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/vaesintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/vpclmulqdqintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512bf16vlintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avx512bf16intrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/avxneconvertintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/amxtileintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/amxint8intrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/amxbf16intrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/amxcomplexintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/prfchwintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/keylockerintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/amxfp16intrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm3dnow.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/fma4intrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/ammintrin.h \
+ D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/xopintrin.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/pshpack4.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/poppack.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/pshpack4.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/pshpack2.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/poppack.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/pshpack2.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/pshpack8.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/pshpack8.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/ktmtypes.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winbase.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/apisetcconv.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/minwinbase.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/bemapiset.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/debugapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/errhandlingapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/fibersapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/fileapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/handleapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/heapapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/ioapiset.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/interlockedapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/jobapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/libloaderapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/memoryapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/namedpipeapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/namespaceapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/processenv.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/processthreadsapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/processtopologyapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/profileapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/realtimeapiset.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/securityappcontainer.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/securitybaseapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/synchapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/sysinfoapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/systemtopologyapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/threadpoolapiset.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/threadpoollegacyapiset.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/utilapiset.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wow64apiset.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winerror.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/fltwinerror.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/timezoneapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wingdi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/pshpack1.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winuser.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/tvout.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winnls.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/datetimeapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/stringapiset.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wincon.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winver.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winreg.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/reason.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winnetwk.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wnnc.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/virtdisk.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/cderr.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/dde.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/ddeml.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/dlgs.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/lzexpand.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/mmsystem.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/mmsyscom.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/mciapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/mmiscapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/mmiscapi2.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/playsoundapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/mmeapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/timeapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/joystickapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/nb30.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/rpc.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/rpcdce.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/rpcdcep.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/rpcnsi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/rpcnterr.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/rpcasync.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/shellapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winperf.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winsock.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/_bsd_types.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/inaddr.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/psdk_inc/_socket_types.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/psdk_inc/_fd_types.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/psdk_inc/_ip_types.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/psdk_inc/_ip_mreq1.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/psdk_inc/_wsadata.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/psdk_inc/_xmitfile.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/psdk_inc/_wsa_errnos.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wincrypt.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/bcrypt.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/ncrypt.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/dpapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winefs.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winscard.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wtypes.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/rpcndr.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/rpcnsip.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/rpcsal.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/ole2.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/objbase.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/combaseapi.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wtypesbase.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/unknwnbase.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/objidlbase.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/cguid.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/objidl.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/unknwn.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/urlmon.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/oleidl.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/servprov.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/msxml.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/oaidl.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/propidl.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/oleauto.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winioctl.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winsmcrd.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winspool.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/prsht.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/commdlg.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/stralign.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/sec_api/stralign_s.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/winsvc.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/mcx.h \
+ D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/imm.h

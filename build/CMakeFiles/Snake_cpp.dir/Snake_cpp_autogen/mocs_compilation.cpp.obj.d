@@ -1,7 +1,7 @@
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: \
- C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\mocs_compilation.cpp \
- C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_characterselection.cpp \
- C:/Users/ROG/Desktop/Snake-cpp/characterselection.h \
+ D:\Snake-cpp\build\Snake_cpp_autogen\mocs_compilation.cpp \
+ D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_characterselection.cpp \
+ D:/Snake-cpp/characterselection.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QWidget \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qwidget.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -403,8 +403,7 @@ CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qboxlayout.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QHBoxLayout \
  D:/QT/6.9.1/mingw_64/include/QtGui/QPixmap \
- D:/QT/6.9.1/mingw_64/include/QtGui/qpixmap.h \
- C:/Users/ROG/Desktop/Snake-cpp/gamestate.h \
+ D:/QT/6.9.1/mingw_64/include/QtGui/qpixmap.h D:/Snake-cpp/gamestate.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QString \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstring.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QStringList \
@@ -417,9 +416,8 @@ CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtCore/qtmocconstants.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/q20algorithm.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/q23type_traits.h \
- C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_food.cpp \
- C:/Users/ROG/Desktop/Snake-cpp/food.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/QObject \
+ D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_food.cpp \
+ D:/Snake-cpp/food.h D:/QT/6.9.1/mingw_64/include/QtCore/QObject \
  D:/QT/6.9.1/mingw_64/include/QtCore/qobject.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QTimer \
  D:/QT/6.9.1/mingw_64/include/QtCore/qtimer.h \
@@ -430,9 +428,8 @@ CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtCore/qelapsedtimer.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QSet \
  D:/QT/6.9.1/mingw_64/include/QtCore/qset.h \
- C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_gamewidget.cpp \
- C:/Users/ROG/Desktop/Snake-cpp/gamewidget.h \
- D:/QT/6.9.1/mingw_64/include/QtGui/QKeyEvent \
+ D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_gamewidget.cpp \
+ D:/Snake-cpp/gamewidget.h D:/QT/6.9.1/mingw_64/include/QtGui/QKeyEvent \
  D:/QT/6.9.1/mingw_64/include/QtGui/qevent.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/qcoreevent.h \
  D:/QT/6.9.1/mingw_64/include/QtGui/qeventpoint.h \
@@ -481,13 +478,11 @@ CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtCore/QSettings \
  D:/QT/6.9.1/mingw_64/include/QtCore/qsettings.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QMap \
- D:/QT/6.9.1/mingw_64/include/QtCore/qmap.h \
- C:/Users/ROG/Desktop/Snake-cpp/snake.h \
+ D:/QT/6.9.1/mingw_64/include/QtCore/qmap.h D:/Snake-cpp/snake.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/deque \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_deque.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/deque.tcc \
- C:/Users/ROG/Desktop/Snake-cpp/food.h \
- C:/Users/ROG/Desktop/Snake-cpp/wall.h \
+ D:/Snake-cpp/food.h D:/Snake-cpp/wall.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QVector \
  D:/QT/6.9.1/mingw_64/include/QtCore/qvector.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QPoint \
@@ -503,7 +498,7 @@ CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mmintrin.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mwaitintrin.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/random.tcc \
- C:/Users/ROG/Desktop/Snake-cpp/networkmanager.h \
+ D:/Snake-cpp/networkmanager.h \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/QTcpServer \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/qtcpserver.h \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/qtnetworkglobal.h \
@@ -525,18 +520,20 @@ CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtCore/qjsonparseerror.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QJsonDocument \
  D:/QT/6.9.1/mingw_64/include/QtCore/qjsondocument.h \
- C:/Users/ROG/Desktop/Snake-cpp/multiplayergamemanager.h \
+ D:/QT/6.9.1/mingw_64/include/QtNetwork/QUdpSocket \
+ D:/QT/6.9.1/mingw_64/include/QtNetwork/qudpsocket.h \
+ D:/Snake-cpp/multiplayergamemanager.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QJsonArray \
  D:/QT/6.9.1/mingw_64/include/QtCore/qjsonarray.h \
- C:/Users/ROG/Desktop/Snake-cpp/singleplayergamemanager.h \
+ D:/Snake-cpp/singleplayergamemanager.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QTime \
  D:/QT/6.9.1/mingw_64/include/QtCore/qdatetime.h \
- C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_localcoopcharacterselection.cpp \
- C:/Users/ROG/Desktop/Snake-cpp/localcoopcharacterselection.h \
+ D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_localcoopcharacterselection.cpp \
+ D:/Snake-cpp/localcoopcharacterselection.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QGroupBox \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qgroupbox.h \
- C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_mainwindow.cpp \
- C:/Users/ROG/Desktop/Snake-cpp/mainwindow.h \
+ D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_mainwindow.cpp \
+ D:/Snake-cpp/mainwindow.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QMainWindow \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qmainwindow.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QStackedWidget \
@@ -552,12 +549,11 @@ CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QInputDialog \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qinputdialog.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qlineedit.h \
- C:/Users/ROG/Desktop/Snake-cpp/gamewidget.h \
- C:/Users/ROG/Desktop/Snake-cpp/characterselection.h \
- C:/Users/ROG/Desktop/Snake-cpp/multiplayerlobby.h \
+ D:/Snake-cpp/gamewidget.h D:/Snake-cpp/characterselection.h \
+ D:/Snake-cpp/multiplayerlobby.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QSpinBox \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qspinbox.h \
- C:/Users/ROG/Desktop/Snake-cpp/singlemodeselection.h \
+ D:/Snake-cpp/singlemodeselection.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QScrollArea \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qscrollarea.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QProgressBar \
@@ -571,7 +567,7 @@ CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtCore/qeasingcurve.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
- C:/Users/ROG/Desktop/Snake-cpp/oceanbackground.h \
+ D:/Snake-cpp/oceanbackground.h \
  D:/QT/6.9.1/mingw_64/include/QtGui/QPainter \
  D:/QT/6.9.1/mingw_64/include/QtGui/qpainter.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QParallelAnimationGroup \
@@ -580,21 +576,21 @@ CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtCore/QSequentialAnimationGroup \
  D:/QT/6.9.1/mingw_64/include/QtCore/qsequentialanimationgroup.h \
  D:/QT/6.9.1/mingw_64/include/QtGui/QResizeEvent \
- C:/Users/ROG/Desktop/Snake-cpp/multiplayermodeselection.h \
- C:/Users/ROG/Desktop/Snake-cpp/localcoopcharacterselection.h \
- C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_multiplayergamemanager.cpp \
- C:/Users/ROG/Desktop/Snake-cpp/multiplayergamemanager.h \
- C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_multiplayerlobby.cpp \
- C:/Users/ROG/Desktop/Snake-cpp/multiplayerlobby.h \
- C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_multiplayermodeselection.cpp \
- C:/Users/ROG/Desktop/Snake-cpp/multiplayermodeselection.h \
- C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_networkmanager.cpp \
- C:/Users/ROG/Desktop/Snake-cpp/networkmanager.h \
- C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_oceanbackground.cpp \
- C:/Users/ROG/Desktop/Snake-cpp/oceanbackground.h \
- C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_singlemodeselection.cpp \
- C:/Users/ROG/Desktop/Snake-cpp/singlemodeselection.h \
- C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_singleplayergamemanager.cpp \
- C:/Users/ROG/Desktop/Snake-cpp/singleplayergamemanager.h \
- C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_snake.cpp \
- C:/Users/ROG/Desktop/Snake-cpp/snake.h
+ D:/Snake-cpp/multiplayermodeselection.h \
+ D:/Snake-cpp/localcoopcharacterselection.h \
+ D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_multiplayergamemanager.cpp \
+ D:/Snake-cpp/multiplayergamemanager.h \
+ D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_multiplayerlobby.cpp \
+ D:/Snake-cpp/multiplayerlobby.h \
+ D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_multiplayermodeselection.cpp \
+ D:/Snake-cpp/multiplayermodeselection.h \
+ D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_networkmanager.cpp \
+ D:/Snake-cpp/networkmanager.h \
+ D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_oceanbackground.cpp \
+ D:/Snake-cpp/oceanbackground.h \
+ D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_singlemodeselection.cpp \
+ D:/Snake-cpp/singlemodeselection.h \
+ D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_singleplayergamemanager.cpp \
+ D:/Snake-cpp/singleplayergamemanager.h \
+ D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW/moc_snake.cpp \
+ D:/Snake-cpp/snake.h

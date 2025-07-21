@@ -1,17 +1,17 @@
 {
 	"AUTOGEN_COMMAND_LINE_LENGTH_MAX" : 32000,
-	"BUILD_DIR" : "C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen",
-	"CMAKE_BINARY_DIR" : "C:/Users/ROG/Desktop/Snake-cpp/build",
-	"CMAKE_CURRENT_BINARY_DIR" : "C:/Users/ROG/Desktop/Snake-cpp/build",
-	"CMAKE_CURRENT_SOURCE_DIR" : "C:/Users/ROG/Desktop/Snake-cpp",
+	"BUILD_DIR" : "D:/Snake-cpp/build/Snake_cpp_autogen",
+	"CMAKE_BINARY_DIR" : "D:/Snake-cpp/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "D:/Snake-cpp/build",
+	"CMAKE_CURRENT_SOURCE_DIR" : "D:/Snake-cpp",
 	"CMAKE_EXECUTABLE" : "D:/QT/Tools/CMake_64/bin/cmake.exe",
 	"CMAKE_LIST_FILES" : 
 	[
-		"C:/Users/ROG/Desktop/Snake-cpp/CMakeLists.txt",
-		"C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/3.30.5/CMakeSystem.cmake",
+		"D:/Snake-cpp/CMakeLists.txt",
+		"D:/Snake-cpp/build/CMakeFiles/3.30.5/CMakeSystem.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/CMakeSystemSpecificInitialize.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-Initialize.cmake",
-		"C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake",
+		"D:/Snake-cpp/build/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/CMakeSystemSpecificInformation.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/CMakeGenericSystem.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/CMakeInitializeConfigs.cmake",
@@ -24,7 +24,7 @@
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/CMakeCommonCompilerMacros.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU.cmake",
-		"C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/3.30.5/CMakeRCCompiler.cmake",
+		"D:/Snake-cpp/build/CMakeFiles/3.30.5/CMakeRCCompiler.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/CMakeRCInformation.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-windres.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX-ABI.cmake",
@@ -378,109 +378,94 @@
 		"D:/QT/6.9.1/mingw_64/lib/cmake/Qt6SvgPrivate/Qt6SvgPrivateVersionlessAliasTargets.cmake",
 		"D:/QT/6.9.1/mingw_64/lib/cmake/Qt6Svg/Qt6SvgVersionlessAliasTargets.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/GNUInstallDirs.cmake",
-		"C:/Users/ROG/Desktop/Snake-cpp/resources.qrc",
-		"C:/Users/ROG/Desktop/Snake-cpp/resources.qrc"
+		"D:/Snake-cpp/resources.qrc",
+		"D:/Snake-cpp/resources.qrc"
 	],
-	"CMAKE_SOURCE_DIR" : "C:/Users/ROG/Desktop/Snake-cpp",
+	"CMAKE_SOURCE_DIR" : "D:/Snake-cpp",
 	"CROSS_CONFIG" : false,
-	"DEP_FILE" : "C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/deps",
+	"DEP_FILE" : "D:/Snake-cpp/build/Snake_cpp_autogen/deps",
 	"DEP_FILE_RULE_NAME" : "Snake_cpp_autogen/timestamp",
 	"HEADERS" : 
 	[
 		[
-			"C:/Users/ROG/Desktop/Snake-cpp/characterselection.h",
+			"D:/Snake-cpp/characterselection.h",
 			"MU",
 			"EWIEGA46WW/moc_characterselection.cpp",
 			null
 		],
+		[ "D:/Snake-cpp/food.h", "MU", "EWIEGA46WW/moc_food.cpp", null ],
 		[
-			"C:/Users/ROG/Desktop/Snake-cpp/food.h",
-			"MU",
-			"EWIEGA46WW/moc_food.cpp",
-			null
-		],
-		[
-			"C:/Users/ROG/Desktop/Snake-cpp/gamestate.h",
+			"D:/Snake-cpp/gamestate.h",
 			"MU",
 			"EWIEGA46WW/moc_gamestate.cpp",
 			null
 		],
 		[
-			"C:/Users/ROG/Desktop/Snake-cpp/gamewidget.h",
+			"D:/Snake-cpp/gamewidget.h",
 			"MU",
 			"EWIEGA46WW/moc_gamewidget.cpp",
 			null
 		],
 		[
-			"C:/Users/ROG/Desktop/Snake-cpp/localcoopcharacterselection.h",
+			"D:/Snake-cpp/localcoopcharacterselection.h",
 			"MU",
 			"EWIEGA46WW/moc_localcoopcharacterselection.cpp",
 			null
 		],
 		[
-			"C:/Users/ROG/Desktop/Snake-cpp/mainwindow.h",
+			"D:/Snake-cpp/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
 			null
 		],
 		[
-			"C:/Users/ROG/Desktop/Snake-cpp/multiplayergamemanager.h",
+			"D:/Snake-cpp/multiplayergamemanager.h",
 			"MU",
 			"EWIEGA46WW/moc_multiplayergamemanager.cpp",
 			null
 		],
 		[
-			"C:/Users/ROG/Desktop/Snake-cpp/multiplayerlobby.h",
+			"D:/Snake-cpp/multiplayerlobby.h",
 			"MU",
 			"EWIEGA46WW/moc_multiplayerlobby.cpp",
 			null
 		],
 		[
-			"C:/Users/ROG/Desktop/Snake-cpp/multiplayermodeselection.h",
+			"D:/Snake-cpp/multiplayermodeselection.h",
 			"MU",
 			"EWIEGA46WW/moc_multiplayermodeselection.cpp",
 			null
 		],
 		[
-			"C:/Users/ROG/Desktop/Snake-cpp/networkmanager.h",
+			"D:/Snake-cpp/networkmanager.h",
 			"MU",
 			"EWIEGA46WW/moc_networkmanager.cpp",
 			null
 		],
 		[
-			"C:/Users/ROG/Desktop/Snake-cpp/oceanbackground.h",
+			"D:/Snake-cpp/oceanbackground.h",
 			"MU",
 			"EWIEGA46WW/moc_oceanbackground.cpp",
 			null
 		],
 		[
-			"C:/Users/ROG/Desktop/Snake-cpp/singlemodeselection.h",
+			"D:/Snake-cpp/singlemodeselection.h",
 			"MU",
 			"EWIEGA46WW/moc_singlemodeselection.cpp",
 			null
 		],
 		[
-			"C:/Users/ROG/Desktop/Snake-cpp/singleplayergamemanager.h",
+			"D:/Snake-cpp/singleplayergamemanager.h",
 			"MU",
 			"EWIEGA46WW/moc_singleplayergamemanager.cpp",
 			null
 		],
-		[
-			"C:/Users/ROG/Desktop/Snake-cpp/snake.h",
-			"MU",
-			"EWIEGA46WW/moc_snake.cpp",
-			null
-		],
-		[
-			"C:/Users/ROG/Desktop/Snake-cpp/wall.h",
-			"MU",
-			"EWIEGA46WW/moc_wall.cpp",
-			null
-		]
+		[ "D:/Snake-cpp/snake.h", "MU", "EWIEGA46WW/moc_snake.cpp", null ],
+		[ "D:/Snake-cpp/wall.h", "MU", "EWIEGA46WW/moc_wall.cpp", null ]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
-	"INCLUDE_DIR" : "C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include",
-	"MOC_COMPILATION_FILE" : "C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/mocs_compilation.cpp",
+	"INCLUDE_DIR" : "D:/Snake-cpp/build/Snake_cpp_autogen/include",
+	"MOC_COMPILATION_FILE" : "D:/Snake-cpp/build/Snake_cpp_autogen/mocs_compilation.cpp",
 	"MOC_DEFINITIONS" : 
 	[
 		"MINGW_HAS_SECURE_API=1",
@@ -541,50 +526,34 @@
 		"-c",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCXXCompilerABI.cpp"
 	],
-	"MOC_PREDEFS_FILE" : "C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/moc_predefs.h",
+	"MOC_PREDEFS_FILE" : "D:/Snake-cpp/build/Snake_cpp_autogen/moc_predefs.h",
 	"MOC_RELAXED_MODE" : false,
 	"MOC_SKIP" : [],
 	"MULTI_CONFIG" : false,
-	"PARALLEL" : 24,
-	"PARSE_CACHE_FILE" : "C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/Snake_cpp_autogen.dir/ParseCache.txt",
+	"PARALLEL" : 14,
+	"PARSE_CACHE_FILE" : "D:/Snake-cpp/build/CMakeFiles/Snake_cpp_autogen.dir/ParseCache.txt",
 	"QT_MOC_EXECUTABLE" : "D:/QT/6.9.1/mingw_64/bin/moc.exe",
 	"QT_UIC_EXECUTABLE" : "D:/QT/6.9.1/mingw_64/bin/uic.exe",
 	"QT_VERSION_MAJOR" : 6,
 	"QT_VERSION_MINOR" : 9,
-	"SETTINGS_FILE" : "C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutogenUsed.txt",
+	"SETTINGS_FILE" : "D:/Snake-cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
-		[ "C:/Users/ROG/Desktop/Snake-cpp/characterselection.cpp", "MU", null ],
-		[ "C:/Users/ROG/Desktop/Snake-cpp/food.cpp", "MU", null ],
-		[ "C:/Users/ROG/Desktop/Snake-cpp/gamewidget.cpp", "MU", null ],
-		[
-			"C:/Users/ROG/Desktop/Snake-cpp/localcoopcharacterselection.cpp",
-			"MU",
-			null
-		],
-		[ "C:/Users/ROG/Desktop/Snake-cpp/main.cpp", "MU", null ],
-		[ "C:/Users/ROG/Desktop/Snake-cpp/mainwindow.cpp", "MU", null ],
-		[
-			"C:/Users/ROG/Desktop/Snake-cpp/multiplayergamemanager.cpp",
-			"MU",
-			null
-		],
-		[ "C:/Users/ROG/Desktop/Snake-cpp/multiplayerlobby.cpp", "MU", null ],
-		[
-			"C:/Users/ROG/Desktop/Snake-cpp/multiplayermodeselection.cpp",
-			"MU",
-			null
-		],
-		[ "C:/Users/ROG/Desktop/Snake-cpp/networkmanager.cpp", "MU", null ],
-		[ "C:/Users/ROG/Desktop/Snake-cpp/oceanbackground.cpp", "MU", null ],
-		[ "C:/Users/ROG/Desktop/Snake-cpp/singlemodeselection.cpp", "MU", null ],
-		[
-			"C:/Users/ROG/Desktop/Snake-cpp/singleplayergamemanager.cpp",
-			"MU",
-			null
-		],
-		[ "C:/Users/ROG/Desktop/Snake-cpp/snake.cpp", "MU", null ],
-		[ "C:/Users/ROG/Desktop/Snake-cpp/wall.cpp", "MU", null ]
+		[ "D:/Snake-cpp/characterselection.cpp", "MU", null ],
+		[ "D:/Snake-cpp/food.cpp", "MU", null ],
+		[ "D:/Snake-cpp/gamewidget.cpp", "MU", null ],
+		[ "D:/Snake-cpp/localcoopcharacterselection.cpp", "MU", null ],
+		[ "D:/Snake-cpp/main.cpp", "MU", null ],
+		[ "D:/Snake-cpp/mainwindow.cpp", "MU", null ],
+		[ "D:/Snake-cpp/multiplayergamemanager.cpp", "MU", null ],
+		[ "D:/Snake-cpp/multiplayerlobby.cpp", "MU", null ],
+		[ "D:/Snake-cpp/multiplayermodeselection.cpp", "MU", null ],
+		[ "D:/Snake-cpp/networkmanager.cpp", "MU", null ],
+		[ "D:/Snake-cpp/oceanbackground.cpp", "MU", null ],
+		[ "D:/Snake-cpp/singlemodeselection.cpp", "MU", null ],
+		[ "D:/Snake-cpp/singleplayergamemanager.cpp", "MU", null ],
+		[ "D:/Snake-cpp/snake.cpp", "MU", null ],
+		[ "D:/Snake-cpp/wall.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],

@@ -1,7 +1,5 @@
-CMakeFiles/Snake_cpp.dir/wall.cpp.obj: \
- C:\Users\ROG\Desktop\Snake-cpp\wall.cpp \
- C:\Users\ROG\Desktop\Snake-cpp\wall.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/QSet \
+CMakeFiles/Snake_cpp.dir/wall.cpp.obj: D:\Snake-cpp\wall.cpp \
+ D:\Snake-cpp\wall.h D:/QT/6.9.1/mingw_64/include/QtCore/QSet \
  D:/QT/6.9.1/mingw_64/include/QtCore/qset.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/qhash.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/qalgorithms.h \
@@ -311,8 +309,7 @@ CMakeFiles/Snake_cpp.dir/wall.cpp.obj: \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mmintrin.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mwaitintrin.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/random.tcc \
- C:\Users\ROG\Desktop\Snake-cpp\gamestate.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/QString \
+ D:\Snake-cpp\gamestate.h D:/QT/6.9.1/mingw_64/include/QtCore/QString \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstring.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QStringList \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstringlist.h \

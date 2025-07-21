@@ -9,9 +9,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "" "TestResource_autogen/timestamp" "custom" "TestResource_autogen/deps"
-  "C:/Users/ROG/Desktop/Snake-cpp/build/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp" "CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj" "gcc" "CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj.d"
-  "C:/Users/ROG/Desktop/Snake-cpp/build/TestResource_autogen/mocs_compilation.cpp" "CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.obj" "gcc" "CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.obj.d"
-  "C:/Users/ROG/Desktop/Snake-cpp/test_resource_simple.cpp" "CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj" "gcc" "CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj.d"
+  "D:/Snake-cpp/build/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp" "CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj" "gcc" "CMakeFiles/TestResource.dir/TestResource_autogen/EWIEGA46WW/qrc_resources.cpp.obj.d"
+  "D:/Snake-cpp/build/TestResource_autogen/mocs_compilation.cpp" "CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.obj" "gcc" "CMakeFiles/TestResource.dir/TestResource_autogen/mocs_compilation.cpp.obj.d"
+  "D:/Snake-cpp/test_resource_simple.cpp" "CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj" "gcc" "CMakeFiles/TestResource.dir/test_resource_simple.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

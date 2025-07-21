@@ -1,6 +1,5 @@
 CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj: \
- C:\Users\ROG\Desktop\Snake-cpp\singlemodeselection.cpp \
- C:\Users\ROG\Desktop\Snake-cpp\singlemodeselection.h \
+ D:\Snake-cpp\singlemodeselection.cpp D:\Snake-cpp\singlemodeselection.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QWidget \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qwidget.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -415,7 +414,7 @@ CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtCore/qeasingcurve.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qgraphicseffect.h \
- C:\Users\ROG\Desktop\Snake-cpp\singleplayergamemanager.h \
+ D:\Snake-cpp\singleplayergamemanager.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QObject \
  D:/QT/6.9.1/mingw_64/include/QtCore/qobject.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QTimer \
@@ -434,8 +433,7 @@ CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj: \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/deque \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_deque.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/deque.tcc \
- C:\Users\ROG\Desktop\Snake-cpp\gamestate.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/QString \
+ D:\Snake-cpp\gamestate.h D:/QT/6.9.1/mingw_64/include/QtCore/QString \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstring.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QStringList \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstringlist.h \

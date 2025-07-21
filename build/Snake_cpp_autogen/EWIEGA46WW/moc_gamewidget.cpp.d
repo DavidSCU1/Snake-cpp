@@ -1,12 +1,5 @@
-C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget.cpp: C:/Users/ROG/Desktop/Snake-cpp/gamewidget.h \
-  C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/moc_predefs.h \
-  C:/Users/ROG/Desktop/Snake-cpp/food.h \
-  C:/Users/ROG/Desktop/Snake-cpp/gamestate.h \
-  C:/Users/ROG/Desktop/Snake-cpp/multiplayergamemanager.h \
-  C:/Users/ROG/Desktop/Snake-cpp/networkmanager.h \
-  C:/Users/ROG/Desktop/Snake-cpp/singleplayergamemanager.h \
-  C:/Users/ROG/Desktop/Snake-cpp/snake.h \
-  C:/Users/ROG/Desktop/Snake-cpp/wall.h \
+D:/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget.cpp: D:/Snake-cpp/gamewidget.h \
+  D:/Snake-cpp/build/Snake_cpp_autogen/moc_predefs.h \
   D:/QT/6.9.1/mingw_64/include/QtCore/QJsonArray \
   D:/QT/6.9.1/mingw_64/include/QtCore/QJsonDocument \
   D:/QT/6.9.1/mingw_64/include/QtCore/QJsonObject \
@@ -225,6 +218,7 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget
   D:/QT/6.9.1/mingw_64/include/QtGui/qwindowdefs_win.h \
   D:/QT/6.9.1/mingw_64/include/QtNetwork/QTcpServer \
   D:/QT/6.9.1/mingw_64/include/QtNetwork/QTcpSocket \
+  D:/QT/6.9.1/mingw_64/include/QtNetwork/QUdpSocket \
   D:/QT/6.9.1/mingw_64/include/QtNetwork/qabstractsocket.h \
   D:/QT/6.9.1/mingw_64/include/QtNetwork/qhostaddress.h \
   D:/QT/6.9.1/mingw_64/include/QtNetwork/qtcpserver.h \
@@ -232,6 +226,7 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget
   D:/QT/6.9.1/mingw_64/include/QtNetwork/qtnetwork-config.h \
   D:/QT/6.9.1/mingw_64/include/QtNetwork/qtnetworkexports.h \
   D:/QT/6.9.1/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+  D:/QT/6.9.1/mingw_64/include/QtNetwork/qudpsocket.h \
   D:/QT/6.9.1/mingw_64/include/QtWidgets/QHBoxLayout \
   D:/QT/6.9.1/mingw_64/include/QtWidgets/QLabel \
   D:/QT/6.9.1/mingw_64/include/QtWidgets/QListWidget \
@@ -487,4 +482,11 @@ C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/moc_gamewidget
   D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/sys/types.h \
   D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
   D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
-  D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
+  D:/QT/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
+  D:/Snake-cpp/food.h \
+  D:/Snake-cpp/gamestate.h \
+  D:/Snake-cpp/multiplayergamemanager.h \
+  D:/Snake-cpp/networkmanager.h \
+  D:/Snake-cpp/singleplayergamemanager.h \
+  D:/Snake-cpp/snake.h \
+  D:/Snake-cpp/wall.h

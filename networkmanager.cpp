@@ -5,16 +5,17 @@
 #include <QHostAddress>
 #include <QDebug>
 #include <deque>
+#include <QUdpSocket>
 
-NetworkManager::NetworkManager(QObject *parent)
+NetworkManager::NetworkManager(QObject* parent)
     : QObject(parent)
-    , server(nullptr)
-    , clientSocket(nullptr)
-    , heartbeatTimer(new QTimer(this))
-    , isServer(false)
+    , udpSocket(new QUdpSocket(this))
+    , allowJoinMidGame(true)
 {
     heartbeatTimer->setInterval(5000); // 5秒心跳
     connect(heartbeatTimer, &QTimer::timeout, this, &NetworkManager::sendHeartbeat);
+    connect(udpSocket, &QUdpSocket::readyRead, this, &NetworkManager::onUdpDataReceived);
+    connect(roomBroadcastTimer, &QTimer::timeout, this, &NetworkManager::broadcastRoomInfo); // 定时广播房间信息
 }
 
 bool NetworkManager::startServer(quint16 port)
@@ -29,7 +30,10 @@ bool NetworkManager::startServer(quint16 port)
     if (server->listen(QHostAddress::Any, port)) {
         isServer = true;
         heartbeatTimer->start();
+        roomBroadcastTimer->start(); // 启动房间广播定时器
         qDebug() << "Server started on port" << port;
+
+        broadcastRoomInfo(); // 立即广播一次房间信息
         return true;
     } else {
         qDebug() << "Failed to start server:" << server->errorString();
@@ -42,6 +46,8 @@ bool NetworkManager::startServer(quint16 port)
 void NetworkManager::stopServer()
 {
     if (server) {
+        // 停止房间广播定时器
+        roomBroadcastTimer->stop();
         // 断开所有客户端
         for (auto client : clients) {
             client->disconnectFromHost();
@@ -175,13 +181,20 @@ void NetworkManager::onNewConnection()
 {
     while (server->hasPendingConnections()) {
         QTcpSocket* client = server->nextPendingConnection();
+
+        if (!allowJoinMidGame) {
+            qDebug() << "New connection rejected: mid-game join not allowed.";
+            client->disconnectFromHost();
+            client->deleteLater();
+            continue;
+        }
+
         clients.append(client);
-        
         connect(client, &QTcpSocket::readyRead, this, &NetworkManager::onDataReceived);
         connect(client, &QTcpSocket::disconnected, this, &NetworkManager::onClientDisconnected);
         connect(client, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::errorOccurred),
                 this, &NetworkManager::onSocketError);
-        
+
         qDebug() << "New client connected from" << client->peerAddress().toString();
     }
 }
@@ -328,4 +341,69 @@ QJsonObject NetworkManager::createMessage(const QString& type, const QJsonObject
         message["data"] = data;
     }
     return message;
+}
+
+// 启动房间发现
+void NetworkManager::startRoomDiscovery(quint16 port)
+{
+    udpSocket->bind(QHostAddress::Any, port, QUdpSocket::ShareAddress);
+    connect(udpSocket, &QUdpSocket::readyRead, this, &NetworkManager::processRoomDiscovery);
+}
+
+// 广播房间信息
+void NetworkManager::broadcastRoomInfo()
+{
+    if (!server) return;
+    
+    QJsonObject roomInfo;
+    roomInfo["type"] = "roomInfo";
+    roomInfo["port"] = server->serverPort();
+    roomInfo["host"] = QHostAddress(QHostAddress::LocalHost).toString();
+
+    QJsonDocument doc(roomInfo);
+    QByteArray data = doc.toJson(QJsonDocument::Compact);
+
+    udpSocket->writeDatagram(data, QHostAddress::Broadcast, 45454);
+}
+
+// 处理房间发现
+void NetworkManager::processRoomDiscovery()
+{
+    while (udpSocket->hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocket->pendingDatagramSize());
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
+        QJsonParseError error;
+        QJsonDocument doc = QJsonDocument::fromJson(datagram, &error);
+
+        if (error.error == QJsonParseError::NoError && doc.isObject()) {
+            QJsonObject message = doc.object();
+            if (message["type"].toString() == "roomInfo") {
+                emit roomDiscovered(message["host"].toString(), message["port"].toInt());
+                qDebug() << "Discovered room:" << message["host"].toString() << ":" << message["port"].toInt();
+            }
+        }
+    }
+}
+
+void NetworkManager::onUdpDataReceived()
+{
+    while (udpSocket->hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocket->pendingDatagramSize());
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(datagram);
+        if (!jsonDoc.isNull() && jsonDoc.isObject()) {
+            QJsonObject message = jsonDoc.object();
+            emit roomDiscovered(sender.toString(), message["port"].toInt());
+        }
+    }
 }

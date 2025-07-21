@@ -8,6 +8,7 @@
 #include <QJsonDocument>
 #include <QTimer>
 #include <deque>
+#include <QUdpSocket> // 添加此行以包含 QUdpSocket 的定义
 #include "gamestate.h"
 
 class NetworkManager : public QObject
@@ -21,6 +22,11 @@ public:
     bool startServer(quint16 port = 12345);
     void stopServer();
     bool isServerRunning() const;
+    
+    // 房间发现功能
+    void startRoomDiscovery(quint16 port);
+    void broadcastRoomInfo();
+    void processRoomDiscovery();
     
     // 客户端功能
     void connectToServer(const QString& hostAddress, quint16 port = 12345);
@@ -45,6 +51,7 @@ signals:
     void scoreUpdateReceived(const QString& playerName, int score);
     void playerPositionReceived(const QString& playerName, const std::deque<Point>& snakeBody);
     void connectionError(const QString& error);
+    void roomDiscovered(const QString& host, int port); // 修改为两个参数
     
 private slots:
     void onNewConnection();
@@ -68,6 +75,14 @@ private:
     
     // 心跳机制
     QTimer* heartbeatTimer;
+    
+    // UDP相关
+    QUdpSocket* udpSocket; // QUdpSocket 类型现在可以识别
+    bool allowJoinMidGame;
+    void onUdpDataReceived();
+    
+    // 房间广播计时器
+    QTimer* roomBroadcastTimer;
     
     bool isServer;
 };

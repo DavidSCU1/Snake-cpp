@@ -1,6 +1,5 @@
 CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj: \
- C:\Users\ROG\Desktop\Snake-cpp\networkmanager.cpp \
- C:\Users\ROG\Desktop\Snake-cpp\networkmanager.h \
+ D:\Snake-cpp\networkmanager.cpp D:\Snake-cpp\networkmanager.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QObject \
  D:/QT/6.9.1/mingw_64/include/QtCore/qobject.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/qobjectdefs.h \
@@ -381,8 +380,9 @@ CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj: \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/deque \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_deque.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/deque.tcc \
- C:\Users\ROG\Desktop\Snake-cpp\gamestate.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/QString \
+ D:/QT/6.9.1/mingw_64/include/QtNetwork/QUdpSocket \
+ D:/QT/6.9.1/mingw_64/include/QtNetwork/qudpsocket.h \
+ D:\Snake-cpp\gamestate.h D:/QT/6.9.1/mingw_64/include/QtCore/QString \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstring.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QStringList \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstringlist.h \

@@ -1,6 +1,7 @@
 #include "multiplayerlobby.h"
 #include "gamewidget.h"
 #include <QDebug>
+#include <QHostInfo>
 
 MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     : QWidget(parent)
@@ -24,6 +25,9 @@ MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     
     // 初始刷新
     refreshRoomList();
+    
+    // 初始化玩家名称
+    playerName = playerNameEdit->text();
 }
 
 MultiPlayerLobby::~MultiPlayerLobby()
@@ -42,7 +46,8 @@ void MultiPlayerLobby::setupUI()
     // 标题
     QLabel* titleLabel = new QLabel("多人游戏大厅", this);
     titleLabel->setAlignment(Qt::AlignCenter);
-    QFont titleFont("华文彩云", 18);
+    QFont titleFont = titleLabel->font();
+    titleFont.setPointSize(18);
     titleFont.setBold(true);
     titleLabel->setFont(titleFont);
     titleLabel->setStyleSheet("color: #FF6347; margin: 10px;");
@@ -59,7 +64,8 @@ void MultiPlayerLobby::setupUI()
     
     roomListLabel = new QLabel("房间列表", roomListWidget);
     roomListLabel->setAlignment(Qt::AlignCenter);
-    QFont labelFont("华文彩云", 12);
+    QFont labelFont = roomListLabel->font();
+    labelFont.setPointSize(12);
     labelFont.setBold(true);
     roomListLabel->setFont(labelFont);
     roomListLayout->addWidget(roomListLabel);
@@ -70,7 +76,7 @@ void MultiPlayerLobby::setupUI()
     roomListLayout->addWidget(roomList);
     
     refreshButton = new QPushButton("刷新房间列表", roomListWidget);
-    refreshButton->setStyleSheet("QPushButton { background-color: #4CAF50; color: white; border: none; padding: 8px; border-radius: 4px; font-family: '华文彩云'; }"
+    refreshButton->setStyleSheet("QPushButton { background-color: #4CAF50; color: white; border: none; padding: 8px; border-radius: 4px; }"
                                 "QPushButton:hover { background-color: #45a049; }");
     connect(refreshButton, &QPushButton::clicked, this, &MultiPlayerLobby::onRefreshClicked);
     roomListLayout->addWidget(refreshButton);
@@ -117,32 +123,18 @@ void MultiPlayerLobby::setupUI()
     
     roomInfoLayout->addWidget(playerSettingsGroup);
     
-    // 房间创建设置
-    createRoomGroup = new QGroupBox("创建房间", roomInfoWidget);
-    createRoomLayout = new QVBoxLayout(createRoomGroup);
-    
-    maxPlayersLabel = new QLabel("最大玩家数:", createRoomGroup);
-    maxPlayersSpinBox = new QSpinBox(createRoomGroup);
-    maxPlayersSpinBox->setRange(2, 8);
-    maxPlayersSpinBox->setValue(4);
-    
-    createRoomLayout->addWidget(maxPlayersLabel);
-    createRoomLayout->addWidget(maxPlayersSpinBox);
-    
-    roomInfoLayout->addWidget(createRoomGroup);
-    
     // 控制按钮
     buttonWidget = new QWidget(roomInfoWidget);
     buttonLayout = new QHBoxLayout(buttonWidget);
     
     createRoomButton = new QPushButton("创建房间", buttonWidget);
-    createRoomButton->setStyleSheet("QPushButton { background-color: #2196F3; color: white; border: none; padding: 10px; border-radius: 4px; font-family: '华文彩云'; }"
+    createRoomButton->setStyleSheet("QPushButton { background-color: #2196F3; color: white; border: none; padding: 10px; border-radius: 4px; }"
                                    "QPushButton:hover { background-color: #1976D2; }"
                                    "QPushButton:disabled { background-color: #CCCCCC; }");
     connect(createRoomButton, &QPushButton::clicked, this, &MultiPlayerLobby::onCreateRoomClicked);
     
     joinRoomButton = new QPushButton("加入房间", buttonWidget);
-    joinRoomButton->setStyleSheet("QPushButton { background-color: #FF9800; color: white; border: none; padding: 10px; border-radius: 4px; font-family: '华文彩云'; }"
+    joinRoomButton->setStyleSheet("QPushButton { background-color: #FF9800; color: white; border: none; padding: 10px; border-radius: 4px; }"
                                  "QPushButton:hover { background-color: #F57C00; }"
                                  "QPushButton:disabled { background-color: #CCCCCC; }");
     joinRoomButton->setEnabled(false);
@@ -155,7 +147,7 @@ void MultiPlayerLobby::setupUI()
     
     // 返回按钮
     backButton = new QPushButton("返回主菜单", roomInfoWidget);
-    backButton->setStyleSheet("QPushButton { background-color: #f44336; color: white; border: none; padding: 10px; border-radius: 4px; font-family: '华文彩云'; }"
+    backButton->setStyleSheet("QPushButton { background-color: #6C757D; color: white; border: none; padding: 10px; border-radius: 4px; }"
                              "QPushButton:hover { background-color: #5A6268; }");
     connect(backButton, &QPushButton::clicked, this, &MultiPlayerLobby::onBackClicked);
     roomInfoLayout->addWidget(backButton);
@@ -400,4 +392,15 @@ bool MultiPlayerLobby::validatePlayerName() const
 {
     QString name = playerNameEdit->text().trimmed();
     return !name.isEmpty() && name.length() >= 2 && name.length() <= 20;
+}
+
+// 处理发现的房间
+void MultiPlayerLobby::onRoomDiscovered(const QString& roomId, const QString& host, int port)
+{
+    QString displayText = QString("房间 %1 (%2:%3)").arg(roomId).arg(host).arg(port);
+    QListWidgetItem* item = new QListWidgetItem(displayText);
+    item->setData(Qt::UserRole, roomId);
+    item->setData(Qt::UserRole + 1, host);
+    item->setData(Qt::UserRole + 2, port);
+    roomList->addItem(item);
 }

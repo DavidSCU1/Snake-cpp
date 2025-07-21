@@ -1,6 +1,5 @@
 CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj: \
- C:\Users\ROG\Desktop\Snake-cpp\characterselection.cpp \
- C:\Users\ROG\Desktop\Snake-cpp\characterselection.h \
+ D:\Snake-cpp\characterselection.cpp D:\Snake-cpp\characterselection.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QWidget \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qwidget.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -402,8 +401,7 @@ CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qboxlayout.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QHBoxLayout \
  D:/QT/6.9.1/mingw_64/include/QtGui/QPixmap \
- D:/QT/6.9.1/mingw_64/include/QtGui/qpixmap.h \
- C:\Users\ROG\Desktop\Snake-cpp\gamestate.h \
+ D:/QT/6.9.1/mingw_64/include/QtGui/qpixmap.h D:\Snake-cpp\gamestate.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QString \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstring.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QStringList \

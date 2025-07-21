@@ -1,6 +1,5 @@
 CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj: \
- C:\Users\ROG\Desktop\Snake-cpp\multiplayerlobby.cpp \
- C:\Users\ROG\Desktop\Snake-cpp\multiplayerlobby.h \
+ D:\Snake-cpp\multiplayerlobby.cpp D:\Snake-cpp\multiplayerlobby.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QWidget \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qwidget.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -439,12 +438,11 @@ CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QGroupBox \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qgroupbox.h \
- C:\Users\ROG\Desktop\Snake-cpp\gamestate.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/QString \
+ D:\Snake-cpp\gamestate.h D:/QT/6.9.1/mingw_64/include/QtCore/QString \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstring.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QStringList \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstringlist.h \
- C:\Users\ROG\Desktop\Snake-cpp\multiplayergamemanager.h \
+ D:\Snake-cpp\multiplayergamemanager.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QObject \
  D:/QT/6.9.1/mingw_64/include/QtCore/qobject.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QMap \
@@ -466,7 +464,7 @@ CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj: \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/deque \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_deque.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/deque.tcc \
- C:\Users\ROG\Desktop\Snake-cpp\networkmanager.h \
+ D:\Snake-cpp\networkmanager.h \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/QTcpServer \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/qtcpserver.h \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/qtnetworkglobal.h \
@@ -478,8 +476,9 @@ CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtNetwork/qtcpsocket.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QJsonDocument \
  D:/QT/6.9.1/mingw_64/include/QtCore/qjsondocument.h \
- C:\Users\ROG\Desktop\Snake-cpp\gamewidget.h \
- D:/QT/6.9.1/mingw_64/include/QtGui/QKeyEvent \
+ D:/QT/6.9.1/mingw_64/include/QtNetwork/QUdpSocket \
+ D:/QT/6.9.1/mingw_64/include/QtNetwork/qudpsocket.h \
+ D:\Snake-cpp\gamewidget.h D:/QT/6.9.1/mingw_64/include/QtGui/QKeyEvent \
  D:/QT/6.9.1/mingw_64/include/QtGui/qevent.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/qcoreevent.h \
  D:/QT/6.9.1/mingw_64/include/QtGui/qeventpoint.h \
@@ -507,13 +506,10 @@ CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtGui/qguiapplication_platform.h \
  D:/QT/6.9.1/mingw_64/include/QtGui/QPaintEvent \
  D:/QT/6.9.1/mingw_64/include/QtCore/QSettings \
- D:/QT/6.9.1/mingw_64/include/QtCore/qsettings.h \
- C:\Users\ROG\Desktop\Snake-cpp\snake.h \
+ D:/QT/6.9.1/mingw_64/include/QtCore/qsettings.h D:\Snake-cpp\snake.h \
  D:/QT/6.9.1/mingw_64/include/QtGui/QPixmap \
- D:/QT/6.9.1/mingw_64/include/QtGui/qpixmap.h \
- C:\Users\ROG\Desktop\Snake-cpp\food.h \
- C:\Users\ROG\Desktop\Snake-cpp\wall.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/QVector \
+ D:/QT/6.9.1/mingw_64/include/QtGui/qpixmap.h D:\Snake-cpp\food.h \
+ D:\Snake-cpp\wall.h D:/QT/6.9.1/mingw_64/include/QtCore/QVector \
  D:/QT/6.9.1/mingw_64/include/QtCore/qvector.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QPoint \
  D:/QT/6.9.1/mingw_64/include/QtCore/qpoint.h \
@@ -528,8 +524,10 @@ CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj: \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mmintrin.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mwaitintrin.h \
  D:/QT/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/random.tcc \
- C:\Users\ROG\Desktop\Snake-cpp\singleplayergamemanager.h \
+ D:\Snake-cpp\singleplayergamemanager.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QTime \
  D:/QT/6.9.1/mingw_64/include/QtCore/qdatetime.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QDebug \
- D:/QT/6.9.1/mingw_64/include/QtCore/qdebug.h
+ D:/QT/6.9.1/mingw_64/include/QtCore/qdebug.h \
+ D:/QT/6.9.1/mingw_64/include/QtNetwork/QHostInfo \
+ D:/QT/6.9.1/mingw_64/include/QtNetwork/qhostinfo.h

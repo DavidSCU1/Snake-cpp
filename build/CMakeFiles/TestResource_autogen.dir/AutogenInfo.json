@@ -1,17 +1,17 @@
 {
 	"AUTOGEN_COMMAND_LINE_LENGTH_MAX" : 32000,
-	"BUILD_DIR" : "C:/Users/ROG/Desktop/Snake-cpp/build/TestResource_autogen",
-	"CMAKE_BINARY_DIR" : "C:/Users/ROG/Desktop/Snake-cpp/build",
-	"CMAKE_CURRENT_BINARY_DIR" : "C:/Users/ROG/Desktop/Snake-cpp/build",
-	"CMAKE_CURRENT_SOURCE_DIR" : "C:/Users/ROG/Desktop/Snake-cpp",
+	"BUILD_DIR" : "D:/Snake-cpp/build/TestResource_autogen",
+	"CMAKE_BINARY_DIR" : "D:/Snake-cpp/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "D:/Snake-cpp/build",
+	"CMAKE_CURRENT_SOURCE_DIR" : "D:/Snake-cpp",
 	"CMAKE_EXECUTABLE" : "D:/QT/Tools/CMake_64/bin/cmake.exe",
 	"CMAKE_LIST_FILES" : 
 	[
-		"C:/Users/ROG/Desktop/Snake-cpp/CMakeLists.txt",
-		"C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/3.30.5/CMakeSystem.cmake",
+		"D:/Snake-cpp/CMakeLists.txt",
+		"D:/Snake-cpp/build/CMakeFiles/3.30.5/CMakeSystem.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/CMakeSystemSpecificInitialize.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-Initialize.cmake",
-		"C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake",
+		"D:/Snake-cpp/build/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/CMakeSystemSpecificInformation.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/CMakeGenericSystem.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/CMakeInitializeConfigs.cmake",
@@ -24,7 +24,7 @@
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/CMakeCommonCompilerMacros.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU.cmake",
-		"C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/3.30.5/CMakeRCCompiler.cmake",
+		"D:/Snake-cpp/build/CMakeFiles/3.30.5/CMakeRCCompiler.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/CMakeRCInformation.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-windres.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX-ABI.cmake",
@@ -378,17 +378,17 @@
 		"D:/QT/6.9.1/mingw_64/lib/cmake/Qt6SvgPrivate/Qt6SvgPrivateVersionlessAliasTargets.cmake",
 		"D:/QT/6.9.1/mingw_64/lib/cmake/Qt6Svg/Qt6SvgVersionlessAliasTargets.cmake",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/GNUInstallDirs.cmake",
-		"C:/Users/ROG/Desktop/Snake-cpp/resources.qrc",
-		"C:/Users/ROG/Desktop/Snake-cpp/resources.qrc"
+		"D:/Snake-cpp/resources.qrc",
+		"D:/Snake-cpp/resources.qrc"
 	],
-	"CMAKE_SOURCE_DIR" : "C:/Users/ROG/Desktop/Snake-cpp",
+	"CMAKE_SOURCE_DIR" : "D:/Snake-cpp",
 	"CROSS_CONFIG" : false,
-	"DEP_FILE" : "C:/Users/ROG/Desktop/Snake-cpp/build/TestResource_autogen/deps",
+	"DEP_FILE" : "D:/Snake-cpp/build/TestResource_autogen/deps",
 	"DEP_FILE_RULE_NAME" : "TestResource_autogen/timestamp",
 	"HEADERS" : [],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
-	"INCLUDE_DIR" : "C:/Users/ROG/Desktop/Snake-cpp/build/TestResource_autogen/include",
-	"MOC_COMPILATION_FILE" : "C:/Users/ROG/Desktop/Snake-cpp/build/TestResource_autogen/mocs_compilation.cpp",
+	"INCLUDE_DIR" : "D:/Snake-cpp/build/TestResource_autogen/include",
+	"MOC_COMPILATION_FILE" : "D:/Snake-cpp/build/TestResource_autogen/mocs_compilation.cpp",
 	"MOC_DEFINITIONS" : 
 	[
 		"MINGW_HAS_SECURE_API=1",
@@ -444,33 +444,33 @@
 		"-c",
 		"D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCXXCompilerABI.cpp"
 	],
-	"MOC_PREDEFS_FILE" : "C:/Users/ROG/Desktop/Snake-cpp/build/TestResource_autogen/moc_predefs.h",
+	"MOC_PREDEFS_FILE" : "D:/Snake-cpp/build/TestResource_autogen/moc_predefs.h",
 	"MOC_RELAXED_MODE" : false,
 	"MOC_SKIP" : 
 	[
-		"C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp",
-		"C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include/ui_mainwindow.h",
-		"C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/mocs_compilation.cpp"
+		"D:/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp",
+		"D:/Snake-cpp/build/Snake_cpp_autogen/include/ui_mainwindow.h",
+		"D:/Snake-cpp/build/Snake_cpp_autogen/mocs_compilation.cpp"
 	],
 	"MULTI_CONFIG" : false,
-	"PARALLEL" : 24,
-	"PARSE_CACHE_FILE" : "C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/TestResource_autogen.dir/ParseCache.txt",
+	"PARALLEL" : 14,
+	"PARSE_CACHE_FILE" : "D:/Snake-cpp/build/CMakeFiles/TestResource_autogen.dir/ParseCache.txt",
 	"QT_MOC_EXECUTABLE" : "D:/QT/6.9.1/mingw_64/bin/moc.exe",
 	"QT_UIC_EXECUTABLE" : "D:/QT/6.9.1/mingw_64/bin/uic.exe",
 	"QT_VERSION_MAJOR" : 6,
 	"QT_VERSION_MINOR" : 9,
-	"SETTINGS_FILE" : "C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/TestResource_autogen.dir/AutogenUsed.txt",
+	"SETTINGS_FILE" : "D:/Snake-cpp/build/CMakeFiles/TestResource_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
-		[ "C:/Users/ROG/Desktop/Snake-cpp/test_resource_simple.cpp", "MU", null ]
+		[ "D:/Snake-cpp/test_resource_simple.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],
 	"UIC_SKIP" : 
 	[
-		"C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp",
-		"C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/include/ui_mainwindow.h",
-		"C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/mocs_compilation.cpp"
+		"D:/Snake-cpp/build/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp",
+		"D:/Snake-cpp/build/Snake_cpp_autogen/include/ui_mainwindow.h",
+		"D:/Snake-cpp/build/Snake_cpp_autogen/mocs_compilation.cpp"
 	],
 	"UIC_UI_FILES" : [],
 	"USE_BETTER_GRAPH" : true,

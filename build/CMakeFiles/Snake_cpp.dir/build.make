@@ -52,10 +52,10 @@ RM = D:\QT\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\ROG\Desktop\Snake-cpp
+CMAKE_SOURCE_DIR = D:\Snake-cpp
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\ROG\Desktop\Snake-cpp\build
+CMAKE_BINARY_DIR = D:\Snake-cpp\build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Snake_cpp.dir/depend.make
@@ -71,286 +71,286 @@ include CMakeFiles/Snake_cpp.dir/flags.make
 Snake_cpp_autogen/timestamp: D:/QT/6.9.1/mingw_64/bin/moc.exe
 Snake_cpp_autogen/timestamp: D:/QT/6.9.1/mingw_64/bin/uic.exe
 Snake_cpp_autogen/timestamp: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target Snake_cpp"
-	D:\QT\Tools\CMake_64\bin\cmake.exe -E cmake_autogen C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutogenInfo.json ""
-	D:\QT\Tools\CMake_64\bin\cmake.exe -E touch C:/Users/ROG/Desktop/Snake-cpp/build/Snake_cpp_autogen/timestamp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target Snake_cpp"
+	D:\QT\Tools\CMake_64\bin\cmake.exe -E cmake_autogen D:/Snake-cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutogenInfo.json ""
+	D:\QT\Tools\CMake_64\bin\cmake.exe -E touch D:/Snake-cpp/build/Snake_cpp_autogen/timestamp
 
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/resources.qrc
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/resources.qrc
 Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: CMakeFiles/Snake_cpp_autogen.dir/AutoRcc_resources_EWIEGA46WW_Info.json
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/mrcrabs_head.svg
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/plankton_head.svg
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/patrick_head.svg
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/squidward_head.svg
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/krabby_patty.svg
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/ocean-background.png
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/patrick_body.svg
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/spongebob_head.svg
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/sandy_head.svg
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/spongebob_body.svg
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/sandy_body.svg
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/golden_spatula.svg
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/mrcrabs_body.svg
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/squidward_body.svg
-Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: C:/Users/ROG/Desktop/Snake-cpp/images/plankton_body.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/mrcrabs_head.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/plankton_head.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/patrick_head.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/squidward_head.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/krabby_patty.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/ocean-background.png
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/patrick_body.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/spongebob_head.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/sandy_head.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/spongebob_body.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/sandy_body.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/golden_spatula.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/mrcrabs_body.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/squidward_body.svg
+Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/Snake-cpp/images/plankton_body.svg
 Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/QT/6.9.1/mingw_64/bin/rcc.exe
 Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp: D:/QT/6.9.1/mingw_64/bin/rcc.exe
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Automatic RCC for resources.qrc"
-	D:\QT\Tools\CMake_64\bin\cmake.exe -E cmake_autorcc C:/Users/ROG/Desktop/Snake-cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutoRcc_resources_EWIEGA46WW_Info.json 
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Automatic RCC for resources.qrc"
+	D:\QT\Tools\CMake_64\bin\cmake.exe -E cmake_autorcc D:/Snake-cpp/build/CMakeFiles/Snake_cpp_autogen.dir/AutoRcc_resources_EWIEGA46WW_Info.json 
 
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: Snake_cpp_autogen/mocs_compilation.cpp
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj -MF CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\mocs_compilation.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\mocs_compilation.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\mocs_compilation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.obj -MF CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\mocs_compilation.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\mocs_compilation.cpp.obj -c D:\Snake-cpp\build\Snake_cpp_autogen\mocs_compilation.cpp
 
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\mocs_compilation.cpp > CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\mocs_compilation.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\build\Snake_cpp_autogen\mocs_compilation.cpp > CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\mocs_compilation.cpp.i
 
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/mocs_compilation.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\mocs_compilation.cpp -o CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\mocs_compilation.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\build\Snake_cpp_autogen\mocs_compilation.cpp -o CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\mocs_compilation.cpp.s
 
 CMakeFiles/Snake_cpp.dir/main.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/main.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/main.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/main.cpp
+CMakeFiles/Snake_cpp.dir/main.cpp.obj: D:/Snake-cpp/main.cpp
 CMakeFiles/Snake_cpp.dir/main.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Snake_cpp.dir/main.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/main.cpp.obj -MF CMakeFiles\Snake_cpp.dir\main.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\main.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Snake_cpp.dir/main.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/main.cpp.obj -MF CMakeFiles\Snake_cpp.dir\main.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\main.cpp.obj -c D:\Snake-cpp\main.cpp
 
 CMakeFiles/Snake_cpp.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/main.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\main.cpp > CMakeFiles\Snake_cpp.dir\main.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\main.cpp > CMakeFiles\Snake_cpp.dir\main.cpp.i
 
 CMakeFiles/Snake_cpp.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/main.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\main.cpp -o CMakeFiles\Snake_cpp.dir\main.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\main.cpp -o CMakeFiles\Snake_cpp.dir\main.cpp.s
 
 CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/mainwindow.cpp
+CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj: D:/Snake-cpp/mainwindow.cpp
 CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj -MF CMakeFiles\Snake_cpp.dir\mainwindow.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\mainwindow.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\mainwindow.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/mainwindow.cpp.obj -MF CMakeFiles\Snake_cpp.dir\mainwindow.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\mainwindow.cpp.obj -c D:\Snake-cpp\mainwindow.cpp
 
 CMakeFiles/Snake_cpp.dir/mainwindow.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/mainwindow.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\mainwindow.cpp > CMakeFiles\Snake_cpp.dir\mainwindow.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\mainwindow.cpp > CMakeFiles\Snake_cpp.dir\mainwindow.cpp.i
 
 CMakeFiles/Snake_cpp.dir/mainwindow.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/mainwindow.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\mainwindow.cpp -o CMakeFiles\Snake_cpp.dir\mainwindow.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\mainwindow.cpp -o CMakeFiles\Snake_cpp.dir\mainwindow.cpp.s
 
 CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/gamewidget.cpp
+CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj: D:/Snake-cpp/gamewidget.cpp
 CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj -MF CMakeFiles\Snake_cpp.dir\gamewidget.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\gamewidget.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\gamewidget.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/gamewidget.cpp.obj -MF CMakeFiles\Snake_cpp.dir\gamewidget.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\gamewidget.cpp.obj -c D:\Snake-cpp\gamewidget.cpp
 
 CMakeFiles/Snake_cpp.dir/gamewidget.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/gamewidget.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\gamewidget.cpp > CMakeFiles\Snake_cpp.dir\gamewidget.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\gamewidget.cpp > CMakeFiles\Snake_cpp.dir\gamewidget.cpp.i
 
 CMakeFiles/Snake_cpp.dir/gamewidget.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/gamewidget.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\gamewidget.cpp -o CMakeFiles\Snake_cpp.dir\gamewidget.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\gamewidget.cpp -o CMakeFiles\Snake_cpp.dir\gamewidget.cpp.s
 
 CMakeFiles/Snake_cpp.dir/snake.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/snake.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/snake.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/snake.cpp
+CMakeFiles/Snake_cpp.dir/snake.cpp.obj: D:/Snake-cpp/snake.cpp
 CMakeFiles/Snake_cpp.dir/snake.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Snake_cpp.dir/snake.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/snake.cpp.obj -MF CMakeFiles\Snake_cpp.dir\snake.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\snake.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\snake.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Snake_cpp.dir/snake.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/snake.cpp.obj -MF CMakeFiles\Snake_cpp.dir\snake.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\snake.cpp.obj -c D:\Snake-cpp\snake.cpp
 
 CMakeFiles/Snake_cpp.dir/snake.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/snake.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\snake.cpp > CMakeFiles\Snake_cpp.dir\snake.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\snake.cpp > CMakeFiles\Snake_cpp.dir\snake.cpp.i
 
 CMakeFiles/Snake_cpp.dir/snake.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/snake.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\snake.cpp -o CMakeFiles\Snake_cpp.dir\snake.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\snake.cpp -o CMakeFiles\Snake_cpp.dir\snake.cpp.s
 
 CMakeFiles/Snake_cpp.dir/food.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/food.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/food.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/food.cpp
+CMakeFiles/Snake_cpp.dir/food.cpp.obj: D:/Snake-cpp/food.cpp
 CMakeFiles/Snake_cpp.dir/food.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Snake_cpp.dir/food.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/food.cpp.obj -MF CMakeFiles\Snake_cpp.dir\food.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\food.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\food.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Snake_cpp.dir/food.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/food.cpp.obj -MF CMakeFiles\Snake_cpp.dir\food.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\food.cpp.obj -c D:\Snake-cpp\food.cpp
 
 CMakeFiles/Snake_cpp.dir/food.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/food.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\food.cpp > CMakeFiles\Snake_cpp.dir\food.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\food.cpp > CMakeFiles\Snake_cpp.dir\food.cpp.i
 
 CMakeFiles/Snake_cpp.dir/food.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/food.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\food.cpp -o CMakeFiles\Snake_cpp.dir\food.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\food.cpp -o CMakeFiles\Snake_cpp.dir\food.cpp.s
 
 CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/networkmanager.cpp
+CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj: D:/Snake-cpp/networkmanager.cpp
 CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj -MF CMakeFiles\Snake_cpp.dir\networkmanager.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\networkmanager.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\networkmanager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/networkmanager.cpp.obj -MF CMakeFiles\Snake_cpp.dir\networkmanager.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\networkmanager.cpp.obj -c D:\Snake-cpp\networkmanager.cpp
 
 CMakeFiles/Snake_cpp.dir/networkmanager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/networkmanager.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\networkmanager.cpp > CMakeFiles\Snake_cpp.dir\networkmanager.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\networkmanager.cpp > CMakeFiles\Snake_cpp.dir\networkmanager.cpp.i
 
 CMakeFiles/Snake_cpp.dir/networkmanager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/networkmanager.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\networkmanager.cpp -o CMakeFiles\Snake_cpp.dir\networkmanager.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\networkmanager.cpp -o CMakeFiles\Snake_cpp.dir\networkmanager.cpp.s
 
 CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/characterselection.cpp
+CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj: D:/Snake-cpp/characterselection.cpp
 CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj -MF CMakeFiles\Snake_cpp.dir\characterselection.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\characterselection.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\characterselection.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/characterselection.cpp.obj -MF CMakeFiles\Snake_cpp.dir\characterselection.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\characterselection.cpp.obj -c D:\Snake-cpp\characterselection.cpp
 
 CMakeFiles/Snake_cpp.dir/characterselection.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/characterselection.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\characterselection.cpp > CMakeFiles\Snake_cpp.dir\characterselection.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\characterselection.cpp > CMakeFiles\Snake_cpp.dir\characterselection.cpp.i
 
 CMakeFiles/Snake_cpp.dir/characterselection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/characterselection.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\characterselection.cpp -o CMakeFiles\Snake_cpp.dir\characterselection.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\characterselection.cpp -o CMakeFiles\Snake_cpp.dir\characterselection.cpp.s
 
 CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/multiplayergamemanager.cpp
+CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj: D:/Snake-cpp/multiplayergamemanager.cpp
 CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj -MF CMakeFiles\Snake_cpp.dir\multiplayergamemanager.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\multiplayergamemanager.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\multiplayergamemanager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.obj -MF CMakeFiles\Snake_cpp.dir\multiplayergamemanager.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\multiplayergamemanager.cpp.obj -c D:\Snake-cpp\multiplayergamemanager.cpp
 
 CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\multiplayergamemanager.cpp > CMakeFiles\Snake_cpp.dir\multiplayergamemanager.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\multiplayergamemanager.cpp > CMakeFiles\Snake_cpp.dir\multiplayergamemanager.cpp.i
 
 CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/multiplayergamemanager.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\multiplayergamemanager.cpp -o CMakeFiles\Snake_cpp.dir\multiplayergamemanager.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\multiplayergamemanager.cpp -o CMakeFiles\Snake_cpp.dir\multiplayergamemanager.cpp.s
 
 CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/multiplayerlobby.cpp
+CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj: D:/Snake-cpp/multiplayerlobby.cpp
 CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj -MF CMakeFiles\Snake_cpp.dir\multiplayerlobby.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\multiplayerlobby.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\multiplayerlobby.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.obj -MF CMakeFiles\Snake_cpp.dir\multiplayerlobby.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\multiplayerlobby.cpp.obj -c D:\Snake-cpp\multiplayerlobby.cpp
 
 CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\multiplayerlobby.cpp > CMakeFiles\Snake_cpp.dir\multiplayerlobby.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\multiplayerlobby.cpp > CMakeFiles\Snake_cpp.dir\multiplayerlobby.cpp.i
 
 CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/multiplayerlobby.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\multiplayerlobby.cpp -o CMakeFiles\Snake_cpp.dir\multiplayerlobby.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\multiplayerlobby.cpp -o CMakeFiles\Snake_cpp.dir\multiplayerlobby.cpp.s
 
 CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/singleplayergamemanager.cpp
+CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj: D:/Snake-cpp/singleplayergamemanager.cpp
 CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj -MF CMakeFiles\Snake_cpp.dir\singleplayergamemanager.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\singleplayergamemanager.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\singleplayergamemanager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.obj -MF CMakeFiles\Snake_cpp.dir\singleplayergamemanager.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\singleplayergamemanager.cpp.obj -c D:\Snake-cpp\singleplayergamemanager.cpp
 
 CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\singleplayergamemanager.cpp > CMakeFiles\Snake_cpp.dir\singleplayergamemanager.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\singleplayergamemanager.cpp > CMakeFiles\Snake_cpp.dir\singleplayergamemanager.cpp.i
 
 CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/singleplayergamemanager.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\singleplayergamemanager.cpp -o CMakeFiles\Snake_cpp.dir\singleplayergamemanager.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\singleplayergamemanager.cpp -o CMakeFiles\Snake_cpp.dir\singleplayergamemanager.cpp.s
 
 CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/singlemodeselection.cpp
+CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj: D:/Snake-cpp/singlemodeselection.cpp
 CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj -MF CMakeFiles\Snake_cpp.dir\singlemodeselection.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\singlemodeselection.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\singlemodeselection.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.obj -MF CMakeFiles\Snake_cpp.dir\singlemodeselection.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\singlemodeselection.cpp.obj -c D:\Snake-cpp\singlemodeselection.cpp
 
 CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\singlemodeselection.cpp > CMakeFiles\Snake_cpp.dir\singlemodeselection.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\singlemodeselection.cpp > CMakeFiles\Snake_cpp.dir\singlemodeselection.cpp.i
 
 CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/singlemodeselection.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\singlemodeselection.cpp -o CMakeFiles\Snake_cpp.dir\singlemodeselection.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\singlemodeselection.cpp -o CMakeFiles\Snake_cpp.dir\singlemodeselection.cpp.s
 
 CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/multiplayermodeselection.cpp
+CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj: D:/Snake-cpp/multiplayermodeselection.cpp
 CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj -MF CMakeFiles\Snake_cpp.dir\multiplayermodeselection.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\multiplayermodeselection.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\multiplayermodeselection.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.obj -MF CMakeFiles\Snake_cpp.dir\multiplayermodeselection.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\multiplayermodeselection.cpp.obj -c D:\Snake-cpp\multiplayermodeselection.cpp
 
 CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\multiplayermodeselection.cpp > CMakeFiles\Snake_cpp.dir\multiplayermodeselection.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\multiplayermodeselection.cpp > CMakeFiles\Snake_cpp.dir\multiplayermodeselection.cpp.i
 
 CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/multiplayermodeselection.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\multiplayermodeselection.cpp -o CMakeFiles\Snake_cpp.dir\multiplayermodeselection.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\multiplayermodeselection.cpp -o CMakeFiles\Snake_cpp.dir\multiplayermodeselection.cpp.s
 
 CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/localcoopcharacterselection.cpp
+CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj: D:/Snake-cpp/localcoopcharacterselection.cpp
 CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj -MF CMakeFiles\Snake_cpp.dir\localcoopcharacterselection.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\localcoopcharacterselection.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\localcoopcharacterselection.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj -MF CMakeFiles\Snake_cpp.dir\localcoopcharacterselection.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\localcoopcharacterselection.cpp.obj -c D:\Snake-cpp\localcoopcharacterselection.cpp
 
 CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\localcoopcharacterselection.cpp > CMakeFiles\Snake_cpp.dir\localcoopcharacterselection.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\localcoopcharacterselection.cpp > CMakeFiles\Snake_cpp.dir\localcoopcharacterselection.cpp.i
 
 CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\localcoopcharacterselection.cpp -o CMakeFiles\Snake_cpp.dir\localcoopcharacterselection.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\localcoopcharacterselection.cpp -o CMakeFiles\Snake_cpp.dir\localcoopcharacterselection.cpp.s
 
 CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/oceanbackground.cpp
+CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj: D:/Snake-cpp/oceanbackground.cpp
 CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj -MF CMakeFiles\Snake_cpp.dir\oceanbackground.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\oceanbackground.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\oceanbackground.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj -MF CMakeFiles\Snake_cpp.dir\oceanbackground.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\oceanbackground.cpp.obj -c D:\Snake-cpp\oceanbackground.cpp
 
 CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\oceanbackground.cpp > CMakeFiles\Snake_cpp.dir\oceanbackground.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\oceanbackground.cpp > CMakeFiles\Snake_cpp.dir\oceanbackground.cpp.i
 
 CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\oceanbackground.cpp -o CMakeFiles\Snake_cpp.dir\oceanbackground.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\oceanbackground.cpp -o CMakeFiles\Snake_cpp.dir\oceanbackground.cpp.s
 
 CMakeFiles/Snake_cpp.dir/wall.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/wall.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
-CMakeFiles/Snake_cpp.dir/wall.cpp.obj: C:/Users/ROG/Desktop/Snake-cpp/wall.cpp
+CMakeFiles/Snake_cpp.dir/wall.cpp.obj: D:/Snake-cpp/wall.cpp
 CMakeFiles/Snake_cpp.dir/wall.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/Snake_cpp.dir/wall.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/wall.cpp.obj -MF CMakeFiles\Snake_cpp.dir\wall.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\wall.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\wall.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/Snake_cpp.dir/wall.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/wall.cpp.obj -MF CMakeFiles\Snake_cpp.dir\wall.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\wall.cpp.obj -c D:\Snake-cpp\wall.cpp
 
 CMakeFiles/Snake_cpp.dir/wall.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/wall.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\wall.cpp > CMakeFiles\Snake_cpp.dir\wall.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\wall.cpp > CMakeFiles\Snake_cpp.dir\wall.cpp.i
 
 CMakeFiles/Snake_cpp.dir/wall.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/wall.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\wall.cpp -o CMakeFiles\Snake_cpp.dir\wall.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\wall.cpp -o CMakeFiles\Snake_cpp.dir\wall.cpp.s
 
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj: CMakeFiles/Snake_cpp.dir/flags.make
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj: CMakeFiles/Snake_cpp.dir/includes_CXX.rsp
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj: Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj: CMakeFiles/Snake_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj -MF CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp.obj -c C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj"
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.obj -MF CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp.obj.d -o CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp.obj -c D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp
 
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.i"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp > CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp.i
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp > CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp.i
 
 CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Snake_cpp.dir/Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp.s"
-	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ROG\Desktop\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp -o CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp.s
+	D:\QT\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\Snake-cpp\build\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp -o CMakeFiles\Snake_cpp.dir\Snake_cpp_autogen\EWIEGA46WW\qrc_resources.cpp.s
 
 # Object files for target Snake_cpp
 Snake_cpp_OBJECTS = \
@@ -402,7 +402,7 @@ Snake_cpp.exe: D:/QT/6.9.1/mingw_64/lib/libQt6EntryPoint.a
 Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/linkLibs.rsp
 Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/objects1.rsp
 Snake_cpp.exe: CMakeFiles/Snake_cpp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Linking CXX executable Snake_cpp.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\Snake-cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Linking CXX executable Snake_cpp.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Snake_cpp.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -415,6 +415,6 @@ CMakeFiles/Snake_cpp.dir/clean:
 
 CMakeFiles/Snake_cpp.dir/depend: Snake_cpp_autogen/EWIEGA46WW/qrc_resources.cpp
 CMakeFiles/Snake_cpp.dir/depend: Snake_cpp_autogen/timestamp
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\ROG\Desktop\Snake-cpp C:\Users\ROG\Desktop\Snake-cpp C:\Users\ROG\Desktop\Snake-cpp\build C:\Users\ROG\Desktop\Snake-cpp\build C:\Users\ROG\Desktop\Snake-cpp\build\CMakeFiles\Snake_cpp.dir\DependInfo.cmake "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" D:\Snake-cpp D:\Snake-cpp D:\Snake-cpp\build D:\Snake-cpp\build D:\Snake-cpp\build\CMakeFiles\Snake_cpp.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/Snake_cpp.dir/depend
 

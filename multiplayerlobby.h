@@ -47,6 +47,7 @@ private slots:
     void onGameStarted(const QString& roomId);
     void onGameEnded(const QString& roomId, const QString& winner);
     void onRoomDestroyed(const QString& roomId);
+    void onRoomDiscovered(const QString& roomId, const QString& host, int port);
     
 private:
     void setupUI();

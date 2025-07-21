@@ -7,11 +7,6 @@ set(CMAKE_DEPENDS_GENERATOR "MinGW Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "C:/Users/ROG/Desktop/Snake-cpp/CMakeLists.txt"
-  "CMakeFiles/3.30.5/CMakeCXXCompiler.cmake"
-  "CMakeFiles/3.30.5/CMakeRCCompiler.cmake"
-  "CMakeFiles/3.30.5/CMakeSystem.cmake"
-  "C:/Users/ROG/Desktop/Snake-cpp/resources.qrc"
   "D:/QT/6.9.1/mingw_64/lib/cmake/Qt6/FindWrapAtomic.cmake"
   "D:/QT/6.9.1/mingw_64/lib/cmake/Qt6/FindWrapVulkanHeaders.cmake"
   "D:/QT/6.9.1/mingw_64/lib/cmake/Qt6/Qt6Config.cmake"
@@ -263,6 +258,11 @@ set(CMAKE_MAKEFILE_DEPENDS
   "D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-windres.cmake"
   "D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows.cmake"
   "D:/QT/Tools/CMake_64/share/cmake-3.30/Modules/Platform/WindowsPaths.cmake"
+  "D:/Snake-cpp/CMakeLists.txt"
+  "CMakeFiles/3.30.5/CMakeCXXCompiler.cmake"
+  "CMakeFiles/3.30.5/CMakeRCCompiler.cmake"
+  "CMakeFiles/3.30.5/CMakeSystem.cmake"
+  "D:/Snake-cpp/resources.qrc"
   )
 
 # The corresponding makefile is:

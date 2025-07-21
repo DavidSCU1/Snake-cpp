@@ -1,6 +1,5 @@
 CMakeFiles/Snake_cpp.dir/oceanbackground.cpp.obj: \
- C:\Users\ROG\Desktop\Snake-cpp\oceanbackground.cpp \
- C:\Users\ROG\Desktop\Snake-cpp\oceanbackground.h \
+ D:\Snake-cpp\oceanbackground.cpp D:\Snake-cpp\oceanbackground.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QWidget \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qwidget.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qtwidgetsglobal.h \

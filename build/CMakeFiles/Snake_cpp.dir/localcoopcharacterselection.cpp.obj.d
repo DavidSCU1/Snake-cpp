@@ -1,6 +1,6 @@
 CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj: \
- C:\Users\ROG\Desktop\Snake-cpp\localcoopcharacterselection.cpp \
- C:\Users\ROG\Desktop\Snake-cpp\localcoopcharacterselection.h \
+ D:\Snake-cpp\localcoopcharacterselection.cpp \
+ D:\Snake-cpp\localcoopcharacterselection.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QWidget \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qwidget.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -403,8 +403,7 @@ CMakeFiles/Snake_cpp.dir/localcoopcharacterselection.cpp.obj: \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qgroupbox.h \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/QGridLayout \
  D:/QT/6.9.1/mingw_64/include/QtWidgets/qgridlayout.h \
- C:\Users\ROG\Desktop\Snake-cpp\gamestate.h \
- D:/QT/6.9.1/mingw_64/include/QtCore/QString \
+ D:\Snake-cpp\gamestate.h D:/QT/6.9.1/mingw_64/include/QtCore/QString \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstring.h \
  D:/QT/6.9.1/mingw_64/include/QtCore/QStringList \
  D:/QT/6.9.1/mingw_64/include/QtCore/qstringlist.h \

@@ -20,6 +20,7 @@
 #include "multiplayergamemanager.h"
 #include "singleplayergamemanager.h"
 
+
 class GameWidget : public QWidget
 {
     Q_OBJECT
@@ -97,6 +98,7 @@ private:
     void drawUI(QPainter& painter);
     void drawPauseOverlay(QPainter& painter, const QRect& gameRect);
     void drawGameOverOverlay(QPainter& painter, const QRect& gameRect);
+
     
     QSet<Point> getOccupiedPositions() const;
     void sendNetworkUpdate();

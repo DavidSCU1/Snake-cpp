@@ -5,7 +5,7 @@
 	"CMAKE_CURRENT_SOURCE_DIR" : "D:/Snake_cpp",
 	"CMAKE_SOURCE_DIR" : "D:/Snake_cpp",
 	"CROSS_CONFIG" : false,
-	"GENERATOR" : "Ninja",
+	"GENERATOR" : "MinGW Makefiles",
 	"INCLUDE_DIR" : "D:/Snake_cpp/build/Snake_cpp_autogen/include",
 	"INPUTS" : 
 	[

@@ -68,7 +68,6 @@ private:
     QPushButton* timeAttackButton;
     QPushButton* survivalButton;
     QPushButton* speedRunButton;
-    QPushButton* puzzleButton;
     QPushButton* aiBattleButton;
     
     // 右侧详情面板

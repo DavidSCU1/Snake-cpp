@@ -150,13 +150,12 @@ void SingleModeSelection::setupModeButtons()
     timeAttackButton = new QPushButton("⏰ 时间挑战", modeSelectionWidget);
     survivalButton = new QPushButton("💀 生存模式", modeSelectionWidget);
     speedRunButton = new QPushButton("⚡ 极速模式", modeSelectionWidget);
-    puzzleButton = new QPushButton("🧩 解谜模式", modeSelectionWidget);
     aiBattleButton = new QPushButton("🤖 人机对战", modeSelectionWidget);
     
-    QList<QPushButton*> buttons = {classicButton, timeAttackButton, survivalButton, speedRunButton, puzzleButton, aiBattleButton};
+    QList<QPushButton*> buttons = {classicButton, timeAttackButton, survivalButton, speedRunButton, aiBattleButton};
     QList<SinglePlayerMode> modes = {SinglePlayerMode::CLASSIC, SinglePlayerMode::TIME_ATTACK, 
                                     SinglePlayerMode::SURVIVAL, SinglePlayerMode::SPEED_RUN, 
-                                    SinglePlayerMode::PUZZLE, SinglePlayerMode::AI_BATTLE};
+                                    SinglePlayerMode::AI_BATTLE};
     
     for (int i = 0; i < buttons.size(); ++i) {
         QPushButton* button = buttons[i];
@@ -342,8 +341,6 @@ QString SingleModeSelection::getModeColor(SinglePlayerMode mode) const
         return "rgba(244, 67, 54, 0.8)";   // 红色
     case SinglePlayerMode::SPEED_RUN:
         return "rgba(156, 39, 176, 0.8)";  // 紫色
-    case SinglePlayerMode::PUZZLE:
-        return "rgba(33, 150, 243, 0.8)";  // 蓝色
     case SinglePlayerMode::AI_BATTLE:
         return "rgba(255, 193, 7, 0.8)";   // 金色
     default:
@@ -374,10 +371,6 @@ void SingleModeSelection::showModeDetails(SinglePlayerMode mode)
     case SinglePlayerMode::SPEED_RUN:
         modeName = "⚡ 极速模式";
         description = "速度不断增加的挑战！\n\n• 游戏速度持续提升\n• 考验极限反应\n• 高风险高回报\n• 适合高手挑战";
-        break;
-    case SinglePlayerMode::PUZZLE:
-        modeName = "🧩 解谜模式";
-        description = "按照指定路径收集食物！\n\n• 预设的食物位置\n• 需要策略规划\n• 多个关卡挑战\n• 锻炼逻辑思维";
         break;
     case SinglePlayerMode::AI_BATTLE:
         modeName = "🤖 人机对战";

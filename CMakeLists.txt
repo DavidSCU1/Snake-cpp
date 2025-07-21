@@ -64,6 +64,11 @@ endif()
 
 target_link_libraries(Snake_cpp PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network Qt${QT_VERSION_MAJOR}::Svg)
 
+if(MSVC)
+    target_compile_options(Snake_cpp PRIVATE /Zc:__cplusplus)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /FS")
+endif()
+
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.

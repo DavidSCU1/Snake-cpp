@@ -2,6 +2,7 @@
 #include "gamewidget.h"
 #include <QDebug>
 #include <QHostInfo>
+#include <QProcess>
 
 MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     : QWidget(parent)
@@ -130,6 +131,15 @@ void MultiPlayerLobby::setupUI()
     
     playerSettingsLayout->addWidget(playerNameLabel);
     playerSettingsLayout->addWidget(playerNameEdit);
+    
+    // 新增：手动输入IP和按钮
+    manualIpEdit = new QLineEdit(playerSettingsGroup);
+    manualIpEdit->setPlaceholderText("手动输入房主IP地址");
+    manualConnectButton = new QPushButton("手动连接", playerSettingsGroup);
+    manualConnectButton->setStyleSheet("QPushButton { background-color: #8BC34A; color: white; border: none; padding: 8px; border-radius: 4px; }QPushButton:hover { background-color: #689F38; }");
+    connect(manualConnectButton, &QPushButton::clicked, this, &MultiPlayerLobby::onManualConnectClicked);
+    playerSettingsLayout->addWidget(manualIpEdit);
+    playerSettingsLayout->addWidget(manualConnectButton);
     
     // 最大玩家数设置
     QLabel* maxPlayersLabel = new QLabel("最大玩家数:", playerSettingsGroup);
@@ -424,4 +434,47 @@ void MultiPlayerLobby::onRoomDiscovered(const QString& host, int port)
     item->setData(Qt::UserRole + 2, port);
     roomList->addItem(item);
     qDebug() << "Room discovered:" << host << ":" << port;
+}
+
+void MultiPlayerLobby::onManualConnectClicked()
+{
+    QString ip = manualIpEdit->text().trimmed();
+    if (ip.isEmpty()) {
+        QMessageBox::warning(this, "错误", "请输入房主的IP地址！");
+        return;
+    }
+    // ping 检测
+    QProcess pingProcess;
+    QString pingCmd = QString("ping -n 1 %1").arg(ip);
+    pingProcess.start(pingCmd);
+    if (!pingProcess.waitForFinished(2000)) {
+        QMessageBox::warning(this, "错误", "Ping 超时，无法连接到房主！");
+        return;
+    }
+    QString output = pingProcess.readAllStandardOutput();
+    if (!output.contains("TTL=")) {
+        QMessageBox::warning(this, "错误", "Ping 失败，无法连接到房主！");
+        return;
+    }
+    // 自动尝试端口区间
+    NetworkManager* networkManager = multiPlayerManager ? multiPlayerManager->findChild<NetworkManager*>() : nullptr;
+    if (networkManager) {
+        bool connected = false;
+        for (quint16 port = 12345; port < 12365; ++port) {
+            QTcpSocket testSocket;
+            testSocket.connectToHost(ip, port);
+            if (testSocket.waitForConnected(300)) {
+                testSocket.disconnectFromHost();
+                networkManager->connectToServer(ip, port);
+                QMessageBox::information(this, "提示", QString("已连接到房主（端口%1），请继续加入房间。\n如加入失败请重试。\n如多次失败请联系房主或检查防火墙。").arg(port));
+                connected = true;
+                break;
+            }
+        }
+        if (!connected) {
+            QMessageBox::warning(this, "错误", "未能自动检测到可用端口，可能房主未开启或网络异常。");
+        }
+    } else {
+        QMessageBox::warning(this, "错误", "未找到网络管理器，无法连接！");
+    }
 }

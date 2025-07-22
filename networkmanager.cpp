@@ -408,3 +408,22 @@ void NetworkManager::processRoomDiscovery()
         }
     }
 }
+
+bool NetworkManager::startServerAuto(quint16& actualPort, quint16 basePort, int maxTries) {
+    for (int i = 0; i < maxTries; ++i) {
+        quint16 tryPort = basePort + i;
+        if (startServer(tryPort)) {
+            actualPort = tryPort;
+            return true;
+        }
+    }
+    actualPort = 0;
+    return false;
+}
+
+quint16 NetworkManager::getServerPort() const {
+    if (server && server->isListening()) {
+        return server->serverPort();
+    }
+    return 0;
+}

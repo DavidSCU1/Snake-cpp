@@ -34,6 +34,7 @@ signals:
 private slots:
     void onCreateRoomClicked();
     void onJoinRoomClicked();
+    void onManualConnectClicked(); // 新增槽函数声明
     void onRefreshClicked();
     void onBackClicked();
     void onRoomSelectionChanged();
@@ -96,6 +97,8 @@ private:
     QHBoxLayout* buttonLayout;
     QPushButton* createRoomButton;
     QPushButton* joinRoomButton;
+    QPushButton* manualConnectButton; // 新增手动连接按钮
+    QLineEdit* manualIpEdit; // 新增手动输入IP框
     QPushButton* backButton;
     
     // 游戏相关

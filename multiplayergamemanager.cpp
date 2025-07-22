@@ -49,10 +49,11 @@ QString MultiPlayerGameManager::createRoom(const QString& hostName, int maxPlaye
     // 启动网络服务器并广播房间信息
     if (networkManager) {
         if (!networkManager->isServerRunning()) {
-            if (networkManager->startServer()) {
-                qDebug() << "Server started for room" << roomId;
+            quint16 actualPort = 0;
+            if (networkManager->startServerAuto(actualPort)) {
+                qDebug() << "Server started for room" << roomId << ", port:" << actualPort;
             } else {
-                qDebug() << "Failed to start server for room" << roomId;
+                qDebug() << "Failed to start server for room" << roomId << ", all ports busy.";
             }
         }
         networkManager->broadcastRoomInfo();

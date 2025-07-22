@@ -67,6 +67,7 @@ signals:
     void requestRoomInfo(QJsonObject& roomInfo); // 请求房间信息的信号
     void characterSelectionStarted(const QString& roomId); // 新增：角色选择开始信号
     void characterSelectionReceived(const QString& roomId, const QString& playerName, int character); // 新增：角色选择信号
+    void playerJoined(const QString& roomId, const QString& playerName); // 新增：玩家加入信号
     
 private slots:
     void onNewConnection();

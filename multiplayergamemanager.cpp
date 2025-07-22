@@ -101,6 +101,16 @@ bool MultiPlayerGameManager::joinRoom(const QString& roomId, const QString& play
     gameState.playerAliveStatus[playerName] = true;
     gameState.playerScores[playerName] = 0;
     gameState.playerCharacters[playerName] = CharacterType::PATRICK; // 默认角色
+
+    if (networkManager) {
+        QJsonObject msg;
+        msg["type"] = "playerJoined";
+        msg["roomId"] = roomId;
+        msg["playerName"] = playerName;
+        if (networkManager) {
+        networkManager->broadcastMessage(msg);
+    }
+    }
     
     emit playerJoinedRoom(roomId, playerName);
     

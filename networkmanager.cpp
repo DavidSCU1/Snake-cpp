@@ -421,6 +421,11 @@ void NetworkManager::processMessage(const QJsonObject& message, QTcpSocket* send
         
         emit characterSelectionReceived(roomId, playerName, character);
     }
+    else if (type == "playerJoined") {
+        QString roomId = data["roomId"].toString();
+        QString playerName = data["playerName"].toString();
+        emit playerJoined(roomId, playerName);
+    }
     // 忽略心跳消息
 }
 

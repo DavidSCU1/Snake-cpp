@@ -14,6 +14,7 @@
 #include <QGroupBox>
 #include "gamestate.h"
 #include "multiplayergamemanager.h"
+#include "characterselection.h"
 #include <QMap>
 #include <QDateTime>
 
@@ -49,6 +50,13 @@ private slots:
     void showWaitingInterface();
     void hideWaitingInterface();
     
+    // 角色选择界面槽函数
+    void showCharacterSelection();
+    void hideCharacterSelection();
+    void onCharacterSelected(CharacterType character);
+    void onCharacterSelectionBack();
+    void onCharacterSelectionStart();
+    
     // MultiPlayerGameManager 信号槽
     void onRoomCreated(const QString& roomId, const GameRoom& room);
     void onPlayerJoinedRoom(const QString& roomId, const QString& playerName);
@@ -62,6 +70,7 @@ private slots:
 private:
     void setupUI();
     void setupWaitingInterface();
+    void setupCharacterSelection();
     void updateRoomInfo(const GameRoom& room);
     void clearRoomInfo();
     bool validatePlayerName() const;
@@ -121,6 +130,9 @@ private:
     QListWidget* waitingPlayerListWidget;
     QPushButton* startGameButton;
     QPushButton* leaveRoomButton;
+    
+    // 角色选择界面组件
+    CharacterSelection* characterSelectionWidget;
     
     // 游戏相关
     GameWidget* gameWidget;

@@ -249,6 +249,9 @@ void NetworkManager::onClientDisconnected()
         clientNames.remove(socket);
         emit playerDisconnected(playerName);
         qDebug() << "Client disconnected:" << playerName;
+        
+        // 正常断开连接时，不发送错误信息，只记录日志
+        qDebug() << "Player" << playerName << "disconnected normally";
     } else {
         qDebug() << "Disconnected from server";
         heartbeatTimer->stop();
@@ -279,8 +282,26 @@ void NetworkManager::onSocketError(QAbstractSocket::SocketError error)
 {
     QTcpSocket* socket = qobject_cast<QTcpSocket*>(sender());
     if (socket) {
-        emit connectionError(socket->errorString());
-        qDebug() << "Socket error:" << socket->errorString();
+        QString errorMessage;
+        if (isServer) {
+            // 服务器端：客户端连接出现问题
+            QString playerName = clientNames.value(socket, "未知玩家");
+            if (error == QAbstractSocket::RemoteHostClosedError) {
+                errorMessage = QString("玩家 %1 断开了连接").arg(playerName);
+            } else {
+                errorMessage = QString("玩家 %1 连接出现错误: %2").arg(playerName).arg(socket->errorString());
+            }
+        } else {
+            // 客户端：与服务器连接出现问题
+            if (error == QAbstractSocket::RemoteHostClosedError) {
+                errorMessage = "服务器关闭了连接";
+            } else {
+                errorMessage = QString("连接服务器时出现错误: %1").arg(socket->errorString());
+            }
+        }
+        
+        emit connectionError(errorMessage);
+        qDebug() << "Socket error:" << errorMessage;
     }
 }
 

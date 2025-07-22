@@ -232,6 +232,11 @@ double SinglePlayerGameManager::getSpeedMultiplier() const
     return speedMultiplier;
 }
 
+void SinglePlayerGameManager::setSpeedMultiplier(double multiplier)
+{
+    speedMultiplier = multiplier;
+    emit speedIncreased(speedMultiplier);
+}
 
 int SinglePlayerGameManager::getAIScore() const
 {
@@ -292,10 +297,8 @@ void SinglePlayerGameManager::onModeTimer()
 
 void SinglePlayerGameManager::onSpeedTimer()
 {
-    if (currentMode == SinglePlayerMode::SPEED_RUN) {
-        speedMultiplier += SPEED_RUN_INCREMENT;
-        emit speedIncreased(speedMultiplier);
-    }
+    // 极速模式下不再使用定时器自动加速
+    // 速度增加现在完全由吃食物触发
 }
 
 void SinglePlayerGameManager::initializeAchievements()

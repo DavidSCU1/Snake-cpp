@@ -80,6 +80,17 @@ GameWidget::GameWidget(QWidget *parent)
         update();
     });
     
+    // 连接极速模式速度增加信号
+    connect(singlePlayerManager, &SinglePlayerGameManager::speedIncreased, this, [this](double speedMultiplier) {
+        qDebug() << "Speed increased to multiplier:" << speedMultiplier;
+        // 更新游戏速度
+        int newSpeed = static_cast<int>(baseSpeed / speedMultiplier);
+        currentSpeed = newSpeed;
+        if (gameTimer->isActive()) {
+            gameTimer->setInterval(newSpeed);
+        }
+    });
+    
     setFocusPolicy(Qt::StrongFocus);
     setMinimumSize(800, 600);
 }
@@ -271,10 +282,11 @@ void GameWidget::startSinglePlayerGame()
         }
     }
     
-    // 生成墙体（在经典模式和时间挑战模式下）
+    // 生成墙体（在经典模式、时间挑战模式和极速模式下）
     if (singlePlayerManager && 
         (singlePlayerManager->getCurrentMode() == SinglePlayerMode::CLASSIC ||
-         singlePlayerManager->getCurrentMode() == SinglePlayerMode::TIME_ATTACK) &&
+         singlePlayerManager->getCurrentMode() == SinglePlayerMode::TIME_ATTACK ||
+         singlePlayerManager->getCurrentMode() == SinglePlayerMode::SPEED_RUN) &&
         (currentDifficulty == Difficulty::NORMAL || currentDifficulty == Difficulty::HARD)) {
         generateWalls();
         qDebug() << "Walls generated, count:" << wall->getWallPositions().size();
@@ -710,6 +722,22 @@ void GameWidget::updateSpeed()
     if (newLevel != level) {
         level = newLevel;
         levelLabel->setText(QString("等级: %1").arg(level));
+        
+        // 极速模式下使用不同的速度增加机制
+        if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::SPEED_RUN) {
+            // 极速模式：每吃食物增加少量速度倍增器
+            double currentMultiplier = singlePlayerManager->getSpeedMultiplier();
+            double newMultiplier = currentMultiplier + 0.05; // 每吃食物增加5%速度
+            singlePlayerManager->setSpeedMultiplier(newMultiplier);
+            
+            // 更新游戏速度
+            int newSpeed = static_cast<int>(baseSpeed / newMultiplier);
+            currentSpeed = qMax(30, newSpeed); // 最快不超过30ms间隔
+            if (gameTimer->isActive()) {
+                gameTimer->setInterval(currentSpeed);
+            }
+            return;
+        }
         
         // 每升一级，速度增加10%
         currentSpeed = qMax(50, static_cast<int>(baseSpeed * qPow(0.9, level - 1)));

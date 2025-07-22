@@ -4,6 +4,10 @@
 #include <QHostInfo>
 #include <QProcess>
 #include <QCheckBox>
+#include <QInputDialog>
+#include <QTimer>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     : QWidget(parent)
@@ -195,11 +199,21 @@ void MultiPlayerLobby::setupUI()
                                  "QPushButton:disabled { background-color: #CCCCCC; }");
     joinRoomButton->setEnabled(false);
     connect(joinRoomButton, &QPushButton::clicked, this, &MultiPlayerLobby::onJoinRoomClicked);
-    contentLayout->addWidget(joinRoomButton);
-
+    
+    // 添加允许加入游戏中房间的勾选框
+    allowJoinCheckBox = new QCheckBox("允许加入游戏中的房间", playerSettingsGroup);
+    allowJoinCheckBox->setChecked(false);
+    playerSettingsLayout->addWidget(allowJoinCheckBox);
+    
     // 勾选框状态变化时，控制加入按钮
     connect(allowJoinCheckBox, &QCheckBox::stateChanged, this, [this](int state){
-        joinRoomButton->setEnabled(state == Qt::Checked);
+        QListWidgetItem* currentItem = roomList->currentItem();
+        if (currentItem) {
+            QString roomId = currentItem->data(Qt::UserRole).toString();
+            GameRoom room = multiPlayerManager->getRoomInfo(roomId);
+            bool canJoin = (!room.isGameStarted || state == Qt::Checked) && room.currentPlayers < room.maxPlayers;
+            joinRoomButton->setEnabled(canJoin && validatePlayerName());
+        }
     });
     
     buttonLayout->addWidget(createRoomButton);
@@ -298,15 +312,54 @@ void MultiPlayerLobby::onJoinRoomClicked()
         return;
     }
     
-    QString roomId = currentItem->data(Qt::UserRole).toString();
+    QString roomKey = currentItem->data(Qt::UserRole).toString();
     playerName = playerNameEdit->text().trimmed();
     
-    if (multiPlayerManager->joinRoom(roomId, playerName)) {
-        currentRoomId = roomId;
-        QMessageBox::information(this, "成功", QString("成功加入房间 %1！").arg(roomId));
-        refreshRoomList();
+    // 检查是否是发现的房间（包含IP:端口格式）
+    if (roomKey.contains(":")) {
+        // 这是通过UDP发现的房间
+        QString hostIp = currentItem->data(Qt::UserRole + 1).toString();
+        int hostPort = currentItem->data(Qt::UserRole + 2).toInt();
+        
+        if (hostIp.isEmpty() || hostPort == 0) {
+            QMessageBox::warning(this, "错误", "房间信息不完整！");
+            return;
+        }
+        
+        NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+        
+        // 连接到服务器
+        networkManager->connectToServer(hostIp, hostPort);
+        
+        // 连接成功后发送玩家信息
+        QTimer::singleShot(1000, [this, networkManager]() {
+            // 发送玩家信息到服务器
+            QJsonObject playerData;
+            playerData["name"] = playerName;
+            playerData["score"] = 0;
+            playerData["character"] = static_cast<int>(CharacterType::PATRICK);
+            playerData["isAlive"] = true;
+            
+            QJsonObject message = networkManager->createMessage("playerInfo", playerData);
+            
+            if (networkManager->getClientSocket() && networkManager->getClientSocket()->state() == QAbstractSocket::ConnectedState) {
+                QJsonDocument doc(message);
+                networkManager->getClientSocket()->write(doc.toJson(QJsonDocument::Compact) + "\n");
+                qDebug() << "Sent player info for:" << playerName;
+            }
+        });
+        
+        QMessageBox::information(this, "提示", "正在连接到房间...");
     } else {
-        QMessageBox::warning(this, "错误", "加入房间失败！房间可能已满或不存在。");
+        // 这是本地房间，直接加入
+        QString roomId = roomKey;
+        if (multiPlayerManager->joinRoom(roomId, playerName)) {
+            currentRoomId = roomId;
+            QMessageBox::information(this, "成功", "成功加入房间！");
+            refreshRoomList();
+        } else {
+            QMessageBox::warning(this, "错误", "无法加入房间！房间可能已满或游戏已开始。");
+        }
     }
 }
 

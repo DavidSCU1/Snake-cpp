@@ -68,6 +68,7 @@ public:
     
     // 网络管理
     void setNetworkManager(NetworkManager* manager);
+    NetworkManager* getNetworkManager() const;
     void broadcastGameState(const QString& roomId);
     void sendPlayerUpdate(const QString& roomId, const QString& playerName);
     
@@ -87,6 +88,8 @@ private slots:
     void onNetworkPlayerInfoReceived(const PlayerInfo& playerInfo);
     void onNetworkPlayerPositionReceived(const QString& playerName, const std::deque<Point>& snakeBody);
     void onNetworkPlayerDisconnected(const QString& playerName);
+    void onNetworkPlayerConnected(const QString& playerName);
+    void onRoomInfoRequested(QJsonObject& roomInfo);
     
 private:
     void initializeGameState(const QString& roomId);

@@ -47,6 +47,12 @@ public:
     // 获取连接的玩家数量
     int getConnectedPlayersCount() const;
     
+    // 获取客户端socket
+    QTcpSocket* getClientSocket() const;
+    
+    // 创建消息（公共方法）
+    QJsonObject createMessage(const QString& type, const QJsonObject& data = QJsonObject());
+    
 signals:
     void playerConnected(const QString& playerName);
     void playerDisconnected(const QString& playerName);
@@ -56,6 +62,7 @@ signals:
     void playerPositionReceived(const QString& playerName, const std::deque<Point>& snakeBody);
     void connectionError(const QString& error);
     void roomDiscovered(const QString& host, int port); // 修改为两个参数
+    void requestRoomInfo(QJsonObject& roomInfo); // 请求房间信息的信号
     
 private slots:
     void onNewConnection();
@@ -67,7 +74,6 @@ private slots:
     
 private:
     void processMessage(const QJsonObject& message, QTcpSocket* sender = nullptr);
-    QJsonObject createMessage(const QString& type, const QJsonObject& data = QJsonObject());
     
     // 服务器相关
     QTcpServer* server;

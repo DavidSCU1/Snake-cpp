@@ -192,6 +192,11 @@ int NetworkManager::getConnectedPlayersCount() const
     }
 }
 
+QTcpSocket* NetworkManager::getClientSocket() const
+{
+    return clientSocket;
+}
+
 void NetworkManager::onNewConnection()
 {
     while (server->hasPendingConnections()) {
@@ -409,6 +414,9 @@ void NetworkManager::broadcastRoomInfo()
     }
     roomInfo["host"] = localIp;
     roomInfo["timestamp"] = QDateTime::currentMSecsSinceEpoch();
+    
+    // 添加房间详细信息
+    emit requestRoomInfo(roomInfo);
 
     QJsonDocument doc(roomInfo);
     QByteArray data = doc.toJson(QJsonDocument::Compact);
@@ -439,6 +447,7 @@ void NetworkManager::broadcastRoomInfo()
 // 处理房间发现
 void NetworkManager::processRoomDiscovery()
 {
+    QList<QHostAddress> localAddresses = QNetworkInterface::allAddresses();
     while (udpSocket->hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(udpSocket->pendingDatagramSize());
@@ -453,8 +462,17 @@ void NetworkManager::processRoomDiscovery()
         if (error.error == QJsonParseError::NoError && doc.isObject()) {
             QJsonObject message = doc.object();
             if (message["type"].toString() == "roomInfo") {
-                emit roomDiscovered(message["host"].toString(), message["port"].toInt());
-                qDebug() << "Discovered room:" << message["host"].toString() << ":" << message["port"].toInt();
+                QString host = message["host"].toString();
+                bool isLocal = false;
+                for (const QHostAddress& addr : localAddresses) {
+                    if (addr.toString() == host) {
+                        isLocal = true;
+                        break;
+                    }
+                }
+                if (isLocal) continue; // 忽略本机广播
+                emit roomDiscovered(host, message["port"].toInt());
+                qDebug() << "Discovered room:" << host << ":" << message["port"].toInt();
             }
         }
     }

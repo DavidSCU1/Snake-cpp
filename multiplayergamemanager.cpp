@@ -395,7 +395,16 @@ void MultiPlayerGameManager::setNetworkManager(NetworkManager* manager)
                 this, &MultiPlayerGameManager::onNetworkPlayerPositionReceived);
         connect(networkManager, &NetworkManager::playerDisconnected,
                 this, &MultiPlayerGameManager::onNetworkPlayerDisconnected);
+        connect(networkManager, &NetworkManager::playerConnected,
+                this, &MultiPlayerGameManager::onNetworkPlayerConnected);
+        connect(networkManager, &NetworkManager::requestRoomInfo,
+                this, &MultiPlayerGameManager::onRoomInfoRequested);
     }
+}
+
+NetworkManager* MultiPlayerGameManager::getNetworkManager() const
+{
+    return networkManager;
 }
 
 void MultiPlayerGameManager::broadcastGameState(const QString& roomId)
@@ -508,6 +517,38 @@ void MultiPlayerGameManager::onNetworkPlayerDisconnected(const QString& playerNa
             break;
         }
     }
+}
+
+void MultiPlayerGameManager::onNetworkPlayerConnected(const QString& playerName)
+{
+    // 当玩家连接时，自动将其添加到第一个可用的房间
+    qDebug() << "Player connected:" << playerName << ", attempting to add to room";
+    
+    // 查找第一个未开始且未满的房间
+    for (auto it = rooms.begin(); it != rooms.end(); ++it) {
+        const QString& roomId = it.key();
+        GameRoom& room = it.value();
+        
+        if (!room.isGameStarted && room.currentPlayers < room.maxPlayers && !room.playerNames.contains(playerName)) {
+            // 将玩家添加到房间
+            room.playerNames.append(playerName);
+            room.currentPlayers++;
+            
+            // 添加玩家到游戏状态
+            if (gameStates.contains(roomId)) {
+                MultiPlayerGameState& gameState = gameStates[roomId];
+                gameState.playerAliveStatus[playerName] = true;
+                gameState.playerScores[playerName] = 0;
+                gameState.playerCharacters[playerName] = CharacterType::PATRICK; // 默认角色
+            }
+            
+            qDebug() << "Player" << playerName << "added to room" << roomId;
+            emit playerJoinedRoom(roomId, playerName);
+            return;
+        }
+    }
+    
+    qDebug() << "No available room found for player" << playerName;
 }
 
 void MultiPlayerGameManager::initializeGameState(const QString& roomId)
@@ -697,4 +738,30 @@ QString MultiPlayerGameManager::generateRoomId() const
         roomId += QString::number(QRandomGenerator::global()->bounded(10));
     }
     return roomId;
+}
+
+void MultiPlayerGameManager::onRoomInfoRequested(QJsonObject& roomInfo)
+{
+    // 添加房间详细信息
+    if (!rooms.isEmpty()) {
+        // 获取第一个可用房间的信息
+        auto it = rooms.begin();
+        const QString& roomId = it.key();
+        const GameRoom& room = it.value();
+        
+        roomInfo["roomId"] = roomId;
+        roomInfo["hostName"] = room.hostName;
+        roomInfo["currentPlayers"] = room.currentPlayers;
+        roomInfo["maxPlayers"] = room.maxPlayers;
+        roomInfo["isGameStarted"] = room.isGameStarted;
+        
+        // 添加玩家列表
+        QJsonArray playersArray;
+        for (const QString& playerName : room.playerNames) {
+            playersArray.append(playerName);
+        }
+        roomInfo["players"] = playersArray;
+        
+        qDebug() << "Room info populated for broadcast:" << roomId;
+    }
 }

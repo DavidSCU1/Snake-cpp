@@ -42,6 +42,8 @@ public:
     void sendGameState(const QJsonObject& gameState);
     void sendScoreUpdate(int score);
     void sendPlayerPosition(const std::deque<Point>& snakeBody);
+    void sendCharacterSelectionStart(); // 新增：发送角色选择开始消息
+    void sendCharacterSelection(const QString& playerName, int character); // 新增：发送角色选择消息
     void broadcastMessage(const QJsonObject& message, QTcpSocket* excludeSocket = nullptr);
     
     // 获取连接的玩家数量
@@ -63,6 +65,8 @@ signals:
     void connectionError(const QString& error);
     void roomDiscovered(const QString& host, int port); // 修改为两个参数
     void requestRoomInfo(QJsonObject& roomInfo); // 请求房间信息的信号
+    void characterSelectionStarted(const QString& roomId); // 新增：角色选择开始信号
+    void characterSelectionReceived(const QString& roomId, const QString& playerName, int character); // 新增：角色选择信号
     
 private slots:
     void onNewConnection();

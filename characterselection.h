@@ -41,6 +41,7 @@ public:
     
     CharacterType getSelectedCharacter() const { return selectedCharacter; }
     void setSelectedCharacter(CharacterType character);
+    void updatePlayerCharacter(const QString& playerName, CharacterType character);
     
 signals:
     void characterSelected(CharacterType character);

@@ -183,6 +183,38 @@ void NetworkManager::sendPlayerPosition(const std::deque<Point>& snakeBody)
     }
 }
 
+void NetworkManager::sendCharacterSelectionStart()
+{
+    QJsonObject data;
+    data["roomId"] = "default"; // 可以根据需要传入实际的roomId
+    
+    QJsonObject message = createMessage("characterSelectionStart", data);
+    
+    if (isServer) {
+        broadcastMessage(message);
+    } else if (clientSocket && clientSocket->state() == QAbstractSocket::ConnectedState) {
+        QJsonDocument doc(message);
+        clientSocket->write(doc.toJson(QJsonDocument::Compact) + "\n");
+    }
+}
+
+void NetworkManager::sendCharacterSelection(const QString& playerName, int character)
+{
+    QJsonObject data;
+    data["roomId"] = "default"; // 可以根据需要传入实际的roomId
+    data["playerName"] = playerName;
+    data["character"] = character;
+    
+    QJsonObject message = createMessage("characterSelection", data);
+    
+    if (isServer) {
+        broadcastMessage(message);
+    } else if (clientSocket && clientSocket->state() == QAbstractSocket::ConnectedState) {
+        QJsonDocument doc(message);
+        clientSocket->write(doc.toJson(QJsonDocument::Compact) + "\n");
+    }
+}
+
 int NetworkManager::getConnectedPlayersCount() const
 {
     if (isServer) {
@@ -370,6 +402,24 @@ void NetworkManager::processMessage(const QJsonObject& message, QTcpSocket* send
         }
         
         emit playerPositionReceived(playerName, snakeBody);
+    }
+    else if (type == "characterSelectionStart") {
+        QString roomId = data["roomId"].toString();
+        if (isServer && sender) {
+            broadcastMessage(message, sender);
+        }
+        emit characterSelectionStarted(roomId);
+    }
+    else if (type == "characterSelection") {
+        QString roomId = data["roomId"].toString();
+        QString playerName = data["playerName"].toString();
+        int character = data["character"].toInt();
+        
+        if (isServer && sender) {
+            broadcastMessage(message, sender);
+        }
+        
+        emit characterSelectionReceived(roomId, playerName, character);
     }
     // 忽略心跳消息
 }

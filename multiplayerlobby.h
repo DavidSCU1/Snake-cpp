@@ -67,6 +67,11 @@ private slots:
     void onRoomDiscovered(const QString& host, int port);
     void onConnectionError(const QString& error);
     
+    // 网络管理器信号槽
+    void onCharacterSelectionStarted(const QString& roomId);
+    void onPlayerCharacterSelected(const QString& roomId, const QString& playerName, int character);
+    void onAllPlayersReady(const QString& roomId);
+    
 private:
     void setupUI();
     void setupWaitingInterface();

@@ -258,3 +258,15 @@ void CharacterSelection::updateSelection()
         }
     }
 }
+
+void CharacterSelection::updatePlayerCharacter(const QString& playerName, CharacterType character)
+{
+    // 在多人游戏中更新其他玩家的角色选择状态
+    // 这里可以添加UI更新逻辑，比如显示玩家名称和选择的角色
+    qDebug() << "Player" << playerName << "selected character:" << static_cast<int>(character);
+    
+    // 可以在这里添加更多的UI更新逻辑，比如:
+    // - 在角色按钮上显示玩家名称
+    // - 禁用已被其他玩家选择的角色
+    // - 显示玩家列表和他们选择的角色
+}

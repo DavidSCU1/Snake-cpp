@@ -35,8 +35,12 @@ MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     connect(multiPlayerManager, &MultiPlayerGameManager::roomDestroyed, this, &MultiPlayerLobby::onRoomDestroyed);
     connect(multiPlayerManager, &MultiPlayerGameManager::gameEnded, this, &MultiPlayerLobby::onGameEnded);
     
+    // 连接网络管理器的新信号
+    connect(networkManager, &NetworkManager::characterSelectionStarted, this, &MultiPlayerLobby::onCharacterSelectionStarted);
+    connect(networkManager, &NetworkManager::characterSelectionReceived, this, &MultiPlayerLobby::onPlayerCharacterSelected);
+    
     // 连接网络管理器的错误信号
-    connect(multiPlayerManager->getNetworkManager(), &NetworkManager::connectionError, this, &MultiPlayerLobby::onConnectionError);
+    connect(networkManager, &NetworkManager::connectionError, this, &MultiPlayerLobby::onConnectionError);
     
     // 设置定时刷新
     connect(refreshTimer, &QTimer::timeout, this, &MultiPlayerLobby::refreshRoomList);
@@ -752,6 +756,12 @@ void MultiPlayerLobby::hideWaitingInterface()
 void MultiPlayerLobby::onStartGameClicked()
 {
     if (!currentRoomId.isEmpty()) {
+        // 房主点击选择角色，通知所有玩家进入角色选择界面
+        NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+        if (networkManager) {
+            networkManager->sendCharacterSelectionStart();
+        }
+        
         // 进入角色选择界面
         hideWaitingInterface();
         showCharacterSelection();
@@ -838,6 +848,13 @@ void MultiPlayerLobby::onCharacterSelected(CharacterType character)
     // 更新玩家角色信息
     if (!currentRoomId.isEmpty() && !playerName.isEmpty()) {
         multiPlayerManager->setPlayerCharacter(currentRoomId, playerName, character);
+        
+        // 通过网络发送角色选择信息给其他玩家
+        NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+        if (networkManager) {
+            networkManager->sendCharacterSelection(playerName, static_cast<int>(character));
+        }
+        
         qDebug() << "Player" << playerName << "selected character:" << static_cast<int>(character);
     }
 }
@@ -863,5 +880,34 @@ void MultiPlayerLobby::onCharacterSelectionStart()
         hideCharacterSelection();
         // 通知游戏管理器开始游戏
         multiPlayerManager->startGame(currentRoomId);
+    }
+}
+
+// 处理角色选择开始信号
+void MultiPlayerLobby::onCharacterSelectionStarted(const QString& roomId)
+{
+    if (roomId == currentRoomId) {
+        // 进入角色选择界面
+        hideWaitingInterface();
+        showCharacterSelection();
+    }
+}
+
+// 处理玩家角色选择信号
+void MultiPlayerLobby::onPlayerCharacterSelected(const QString& roomId, const QString& playerName, int character)
+{
+    if (roomId == currentRoomId && characterSelectionWidget) {
+        // 更新角色选择界面的玩家状态
+        characterSelectionWidget->updatePlayerCharacter(playerName, static_cast<CharacterType>(character));
+    }
+}
+
+// 处理所有玩家准备完成信号
+void MultiPlayerLobby::onAllPlayersReady(const QString& roomId)
+{
+    if (roomId == currentRoomId) {
+        // 所有玩家都选择了角色，可以开始游戏
+        QMessageBox::information(this, "准备完成", "所有玩家都已选择角色，游戏即将开始！");
+        onCharacterSelectionStart();
     }
 }

@@ -363,7 +363,7 @@ void MultiPlayerLobby::onJoinRoomClicked()
             joinRoomButton->setEnabled(true);
             joinRoomButton->setText("加入房间");
             QMessageBox::information(this, "成功", "成功连接到房间！");
-        }, Qt::UniqueConnection);
+        });
         
         // 开始连接
         networkManager->connectToServer(hostIp, hostPort);

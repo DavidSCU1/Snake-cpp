@@ -225,13 +225,16 @@ void NetworkManager::onClientConnected()
     heartbeatTimer->start();
     // 新增：客户端连接成功后立即发送玩家信息
     if (!isServer && clientSocket) {
-        // 这里假设有成员变量 pendingPlayerName，如果没有需补充
+        // 发送完整的玩家信息
         QJsonObject playerData;
         playerData["name"] = pendingPlayerName;
         playerData["score"] = 0;
+        playerData["character"] = static_cast<int>(CharacterType::PATRICK);
+        playerData["isAlive"] = true;
         QJsonObject message = createMessage("playerInfo", playerData);
         QJsonDocument doc(message);
         clientSocket->write(doc.toJson(QJsonDocument::Compact) + "\n");
+        qDebug() << "Sent player info for:" << pendingPlayerName;
     }
 }
 

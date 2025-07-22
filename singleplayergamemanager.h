@@ -14,7 +14,7 @@ class GameWidget;
 enum class SinglePlayerMode {
     CLASSIC,        // 经典模式
     TIME_ATTACK,    // 时间挑战模式
-    SURVIVAL,       // 生存模式
+    CHALLENGE,      // 挑战模式
     SPEED_RUN,      // 极速模式
     AI_BATTLE       // 人机对战模式
 };
@@ -82,7 +82,6 @@ public:
     
     // 模式特定功能
     int getTimeRemaining() const;  // 时间挑战模式
-    int getSurvivalWaves() const;  // 生存模式
     double getSpeedMultiplier() const;  // 极速模式
     int getAIScore() const;  // 人机对战模式 - AI分数
     int getPlayerScore() const;  // 人机对战模式 - 玩家分数
@@ -96,7 +95,6 @@ signals:
     void statsUpdated(const GameStats& stats);
     void achievementUnlocked(const Achievement& achievement);
     void timeWarning(int secondsLeft);  // 时间挑战模式警告
-    void waveCompleted(int wave);  // 生存模式波次完成
     void speedIncreased(double multiplier);  // 极速模式速度提升
     void aiScoreUpdated(int aiScore, int playerScore);  // AI对战分数更新
     void gameEnded(SinglePlayerMode mode, const GameStats& finalStats);
@@ -118,7 +116,6 @@ private:
     void initializeAchievements();
     void setupModeTimers();
     void updateTimeAttackMode();
-    void updateSurvivalMode();
     void updateSpeedRunMode();
     
     Direction calculateAIDirection(const Point& aiHead, const Point& target);
@@ -151,8 +148,6 @@ private:
     
     // 模式特定数据
     int timeAttackDuration;     // 时间挑战模式持续时间（秒）
-    int survivalWave;           // 当前生存波次
-    int survivalEnemies;        // 当前波次敌人数量
     double speedMultiplier;     // 速度倍数
     // AI对战模式数据
     int aiScore;                // AI当前分数
@@ -169,7 +164,6 @@ private:
     
     // 常量
     static constexpr int TIME_ATTACK_DEFAULT_DURATION = 180;  // 3分钟
-    static constexpr int SURVIVAL_BASE_ENEMIES = 5;
     static constexpr double SPEED_RUN_INCREMENT = 0.1;
 };
 

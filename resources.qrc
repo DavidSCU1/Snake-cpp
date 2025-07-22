@@ -21,6 +21,9 @@
         <file>images/golden_spatula.svg</file>
         
         <!-- 海洋背景图片 -->
-        <file>images/ocean-background.png</file>
+        <file>images/ocean_background.png</file>
+        
+        <!-- 墙体图片 -->
+        <file>images/wall.png</file>
     </qresource>
 </RCC>

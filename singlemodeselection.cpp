@@ -148,13 +148,13 @@ void SingleModeSelection::setupModeButtons()
     // 创建模式按钮
     classicButton = new QPushButton("🐍 经典模式", modeSelectionWidget);
     timeAttackButton = new QPushButton("⏰ 时间挑战", modeSelectionWidget);
-    survivalButton = new QPushButton("💀 生存模式", modeSelectionWidget);
+    challengeButton = new QPushButton("🧱 挑战模式", modeSelectionWidget);
     speedRunButton = new QPushButton("⚡ 极速模式", modeSelectionWidget);
     aiBattleButton = new QPushButton("🤖 人机对战", modeSelectionWidget);
     
-    QList<QPushButton*> buttons = {classicButton, timeAttackButton, survivalButton, speedRunButton, aiBattleButton};
+    QList<QPushButton*> buttons = {classicButton, timeAttackButton, challengeButton, speedRunButton, aiBattleButton};
     QList<SinglePlayerMode> modes = {SinglePlayerMode::CLASSIC, SinglePlayerMode::TIME_ATTACK, 
-                                    SinglePlayerMode::SURVIVAL, SinglePlayerMode::SPEED_RUN, 
+                                    SinglePlayerMode::CHALLENGE, SinglePlayerMode::SPEED_RUN, 
                                     SinglePlayerMode::AI_BATTLE};
     
     for (int i = 0; i < buttons.size(); ++i) {
@@ -337,7 +337,7 @@ QString SingleModeSelection::getModeColor(SinglePlayerMode mode) const
         return "rgba(76, 175, 80, 0.8)";  // 绿色
     case SinglePlayerMode::TIME_ATTACK:
         return "rgba(255, 152, 0, 0.8)";   // 橙色
-    case SinglePlayerMode::SURVIVAL:
+    case SinglePlayerMode::CHALLENGE:
         return "rgba(244, 67, 54, 0.8)";   // 红色
     case SinglePlayerMode::SPEED_RUN:
         return "rgba(156, 39, 176, 0.8)";  // 紫色
@@ -364,9 +364,9 @@ void SingleModeSelection::showModeDetails(SinglePlayerMode mode)
         modeName = "⏰ 时间挑战";
         description = "在限定时间内获得最高分数！\n\n• 3分钟倒计时\n• 快速决策很重要\n• 特殊食物额外加分\n• 考验反应速度";
         break;
-    case SinglePlayerMode::SURVIVAL:
-        modeName = "💀 生存模式";
-        description = "面对越来越多的障碍物！\n\n• 随机生成障碍物\n• 难度逐渐增加\n• 考验生存技巧\n• 看你能坚持多久";
+    case SinglePlayerMode::CHALLENGE:
+        modeName = "🧱 挑战模式";
+        description = "每吃一个食物生成5块墙！\n\n• 食物被吃后生成墙体\n• 难度不断增加\n• 考验规划能力\n• 极限生存挑战";
         break;
     case SinglePlayerMode::SPEED_RUN:
         modeName = "⚡ 极速模式";

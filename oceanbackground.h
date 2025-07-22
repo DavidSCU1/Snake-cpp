@@ -45,7 +45,6 @@ private:
     QTimer *bubbleTimer;
     QTimer *newBubbleTimer;
     QList<Bubble*> bubbles;
-    QPixmap oceanBackground;
     
     static const int MAX_BUBBLES = 15;
     static const int BUBBLE_CREATE_INTERVAL = 2000; // 2秒创建一个新气泡

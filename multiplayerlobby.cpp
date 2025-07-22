@@ -35,6 +35,9 @@ MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     connect(multiPlayerManager, &MultiPlayerGameManager::roomDestroyed, this, &MultiPlayerLobby::onRoomDestroyed);
     connect(multiPlayerManager, &MultiPlayerGameManager::gameEnded, this, &MultiPlayerLobby::onGameEnded);
     
+    // 连接网络管理器的错误信号
+    connect(multiPlayerManager->getNetworkManager(), &NetworkManager::connectionError, this, &MultiPlayerLobby::onConnectionError);
+    
     // 设置定时刷新
     connect(refreshTimer, &QTimer::timeout, this, &MultiPlayerLobby::refreshRoomList);
     refreshTimer->start(3000); // 每3秒刷新一次房间列表
@@ -326,30 +329,63 @@ void MultiPlayerLobby::onJoinRoomClicked()
             return;
         }
         
+        // 获取网络管理器
         NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
         
-        // 连接到服务器
+        // 禁用加入按钮防止重复点击
+        joinRoomButton->setEnabled(false);
+        joinRoomButton->setText("连接中...");
+        
+        // 设置连接超时定时器
+        QTimer* connectionTimer = new QTimer(this);
+        connectionTimer->setSingleShot(true);
+        connectionTimer->setInterval(10000); // 10秒超时
+        
+        // 连接超时处理
+        connect(connectionTimer, &QTimer::timeout, [this, networkManager, connectionTimer]() {
+            if (networkManager->getClientSocket() && 
+                networkManager->getClientSocket()->state() != QAbstractSocket::ConnectedState) {
+                networkManager->disconnectFromServer();
+                QMessageBox::warning(this, "连接超时", "连接超时，请检查网络或重试。");
+                joinRoomButton->setEnabled(true);
+                joinRoomButton->setText("加入房间");
+            }
+            connectionTimer->deleteLater();
+        });
+        
+        // 连接成功处理
+        connect(networkManager, &NetworkManager::playerConnected, this, [this, connectionTimer](const QString& playerName) {
+            Q_UNUSED(playerName)
+            if (connectionTimer) {
+                connectionTimer->stop();
+                connectionTimer->deleteLater();
+            }
+            joinRoomButton->setEnabled(true);
+            joinRoomButton->setText("加入房间");
+            QMessageBox::information(this, "成功", "成功连接到房间！");
+        }, Qt::UniqueConnection);
+        
+        // 开始连接
         networkManager->connectToServer(hostIp, hostPort);
+        connectionTimer->start();
         
         // 连接成功后发送玩家信息
         QTimer::singleShot(1000, [this, networkManager]() {
-            // 发送玩家信息到服务器
-            QJsonObject playerData;
-            playerData["name"] = playerName;
-            playerData["score"] = 0;
-            playerData["character"] = static_cast<int>(CharacterType::PATRICK);
-            playerData["isAlive"] = true;
-            
-            QJsonObject message = networkManager->createMessage("playerInfo", playerData);
-            
-            if (networkManager->getClientSocket() && networkManager->getClientSocket()->state() == QAbstractSocket::ConnectedState) {
+            if (networkManager->getClientSocket() && 
+                networkManager->getClientSocket()->state() == QAbstractSocket::ConnectedState) {
+                // 发送玩家信息到服务器
+                QJsonObject playerData;
+                playerData["name"] = playerName;
+                playerData["score"] = 0;
+                playerData["character"] = static_cast<int>(CharacterType::PATRICK);
+                playerData["isAlive"] = true;
+                
+                QJsonObject message = networkManager->createMessage("playerInfo", playerData);
                 QJsonDocument doc(message);
                 networkManager->getClientSocket()->write(doc.toJson(QJsonDocument::Compact) + "\n");
                 qDebug() << "Sent player info for:" << playerName;
             }
         });
-        
-        QMessageBox::information(this, "提示", "正在连接到房间...");
     } else {
         // 这是本地房间，直接加入
         QString roomId = roomKey;
@@ -581,7 +617,7 @@ void MultiPlayerLobby::onManualConnectClicked()
         return;
     }
     // 自动尝试端口区间
-    NetworkManager* networkManager = multiPlayerManager ? multiPlayerManager->findChild<NetworkManager*>() : nullptr;
+    NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
     if (networkManager) {
         bool connected = false;
         for (quint16 port = 12345; port < 12365; ++port) {
@@ -729,5 +765,24 @@ void MultiPlayerLobby::onLeaveRoomClicked()
         hideWaitingInterface();
         clearRoomInfo();
         refreshRoomList();
+    }
+}
+
+// 处理连接错误
+void MultiPlayerLobby::onConnectionError(const QString& error)
+{
+    qDebug() << "Connection error:" << error;
+    QMessageBox::warning(this, "连接错误", QString("连接失败: %1\n\n请检查:\n1. 房主是否已开启房间\n2. 网络连接是否正常\n3. 防火墙设置是否正确").arg(error));
+    
+    // 重置按钮状态，允许用户重新尝试
+    joinRoomButton->setEnabled(true);
+    joinRoomButton->setText("加入房间");
+    
+    // 断开连接以清理状态
+    if (multiPlayerManager) {
+        NetworkManager* nm = multiPlayerManager->getNetworkManager();
+        if (nm) {
+            nm->disconnectFromServer();
+        }
     }
 }

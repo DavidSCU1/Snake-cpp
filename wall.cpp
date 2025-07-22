@@ -20,25 +20,44 @@ void Wall::generateWalls(int gridWidth, int gridHeight, const QSet<Point>& occup
         }
     }
     
-    // 目标墙块数量100-150，通过生成墙体段来实现
-    int targetWallCount = QRandomGenerator::global()->bounded(100, 151);
-    int generatedWalls = 0;
-    int maxSegments = 50; // 最大段数
-    int segmentAttempts = 0;
+    // 使用更严格的逐个放置策略
+    int targetWallCount = QRandomGenerator::global()->bounded(80, 121); // 降低目标数量以确保质量
+    int maxAttempts = 2000; // 增加尝试次数
     
-    while (generatedWalls < targetWallCount && segmentAttempts < maxSegments) {
-        QVector<Point> segment = generateWallSegment(gridWidth, gridHeight, occupiedPositions, forbiddenArea);
+    for (int attempt = 0; attempt < maxAttempts && wallPositions.size() < targetWallCount; ++attempt) {
+        // 随机选择一个位置
+        Point candidate;
+        candidate.x = QRandomGenerator::global()->bounded(2, gridWidth - 2);
+        candidate.y = QRandomGenerator::global()->bounded(2, gridHeight - 2);
         
-        // 检查新墙体段是否会创建封闭区域
-        if (!segment.isEmpty() && !wouldCreateEnclosure(segment, gridWidth, gridHeight)) {
-            for (const Point& pos : segment) {
-                wallPositions.insert(pos);
-                generatedWalls++;
-                if (generatedWalls >= targetWallCount) break;
-            }
+        // 检查位置是否可用
+        if (occupiedPositions.contains(candidate) || 
+            wallPositions.contains(candidate) || 
+            forbiddenArea.contains(candidate)) {
+            continue;
         }
         
-        segmentAttempts++;
+        // 检查是否会违反密度规则
+        if (wouldViolateDensityRule(candidate, gridWidth, gridHeight)) {
+            continue;
+        }
+        
+        // 临时添加这个墙体，检查是否会创建封闭区域
+        QVector<Point> singleWall;
+        singleWall.append(candidate);
+        if (wouldCreateEnclosure(singleWall, gridWidth, gridHeight)) {
+            continue;
+        }
+        
+        // 添加墙体
+        wallPositions.insert(candidate);
+    }
+    
+    // 最终验证：检查是否存在违反密度规则的空格子
+    if (hasViolatingEmptySpaces(gridWidth, gridHeight)) {
+        qDebug() << "Warning: Still found violating empty spaces after generation!";
+    } else {
+        qDebug() << "Wall generation completed successfully - no density violations found.";
     }
     
     qDebug() << "Generated" << wallPositions.size() << "wall blocks (target:" << targetWallCount << ")";
@@ -58,14 +77,14 @@ QVector<Point> Wall::generateWallSegment(int gridWidth, int gridHeight, const QS
 {
     QVector<Point> segment;
     
-    // 随机选择起始位置（避开边界、已占用位置和禁区）
+    // 随机选择起始位置（避开边界、已占用位置、禁区和违反密度规则的位置）
     Point start;
     int attempts = 0;
     do {
         start.x = QRandomGenerator::global()->bounded(2, gridWidth - 2);
         start.y = QRandomGenerator::global()->bounded(2, gridHeight - 2);
         attempts++;
-    } while ((occupiedPositions.contains(start) || wallPositions.contains(start) || forbiddenArea.contains(start)) && attempts < 100);
+    } while ((occupiedPositions.contains(start) || wallPositions.contains(start) || forbiddenArea.contains(start) || wouldViolateDensityRule(start, gridWidth, gridHeight)) && attempts < 100);
     
     if (attempts >= 100) {
         return segment; // 无法找到合适位置
@@ -80,7 +99,7 @@ QVector<Point> Wall::generateWallSegment(int gridWidth, int gridHeight, const QS
     for (int i = 1; i < segmentLength; ++i) {
         QVector<Point> adjacentPositions = getAdjacentPositions(current);
         
-        // 过滤掉无效位置（包括禁区）
+        // 过滤掉无效位置（包括禁区和违反密度规则的位置）
         QVector<Point> validPositions;
         for (const Point& pos : adjacentPositions) {
             if (pos.x >= 1 && pos.x < gridWidth - 1 && 
@@ -88,7 +107,8 @@ QVector<Point> Wall::generateWallSegment(int gridWidth, int gridHeight, const QS
                 !occupiedPositions.contains(pos) && 
                 !wallPositions.contains(pos) &&
                 !forbiddenArea.contains(pos) &&
-                !segment.contains(pos)) {
+                !segment.contains(pos) &&
+                !wouldViolateDensityRule(pos, gridWidth, gridHeight)) {
                 validPositions.append(pos);
             }
         }
@@ -154,6 +174,39 @@ bool Wall::isAreaReachable(const Point& start, const Point& end, int gridWidth, 
     return false;
 }
 
+bool Wall::hasViolatingEmptySpaces(int gridWidth, int gridHeight) const
+{
+    // 检查网格中的每个空格子
+    for (int x = 0; x < gridWidth; ++x) {
+        for (int y = 0; y < gridHeight; ++y) {
+            Point currentPos(x, y);
+            
+            // 如果当前位置不是墙体，检查其周围的墙体密度
+            if (!wallPositions.contains(currentPos)) {
+                QVector<Point> neighbors = getAdjacentPositions(currentPos);
+                int wallCount = 0;
+                
+                for (const Point& neighbor : neighbors) {
+                    // 检查邻居是否在网格范围内且是墙体
+                    if (neighbor.x >= 0 && neighbor.x < gridWidth && 
+                        neighbor.y >= 0 && neighbor.y < gridHeight && 
+                        wallPositions.contains(neighbor)) {
+                        wallCount++;
+                    }
+                }
+                
+                // 如果周围有3个或更多墙体，违反规则
+                if (wallCount >= 3) {
+                    qDebug() << "Found violating empty space at (" << x << "," << y << ") with" << wallCount << "surrounding walls";
+                    return true;
+                }
+            }
+        }
+    }
+    
+    return false;
+}
+
 QVector<Point> Wall::getAdjacentPositions(const Point& pos) const
 {
     QVector<Point> adjacent;
@@ -162,4 +215,50 @@ QVector<Point> Wall::getAdjacentPositions(const Point& pos) const
     adjacent.append(Point(pos.x, pos.y + 1));     // 下
     adjacent.append(Point(pos.x, pos.y - 1));     // 上
     return adjacent;
+}
+
+bool Wall::wouldViolateDensityRule(const Point& newWallPos, int gridWidth, int gridHeight) const
+{
+    // 创建临时墙体集合，包含新墙体位置
+    QSet<Point> tempWalls = wallPositions;
+    tempWalls.insert(newWallPos);
+    
+    // 需要检查的空格子范围：新墙体周围2格范围内的所有空格子
+    QSet<Point> spacesToCheck;
+    
+    // 检查新墙体周围2格范围内的所有位置
+    for (int dx = -2; dx <= 2; ++dx) {
+        for (int dy = -2; dy <= 2; ++dy) {
+            Point checkPos(newWallPos.x + dx, newWallPos.y + dy);
+            
+            // 确保位置在网格范围内且不是墙体
+            if (checkPos.x >= 0 && checkPos.x < gridWidth && 
+                checkPos.y >= 0 && checkPos.y < gridHeight && 
+                !tempWalls.contains(checkPos)) {
+                spacesToCheck.insert(checkPos);
+            }
+        }
+    }
+    
+    // 检查每个空格子周围的墙体密度
+    for (const Point& emptySpace : spacesToCheck) {
+        QVector<Point> neighbors = getAdjacentPositions(emptySpace);
+        int wallCount = 0;
+        
+        for (const Point& neighbor : neighbors) {
+            // 检查邻居是否在网格范围内且是墙体
+            if (neighbor.x >= 0 && neighbor.x < gridWidth && 
+                neighbor.y >= 0 && neighbor.y < gridHeight && 
+                tempWalls.contains(neighbor)) {
+                wallCount++;
+            }
+        }
+        
+        // 如果周围有3个或更多墙体，违反规则
+        if (wallCount >= 3) {
+            return true;
+        }
+    }
+    
+    return false;
 }

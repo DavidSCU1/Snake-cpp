@@ -15,12 +15,8 @@ OceanBackground::OceanBackground(QWidget *parent)
     setAttribute(Qt::WA_OpaquePaintEvent, false);
     setAttribute(Qt::WA_NoSystemBackground, true);
     
-    // 加载海洋背景图片
-    if (!oceanBackground.load(":/images/ocean-background.png")) {
-        qDebug() << "Failed to load ocean background image";
-    } else {
-        qDebug() << "Ocean background image loaded successfully";
-    }
+    // 直接使用渐变背景，不加载图片
+    qDebug() << "Using gradient background instead of image";
     
     // 初始化定时器
     connect(bubbleTimer, &QTimer::timeout, this, &OceanBackground::updateBubbles);
@@ -60,29 +56,18 @@ void OceanBackground::paintEvent(QPaintEvent *event)
 void OceanBackground::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
-    // 重新生成背景图片以适应新尺寸
-    oceanBackground = QPixmap();
+    // 渐变背景会自动适应新尺寸，无需额外处理
 }
 
 void OceanBackground::drawOceanBackground(QPainter &painter)
 {
-    // 绘制背景图片
-    if (!oceanBackground.isNull()) {
-        qDebug() << "Drawing ocean background image, widget size:" << size() << "image size:" << oceanBackground.size();
-        // 使用IgnoreAspectRatio来填满整个窗口
-        QPixmap scaledBackground = oceanBackground.scaled(size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        painter.drawPixmap(0, 0, scaledBackground);
-        qDebug() << "Background image drawn successfully";
-    } else {
-        qDebug() << "Ocean background image is null, using fallback gradient";
-        // 如果图片加载失败，使用备用渐变背景
-        QLinearGradient oceanGradient(0, 0, 0, height());
-        oceanGradient.setColorAt(0.0, QColor(135, 206, 250, 180));  // 浅蓝色
-        oceanGradient.setColorAt(0.3, QColor(70, 130, 180, 200));   // 钢蓝色
-        oceanGradient.setColorAt(0.7, QColor(25, 25, 112, 220));    // 深蓝色
-        oceanGradient.setColorAt(1.0, QColor(0, 0, 139, 240));      // 深蓝色底部
-        painter.fillRect(rect(), oceanGradient);
-    }
+    // 使用渐变背景
+    QLinearGradient oceanGradient(0, 0, 0, height());
+    oceanGradient.setColorAt(0.0, QColor(135, 206, 250, 180));  // 浅蓝色
+    oceanGradient.setColorAt(0.3, QColor(70, 130, 180, 200));   // 钢蓝色
+    oceanGradient.setColorAt(0.7, QColor(25, 25, 112, 220));    // 深蓝色
+    oceanGradient.setColorAt(1.0, QColor(0, 0, 139, 240));      // 深蓝色底部
+    painter.fillRect(rect(), oceanGradient);
     
     // 添加一些海洋波纹效果
     painter.setOpacity(0.3);

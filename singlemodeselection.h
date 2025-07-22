@@ -13,6 +13,7 @@
 #include <QPropertyAnimation>
 #include <QGraphicsOpacityEffect>
 #include "singleplayergamemanager.h"
+#include "gamestate.h"
 
 class SingleModeSelection : public QWidget
 {
@@ -27,9 +28,10 @@ public:
     void showModeDetails(SinglePlayerMode mode);
     
 signals:
-    void modeSelected(SinglePlayerMode mode);
+    void modeSelected(SinglePlayerMode mode, CharacterType character);
     void backToMenu();
     void achievementsRequested();
+    void characterSelected(CharacterType character);
     
 protected:
     void showEvent(QShowEvent *event) override;
@@ -40,16 +42,21 @@ private slots:
     void onAchievementUnlocked(const Achievement& achievement);
     void showAchievements();
     void animateButton(QPushButton* button);
+    void onCharacterButtonClicked();
     
 private:
     void setupUI();
     void setupModeButtons();
     void setupAchievementPanel();
     void setupDetailsPanel();
+    void setupCharacterSelection();
     void updateModeButton(QPushButton* button, SinglePlayerMode mode);
+    void updateCharacterButton(QPushButton* button, CharacterType character);
     void updateAchievementProgress();
     QString getModeIcon(SinglePlayerMode mode) const;
     QString getModeColor(SinglePlayerMode mode) const;
+    QString getCharacterName(CharacterType character) const;
+    QString getCharacterIcon(CharacterType character) const;
     
     // UI组件
     QVBoxLayout* mainLayout;
@@ -70,13 +77,30 @@ private:
     QPushButton* speedRunButton;
     QPushButton* aiBattleButton;
     
-    // 右侧详情面板
+    // 中间详情面板
     QWidget* detailsWidget;
     QVBoxLayout* detailsLayout;
     QLabel* modeNameLabel;
     QLabel* modeDescriptionLabel;
     QLabel* modeStatsLabel;
     QPushButton* startModeButton;
+    
+    // 右侧角色选择面板
+    QWidget* characterSelectionWidget;
+    QVBoxLayout* characterLayout;
+    QLabel* characterTitleLabel;
+    QScrollArea* characterScrollArea;
+    QWidget* characterButtonContainer;
+    QGridLayout* characterButtonLayout;
+    QLabel* selectedCharacterLabel;
+    
+    // 角色按钮
+    QPushButton* spongebobButton;
+    QPushButton* patrickButton;
+    QPushButton* squidwardButton;
+    QPushButton* sandyButton;
+    QPushButton* mrcrabsButton;
+    QPushButton* planktonButton;
     
     // 成就面板
     QWidget* achievementWidget;
@@ -95,7 +119,9 @@ private:
     // 数据
     SinglePlayerGameManager* gameManager;
     SinglePlayerMode selectedMode;
+    CharacterType selectedCharacter;
     QMap<SinglePlayerMode, QPushButton*> modeButtons;
+    QMap<CharacterType, QPushButton*> characterButtons;
     QList<QWidget*> achievementWidgets;
     
     // 动画

@@ -13,6 +13,7 @@ SingleModeSelection::SingleModeSelection(QWidget *parent)
     : QWidget(parent)
     , gameManager(nullptr)
     , selectedMode(SinglePlayerMode::CLASSIC)
+    , selectedCharacter(CharacterType::SPONGEBOB)
     , buttonAnimation(nullptr)
     , opacityEffect(nullptr)
 {
@@ -71,6 +72,7 @@ void SingleModeSelection::setupUI()
     
     setupModeButtons();
     setupDetailsPanel();
+    setupCharacterSelection();
     setupAchievementPanel();
     
     mainLayout->addLayout(contentLayout);
@@ -249,7 +251,7 @@ void SingleModeSelection::setupDetailsPanel()
         "}"
     );
     connect(startModeButton, &QPushButton::clicked, [this]() {
-        emit modeSelected(selectedMode);
+        emit modeSelected(selectedMode, selectedCharacter);
     });
     
     detailsLayout->addWidget(startModeButton, 0, Qt::AlignCenter);
@@ -259,6 +261,83 @@ void SingleModeSelection::setupDetailsPanel()
     
     // 默认显示经典模式
     showModeDetails(SinglePlayerMode::CLASSIC);
+}
+
+void SingleModeSelection::setupCharacterSelection()
+{
+    characterSelectionWidget = new QWidget(this);
+    characterSelectionWidget->setFixedWidth(300);
+    characterLayout = new QVBoxLayout(characterSelectionWidget);
+    characterLayout->setSpacing(15);
+    
+    characterTitleLabel = new QLabel("选择角色", characterSelectionWidget);
+    characterTitleLabel->setAlignment(Qt::AlignCenter);
+    characterTitleLabel->setStyleSheet(
+        "QLabel { "
+        "    font-size: 20px; "
+        "    font-weight: bold; "
+        "    color: #FFD700; "
+        "    margin-bottom: 10px; "
+        "}"
+    );
+    characterLayout->addWidget(characterTitleLabel);
+    
+    // 创建角色按钮容器
+    characterButtonContainer = new QWidget(characterSelectionWidget);
+    characterButtonLayout = new QGridLayout(characterButtonContainer);
+    characterButtonLayout->setSpacing(10);
+    
+    // 创建角色按钮
+    spongebobButton = new QPushButton("🧽 海绵宝宝", characterButtonContainer);
+    patrickButton = new QPushButton("⭐ 派大星", characterButtonContainer);
+    squidwardButton = new QPushButton("🦑 章鱼哥", characterButtonContainer);
+    sandyButton = new QPushButton("🐿️ 珊迪", characterButtonContainer);
+    mrcrabsButton = new QPushButton("🦀 蟹老板", characterButtonContainer);
+    planktonButton = new QPushButton("🦠 痞老板", characterButtonContainer);
+    
+    QList<QPushButton*> buttons = {spongebobButton, patrickButton, squidwardButton, sandyButton, mrcrabsButton, planktonButton};
+    QList<CharacterType> characters = {CharacterType::SPONGEBOB, CharacterType::PATRICK, CharacterType::SQUIDWARD, 
+         CharacterType::SANDY, CharacterType::MR_KRABS, CharacterType::PLANKTON};
+    
+    for (int i = 0; i < buttons.size(); ++i) {
+        QPushButton* button = buttons[i];
+        CharacterType character = characters[i];
+        
+        button->setFixedSize(130, 50);
+        button->setProperty("character", static_cast<int>(character));
+        updateCharacterButton(button, character);
+        
+        connect(button, &QPushButton::clicked, this, &SingleModeSelection::onCharacterButtonClicked);
+        
+        int row = i / 2;
+        int col = i % 2;
+        characterButtonLayout->addWidget(button, row, col);
+        characterButtons[character] = button;
+    }
+    
+    characterLayout->addWidget(characterButtonContainer);
+    
+    // 当前选择的角色显示
+    selectedCharacterLabel = new QLabel("当前角色: 🧽 海绵宝宝", characterSelectionWidget);
+    selectedCharacterLabel->setAlignment(Qt::AlignCenter);
+    selectedCharacterLabel->setStyleSheet(
+        "QLabel { "
+        "    font-size: 16px; "
+        "    font-weight: bold; "
+        "    color: #4CAF50; "
+        "    background-color: rgba(255,255,255,0.1); "
+        "    border-radius: 8px; "
+        "    padding: 10px; "
+        "    margin-top: 10px; "
+        "}"
+    );
+    characterLayout->addWidget(selectedCharacterLabel);
+    
+    characterLayout->addStretch();
+    contentLayout->addWidget(characterSelectionWidget);
+    
+    // 默认选择海绵宝宝
+    updateCharacterButton(spongebobButton, CharacterType::SPONGEBOB);
 }
 
 void SingleModeSelection::setupAchievementPanel()
@@ -461,6 +540,96 @@ void SingleModeSelection::onAchievementUnlocked(const Achievement& achievement)
 void SingleModeSelection::showAchievements()
 {
     emit achievementsRequested();
+}
+
+void SingleModeSelection::onCharacterButtonClicked()
+{
+    QPushButton* button = qobject_cast<QPushButton*>(sender());
+    if (button) {
+        CharacterType character = static_cast<CharacterType>(button->property("character").toInt());
+        selectedCharacter = character;
+        
+        // 更新所有角色按钮的样式
+        for (auto it = characterButtons.begin(); it != characterButtons.end(); ++it) {
+            updateCharacterButton(it.value(), it.key());
+        }
+        
+        // 更新选择的角色显示
+        selectedCharacterLabel->setText(QString("当前角色: %1 %2")
+                                       .arg(getCharacterIcon(character))
+                                       .arg(getCharacterName(character)));
+        
+        emit characterSelected(character);
+    }
+}
+
+void SingleModeSelection::updateCharacterButton(QPushButton* button, CharacterType character)
+{
+    bool isSelected = (character == selectedCharacter);
+    
+    QString baseStyle = 
+        "QPushButton { "
+        "    border: 2px solid %1; "
+        "    border-radius: 10px; "
+        "    background-color: %2; "
+        "    color: white; "
+        "    font-size: 14px; "
+        "    font-weight: bold; "
+        "    text-align: center; "
+        "} "
+        "QPushButton:hover { "
+        "    background-color: %3; "
+        "} "
+        "QPushButton:pressed { "
+        "    background-color: %4; "
+        "}";
+    
+    QString borderColor = isSelected ? "#FFD700" : "#4CAF50";
+    QString bgColor = isSelected ? "rgba(255, 215, 0, 0.3)" : "rgba(255,255,255,0.1)";
+    QString hoverColor = isSelected ? "rgba(255, 215, 0, 0.5)" : "rgba(76, 175, 80, 0.3)";
+    QString pressedColor = isSelected ? "rgba(255, 215, 0, 0.7)" : "rgba(76, 175, 80, 0.5)";
+    
+    button->setStyleSheet(baseStyle.arg(borderColor, bgColor, hoverColor, pressedColor));
+}
+
+QString SingleModeSelection::getCharacterName(CharacterType character) const
+{
+    switch (character) {
+    case CharacterType::SPONGEBOB:
+        return "海绵宝宝";
+    case CharacterType::PATRICK:
+        return "派大星";
+    case CharacterType::SQUIDWARD:
+        return "章鱼哥";
+    case CharacterType::SANDY:
+        return "珊迪";
+    case CharacterType::MR_KRABS:
+        return "蟹老板";
+    case CharacterType::PLANKTON:
+        return "痞老板";
+    default:
+        return "未知角色";
+    }
+}
+
+QString SingleModeSelection::getCharacterIcon(CharacterType character) const
+{
+    switch (character) {
+    case CharacterType::SPONGEBOB:
+        return "🧽";
+    case CharacterType::PATRICK:
+        return "⭐";
+    case CharacterType::SQUIDWARD:
+        return "🦑";
+    case CharacterType::SANDY:
+        return "🐿️";
+    case CharacterType::MR_KRABS:
+        return "🦀";
+    case CharacterType::PLANKTON:
+        return "🦠";
+    default:
+        return "❓";
+    }
 }
 
 void SingleModeSelection::showEvent(QShowEvent *event)

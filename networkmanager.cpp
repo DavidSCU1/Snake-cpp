@@ -160,8 +160,11 @@ void NetworkManager::sendScoreUpdate(int score)
     }
 }
 
-void NetworkManager::sendPlayerPosition(const std::deque<Point>& snakeBody)
+void NetworkManager::sendPlayerPosition(const QString& playerName, const std::deque<Point>& snakeBody)
 {
+    QJsonObject data;
+    data["playerName"] = playerName;
+
     QJsonArray bodyArray;
     for (const auto& point : snakeBody) {
         QJsonObject pointObj;
@@ -169,8 +172,7 @@ void NetworkManager::sendPlayerPosition(const std::deque<Point>& snakeBody)
         pointObj["y"] = point.y;
         bodyArray.append(pointObj);
     }
-    
-    QJsonObject data;
+
     data["body"] = bodyArray;
     
     QJsonObject message = createMessage("playerPosition", data);
@@ -212,6 +214,21 @@ void NetworkManager::sendCharacterSelection(const QString& playerName, int chara
     } else if (clientSocket && clientSocket->state() == QAbstractSocket::ConnectedState) {
         QJsonDocument doc(message);
         clientSocket->write(doc.toJson(QJsonDocument::Compact) + "\n");
+    }
+}
+
+void NetworkManager::sendMessage(const QByteArray& message)
+{
+    if (isServer) {
+        // 服务器模式：广播给所有客户端
+        for (auto client : clients) {
+            if (client->state() == QAbstractSocket::ConnectedState) {
+                client->write(message);
+            }
+        }
+    } else if (clientSocket && clientSocket->state() == QAbstractSocket::ConnectedState) {
+        // 客户端模式：发送给服务器
+        clientSocket->write(message);
     }
 }
 
@@ -425,6 +442,29 @@ void NetworkManager::processMessage(const QJsonObject& message, QTcpSocket* send
         QString roomId = data["roomId"].toString();
         QString playerName = data["playerName"].toString();
         emit playerJoined(roomId, playerName);
+    }
+    else if (type == "playerReady") {
+        QString roomId = message["roomId"].toString();
+        QString playerName = message["playerName"].toString();
+        bool ready = message["ready"].toBool();
+        
+        if (isServer && sender) {
+            // 服务器转发给其他客户端
+            broadcastMessage(message, sender);
+        }
+        
+        emit playerReadyReceived(roomId, playerName, ready);
+    }
+    else if (type == "gameCountdown") {
+        QString roomId = message["roomId"].toString();
+        int countdown = message["countdown"].toInt();
+        
+        if (isServer && sender) {
+            // 服务器转发给其他客户端
+            broadcastMessage(message, sender);
+        }
+        
+        emit gameCountdownReceived(roomId, countdown);
     }
     // 忽略心跳消息
 }

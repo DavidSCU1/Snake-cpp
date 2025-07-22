@@ -12,6 +12,7 @@
 #include <QTimer>
 #include <QMessageBox>
 #include <QGroupBox>
+#include <QCheckBox>
 #include "gamestate.h"
 #include "multiplayergamemanager.h"
 #include "characterselection.h"
@@ -54,8 +55,8 @@ private slots:
     void showCharacterSelection();
     void hideCharacterSelection();
     void onCharacterSelected(CharacterType character);
-    void onCharacterSelectionBack();
     void onCharacterSelectionStart();
+    void onCharacterSelectionBack();
     
     // MultiPlayerGameManager 信号槽
     void onRoomCreated(const QString& roomId, const GameRoom& room);
@@ -72,6 +73,12 @@ private slots:
     void onPlayerCharacterSelected(const QString& roomId, const QString& playerName, int character);
     void onAllPlayersReady(const QString& roomId);
     
+    // 角色选择准备机制槽函数
+    void onPlayerReadyChanged(bool ready);
+    void onAllPlayersReadyInSelection();
+    void onPlayerReadyReceived(const QString& roomId, const QString& playerName, bool ready);
+    void onGameCountdownReceived(const QString& roomId, int countdown); // 新增：处理游戏倒计时
+    
 private:
     void setupUI();
     void setupWaitingInterface();
@@ -79,6 +86,7 @@ private:
     void updateRoomInfo(const GameRoom& room);
     void clearRoomInfo();
     bool validatePlayerName() const;
+    void startGameCountdown(); // 新增：开始游戏倒计时函数
     
     // UI 组件
     QVBoxLayout* mainLayout;
@@ -137,7 +145,7 @@ private:
     QPushButton* leaveRoomButton;
     
     // 角色选择界面组件
-    CharacterSelection* characterSelectionWidget;
+    CharacterSelection* characterSelectionWidget = nullptr;
     
     // 游戏相关
     GameWidget* gameWidget;
@@ -149,6 +157,8 @@ private:
     QTimer* refreshTimer;
     QMap<QString, qint64> discoveredRooms; // 房间唯一标识 -> 最后一次收到广播的时间
     QTimer* roomCleanupTimer = nullptr;
+    QTimer* countdownTimer = nullptr;
+    QLabel* countdownLabel = nullptr;
 };
 
 #endif // MULTIPLAYERLOBBY_H

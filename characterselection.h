@@ -8,6 +8,15 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPixmap>
+#include <QTimer>
+#include <QListWidget>
+#include <QMap>
+#include <QStringList>
+#include <QList>
+#include <QEnterEvent>
+#include <QPaintEvent>
+#include <QEvent>
+#include <QString>
 #include "gamestate.h"
 
 class CharacterButton : public QPushButton
@@ -39,14 +48,32 @@ class CharacterSelection : public QWidget
 public:
     explicit CharacterSelection(QWidget *parent = nullptr);
     
-    CharacterType getSelectedCharacter() const { return selectedCharacter; }
     void setSelectedCharacter(CharacterType character);
+    CharacterType getSelectedCharacter() const { return selectedCharacter; }
+    
+    // 准备机制相关函数
+    void setPlayerReady(const QString& playerName, bool ready);
+    void updatePlayerList();
+    bool isPlayerReady(const QString& playerName) const;
     void updatePlayerCharacter(const QString& playerName, CharacterType character);
+    void setPlayerNames(const QStringList& names);
+    void showStartButton();
+    void setIsHost(bool isHost);
+    void setCurrentPlayerName(const QString& name);
+    
+    // 角色占用检查
+    bool isCharacterTaken(CharacterType character) const;
+    void updateCharacterAvailability();
+    
+    // 检查所有玩家准备状态
+    bool checkAllPlayersReady();
     
 signals:
     void characterSelected(CharacterType character);
+    void playerReadyChanged(bool ready);
     void backToMenu();
     void startGame();
+    void allPlayersReady();
     
 private slots:
     void onCharacterButtonClicked();
@@ -56,6 +83,7 @@ private slots:
 private:
     void setupUI();
     void updateSelection();
+    void updateReadyButton();
     
     QVBoxLayout* mainLayout;
     QLabel* titleLabel;
@@ -63,11 +91,25 @@ private:
     QHBoxLayout* buttonsLayout;
     
     QList<CharacterButton*> characterButtons;
+    QLabel* playersStatusLabel;
+    QListWidget* playersListWidget;
     QPushButton* backButton;
+    QPushButton* readyButton;
     QPushButton* startButton;
+    QLabel* countdownLabel;
     
     CharacterType selectedCharacter;
     CharacterButton* selectedButton;
+    
+    // 准备机制相关
+    bool playerReady;
+    QMap<QString, bool> playerReadyStatus;
+    QMap<QString, CharacterType> playerCharacters;
+    QStringList playerNames;
+    QString currentPlayerName;
+    bool isHost;
+    QTimer* countdownTimer;
+    int countdownValue;
 };
 
 #endif // CHARACTERSELECTION_H

@@ -83,7 +83,7 @@ void MainWindow::setupUI()
     
     // 创建单人模式选择界面
     singleModeSelection = new SingleModeSelection(this);
-    connect(singleModeSelection, &SingleModeSelection::modeSelected, this, &MainWindow::onSingleModeSelected);
+    connect(singleModeSelection, QOverload<SinglePlayerMode, CharacterType>::of(&SingleModeSelection::modeSelected), this, &MainWindow::onSingleModeSelected);
     connect(singleModeSelection, &SingleModeSelection::backToMenu, this, &MainWindow::showMainMenu);
     stackedWidget->addWidget(singleModeSelection);
     
@@ -145,7 +145,7 @@ void MainWindow::setupMainMenu()
     // 单人游戏按钮
     singlePlayerButton = new QPushButton("🎮 单人游戏", buttonContainer);
     singlePlayerButton->setFixedSize(200, 50);
-    connect(singlePlayerButton, &QPushButton::clicked, this, &MainWindow::showCharacterSelection);
+    connect(singlePlayerButton, &QPushButton::clicked, this, &MainWindow::showSingleModeSelection);
     buttonLayout->addWidget(singlePlayerButton);
     
     // 多人游戏按钮
@@ -398,9 +398,10 @@ void MainWindow::startSinglePlayerGame()
     showSingleModeSelection();
 }
 
-void MainWindow::onSingleModeSelected(SinglePlayerMode mode)
+void MainWindow::onSingleModeSelected(SinglePlayerMode mode, CharacterType character)
 {
-    gameWidget->setCharacter(selectedCharacter);
+    selectedCharacter = character; // 更新选中的角色
+    gameWidget->setCharacter(character);
     gameWidget->setDifficulty(selectedDifficulty);
     gameWidget->setSinglePlayerGameMode(mode);
     stackedWidget->setCurrentWidget(gameWidget);

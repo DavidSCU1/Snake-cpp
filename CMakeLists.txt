@@ -117,6 +117,10 @@ endif()
 
 target_link_libraries(TestResource PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
+if(MSVC)
+    target_compile_options(TestResource PRIVATE /Zc:__cplusplus)
+endif()
+
 if(${QT_VERSION_MAJOR} EQUAL 6)
     qt_finalize_executable(TestResource)
 endif()

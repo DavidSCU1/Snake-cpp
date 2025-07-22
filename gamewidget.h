@@ -1,6 +1,8 @@
 #ifndef GAMEWIDGET_H
 #define GAMEWIDGET_H
 
+#include <QtCore>
+#include <QtWidgets>
 #include <QWidget>
 #include <QTimer>
 #include <QKeyEvent>
@@ -11,8 +13,6 @@
 #include <QPushButton>
 #include <QListWidget>
 #include <QSettings>
-#include <QSet>
-#include <QMap>
 #include "gamestate.h"
 #include "snake.h"
 #include "food.h"
@@ -45,7 +45,7 @@ public:
     MultiPlayerGameManager* getMultiPlayerManager() const { return multiPlayerManager; }
     void setMultiPlayerManager(MultiPlayerGameManager* manager);
     void setCurrentRoomId(const QString& roomId) { currentRoomId = roomId; }
-    void setPlayerName(const QString& name) { playerName = name; }
+    void setPlayerName(const QString& name) { m_playerName = name; }
     void pauseGame();
     void resumeGame();
     void resetGame();
@@ -158,7 +158,7 @@ private:
     NetworkManager* networkManager;
     MultiPlayerGameManager* multiPlayerManager;
     QString currentRoomId;
-    QString playerName;
+    QString m_playerName;
     QMap<QString, std::deque<Point>> otherPlayers;
     QMap<QString, CharacterType> playerCharacters;
     QMap<QString, int> playerScores;

@@ -14,6 +14,8 @@ MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     , gameWidget(nullptr)
     , multiPlayerManager(new MultiPlayerGameManager(this))
     , refreshTimer(new QTimer(this))
+    , countdownTimer(new QTimer(this))
+    , countdownLabel(new QLabel(this))
 {
     setupUI();
     
@@ -38,6 +40,8 @@ MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     // 连接网络管理器的新信号
     connect(networkManager, &NetworkManager::characterSelectionStarted, this, &MultiPlayerLobby::onCharacterSelectionStarted);
     connect(networkManager, &NetworkManager::characterSelectionReceived, this, &MultiPlayerLobby::onPlayerCharacterSelected);
+    connect(networkManager, &NetworkManager::playerReadyReceived, this, &MultiPlayerLobby::onPlayerReadyReceived);
+    connect(networkManager, &NetworkManager::gameCountdownReceived, this, &MultiPlayerLobby::onGameCountdownReceived);
     
     // 连接网络管理器的错误信号
     connect(networkManager, &NetworkManager::connectionError, this, &MultiPlayerLobby::onConnectionError);
@@ -81,6 +85,16 @@ MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     
     // 初始化玩家名称
     playerName = playerNameEdit->text();
+    
+    // 初始化倒计时
+    countdownTimer = new QTimer(this);
+    countdownTimer->setSingleShot(true);
+    connect(countdownTimer, &QTimer::timeout, this, [this]() {
+        // 倒计时结束，开始游戏
+        if (characterSelectionWidget) {
+            emit characterSelectionWidget->startGame();
+        }
+    });
 }
 
 MultiPlayerLobby::~MultiPlayerLobby()
@@ -243,13 +257,18 @@ void MultiPlayerLobby::setupUI()
     contentLayout->addWidget(roomInfoWidget);
     
     mainLayout->addLayout(contentLayout);
-    
+
     // 创建等待界面
     setupWaitingInterface();
-    
+
     // 创建角色选择界面
     setupCharacterSelection();
-    
+
+    // 将倒计时标签添加到布局的顶层
+    mainLayout->addWidget(countdownLabel);
+    countdownLabel->raise();
+    countdownLabel->hide();
+
     // 初始状态
     clearRoomInfo();
 }
@@ -297,6 +316,9 @@ void MultiPlayerLobby::refreshRoomList()
 
 void MultiPlayerLobby::onCreateRoomClicked()
 {
+    if (gameWidget) {
+        gameWidget->setPlayerName(playerNameEdit->text());
+    }
     if (!validatePlayerName()) {
         return;
     }
@@ -317,6 +339,9 @@ void MultiPlayerLobby::onCreateRoomClicked()
 
 void MultiPlayerLobby::onJoinRoomClicked()
 {
+    if (gameWidget) {
+        gameWidget->setPlayerName(playerNameEdit->text());
+    }
     if (!validatePlayerName()) {
         return;
     }
@@ -398,6 +423,34 @@ void MultiPlayerLobby::onJoinRoomClicked()
         } else {
             QMessageBox::warning(this, "错误", "无法加入房间！房间可能已满或游戏已开始。");
         }
+     }
+}
+
+// 处理接收到的游戏倒计时
+void MultiPlayerLobby::onGameCountdownReceived(const QString& roomId, int countdown)
+{
+    if (roomId == currentRoomId && countdownLabel) {
+        countdownLabel->setText(QString("游戏将在%1秒后开始...").arg(countdown));
+        countdownLabel->show();
+        
+        // 启动本地倒计时显示更新
+        QTimer* displayTimer = new QTimer(this);
+        int remainingTime = countdown;
+        connect(displayTimer, &QTimer::timeout, [this, displayTimer, &remainingTime]() mutable {
+            remainingTime--;
+            if (remainingTime > 0) {
+                countdownLabel->setText(QString("游戏将在%1秒后开始...").arg(remainingTime));
+            } else {
+                countdownLabel->hide();
+                displayTimer->deleteLater();
+            }
+        });
+        displayTimer->start(1000);
+        
+        // 启动游戏倒计时
+        if (!countdownTimer->isActive()) {
+            countdownTimer->start(countdown * 1000);
+        }
     }
 }
 
@@ -415,6 +468,32 @@ void MultiPlayerLobby::onBackClicked()
     }
     emit backToMenu();
 }
+
+// 角色选择相关槽函数实现
+void MultiPlayerLobby::onCharacterSelected(CharacterType character)
+{
+    if (!currentRoomId.isEmpty() && !playerName.isEmpty()) {
+        // 通过网络发送角色选择信息
+        NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+        if (networkManager) {
+            // 发送角色选择消息
+            QJsonObject message;
+            message["type"] = "characterSelection";
+            message["roomId"] = currentRoomId;
+            message["playerName"] = playerName;
+            message["character"] = static_cast<int>(character);
+            
+            QJsonDocument doc(message);
+            networkManager->broadcastMessage(message);
+            
+            // 更新本地游戏管理器中的角色信息
+            multiPlayerManager->setPlayerCharacter(currentRoomId, playerName, character);
+        }
+    }
+}
+
+
+
 
 void MultiPlayerLobby::onRoomSelectionChanged()
 {
@@ -496,20 +575,46 @@ void MultiPlayerLobby::onPlayerLeftRoom(const QString& roomId, const QString& pl
 void MultiPlayerLobby::onGameStarted(const QString& roomId)
 {
     if (roomId == currentRoomId) {
-        // 隐藏等待界面
+        // 隐藏所有大厅界面
         if (waitingWidget && waitingWidget->isVisible()) {
             hideWaitingInterface();
         }
-        
-        QMessageBox::information(this, "游戏开始", "游戏即将开始！");
-        
-        // 设置游戏参数
-        if (gameWidget) {
-            gameWidget->setCurrentRoomId(currentRoomId);
-            gameWidget->setPlayerName(playerName);
+        if (characterSelectionWidget && characterSelectionWidget->isVisible()) {
+            hideCharacterSelection();
         }
-        
-        emit gameStarted();
+        roomListWidget->hide();
+        roomInfoWidget->hide();
+
+        // 设置倒计时标签
+        countdownLabel->setText("3");
+        countdownLabel->setAlignment(Qt::AlignCenter);
+        QFont font = countdownLabel->font();
+        font.setPointSize(72);
+        font.setBold(true);
+        countdownLabel->setFont(font);
+        countdownLabel->setStyleSheet("color: white;");
+        countdownLabel->setFixedSize(this->size());
+        countdownLabel->show();
+
+        // 启动倒计时
+        int countdown = 3;
+        connect(countdownTimer, &QTimer::timeout, this, [this, countdown]() mutable {
+            countdown--;
+            if (countdown > 0) {
+                countdownLabel->setText(QString::number(countdown));
+            } else {
+                countdownTimer->stop();
+                countdownLabel->hide();
+                
+                // 设置游戏参数
+                if (gameWidget) {
+                    gameWidget->setCurrentRoomId(currentRoomId);
+                    gameWidget->setPlayerName(playerName);
+                }
+                emit gameStarted();
+            }
+        });
+        countdownTimer->start(1000);
     }
     refreshRoomList();
 }
@@ -825,10 +930,12 @@ void MultiPlayerLobby::setupCharacterSelection()
 {
     characterSelectionWidget = new CharacterSelection(this);
     
-    // 连接信号
+    // 连接角色选择信号
     connect(characterSelectionWidget, &CharacterSelection::characterSelected, this, &MultiPlayerLobby::onCharacterSelected);
     connect(characterSelectionWidget, &CharacterSelection::backToMenu, this, &MultiPlayerLobby::onCharacterSelectionBack);
     connect(characterSelectionWidget, &CharacterSelection::startGame, this, &MultiPlayerLobby::onCharacterSelectionStart);
+    connect(characterSelectionWidget, &CharacterSelection::playerReadyChanged, this, &MultiPlayerLobby::onPlayerReadyChanged);
+    connect(characterSelectionWidget, &CharacterSelection::allPlayersReady, this, &MultiPlayerLobby::onAllPlayersReadyInSelection);
     
     // 添加到主布局但初始隐藏
     mainLayout->addWidget(characterSelectionWidget);
@@ -842,6 +949,28 @@ void MultiPlayerLobby::showCharacterSelection()
     roomListWidget->hide();
     roomInfoWidget->hide();
     waitingWidget->hide();
+
+    if (!characterSelectionWidget) {
+        setupCharacterSelection();
+    }
+
+    // 连接信号
+    connect(characterSelectionWidget, &CharacterSelection::characterSelected, this, &MultiPlayerLobby::onCharacterSelected);
+    connect(characterSelectionWidget, &CharacterSelection::startGame, this, &MultiPlayerLobby::onCharacterSelectionStart);
+    connect(characterSelectionWidget, &CharacterSelection::backToMenu, this, &MultiPlayerLobby::onCharacterSelectionBack);
+    connect(characterSelectionWidget, &CharacterSelection::playerReadyChanged, this, &MultiPlayerLobby::onPlayerReadyChanged);
+    connect(characterSelectionWidget, &CharacterSelection::allPlayersReady, this, &MultiPlayerLobby::onAllPlayersReadyInSelection);
+    
+    // 初始化角色选择界面的玩家信息
+    if (multiPlayerManager && !currentRoomId.isEmpty()) {
+        GameRoom room = multiPlayerManager->getRoomInfo(currentRoomId);
+        characterSelectionWidget->setPlayerNames(room.playerNames);
+        characterSelectionWidget->setCurrentPlayerName(playerName);
+        
+        // 设置是否为房主
+        bool isHost = !room.playerNames.isEmpty() && room.playerNames.first() == playerName;
+        characterSelectionWidget->setIsHost(isHost);
+    }
     
     // 显示角色选择界面
     characterSelectionWidget->show();
@@ -850,27 +979,14 @@ void MultiPlayerLobby::showCharacterSelection()
 // 隐藏角色选择界面
 void MultiPlayerLobby::hideCharacterSelection()
 {
-    characterSelectionWidget->hide();
+    if (characterSelectionWidget) {
+        characterSelectionWidget->hide();
+    }
     roomListWidget->show();
     roomInfoWidget->show();
 }
 
-// 角色选择槽函数
-void MultiPlayerLobby::onCharacterSelected(CharacterType character)
-{
-    // 更新玩家角色信息
-    if (!currentRoomId.isEmpty() && !playerName.isEmpty()) {
-        multiPlayerManager->setPlayerCharacter(currentRoomId, playerName, character);
-        
-        // 通过网络发送角色选择信息给其他玩家
-        NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
-        if (networkManager) {
-            networkManager->sendCharacterSelection(playerName, static_cast<int>(character));
-        }
-        
-        qDebug() << "Player" << playerName << "selected character:" << static_cast<int>(character);
-    }
-}
+
 
 void MultiPlayerLobby::onCharacterSelectionBack()
 {
@@ -879,7 +995,9 @@ void MultiPlayerLobby::onCharacterSelectionBack()
     
     // 如果已经在房间中，离开房间
     if (!currentRoomId.isEmpty() && !playerName.isEmpty()) {
-        multiPlayerManager->leaveRoom(currentRoomId, playerName);
+        if (multiPlayerManager) {
+             multiPlayerManager->leaveRoom(currentRoomId, playerName);
+        }
         currentRoomId.clear();
         clearRoomInfo();
         refreshRoomList();
@@ -922,5 +1040,102 @@ void MultiPlayerLobby::onAllPlayersReady(const QString& roomId)
         // 所有玩家都选择了角色，可以开始游戏
         QMessageBox::information(this, "准备完成", "所有玩家都已选择角色，游戏即将开始！");
         onCharacterSelectionStart();
+    }
+}
+
+// 处理玩家准备状态改变
+void MultiPlayerLobby::onPlayerReadyChanged(bool ready)
+{
+    // 通过网络发送玩家准备状态
+    NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+    if (networkManager && !currentRoomId.isEmpty() && !playerName.isEmpty()) {
+        // 发送准备状态消息
+        QJsonObject message;
+        message["type"] = "playerReady";
+        message["roomId"] = currentRoomId;
+        message["playerName"] = playerName;
+        message["ready"] = ready;
+        
+        QJsonDocument doc(message);
+        networkManager->sendMessage(doc.toJson());
+        
+        // 更新本地角色选择界面
+        if (characterSelectionWidget) {
+            characterSelectionWidget->setPlayerReady(playerName, ready);
+        }
+    }
+}
+
+// 处理角色选择界面中所有玩家准备完成
+void MultiPlayerLobby::onAllPlayersReadyInSelection()
+{
+    // 只有房主才能开始游戏
+    if (characterSelectionWidget && multiPlayerManager) {
+        GameRoom room = multiPlayerManager->getRoomInfo(currentRoomId);
+        if (!room.playerNames.isEmpty() && room.playerNames.first() == playerName) {
+            // 房主显示开始游戏按钮
+            characterSelectionWidget->showStartButton();
+        }
+    }
+}
+
+// 开始游戏倒计时
+void MultiPlayerLobby::startGameCountdown()
+{
+    if (!characterSelectionWidget) {
+        return;
+    }
+    
+    // 通知所有玩家开始倒计时
+    NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+    if (networkManager && !currentRoomId.isEmpty()) {
+        QJsonObject message;
+        message["type"] = "gameCountdown";
+        message["roomId"] = currentRoomId;
+        message["countdown"] = 5;
+        
+        networkManager->broadcastMessage(message);
+    }
+    
+    // 启动本地倒计时
+    countdownTimer->start(5000); // 5秒后开始游戏
+    
+    // 显示倒计时UI
+    if (countdownLabel) {
+        countdownLabel->setText("游戏将在5秒后开始...");
+        countdownLabel->show();
+        
+        // 创建一个定时器来更新倒计时显示
+        QTimer* displayTimer = new QTimer(this);
+        int remainingTime = 5;
+        connect(displayTimer, &QTimer::timeout, [this, displayTimer, &remainingTime]() mutable {
+            remainingTime--;
+            if (remainingTime > 0) {
+                countdownLabel->setText(QString("游戏将在%1秒后开始...").arg(remainingTime));
+            } else {
+                countdownLabel->hide();
+                displayTimer->deleteLater();
+            }
+        });
+        displayTimer->start(1000);
+    }
+}
+
+// 处理接收到的玩家准备状态
+void MultiPlayerLobby::onPlayerReadyReceived(const QString& roomId, const QString& playerName, bool ready)
+{
+    if (roomId == currentRoomId && characterSelectionWidget) {
+        // 更新角色选择界面中的玩家准备状态
+        characterSelectionWidget->setPlayerReady(playerName, ready);
+        
+        // 检查是否所有玩家都准备好了
+        if (characterSelectionWidget->checkAllPlayersReady()) {
+            // 如果是房主，启动倒计时
+            GameRoom room = multiPlayerManager->getRoomInfo(currentRoomId);
+            bool isHost = !room.playerNames.isEmpty() && room.playerNames.first() == this->playerName;
+            if (isHost) {
+                startGameCountdown();
+            }
+        }
     }
 }

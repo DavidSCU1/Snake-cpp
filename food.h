@@ -1,10 +1,10 @@
 #ifndef FOOD_H
 #define FOOD_H
 
+#include <QtCore>
 #include <QObject>
 #include <QPixmap>
 #include <QTimer>
-#include <QSet>
 #include "gamestate.h"
 
 class Food : public QObject

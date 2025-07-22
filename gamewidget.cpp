@@ -502,14 +502,14 @@ void GameWidget::gameLoop()
         Direction currentDirection = snake->getDirection();
         
         // 更新玩家方向
-        multiPlayerManager->updatePlayerDirection(currentRoomId, playerName, currentDirection);
+        multiPlayerManager->updatePlayerDirection(currentRoomId, m_playerName, currentDirection);
         
         // 移动蛇
         snake->move();
         
         // 检查碰撞
         Point newHead = snake->getHead();
-        if (multiPlayerManager->checkPlayerCollision(currentRoomId, playerName, newHead)) {
+        if (multiPlayerManager->checkPlayerCollision(currentRoomId, m_playerName, newHead)) {
             // 玩家碰撞，由管理器处理
             return;
         }
@@ -521,7 +521,7 @@ void GameWidget::gameLoop()
         }
         
         // 更新玩家位置
-        multiPlayerManager->updatePlayerPosition(currentRoomId, playerName, snake->getBody());
+        multiPlayerManager->updatePlayerPosition(currentRoomId, m_playerName, snake->getBody());
         
         // 发送网络更新
         if (isMultiplayer) {
@@ -629,7 +629,7 @@ void GameWidget::checkCollisions()
         
         if (isMultiplayer && !currentRoomId.isEmpty()) {
             // 多人游戏中通过管理器更新分数
-            multiPlayerManager->updatePlayerScore(currentRoomId, playerName, score);
+            multiPlayerManager->updatePlayerScore(currentRoomId, m_playerName, score);
         }
     }
 }
@@ -638,6 +638,11 @@ void GameWidget::generateFood()
 {
     QSet<Point> occupiedPositions = getOccupiedPositions();
     food->generateFood(gridWidth, gridHeight, occupiedPositions);
+
+    if (isMultiplayer) {
+        // In multiplayer, schedule the next food to appear faster
+        QTimer::singleShot(3000, this, &GameWidget::generateFood); 
+    }
     
     // 更新AI蛇的目标食物位置
     if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::AI_BATTLE) {
@@ -662,8 +667,10 @@ void GameWidget::generateWalls()
             occupiedPositions.insert(foodPos);
         }
     }
+
+    int wallCount = isMultiplayer ? 20 : 10; // More walls in multiplayer
     
-    wall->generateWalls(gridWidth, gridHeight, occupiedPositions);
+    wall->generateWalls(gridWidth, gridHeight, occupiedPositions, wallCount);
 }
 
 QSet<Point> GameWidget::getOccupiedPositions() const
@@ -785,7 +792,7 @@ void GameWidget::loadHighScores()
 void GameWidget::sendNetworkUpdate()
 {
     if (networkManager && isMultiplayer && snake) {
-        networkManager->sendPlayerPosition(snake->getBody());
+        networkManager->sendPlayerPosition(m_playerName, snake->getBody());
     }
 }
 
@@ -1420,7 +1427,7 @@ void GameWidget::updateButtonPositions()
 // 多人游戏管理器相关函数实现
 void GameWidget::createRoom(const QString& playerName, int maxPlayers)
 {
-    this->playerName = playerName;
+    this->m_playerName = playerName;
     currentRoomId = multiPlayerManager->createRoom(playerName, maxPlayers);
     isHost = true;
     
@@ -1434,7 +1441,7 @@ void GameWidget::createRoom(const QString& playerName, int maxPlayers)
 
 void GameWidget::joinRoom(const QString& roomId, const QString& playerName)
 {
-    this->playerName = playerName;
+    this->m_playerName = playerName;
     this->currentRoomId = roomId;
     isHost = false;
     
@@ -1447,10 +1454,10 @@ void GameWidget::joinRoom(const QString& roomId, const QString& playerName)
 
 void GameWidget::leaveRoom()
 {
-    if (!currentRoomId.isEmpty() && !playerName.isEmpty()) {
-        multiPlayerManager->leaveRoom(currentRoomId, playerName);
+    if (!currentRoomId.isEmpty() && !m_playerName.isEmpty()) {
+        multiPlayerManager->leaveRoom(currentRoomId, m_playerName);
         currentRoomId.clear();
-        playerName.clear();
+        m_playerName.clear();
         
         if (isHost) {
             networkManager->stopServer();
@@ -1567,7 +1574,7 @@ void GameWidget::onGameStateUpdated(const QString& roomId, const MultiPlayerGame
     
     for (auto it = gameState.playerSnakes.begin(); it != gameState.playerSnakes.end(); ++it) {
         const QString& playerName = it.key();
-        if (playerName != this->playerName) { // 不包括自己
+        if (playerName != this->m_playerName) { // 不包括自己
             otherPlayers[playerName] = it.value();
             playerCharacters[playerName] = gameState.playerCharacters.value(playerName, CharacterType::SPONGEBOB);
             playerScores[playerName] = gameState.playerScores.value(playerName, 0);
@@ -1597,7 +1604,7 @@ void GameWidget::onPlayerCollision(const QString& roomId, const QString& playerN
     
     qDebug() << "Player collision:" << playerName;
     
-    if (playerName == this->playerName) {
+    if (playerName == this->m_playerName) {
         // 本地玩家碰撞
         currentState = GameState::GAME_OVER;
         gameTimer->stop();
@@ -1615,7 +1622,7 @@ void GameWidget::onFoodEaten(const QString& roomId, const QString& playerName, i
     
     qDebug() << "Food eaten by" << playerName << "for" << points << "points";
     
-    if (playerName == this->playerName) {
+    if (playerName == this->m_playerName) {
         // 本地玩家吃到食物
         updateScore(points);
     } else {

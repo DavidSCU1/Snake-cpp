@@ -58,7 +58,7 @@ private slots:
     void onDifficultySelected();
     void connectToServer();
     void onNetworkError(const QString& error);
-    void onSingleModeSelected(SinglePlayerMode mode);
+    void onSingleModeSelected(SinglePlayerMode mode, CharacterType character);
     void onMultiplayerModeSelected(MultiplayerMode mode);
     void onLocalCoopCharactersSelected(CharacterType player1Character, CharacterType player2Character);
     

@@ -1,0 +1,6 @@
+set(__QT_DEPLOY_TARGET_Snake_cpp_FILE D:/Snake_cpp/build_fresh/Debug/Snake_cpp.exe)
+set(__QT_DEPLOY_TARGET_Snake_cpp_TYPE EXECUTABLE)
+set(__QT_DEPLOY_TARGET_Snake_cpp_RUNTIME_DLLS D:/Qt/6.9.1/mingw_64/bin/Qt6Widgets.dll;D:/Qt/6.9.1/mingw_64/bin/Qt6Network.dll;D:/Qt/6.9.1/mingw_64/bin/Qt6Svg.dll;D:/Qt/6.9.1/mingw_64/bin/Qt6Gui.dll;D:/Qt/6.9.1/mingw_64/bin/Qt6Core.dll)
+set(__QT_DEPLOY_TARGET_TestResource_FILE D:/Snake_cpp/build_fresh/Debug/TestResource.exe)
+set(__QT_DEPLOY_TARGET_TestResource_TYPE EXECUTABLE)
+set(__QT_DEPLOY_TARGET_TestResource_RUNTIME_DLLS D:/Qt/6.9.1/mingw_64/bin/Qt6Widgets.dll;D:/Qt/6.9.1/mingw_64/bin/Qt6Gui.dll;D:/Qt/6.9.1/mingw_64/bin/Qt6Core.dll)

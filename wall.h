@@ -1,8 +1,7 @@
 #ifndef WALL_H
 #define WALL_H
 
-#include <QSet>
-#include <QVector>
+#include <QtCore>
 #include <QPoint>
 #include <QRandomGenerator>
 #include "gamestate.h"
@@ -13,7 +12,7 @@ public:
     Wall();
     
     // 生成墙体
-    void generateWalls(int gridWidth, int gridHeight, const QSet<Point>& occupiedPositions);
+    void generateWalls(int gridWidth, int gridHeight, const QSet<Point>& occupiedPositions, int wallCount = 0);
     
     // 生成指定数量的墙块（用于挑战模式）
     void generateChallengeWalls(int count, int gridWidth, int gridHeight, const QSet<Point>& occupiedPositions);

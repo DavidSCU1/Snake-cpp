@@ -1,13 +1,9 @@
 #ifndef MULTIPLAYERGAMEMANAGER_H
 #define MULTIPLAYERGAMEMANAGER_H
 
+#include <QtCore>
 #include <QObject>
 #include <QTimer>
-#include <QMap>
-#include <QStringList>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QSet>
 #include <deque>
 #include "gamestate.h"
 #include "networkmanager.h"

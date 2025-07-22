@@ -49,9 +49,12 @@ public:
     void pauseGame();
     void resumeGame();
     void resetGame();
+    void generateFood();  // 公开食物生成函数供SinglePlayerGameManager调用
     
     GameState getCurrentState() const { return currentState; }
     int getCurrentScore() const { return score; }
+    int getCurrentSpeed() const { return currentSpeed; }
+    QList<Point> getSnakeBody() const;
     
 signals:
     void gameOver(int finalScore);
@@ -89,7 +92,6 @@ private:
     void setupGame();
     void updateGameArea();
     void updateButtonPositions();
-    void generateFood();
     void generateSpecialFood();
     void generateWalls();
     void checkCollisions();

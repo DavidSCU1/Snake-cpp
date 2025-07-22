@@ -70,6 +70,7 @@ public:
     // 获取AI蛇的身体
     const std::deque<Point>& getAISnake() const { return aiSnake; }
     CharacterType getAISnakeCharacter() const { return aiSnakeCharacter; }
+    Direction getAIDirection() const { return aiDirection; }
     
     // 设置食物位置
     void setFoodPosition(const Point& foodPos) { foodPosition = foodPos; }
@@ -104,6 +105,9 @@ public:
     // AI对战相关方法
     void initializeAI();
     void updateAIMovement();
+    void updateAISpeed(int newSpeed);
+    void pauseAI();
+    void resumeAI();
 
 private slots:
     void onGameTimer();
@@ -116,10 +120,10 @@ private:
     void updateTimeAttackMode();
     void updateSurvivalMode();
     void updateSpeedRunMode();
-    void updateAIBattleMode();
     
-    Direction calculateAIDirection();
-    bool isValidAIMove(Direction direction);
+    Direction calculateAIDirection(const Point& aiHead, const Point& target);
+    bool isValidAIMove(const Point& aiHead, Direction direction);
+    Point getNextPosition(const Point& currentPos, Direction direction);
     
     // 成就检查函数
     void checkScoreAchievements();

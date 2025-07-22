@@ -72,6 +72,13 @@ GameWidget::GameWidget(QWidget *parent)
     // 设置网络管理器
     multiPlayerManager->setNetworkManager(networkManager);
     
+    // 单人游戏管理器信号连接
+    connect(singlePlayerManager, &SinglePlayerGameManager::gameEnded, this, [this](SinglePlayerMode mode, const GameStats& stats) {
+        qDebug() << "Single player game ended, mode:" << (int)mode;
+        currentState = GameState::GAME_OVER;
+        gameTimer->stop();
+        update();
+    });
     
     setFocusPolicy(Qt::StrongFocus);
     setMinimumSize(800, 600);
@@ -253,10 +260,15 @@ void GameWidget::startSinglePlayerGame()
     generateFood();
     qDebug() << "Food generated at:" << food->getPosition().x << "," << food->getPosition().y;
     
-    // 在AI对战模式下初始化AI蛇
-    if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::AI_BATTLE) {
-        singlePlayerManager->initializeAI();
-        singlePlayerManager->setFoodPosition(food->getPosition());
+    // 启动单人游戏管理器
+    if (singlePlayerManager) {
+        singlePlayerManager->startGame(this);
+        
+        // 在AI对战模式下初始化AI蛇
+        if (singlePlayerManager->getCurrentMode() == SinglePlayerMode::AI_BATTLE) {
+            singlePlayerManager->initializeAI();
+            singlePlayerManager->setFoodPosition(food->getPosition());
+        }
     }
     
     // 生成墙体（在经典模式和时间挑战模式下）
@@ -365,6 +377,12 @@ void GameWidget::pauseGame()
         gameTimer->stop();
         specialFoodTimer->stop();
         countdownTimer->stop();  // 暂停倒计时器
+        
+        // 暂停AI移动定时器（如果在AI对战模式）
+        if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::AI_BATTLE) {
+            singlePlayerManager->pauseAI();
+        }
+        
         currentState = GameState::PAUSED;
         if (pauseButton) pauseButton->setText("继续");
         update();
@@ -384,6 +402,11 @@ void GameWidget::resumeGame()
         // 如果是时间挑战模式，重新启动倒计时器
         if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::TIME_ATTACK && remainingTime > 0) {
             countdownTimer->start(1000);
+        }
+        
+        // 恢复AI移动定时器（如果在AI对战模式）
+        if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::AI_BATTLE) {
+            singlePlayerManager->resumeAI();
         }
         
         if (pauseButton) pauseButton->setText("暂停");
@@ -496,10 +519,7 @@ void GameWidget::gameLoop()
         // 单人游戏模式
         snake->move();
         
-        // 在AI对战模式下更新AI蛇
-        if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::AI_BATTLE) {
-            singlePlayerManager->updateAIMovement();
-        }
+        // AI蛇通过独立的定时器控制移动，不在这里调用
         
         checkCollisions();
     }
@@ -551,6 +571,22 @@ void GameWidget::checkCollisions()
         emit gameOver(score);
         update();
         return;
+    }
+    
+    // 检查与AI蛇的碰撞（AI对战模式）
+    if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::AI_BATTLE) {
+        const auto& aiSnakeBody = singlePlayerManager->getAISnake();
+        for (const auto& aiSegment : aiSnakeBody) {
+            if (head.x == aiSegment.x && head.y == aiSegment.y) {
+                currentState = GameState::GAME_OVER;
+                gameTimer->stop();
+                specialFoodTimer->stop();
+                saveHighScore();
+                emit gameOver(score);
+                update();
+                return;
+            }
+        }
     }
     
     // 检查食物碰撞
@@ -637,6 +673,14 @@ QSet<Point> GameWidget::getOccupiedPositions() const
         }
     }
     
+    // 添加AI蛇的位置（AI对战模式）
+    if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::AI_BATTLE) {
+        const auto& aiSnakeBody = singlePlayerManager->getAISnake();
+        for (const auto& point : aiSnakeBody) {
+            positions.insert(point);
+        }
+    }
+    
     // 添加墙体位置
     if (wall) {
         for (const Point& wallPos : wall->getWallPositions()) {
@@ -665,6 +709,11 @@ void GameWidget::updateSpeed()
         currentSpeed = qMax(50, static_cast<int>(baseSpeed * qPow(0.9, level - 1)));
         if (gameTimer->isActive()) {
             gameTimer->setInterval(currentSpeed);
+        }
+        
+        // 如果是AI对战模式，同步更新AI蛇的移动速度
+        if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::AI_BATTLE) {
+            singlePlayerManager->updateAISpeed(currentSpeed);
         }
     }
 }
@@ -704,6 +753,18 @@ void GameWidget::sendNetworkUpdate()
     if (networkManager && isMultiplayer && snake) {
         networkManager->sendPlayerPosition(snake->getBody());
     }
+}
+
+QList<Point> GameWidget::getSnakeBody() const
+{
+    QList<Point> body;
+    if (snake) {
+        const auto& snakeBody = snake->getBody();
+        for (const Point& point : snakeBody) {
+            body.append(point);
+        }
+    }
+    return body;
 }
 
 // 网络事件处理
@@ -800,8 +861,8 @@ void GameWidget::paintEvent(QPaintEvent *event)
             drawSnake(painter, gameRect);
         }
         
-        // 绘制其他玩家的蛇（多人游戏）
-        if (isMultiplayer) {
+        // 绘制其他玩家的蛇（多人游戏）或AI蛇（AI对战模式）
+        if (isMultiplayer || (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::AI_BATTLE)) {
             drawMultiplayerSnakes(painter, gameRect);
         }
         
@@ -970,6 +1031,8 @@ void GameWidget::drawMultiplayerSnakes(QPainter& painter, const QRect& gameRect)
             Snake aiSnakeRenderer(this);
             aiSnakeRenderer.setCharacter(singlePlayerManager->getAISnakeCharacter()); // 使用AI专属角色
             aiSnakeRenderer.setBody(aiSnakeBody);
+            // 设置AI蛇的当前方向，避免身体斜着显示
+            aiSnakeRenderer.setCurrentDirection(singlePlayerManager->getAIDirection());
             
             // 绘制AI蛇
             Point aiHead = aiSnakeBody.front();
@@ -984,12 +1047,15 @@ void GameWidget::drawMultiplayerSnakes(QPainter& painter, const QRect& gameRect)
             // 绘制头部
             if (!headPixmap.isNull()) {
                 painter.drawPixmap(headRect, headPixmap);
+            } else {
+                // 备用绘制：使用颜色
+                painter.fillRect(headRect, QColor(Qt::magenta).darker(120));
             }
             
             // 绘制身体
             for (size_t i = 1; i < aiSnakeBody.size(); ++i) {
                 const Point& segment = aiSnakeBody[i];
-                int bodySize = (player1Character == CharacterType::SPONGEBOB) ? 100 : 50;
+                int bodySize = (singlePlayerManager->getAISnakeCharacter() == CharacterType::SPONGEBOB) ? 100 : 50;
                 bodySize = qMin(bodySize, cellSize);
                 int bodyOffset = (cellSize - bodySize) / 2;
                 QRect bodyRect(gameRect.x() + segment.x * cellSize + bodyOffset,
@@ -998,6 +1064,9 @@ void GameWidget::drawMultiplayerSnakes(QPainter& painter, const QRect& gameRect)
                 
                 if (!bodyPixmap.isNull()) {
                     painter.drawPixmap(bodyRect, bodyPixmap);
+                } else {
+                    // 备用绘制：使用颜色
+                    painter.fillRect(bodyRect, QColor(Qt::magenta));
                 }
             }
             

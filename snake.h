@@ -19,6 +19,7 @@ public:
     void move();
     void grow();
     void setDirection(Direction dir);
+    void setCurrentDirection(Direction dir) { currentDirection = dir; }
     
     bool checkSelfCollision() const;
     bool checkBoundaryCollision(int width, int height) const;

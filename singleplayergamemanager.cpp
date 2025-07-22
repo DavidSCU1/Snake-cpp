@@ -4,6 +4,10 @@
 #include <QRandomGenerator>
 #include <QMessageBox>
 
+// 游戏网格大小常量
+const int GRID_WIDTH = 40;
+const int GRID_HEIGHT = 30;
+
 SinglePlayerGameManager::SinglePlayerGameManager(QObject *parent)
     : QObject(parent)
     , currentMode(SinglePlayerMode::CLASSIC)
@@ -18,6 +22,7 @@ SinglePlayerGameManager::SinglePlayerGameManager(QObject *parent)
     , playerScore(0)
     , aiDirection(Direction::UP)
     , aiSnakeCharacter(CharacterType::PATRICK)
+    , foodPosition(20, 15)
     , settings(new QSettings("SnakeGame", "SinglePlayer", this))
 {
     // 初始化计时器
@@ -43,6 +48,7 @@ SinglePlayerGameManager::~SinglePlayerGameManager()
 
 void SinglePlayerGameManager::setGameMode(SinglePlayerMode mode)
 {
+    qDebug() << "Setting game mode to:" << (int)mode;
     if (currentMode != mode) {
         currentMode = mode;
         emit modeChanged(mode);
@@ -60,6 +66,7 @@ void SinglePlayerGameManager::setGameMode(SinglePlayerMode mode)
             speedMultiplier = 1.0;
             break;
         case SinglePlayerMode::AI_BATTLE:
+            qDebug() << "AI_BATTLE mode set, resetting AI data";
             aiScore = 0;
             playerScore = 0;
             aiSnake.clear();
@@ -115,6 +122,7 @@ void SinglePlayerGameManager::pauseGame()
         gameTimer->stop();
         modeTimer->stop();
         speedTimer->stop();
+        aiMoveTimer->stop();
     }
 }
 
@@ -138,6 +146,7 @@ void SinglePlayerGameManager::endGame()
         gameTimer->stop();
         modeTimer->stop();
         speedTimer->stop();
+        aiMoveTimer->stop();
         
         // 计算最终效率
         if (gameStats.timeElapsed > 0) {
@@ -269,7 +278,7 @@ void SinglePlayerGameManager::onGameTimer()
         updateSpeedRunMode();
         break;
     case SinglePlayerMode::AI_BATTLE:
-        updateAIBattleMode();
+        // AI移动逻辑由aiMoveTimer单独处理，这里不需要调用
         break;
     default:
         break;
@@ -339,6 +348,7 @@ void SinglePlayerGameManager::initializeAchievements()
 
 void SinglePlayerGameManager::setupModeTimers()
 {
+    qDebug() << "Setting up mode timers for mode:" << (int)currentMode;
     modeTimer->stop();
     speedTimer->stop();
     aiMoveTimer->stop();
@@ -351,9 +361,15 @@ void SinglePlayerGameManager::setupModeTimers()
         speedTimer->start(10000); // 每10秒增加速度
         break;
     case SinglePlayerMode::AI_BATTLE:
-        aiMoveTimer->start(200); // AI每200ms移动一次
-        initializeAI();
-        break;
+        {
+            qDebug() << "Starting AI move timer and initializing AI";
+            // AI移动速度与玩家一致
+            int playerSpeed = gameWidget ? gameWidget->getCurrentSpeed() : 200;
+            int aiSpeed = playerSpeed; // AI蛇移动速度与玩家相同
+            aiMoveTimer->start(aiSpeed);
+            initializeAI();
+            break;
+        }
     default:
         break;
     }
@@ -546,58 +562,121 @@ void SinglePlayerGameManager::loadProgress()
 }
 
 // AI对战模式实现
-void SinglePlayerGameManager::updateAIBattleMode()
-{
-    // AI对战模式的更新逻辑
-    // 这里可以添加特殊的AI对战规则
-    emit aiScoreUpdated(aiScore, playerScore);
-}
+// updateAIBattleMode函数已被移除，AI移动逻辑统一使用updateAIMovement函数
 
 void SinglePlayerGameManager::initializeAI()
 {
+    qDebug() << "Initializing AI snake";
     aiSnake.clear();
     
-    // 在游戏区域的右半部分随机选择一个安全的起始位置
-    int startX = QRandomGenerator::global()->bounded(20, 35);
-    int startY = QRandomGenerator::global()->bounded(5, 25);
+    // 在游戏区域的右半部分选择一个安全的起始位置
+    int startX = 35;
+    int startY = 10;
     Point startPos = {startX, startY};
     
     // 创建初始AI蛇身（3个段）
     aiSnake.push_back(startPos);
-    aiSnake.push_back({startPos.x, startPos.y + 1});
-    aiSnake.push_back({startPos.x, startPos.y + 2});
+    aiSnake.push_back({startPos.x - 1, startPos.y});
+    aiSnake.push_back({startPos.x - 2, startPos.y});
     
-    // 初始方向设置为向上，这样可以避免一开始就往墙壁方向移动
-    aiDirection = Direction::UP;
+    // 初始方向设置为向左
+    aiDirection = Direction::LEFT;
     
-    // 初始目标位置设置为当前食物位置
+    // 设置AI蛇的角色
+    aiSnakeCharacter = CharacterType::PATRICK;
+    
+    // 初始化目标位置为食物位置
     aiTarget = foodPosition;
     
     // 重置AI分数
     aiScore = 0;
+    
+    qDebug() << "AI snake initialized with" << aiSnake.size() << "segments at position" << startX << "," << startY;
+    qDebug() << "AI target set to:" << aiTarget.x << "," << aiTarget.y;
 }
 
+
+Point SinglePlayerGameManager::getNextPosition(const Point& currentPos, Direction direction)
+{
+    Point nextPos = currentPos;
+    switch (direction) {
+    case Direction::UP:
+        nextPos.y--;
+        break;
+    case Direction::DOWN:
+        nextPos.y++;
+        break;
+    case Direction::LEFT:
+        nextPos.x--;
+        break;
+    case Direction::RIGHT:
+        nextPos.x++;
+        break;
+    }
+    return nextPos;
+}
+
+void SinglePlayerGameManager::updateAISpeed(int newSpeed)
+{
+    if (currentMode == SinglePlayerMode::AI_BATTLE && aiMoveTimer->isActive()) {
+        // AI蛇速度与玩家一致
+        int aiSpeed = newSpeed;
+        qDebug() << "Updating AI speed from" << aiMoveTimer->interval() << "to" << aiSpeed << "(player speed:" << newSpeed << ")";
+        aiMoveTimer->setInterval(aiSpeed);
+    }
+}
+
+void SinglePlayerGameManager::pauseAI()
+{
+    if (currentMode == SinglePlayerMode::AI_BATTLE && aiMoveTimer->isActive()) {
+        qDebug() << "Pausing AI movement timer";
+        aiMoveTimer->stop();
+    }
+}
+
+void SinglePlayerGameManager::resumeAI()
+{
+    if (currentMode == SinglePlayerMode::AI_BATTLE && !aiMoveTimer->isActive() && isGameActive && !isPaused) {
+        qDebug() << "Resuming AI movement timer";
+        // AI蛇速度与玩家一致
+        int playerSpeed = gameWidget ? gameWidget->getCurrentSpeed() : 200;
+        int aiSpeed = playerSpeed;
+        aiMoveTimer->start(aiSpeed);
+    }
+}
 
 void SinglePlayerGameManager::updateAIMovement()
 {
     if (!isGameActive || isPaused || aiSnake.empty()) {
+        qDebug() << "AI movement blocked: isGameActive=" << isGameActive << ", isPaused=" << isPaused << ", aiSnake.empty()=" << aiSnake.empty();
         return;
     }
+    
+    qDebug() << "AI movement update called, aiSnake size:" << aiSnake.size() << ", foodPosition:" << foodPosition.x << "," << foodPosition.y;
     
     // 使用食物位置作为目标
     aiTarget = foodPosition;
     
-    // 计算AI的下一步移动
-    Direction newDirection = calculateAIDirection();
+    // 计算AI的下一步移动方向
+    Point aiHead = aiSnake.front();
+    Direction newDirection = calculateAIDirection(aiHead, foodPosition);
     
     // 如果计算出的方向不安全，尝试其他方向
-    if (!isValidAIMove(newDirection)) {
+     if (!isValidAIMove(aiHead, newDirection)) {
         QList<Direction> safeDirections;
-        for (Direction dir : {Direction::UP, Direction::DOWN, Direction::LEFT, Direction::RIGHT}) {
-            if (isValidAIMove(dir)) {
-                safeDirections.append(dir);
-            }
-        }
+         for (Direction dir : {Direction::UP, Direction::DOWN, Direction::LEFT, Direction::RIGHT}) {
+             // 避免180度转向
+             if ((dir == Direction::UP && aiDirection == Direction::DOWN) ||
+                 (dir == Direction::DOWN && aiDirection == Direction::UP) ||
+                 (dir == Direction::LEFT && aiDirection == Direction::RIGHT) ||
+                 (dir == Direction::RIGHT && aiDirection == Direction::LEFT)) {
+                 continue;
+             }
+             
+             if (isValidAIMove(aiHead, dir)) {
+                 safeDirections.append(dir);
+             }
+         }
         
         if (!safeDirections.isEmpty()) {
             // 随机选择一个安全的方向
@@ -611,21 +690,7 @@ void SinglePlayerGameManager::updateAIMovement()
     aiDirection = newDirection;
     
     // 移动AI蛇
-    Point newHead = aiSnake.front();
-    switch (aiDirection) {
-    case Direction::UP:
-        newHead.y--;
-        break;
-    case Direction::DOWN:
-        newHead.y++;
-        break;
-    case Direction::LEFT:
-        newHead.x--;
-        break;
-    case Direction::RIGHT:
-        newHead.x++;
-        break;
-    }
+    Point newHead = getNextPosition(aiSnake.front(), aiDirection);
     
     // 检查边界碰撞
     if (newHead.x < 0 || newHead.x >= 40 || newHead.y < 0 || newHead.y >= 30) {
@@ -648,44 +713,89 @@ void SinglePlayerGameManager::updateAIMovement()
     // 检查是否吃到食物
     if (newHead.x == foodPosition.x && newHead.y == foodPosition.y) {
         aiScore += 10;
+        qDebug() << "AI snake ate food! Score:" << aiScore;
+        
+        // 通知GameWidget重新生成食物
+        if (gameWidget) {
+            gameWidget->generateFood();
+        }
+        
         emit aiScoreUpdated(aiScore, playerScore);
     } else {
         aiSnake.pop_back();
     }
 }
 
-Direction SinglePlayerGameManager::calculateAIDirection()
+Direction SinglePlayerGameManager::calculateAIDirection(const Point& aiHead, const Point& target)
 {
-    if (aiSnake.empty()) {
-        return Direction::UP;
-    }
-    
-    Point head = aiSnake.front();
-    
     // 计算到目标的距离
-    int dx = aiTarget.x - head.x;
-    int dy = aiTarget.y - head.y;
+    int dx = target.x - aiHead.x;
+    int dy = target.y - aiHead.y;
     
-    // 创建可能的方向列表，按优先级排序
-    QList<Direction> possibleDirections;
+    // 优先选择距离目标更近的单一方向
+    Direction preferredDirection;
     
-    // 优先选择距离目标更近的方向
+    // 选择距离更远的轴作为主要移动方向
     if (abs(dx) > abs(dy)) {
-        if (dx > 0) {
-            possibleDirections << Direction::RIGHT << Direction::UP << Direction::DOWN << Direction::LEFT;
-        } else {
-            possibleDirections << Direction::LEFT << Direction::UP << Direction::DOWN << Direction::RIGHT;
-        }
+        // 水平移动优先
+        preferredDirection = (dx > 0) ? Direction::RIGHT : Direction::LEFT;
+    } else if (abs(dy) > abs(dx)) {
+        // 垂直移动优先
+        preferredDirection = (dy > 0) ? Direction::DOWN : Direction::UP;
     } else {
-        if (dy > 0) {
-            possibleDirections << Direction::DOWN << Direction::LEFT << Direction::RIGHT << Direction::UP;
+        // 距离相等时，优先选择水平移动
+        if (dx != 0) {
+            preferredDirection = (dx > 0) ? Direction::RIGHT : Direction::LEFT;
+        } else if (dy != 0) {
+            preferredDirection = (dy > 0) ? Direction::DOWN : Direction::UP;
         } else {
-            possibleDirections << Direction::UP << Direction::LEFT << Direction::RIGHT << Direction::DOWN;
+            // 已经到达目标，保持当前方向
+            preferredDirection = aiDirection;
         }
     }
     
-    // 检查每个方向是否安全，选择第一个安全的方向
-    for (Direction dir : possibleDirections) {
+    // 检查首选方向是否安全且不是180度转向
+    if (preferredDirection != aiDirection || 
+        !((preferredDirection == Direction::UP && aiDirection == Direction::DOWN) ||
+          (preferredDirection == Direction::DOWN && aiDirection == Direction::UP) ||
+          (preferredDirection == Direction::LEFT && aiDirection == Direction::RIGHT) ||
+          (preferredDirection == Direction::RIGHT && aiDirection == Direction::LEFT))) {
+        
+        if (isValidAIMove(aiHead, preferredDirection)) {
+            return preferredDirection;
+        }
+    }
+    
+    // 如果首选方向不安全，尝试其他方向
+    QList<Direction> alternativeDirections;
+    
+    // 根据目标位置创建备选方向列表
+    if (abs(dx) > abs(dy)) {
+        // 主要是水平移动，备选垂直方向
+        if (dy > 0) {
+            alternativeDirections << Direction::DOWN << Direction::UP;
+        } else if (dy < 0) {
+            alternativeDirections << Direction::UP << Direction::DOWN;
+        } else {
+            alternativeDirections << Direction::UP << Direction::DOWN;
+        }
+        // 最后考虑反向水平移动
+        alternativeDirections << ((dx > 0) ? Direction::LEFT : Direction::RIGHT);
+    } else {
+        // 主要是垂直移动，备选水平方向
+        if (dx > 0) {
+            alternativeDirections << Direction::RIGHT << Direction::LEFT;
+        } else if (dx < 0) {
+            alternativeDirections << Direction::LEFT << Direction::RIGHT;
+        } else {
+            alternativeDirections << Direction::LEFT << Direction::RIGHT;
+        }
+        // 最后考虑反向垂直移动
+        alternativeDirections << ((dy > 0) ? Direction::UP : Direction::DOWN);
+    }
+    
+    // 检查备选方向
+    for (Direction dir : alternativeDirections) {
         // 避免180度转向
         if ((dir == Direction::UP && aiDirection == Direction::DOWN) ||
             (dir == Direction::DOWN && aiDirection == Direction::UP) ||
@@ -694,7 +804,21 @@ Direction SinglePlayerGameManager::calculateAIDirection()
             continue;
         }
         
-        if (isValidAIMove(dir)) {
+        if (isValidAIMove(aiHead, dir)) {
+            return dir;
+        }
+    }
+    
+    // 如果所有方向都不安全，尝试任何可用的方向（避免死锁）
+    for (Direction dir : {Direction::UP, Direction::DOWN, Direction::LEFT, Direction::RIGHT}) {
+        if ((dir == Direction::UP && aiDirection == Direction::DOWN) ||
+            (dir == Direction::DOWN && aiDirection == Direction::UP) ||
+            (dir == Direction::LEFT && aiDirection == Direction::RIGHT) ||
+            (dir == Direction::RIGHT && aiDirection == Direction::LEFT)) {
+            continue;
+        }
+        
+        if (isValidAIMove(aiHead, dir)) {
             return dir;
         }
     }
@@ -703,32 +827,12 @@ Direction SinglePlayerGameManager::calculateAIDirection()
     return aiDirection;
 }
 
-bool SinglePlayerGameManager::isValidAIMove(Direction direction)
+bool SinglePlayerGameManager::isValidAIMove(const Point& aiHead, Direction direction)
 {
-    if (aiSnake.empty()) {
-        return true;
-    }
+    Point newHead = getNextPosition(aiHead, direction);
     
-    Point head = aiSnake.front();
-    Point newHead = head;
-    
-    switch (direction) {
-    case Direction::UP:
-        newHead.y--;
-        break;
-    case Direction::DOWN:
-        newHead.y++;
-        break;
-    case Direction::LEFT:
-        newHead.x--;
-        break;
-    case Direction::RIGHT:
-        newHead.x++;
-        break;
-    }
-    
-    // 检查边界（留出一格安全距离）
-    if (newHead.x <= 0 || newHead.x >= 39 || newHead.y <= 0 || newHead.y >= 29) {
+    // 检查边界碰撞
+    if (newHead.x < 0 || newHead.x >= 40 || newHead.y < 0 || newHead.y >= 30) {
         return false;
     }
     
@@ -739,32 +843,39 @@ bool SinglePlayerGameManager::isValidAIMove(Direction direction)
         }
     }
     
-    // 检查前方两格是否有障碍物
-    Point twoStepsAhead = newHead;
-    switch (direction) {
-    case Direction::UP:
-        twoStepsAhead.y--;
-        break;
-    case Direction::DOWN:
-        twoStepsAhead.y++;
-        break;
-    case Direction::LEFT:
-        twoStepsAhead.x--;
-        break;
-    case Direction::RIGHT:
-        twoStepsAhead.x++;
-        break;
+    // 检查是否撞到玩家蛇的身体
+    if (gameWidget) {
+        QList<Point> playerBody = gameWidget->getSnakeBody();
+        for (const Point& segment : playerBody) {
+            if (segment.x == newHead.x && segment.y == newHead.y) {
+                return false;
+            }
+        }
     }
     
-    // 如果前方两格是边界或蛇身，这个方向就不太安全
-    if (twoStepsAhead.x <= 0 || twoStepsAhead.x >= 39 || 
-        twoStepsAhead.y <= 0 || twoStepsAhead.y >= 29) {
-        return false;
+    // 检查前方两格是否有障碍物（用于提前规避）
+    Point twoStepsAhead = getNextPosition(newHead, direction);
+    
+    // 如果前方两格是边界，这个方向可能不太安全，但不完全禁止
+    if (twoStepsAhead.x < 0 || twoStepsAhead.x >= 40 || 
+        twoStepsAhead.y < 0 || twoStepsAhead.y >= 30) {
+        // 边界情况下，只要当前步骤安全就允许移动
+        return true;
     }
     
     for (const Point& segment : aiSnake) {
         if (segment.x == twoStepsAhead.x && segment.y == twoStepsAhead.y) {
             return false;
+        }
+    }
+    
+    // 检查前方两格是否撞到玩家蛇
+    if (gameWidget) {
+        QList<Point> playerBody = gameWidget->getSnakeBody();
+        for (const Point& segment : playerBody) {
+            if (segment.x == twoStepsAhead.x && segment.y == twoStepsAhead.y) {
+                return false;
+            }
         }
     }
     

@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     std::cout << "Creating MainWindow..." << std::endl;
     
     // 测试Qt是否正常工作
-    QMessageBox::information(nullptr, "测试", "Qt应用程序启动成功！");
+    // QMessageBox::information(nullptr, "测试", "Qt应用程序启动成功！");
     
     MainWindow w;
     std::cout << "MainWindow created successfully" << std::endl;

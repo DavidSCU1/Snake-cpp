@@ -331,7 +331,8 @@ void MultiPlayerLobby::onJoinRoomClicked()
         
         // 获取网络管理器
         NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
-        
+        // 设置待发送玩家名
+        networkManager->pendingPlayerName = playerName;
         // 禁用加入按钮防止重复点击
         joinRoomButton->setEnabled(false);
         joinRoomButton->setText("连接中...");

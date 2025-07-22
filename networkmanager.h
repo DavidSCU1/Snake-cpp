@@ -74,6 +74,7 @@ private slots:
     
 private:
     void processMessage(const QJsonObject& message, QTcpSocket* sender = nullptr);
+    QString pendingPlayerName; // 新增：用于保存待发送的玩家名
     
     // 服务器相关
     QTcpServer* server;

@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <deque>
 #include <QUdpSocket>
+#include <QNetworkInterface>
 
 NetworkManager::NetworkManager(QObject* parent)
     : QObject(parent)
@@ -394,7 +395,19 @@ void NetworkManager::broadcastRoomInfo()
     QJsonObject roomInfo;
     roomInfo["type"] = "roomInfo";
     roomInfo["port"] = server->serverPort();
-    roomInfo["host"] = QHostAddress(QHostAddress::LocalHost).toString();
+    // 获取本机实际IP地址
+    QString localIp;
+    const QList<QHostAddress>& addresses = QNetworkInterface::allAddresses();
+    for (const QHostAddress& addr : addresses) {
+        if (addr.protocol() == QAbstractSocket::IPv4Protocol && addr != QHostAddress::LocalHost) {
+            localIp = addr.toString();
+            break;
+        }
+    }
+    if (localIp.isEmpty()) {
+        localIp = QHostAddress(QHostAddress::LocalHost).toString();
+    }
+    roomInfo["host"] = localIp;
     roomInfo["timestamp"] = QDateTime::currentMSecsSinceEpoch();
 
     QJsonDocument doc(roomInfo);

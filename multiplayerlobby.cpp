@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QHostInfo>
 #include <QProcess>
+#include <QCheckBox>
 
 MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     : QWidget(parent)
@@ -36,6 +37,31 @@ MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     
     // 初始刷新
     refreshRoomList();
+    
+    // 初始化房间清理定时器
+    roomCleanupTimer = new QTimer(this);
+    connect(roomCleanupTimer, &QTimer::timeout, this, [this]() {
+        qint64 now = QDateTime::currentMSecsSinceEpoch();
+        QList<QString> toRemove;
+        for (auto it = discoveredRooms.begin(); it != discoveredRooms.end(); ++it) {
+            // 超过5秒未收到广播则移除
+            if (now - it.value() > 5000) {
+                toRemove.append(it.key());
+            }
+        }
+        for (const QString& key : toRemove) {
+            discoveredRooms.remove(key);
+            // 同步移除房间列表中的项
+            for (int i = 0; i < roomList->count(); ++i) {
+                QListWidgetItem* item = roomList->item(i);
+                if (item->data(Qt::UserRole).toString() == key) {
+                    delete roomList->takeItem(i);
+                    break;
+                }
+            }
+        }
+    });
+    roomCleanupTimer->start(1000); // 每秒检查一次
     
     // 初始化玩家名称
     playerName = playerNameEdit->text();
@@ -169,6 +195,12 @@ void MultiPlayerLobby::setupUI()
                                  "QPushButton:disabled { background-color: #CCCCCC; }");
     joinRoomButton->setEnabled(false);
     connect(joinRoomButton, &QPushButton::clicked, this, &MultiPlayerLobby::onJoinRoomClicked);
+    contentLayout->addWidget(joinRoomButton);
+
+    // 勾选框状态变化时，控制加入按钮
+    connect(allowJoinCheckBox, &QCheckBox::stateChanged, this, [this](int state){
+        joinRoomButton->setEnabled(state == Qt::Checked);
+    });
     
     buttonLayout->addWidget(createRoomButton);
     buttonLayout->addWidget(joinRoomButton);
@@ -451,13 +483,28 @@ bool MultiPlayerLobby::validatePlayerName() const
 // 处理发现的房间
 void MultiPlayerLobby::onRoomDiscovered(const QString& host, int port)
 {
-    QString displayText = QString("发现服务器 %1:%2").arg(host).arg(port);
-    QListWidgetItem* item = new QListWidgetItem(displayText);
-    item->setData(Qt::UserRole, QString("%1:%2").arg(host).arg(port));
-    item->setData(Qt::UserRole + 1, host);
-    item->setData(Qt::UserRole + 2, port);
-    roomList->addItem(item);
-    qDebug() << "Room discovered:" << host << ":" << port;
+    QString roomKey = QString("%1:%2").arg(host).arg(port);
+    qint64 now = QDateTime::currentMSecsSinceEpoch();
+    // 记录房间最后一次广播时间
+    discoveredRooms[roomKey] = now;
+    // 检查房间是否已存在于列表
+    bool found = false;
+    for (int i = 0; i < roomList->count(); ++i) {
+        QListWidgetItem* item = roomList->item(i);
+        if (item->data(Qt::UserRole).toString() == roomKey) {
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        QString displayText = QString("发现服务器 %1:%2").arg(host).arg(port);
+        QListWidgetItem* item = new QListWidgetItem(displayText);
+        item->setData(Qt::UserRole, roomKey);
+        item->setData(Qt::UserRole + 1, host);
+        item->setData(Qt::UserRole + 2, port);
+        roomList->addItem(item);
+        qDebug() << "Room discovered:" << host << ":" << port;
+    }
 }
 
 void MultiPlayerLobby::onManualConnectClicked()

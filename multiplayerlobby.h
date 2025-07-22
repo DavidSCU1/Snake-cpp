@@ -14,6 +14,8 @@
 #include <QGroupBox>
 #include "gamestate.h"
 #include "multiplayergamemanager.h"
+#include <QMap>
+#include <QDateTime>
 
 class GameWidget;
 
@@ -98,6 +100,7 @@ private:
     QVBoxLayout* createRoomLayout;
     QLabel* maxPlayersLabel;
     QSpinBox* maxPlayersSpinBox;
+    QCheckBox* allowJoinCheckBox = nullptr;
     
     // 控制按钮
     QWidget* buttonWidget;
@@ -126,6 +129,8 @@ private:
     
     // 定时器
     QTimer* refreshTimer;
+    QMap<QString, qint64> discoveredRooms; // 房间唯一标识 -> 最后一次收到广播的时间
+    QTimer* roomCleanupTimer = nullptr;
 };
 
 #endif // MULTIPLAYERLOBBY_H

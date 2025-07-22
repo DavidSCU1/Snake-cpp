@@ -453,14 +453,21 @@ void MultiPlayerLobby::onRoomCreated(const QString& roomId, const GameRoom& room
 
 void MultiPlayerLobby::onPlayerJoinedRoom(const QString& roomId, const QString& playerName)
 {
-    if (roomId == currentRoomId) {
-        // 如果等待界面正在显示，更新等待界面
+    // 更新房间信息（确保房主能看到成员）
+    GameRoom room = multiPlayerManager->getRoomInfo(roomId);
+    updateRoomInfo(room);
+    
+    // 关键：如果加入的是当前成员自己，则切换到等待界面
+    if (playerName == this->playerName) {
+        currentRoomId = roomId; // 保存当前房间ID
+        showWaitingInterface(); // 显示等待页面
+        qDebug() << "Player" << playerName << "joined, switching to waiting interface";
+    } else if (roomId == currentRoomId) {
+        // 如果是其他玩家加入当前房间
         if (waitingWidget && waitingWidget->isVisible()) {
             showWaitingInterface(); // 刷新等待界面信息
         } else {
             QMessageBox::information(this, "玩家加入", QString("玩家 %1 加入了房间！").arg(playerName));
-            GameRoom room = multiPlayerManager->getRoomInfo(roomId);
-            updateRoomInfo(room);
         }
     }
     refreshRoomList();
@@ -715,6 +722,7 @@ void MultiPlayerLobby::setupWaitingInterface()
 // 显示等待界面
 void MultiPlayerLobby::showWaitingInterface()
 {
+    qDebug() << "Showing waiting interface for room:" << currentRoomId;
     // 隐藏主界面内容
     roomListWidget->hide();
     roomInfoWidget->hide();

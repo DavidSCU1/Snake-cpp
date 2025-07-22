@@ -41,6 +41,12 @@ private slots:
     void onPlayerNameChanged();
     void refreshRoomList();
     
+    // 等待界面槽函数
+    void onStartGameClicked();
+    void onLeaveRoomClicked();
+    void showWaitingInterface();
+    void hideWaitingInterface();
+    
     // MultiPlayerGameManager 信号槽
     void onRoomCreated(const QString& roomId, const GameRoom& room);
     void onPlayerJoinedRoom(const QString& roomId, const QString& playerName);
@@ -52,6 +58,7 @@ private slots:
     
 private:
     void setupUI();
+    void setupWaitingInterface();
     void updateRoomInfo(const GameRoom& room);
     void clearRoomInfo();
     bool validatePlayerName() const;
@@ -100,6 +107,16 @@ private:
     QPushButton* manualConnectButton; // 新增手动连接按钮
     QLineEdit* manualIpEdit; // 新增手动输入IP框
     QPushButton* backButton;
+    
+    // 等待界面组件
+    QWidget* waitingWidget;
+    QVBoxLayout* waitingLayout;
+    QLabel* waitingTitleLabel;
+    QLabel* waitingRoomIdLabel;
+    QLabel* waitingPlayerCountLabel;
+    QListWidget* waitingPlayerListWidget;
+    QPushButton* startGameButton;
+    QPushButton* leaveRoomButton;
     
     // 游戏相关
     GameWidget* gameWidget;

@@ -34,11 +34,18 @@ signals:
 private slots:
     void onCreateRoomClicked();
     void onJoinRoomClicked();
+    void onManualConnectClicked(); // 新增槽函数声明
     void onRefreshClicked();
     void onBackClicked();
     void onRoomSelectionChanged();
     void onPlayerNameChanged();
     void refreshRoomList();
+    
+    // 等待界面槽函数
+    void onStartGameClicked();
+    void onLeaveRoomClicked();
+    void showWaitingInterface();
+    void hideWaitingInterface();
     
     // MultiPlayerGameManager 信号槽
     void onRoomCreated(const QString& roomId, const GameRoom& room);
@@ -47,10 +54,11 @@ private slots:
     void onGameStarted(const QString& roomId);
     void onGameEnded(const QString& roomId, const QString& winner);
     void onRoomDestroyed(const QString& roomId);
-    void onRoomDiscovered(const QString& roomId, const QString& host, int port);
+    void onRoomDiscovered(const QString& host, int port);
     
 private:
     void setupUI();
+    void setupWaitingInterface();
     void updateRoomInfo(const GameRoom& room);
     void clearRoomInfo();
     bool validatePlayerName() const;
@@ -96,7 +104,19 @@ private:
     QHBoxLayout* buttonLayout;
     QPushButton* createRoomButton;
     QPushButton* joinRoomButton;
+    QPushButton* manualConnectButton; // 新增手动连接按钮
+    QLineEdit* manualIpEdit; // 新增手动输入IP框
     QPushButton* backButton;
+    
+    // 等待界面组件
+    QWidget* waitingWidget;
+    QVBoxLayout* waitingLayout;
+    QLabel* waitingTitleLabel;
+    QLabel* waitingRoomIdLabel;
+    QLabel* waitingPlayerCountLabel;
+    QListWidget* waitingPlayerListWidget;
+    QPushButton* startGameButton;
+    QPushButton* leaveRoomButton;
     
     // 游戏相关
     GameWidget* gameWidget;

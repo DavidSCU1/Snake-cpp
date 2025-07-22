@@ -16,6 +16,15 @@ MultiPlayerGameManager::MultiPlayerGameManager(QObject *parent)
 
 QString MultiPlayerGameManager::createRoom(const QString& hostName, int maxPlayers)
 {
+    // 检查该玩家是否已经创建了房间
+    for (auto it = rooms.begin(); it != rooms.end(); ++it) {
+        const GameRoom& existingRoom = it.value();
+        if (existingRoom.hostName == hostName) {
+            qDebug() << "Player" << hostName << "already has a room:" << existingRoom.roomId;
+            return existingRoom.roomId; // 返回已存在的房间ID
+        }
+    }
+    
     QString roomId = generateRoomId();
     
     GameRoom room;
@@ -36,6 +45,19 @@ QString MultiPlayerGameManager::createRoom(const QString& hostName, int maxPlaye
     gameState.playerAliveStatus[hostName] = true;
     gameState.playerScores[hostName] = 0;
     gameState.playerCharacters[hostName] = CharacterType::SPONGEBOB; // 默认角色
+    
+    // 启动网络服务器并广播房间信息
+    if (networkManager) {
+        if (!networkManager->isServerRunning()) {
+            quint16 actualPort = 0;
+            if (networkManager->startServerAuto(actualPort)) {
+                qDebug() << "Server started for room" << roomId << ", port:" << actualPort;
+            } else {
+                qDebug() << "Failed to start server for room" << roomId << ", all ports busy.";
+            }
+        }
+        networkManager->broadcastRoomInfo();
+    }
     
     emit roomCreated(roomId, room);
     
@@ -139,6 +161,12 @@ void MultiPlayerGameManager::destroyRoom(const QString& roomId)
     
     rooms.remove(roomId);
     gameStates.remove(roomId);
+    
+    // 如果没有房间了，停止服务器
+    if (rooms.isEmpty() && networkManager && networkManager->isServerRunning()) {
+        networkManager->stopServer();
+        qDebug() << "Server stopped - no rooms remaining";
+    }
     
     emit roomDestroyed(roomId);
     

@@ -20,6 +20,10 @@ public:
     
     // 服务器功能
     bool startServer(quint16 port = 12345);
+    // 自动检测可用端口并启动服务器，返回实际端口
+    bool startServerAuto(quint16& actualPort, quint16 basePort = 12345, int maxTries = 20);
+    // 获取当前监听端口
+    quint16 getServerPort() const;
     void stopServer();
     bool isServerRunning() const;
     
@@ -79,7 +83,6 @@ private:
     // UDP相关
     QUdpSocket* udpSocket; // QUdpSocket 类型现在可以识别
     bool allowJoinMidGame;
-    void onUdpDataReceived();
     
     // 房间广播计时器
     QTimer* roomBroadcastTimer;

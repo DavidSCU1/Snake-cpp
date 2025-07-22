@@ -9,14 +9,17 @@
 
 NetworkManager::NetworkManager(QObject* parent)
     : QObject(parent)
+    , server(nullptr)
+    , clientSocket(nullptr)
     , udpSocket(new QUdpSocket(this))
     , heartbeatTimer(new QTimer(this))
     , roomBroadcastTimer(new QTimer(this))
     , allowJoinMidGame(true)
+    , isServer(false)
 {
     heartbeatTimer->setInterval(5000); // 5秒心跳
     connect(heartbeatTimer, &QTimer::timeout, this, &NetworkManager::sendHeartbeat);
-    connect(udpSocket, &QUdpSocket::readyRead, this, &NetworkManager::onUdpDataReceived);
+    connect(udpSocket, &QUdpSocket::readyRead, this, &NetworkManager::processRoomDiscovery);
     connect(roomBroadcastTimer, &QTimer::timeout, this, &NetworkManager::broadcastRoomInfo); // 定时广播房间信息
 }
 
@@ -32,6 +35,15 @@ bool NetworkManager::startServer(quint16 port)
     if (server->listen(QHostAddress::Any, port)) {
         isServer = true;
         heartbeatTimer->start();
+        
+        // 确保UDP socket准备好用于广播
+        if (udpSocket->state() != QAbstractSocket::BoundState) {
+            // 如果UDP socket未绑定，尝试绑定到任意端口用于发送广播
+            if (!udpSocket->bind()) {
+                qDebug() << "Warning: Failed to bind UDP socket for broadcasting:" << udpSocket->errorString();
+            }
+        }
+        
         roomBroadcastTimer->start(); // 启动房间广播定时器
         qDebug() << "Server started on port" << port;
 
@@ -348,24 +360,67 @@ QJsonObject NetworkManager::createMessage(const QString& type, const QJsonObject
 // 启动房间发现
 void NetworkManager::startRoomDiscovery(quint16 port)
 {
-    udpSocket->bind(QHostAddress::Any, port, QUdpSocket::ShareAddress);
-    connect(udpSocket, &QUdpSocket::readyRead, this, &NetworkManager::processRoomDiscovery);
+    // 如果UDP socket已经绑定，先解绑
+    if (udpSocket->state() == QAbstractSocket::BoundState) {
+        udpSocket->close();
+    }
+    
+    // 绑定到广播接收端口
+    if (udpSocket->bind(QHostAddress::Any, 45454, QUdpSocket::ShareAddress)) {
+        qDebug() << "UDP socket bound to port 45454 for room discovery";
+    } else {
+        qDebug() << "Failed to bind UDP socket for room discovery:" << udpSocket->errorString();
+        // 尝试重新创建UDP socket
+        udpSocket->deleteLater();
+        udpSocket = new QUdpSocket(this);
+        connect(udpSocket, &QUdpSocket::readyRead, this, &NetworkManager::processRoomDiscovery);
+        if (udpSocket->bind(QHostAddress::Any, 45454, QUdpSocket::ShareAddress)) {
+            qDebug() << "UDP socket recreated and bound successfully";
+        } else {
+            qDebug() << "Failed to recreate UDP socket:" << udpSocket->errorString();
+        }
+    }
 }
 
 // 广播房间信息
 void NetworkManager::broadcastRoomInfo()
 {
-    if (!server) return;
+    if (!server || !server->isListening()) {
+        qDebug() << "Server not running, cannot broadcast room info";
+        return;
+    }
     
+    // 获取房间信息（需要从MultiPlayerGameManager获取）
     QJsonObject roomInfo;
     roomInfo["type"] = "roomInfo";
     roomInfo["port"] = server->serverPort();
     roomInfo["host"] = QHostAddress(QHostAddress::LocalHost).toString();
+    roomInfo["timestamp"] = QDateTime::currentMSecsSinceEpoch();
 
     QJsonDocument doc(roomInfo);
     QByteArray data = doc.toJson(QJsonDocument::Compact);
 
-    udpSocket->writeDatagram(data, QHostAddress::Broadcast, 45454);
+    // 确保UDP socket可用于广播
+    if (!udpSocket) {
+        qDebug() << "UDP socket is null, cannot broadcast";
+        return;
+    }
+    
+    // 如果UDP socket未绑定，尝试绑定
+    if (udpSocket->state() != QAbstractSocket::BoundState) {
+        if (!udpSocket->bind()) {
+            qDebug() << "Failed to bind UDP socket for broadcasting:" << udpSocket->errorString();
+            return;
+        }
+    }
+    
+    // 发送广播
+    qint64 bytesWritten = udpSocket->writeDatagram(data, QHostAddress::Broadcast, 45454);
+    if (bytesWritten == -1) {
+        qDebug() << "Failed to send broadcast:" << udpSocket->errorString();
+    } else {
+        qDebug() << "Room info broadcasted on port" << server->serverPort() << "(" << bytesWritten << "bytes)";
+    }
 }
 
 // 处理房间发现
@@ -392,20 +447,21 @@ void NetworkManager::processRoomDiscovery()
     }
 }
 
-void NetworkManager::onUdpDataReceived()
-{
-    while (udpSocket->hasPendingDatagrams()) {
-        QByteArray datagram;
-        datagram.resize(udpSocket->pendingDatagramSize());
-        QHostAddress sender;
-        quint16 senderPort;
-
-        udpSocket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(datagram);
-        if (!jsonDoc.isNull() && jsonDoc.isObject()) {
-            QJsonObject message = jsonDoc.object();
-            emit roomDiscovered(sender.toString(), message["port"].toInt());
+bool NetworkManager::startServerAuto(quint16& actualPort, quint16 basePort, int maxTries) {
+    for (int i = 0; i < maxTries; ++i) {
+        quint16 tryPort = basePort + i;
+        if (startServer(tryPort)) {
+            actualPort = tryPort;
+            return true;
         }
     }
+    actualPort = 0;
+    return false;
+}
+
+quint16 NetworkManager::getServerPort() const {
+    if (server && server->isListening()) {
+        return server->serverPort();
+    }
+    return 0;
 }

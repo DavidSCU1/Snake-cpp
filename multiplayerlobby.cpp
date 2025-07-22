@@ -121,6 +121,16 @@ void MultiPlayerLobby::setupUI()
     playerSettingsLayout->addWidget(playerNameLabel);
     playerSettingsLayout->addWidget(playerNameEdit);
     
+    // 最大玩家数设置
+    QLabel* maxPlayersLabel = new QLabel("最大玩家数:", playerSettingsGroup);
+    maxPlayersSpinBox = new QSpinBox(playerSettingsGroup);
+    maxPlayersSpinBox->setMinimum(2);
+    maxPlayersSpinBox->setMaximum(8);
+    maxPlayersSpinBox->setValue(4); // 默认4人
+    
+    playerSettingsLayout->addWidget(maxPlayersLabel);
+    playerSettingsLayout->addWidget(maxPlayersSpinBox);
+    
     roomInfoLayout->addWidget(playerSettingsGroup);
     
     // 控制按钮

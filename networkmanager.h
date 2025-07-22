@@ -95,6 +95,8 @@ private:
     QTimer* roomBroadcastTimer;
     
     bool isServer;
+public:
+    void setPendingPlayerName(const QString& name) { pendingPlayerName = name; }
 };
 
 #endif // NETWORKMANAGER_H

@@ -79,7 +79,6 @@ private:
     // UDP相关
     QUdpSocket* udpSocket; // QUdpSocket 类型现在可以识别
     bool allowJoinMidGame;
-    void onUdpDataReceived();
     
     // 房间广播计时器
     QTimer* roomBroadcastTimer;

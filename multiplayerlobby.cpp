@@ -11,6 +11,16 @@ MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
 {
     setupUI();
     
+    // 初始化NetworkManager并设置给MultiPlayerGameManager
+    NetworkManager* networkManager = new NetworkManager(this);
+    multiPlayerManager->setNetworkManager(networkManager);
+    
+    // 连接NetworkManager的房间发现信号
+    connect(networkManager, &NetworkManager::roomDiscovered, this, &MultiPlayerLobby::onRoomDiscovered);
+    
+    // 启动房间发现功能
+    networkManager->startRoomDiscovery(12345);
+    
     // 连接MultiPlayerGameManager信号
     connect(multiPlayerManager, &MultiPlayerGameManager::roomCreated, this, &MultiPlayerLobby::onRoomCreated);
     connect(multiPlayerManager, &MultiPlayerGameManager::playerJoinedRoom, this, &MultiPlayerLobby::onPlayerJoinedRoom);
@@ -405,12 +415,13 @@ bool MultiPlayerLobby::validatePlayerName() const
 }
 
 // 处理发现的房间
-void MultiPlayerLobby::onRoomDiscovered(const QString& roomId, const QString& host, int port)
+void MultiPlayerLobby::onRoomDiscovered(const QString& host, int port)
 {
-    QString displayText = QString("房间 %1 (%2:%3)").arg(roomId).arg(host).arg(port);
+    QString displayText = QString("发现服务器 %1:%2").arg(host).arg(port);
     QListWidgetItem* item = new QListWidgetItem(displayText);
-    item->setData(Qt::UserRole, roomId);
+    item->setData(Qt::UserRole, QString("%1:%2").arg(host).arg(port));
     item->setData(Qt::UserRole + 1, host);
     item->setData(Qt::UserRole + 2, port);
     roomList->addItem(item);
+    qDebug() << "Room discovered:" << host << ":" << port;
 }

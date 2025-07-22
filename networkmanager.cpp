@@ -19,7 +19,7 @@ NetworkManager::NetworkManager(QObject* parent)
 {
     heartbeatTimer->setInterval(5000); // 5秒心跳
     connect(heartbeatTimer, &QTimer::timeout, this, &NetworkManager::sendHeartbeat);
-    connect(udpSocket, &QUdpSocket::readyRead, this, &NetworkManager::onUdpDataReceived);
+    connect(udpSocket, &QUdpSocket::readyRead, this, &NetworkManager::processRoomDiscovery);
     connect(roomBroadcastTimer, &QTimer::timeout, this, &NetworkManager::broadcastRoomInfo); // 定时广播房间信息
 }
 
@@ -351,8 +351,12 @@ QJsonObject NetworkManager::createMessage(const QString& type, const QJsonObject
 // 启动房间发现
 void NetworkManager::startRoomDiscovery(quint16 port)
 {
-    udpSocket->bind(QHostAddress::Any, port, QUdpSocket::ShareAddress);
-    connect(udpSocket, &QUdpSocket::readyRead, this, &NetworkManager::processRoomDiscovery);
+    // 绑定到广播接收端口
+    if (udpSocket->bind(QHostAddress::Any, 45454, QUdpSocket::ShareAddress)) {
+        qDebug() << "UDP socket bound to port 45454 for room discovery";
+    } else {
+        qDebug() << "Failed to bind UDP socket for room discovery:" << udpSocket->errorString();
+    }
 }
 
 // 广播房间信息
@@ -363,10 +367,12 @@ void NetworkManager::broadcastRoomInfo()
         return;
     }
     
+    // 获取房间信息（需要从MultiPlayerGameManager获取）
     QJsonObject roomInfo;
     roomInfo["type"] = "roomInfo";
     roomInfo["port"] = server->serverPort();
     roomInfo["host"] = QHostAddress(QHostAddress::LocalHost).toString();
+    roomInfo["timestamp"] = QDateTime::currentMSecsSinceEpoch();
 
     QJsonDocument doc(roomInfo);
     QByteArray data = doc.toJson(QJsonDocument::Compact);
@@ -399,24 +405,6 @@ void NetworkManager::processRoomDiscovery()
                 emit roomDiscovered(message["host"].toString(), message["port"].toInt());
                 qDebug() << "Discovered room:" << message["host"].toString() << ":" << message["port"].toInt();
             }
-        }
-    }
-}
-
-void NetworkManager::onUdpDataReceived()
-{
-    while (udpSocket->hasPendingDatagrams()) {
-        QByteArray datagram;
-        datagram.resize(udpSocket->pendingDatagramSize());
-        QHostAddress sender;
-        quint16 senderPort;
-
-        udpSocket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(datagram);
-        if (!jsonDoc.isNull() && jsonDoc.isObject()) {
-            QJsonObject message = jsonDoc.object();
-            emit roomDiscovered(sender.toString(), message["port"].toInt());
         }
     }
 }

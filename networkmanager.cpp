@@ -9,10 +9,13 @@
 
 NetworkManager::NetworkManager(QObject* parent)
     : QObject(parent)
+    , server(nullptr)
+    , clientSocket(nullptr)
     , udpSocket(new QUdpSocket(this))
     , heartbeatTimer(new QTimer(this))
     , roomBroadcastTimer(new QTimer(this))
     , allowJoinMidGame(true)
+    , isServer(false)
 {
     heartbeatTimer->setInterval(5000); // 5秒心跳
     connect(heartbeatTimer, &QTimer::timeout, this, &NetworkManager::sendHeartbeat);
@@ -355,7 +358,10 @@ void NetworkManager::startRoomDiscovery(quint16 port)
 // 广播房间信息
 void NetworkManager::broadcastRoomInfo()
 {
-    if (!server) return;
+    if (!server || !server->isListening()) {
+        qDebug() << "Server not running, cannot broadcast room info";
+        return;
+    }
     
     QJsonObject roomInfo;
     roomInfo["type"] = "roomInfo";
@@ -365,7 +371,12 @@ void NetworkManager::broadcastRoomInfo()
     QJsonDocument doc(roomInfo);
     QByteArray data = doc.toJson(QJsonDocument::Compact);
 
-    udpSocket->writeDatagram(data, QHostAddress::Broadcast, 45454);
+    if (udpSocket && udpSocket->state() == QAbstractSocket::BoundState) {
+        udpSocket->writeDatagram(data, QHostAddress::Broadcast, 45454);
+        qDebug() << "Room info broadcasted on port" << server->serverPort();
+    } else {
+        qDebug() << "UDP socket not ready for broadcasting";
+    }
 }
 
 // 处理房间发现

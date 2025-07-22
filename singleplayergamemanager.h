@@ -80,9 +80,10 @@ public:
     QList<Achievement> getUnlockedAchievements() const;
     void checkAchievements();
     
-    // 模式特定功能
+    // 获取游戏状态
     int getTimeRemaining() const;  // 时间挑战模式
     double getSpeedMultiplier() const;  // 极速模式
+    void setSpeedMultiplier(double multiplier);  // 设置速度倍数
     int getAIScore() const;  // 人机对战模式 - AI分数
     int getPlayerScore() const;  // 人机对战模式 - 玩家分数
     

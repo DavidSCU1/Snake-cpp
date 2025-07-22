@@ -15,8 +15,6 @@ SinglePlayerGameManager::SinglePlayerGameManager(QObject *parent)
     , isGameActive(false)
     , isPaused(false)
     , timeAttackDuration(TIME_ATTACK_DEFAULT_DURATION)
-    , survivalWave(1)
-    , survivalEnemies(SURVIVAL_BASE_ENEMIES)
     , speedMultiplier(1.0)
     , aiScore(0)
     , playerScore(0)
@@ -58,9 +56,9 @@ void SinglePlayerGameManager::setGameMode(SinglePlayerMode mode)
         case SinglePlayerMode::TIME_ATTACK:
             timeAttackDuration = TIME_ATTACK_DEFAULT_DURATION;
             break;
-        case SinglePlayerMode::SURVIVAL:
-            survivalWave = 1;
-            survivalEnemies = SURVIVAL_BASE_ENEMIES;
+        case SinglePlayerMode::CHALLENGE:
+            qDebug() << "CHALLENGE mode set";
+            // 挑战模式无需特殊初始化，墙体生成在食物被吃时处理
             break;
         case SinglePlayerMode::SPEED_RUN:
             speedMultiplier = 1.0;
@@ -85,8 +83,8 @@ QString SinglePlayerGameManager::getModeDescription(SinglePlayerMode mode) const
         return "经典模式：传统的贪吃蛇游戏，吃食物增长身体，避免撞墙和自己。";
     case SinglePlayerMode::TIME_ATTACK:
         return "时间挑战：在限定时间内获得尽可能高的分数！";
-    case SinglePlayerMode::SURVIVAL:
-        return "生存模式：面对越来越多的障碍物，看你能坚持多久！";
+    case SinglePlayerMode::CHALLENGE:
+        return "挑战模式：每吃一个食物会生成5块墙，难度不断增加！";
     case SinglePlayerMode::SPEED_RUN:
         return "极速模式：速度会不断增加，考验你的反应能力！";
     case SinglePlayerMode::AI_BATTLE:
@@ -173,9 +171,8 @@ void SinglePlayerGameManager::resetGame()
     case SinglePlayerMode::TIME_ATTACK:
         timeAttackDuration = TIME_ATTACK_DEFAULT_DURATION;
         break;
-    case SinglePlayerMode::SURVIVAL:
-        survivalWave = 1;
-        survivalEnemies = SURVIVAL_BASE_ENEMIES;
+    case SinglePlayerMode::CHALLENGE:
+        // 挑战模式无需特殊重置
         break;
     case SinglePlayerMode::SPEED_RUN:
         speedMultiplier = 1.0;
@@ -228,10 +225,7 @@ int SinglePlayerGameManager::getTimeRemaining() const
     return 0;
 }
 
-int SinglePlayerGameManager::getSurvivalWaves() const
-{
-    return survivalWave;
-}
+
 
 double SinglePlayerGameManager::getSpeedMultiplier() const
 {
@@ -271,8 +265,8 @@ void SinglePlayerGameManager::onGameTimer()
     case SinglePlayerMode::TIME_ATTACK:
         updateTimeAttackMode();
         break;
-    case SinglePlayerMode::SURVIVAL:
-        updateSurvivalMode();
+    case SinglePlayerMode::CHALLENGE:
+        // 挑战模式的逻辑在食物被吃时处理
         break;
     case SinglePlayerMode::SPEED_RUN:
         updateSpeedRunMode();
@@ -291,14 +285,6 @@ void SinglePlayerGameManager::onModeTimer()
 {
     // 模式特定的定时事件
     switch (currentMode) {
-    case SinglePlayerMode::SURVIVAL:
-        // 每30秒增加一波敌人
-        if (gameStats.timeElapsed % 30 == 0) {
-            survivalWave++;
-            survivalEnemies += 2;
-            emit waveCompleted(survivalWave);
-        }
-        break;
     default:
         break;
     }
@@ -339,7 +325,7 @@ void SinglePlayerGameManager::initializeAchievements()
     
     // 模式特定成就
     achievements.append({"time_attack_master", "时间大师", "时间挑战模式获得1000分", false, 0, 1000});
-    achievements.append({"survival_wave_10", "生存专家", "生存模式坚持到第10波", false, 0, 10});
+    achievements.append({"challenge_walls_50", "墙体大师", "挑战模式生成50块墙体", false, 0, 50});
     achievements.append({"speed_run_5x", "极速之王", "极速模式达到5倍速度", false, 0, 5});
     achievements.append({"ai_battle_win", "人机对战胜利者", "在人机对战中击败AI", false, 0, 1});
     achievements.append({"ai_battle_500", "AI挑战者", "人机对战模式获得500分", false, 0, 500});
@@ -354,8 +340,8 @@ void SinglePlayerGameManager::setupModeTimers()
     aiMoveTimer->stop();
     
     switch (currentMode) {
-    case SinglePlayerMode::SURVIVAL:
-        modeTimer->start(1000); // 每秒检查
+    case SinglePlayerMode::CHALLENGE:
+        // 挑战模式不需要定时器，墙体生成在食物被吃时处理
         break;
     case SinglePlayerMode::SPEED_RUN:
         speedTimer->start(10000); // 每10秒增加速度
@@ -387,11 +373,7 @@ void SinglePlayerGameManager::updateTimeAttackMode()
     }
 }
 
-void SinglePlayerGameManager::updateSurvivalMode()
-{
-    // 生存模式的更新逻辑
-    // 这里可以添加障碍物生成等逻辑
-}
+
 
 void SinglePlayerGameManager::updateSpeedRunMode()
 {

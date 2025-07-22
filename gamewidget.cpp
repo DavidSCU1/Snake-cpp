@@ -604,6 +604,12 @@ void GameWidget::checkCollisions()
         generateFood();
         updateSpeed();
         
+        // 挑战模式：每吃一个食物生成5块墙
+        if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::CHALLENGE) {
+            QSet<Point> occupiedPositions = getOccupiedPositions();
+            wall->generateChallengeWalls(5, gridWidth, gridHeight, occupiedPositions);
+        }
+        
         // 更新AI蛇的目标食物位置
         if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::AI_BATTLE) {
             singlePlayerManager->setFoodPosition(food->getPosition());

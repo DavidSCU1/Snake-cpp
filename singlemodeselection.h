@@ -66,7 +66,7 @@ private:
     // 模式按钮
     QPushButton* classicButton;
     QPushButton* timeAttackButton;
-    QPushButton* survivalButton;
+    QPushButton* challengeButton;
     QPushButton* speedRunButton;
     QPushButton* aiBattleButton;
     

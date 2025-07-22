@@ -15,6 +15,9 @@ public:
     // 生成墙体
     void generateWalls(int gridWidth, int gridHeight, const QSet<Point>& occupiedPositions);
     
+    // 生成指定数量的墙块（用于挑战模式）
+    void generateChallengeWalls(int count, int gridWidth, int gridHeight, const QSet<Point>& occupiedPositions);
+    
     // 检查位置是否有墙
     bool hasWallAt(const Point& position) const;
     

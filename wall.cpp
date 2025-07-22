@@ -73,6 +73,44 @@ void Wall::clear()
     wallPositions.clear();
 }
 
+void Wall::generateChallengeWalls(int count, int gridWidth, int gridHeight, const QSet<Point>& occupiedPositions)
+{
+    // 在挑战模式下生成指定数量的墙块
+    int maxAttempts = count * 20; // 每个墙块最多尝试20次
+    int generated = 0;
+    
+    for (int attempt = 0; attempt < maxAttempts && generated < count; ++attempt) {
+        // 随机选择一个位置
+        Point candidate;
+        candidate.x = QRandomGenerator::global()->bounded(1, gridWidth - 1);
+        candidate.y = QRandomGenerator::global()->bounded(1, gridHeight - 1);
+        
+        // 检查位置是否可用
+        if (occupiedPositions.contains(candidate) || 
+            wallPositions.contains(candidate)) {
+            continue;
+        }
+        
+        // 检查是否会违反密度规则
+        if (wouldViolateDensityRule(candidate, gridWidth, gridHeight)) {
+            continue;
+        }
+        
+        // 临时添加这个墙体，检查是否会创建封闭区域
+        QVector<Point> singleWall;
+        singleWall.append(candidate);
+        if (wouldCreateEnclosure(singleWall, gridWidth, gridHeight)) {
+            continue;
+        }
+        
+        // 添加墙体
+        wallPositions.insert(candidate);
+        generated++;
+    }
+    
+    qDebug() << "Challenge mode: Generated" << generated << "wall blocks (requested:" << count << ")";
+}
+
 QVector<Point> Wall::generateWallSegment(int gridWidth, int gridHeight, const QSet<Point>& occupiedPositions, const QSet<Point>& forbiddenArea)
 {
     QVector<Point> segment;

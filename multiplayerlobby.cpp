@@ -377,23 +377,7 @@ void MultiPlayerLobby::onJoinRoomClicked()
         networkManager->connectToServer(hostIp, hostPort);
         connectionTimer->start();
         
-        // 连接成功后发送玩家信息
-        QTimer::singleShot(1000, [this, networkManager]() {
-            if (networkManager->getClientSocket() && 
-                networkManager->getClientSocket()->state() == QAbstractSocket::ConnectedState) {
-                // 发送玩家信息到服务器
-                QJsonObject playerData;
-                playerData["name"] = playerName;
-                playerData["score"] = 0;
-                playerData["character"] = static_cast<int>(CharacterType::PATRICK);
-                playerData["isAlive"] = true;
-                
-                QJsonObject message = networkManager->createMessage("playerInfo", playerData);
-                QJsonDocument doc(message);
-                networkManager->getClientSocket()->write(doc.toJson(QJsonDocument::Compact) + "\n");
-                qDebug() << "Sent player info for:" << playerName;
-            }
-        });
+        // 注意：玩家信息会在NetworkManager::onClientConnected中自动发送
     } else {
         // 这是本地房间，直接加入
         QString roomId = roomKey;
@@ -628,6 +612,14 @@ void MultiPlayerLobby::onManualConnectClicked()
     // 自动尝试端口区间
     NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
     if (networkManager) {
+        // 设置玩家名称（需要先获取）
+        QString currentPlayerName = playerNameEdit->text().trimmed();
+        if (currentPlayerName.isEmpty()) {
+            QMessageBox::warning(this, "错误", "请先输入玩家名称！");
+            return;
+        }
+        networkManager->setPendingPlayerName(currentPlayerName);
+        
         bool connected = false;
         for (quint16 port = 12345; port < 12365; ++port) {
             QTcpSocket testSocket;

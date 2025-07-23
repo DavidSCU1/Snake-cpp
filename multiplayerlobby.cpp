@@ -508,13 +508,40 @@ void MultiPlayerLobby::onRoomSelectionChanged()
 {
     QListWidgetItem* currentItem = roomList->currentItem();
     if (currentItem) {
-        QString roomId = currentItem->data(Qt::UserRole).toString();
-        GameRoom room = multiPlayerManager->getRoomInfo(roomId);
-        updateRoomInfo(room);
+        QString roomKey = currentItem->data(Qt::UserRole).toString();
         
-        // 检查是否可以加入房间
-        bool canJoin = !room.isGameStarted && room.currentPlayers < room.maxPlayers;
-        joinRoomButton->setEnabled(canJoin && validatePlayerName());
+        // 检查是否是UDP发现的房间（包含IP:端口格式）
+        if (roomKey.contains(":")) {
+            // 这是通过UDP发现的房间，显示基本信息
+            QString hostIp = currentItem->data(Qt::UserRole + 1).toString();
+            int hostPort = currentItem->data(Qt::UserRole + 2).toInt();
+            
+            // 添加安全检查
+            if (hostIp.isEmpty()) {
+                hostIp = roomKey.split(":").first();
+            }
+            if (hostPort == 0) {
+                hostPort = roomKey.split(":").last().toInt();
+            }
+            
+            // 显示UDP发现房间的基本信息
+            if (roomIdLabel) roomIdLabel->setText(QString("房间地址: %1:%2").arg(hostIp).arg(hostPort));
+            if (roomNameLabel) roomNameLabel->setText("房间名: 发现的服务器");
+            if (playerCountLabel) playerCountLabel->setText("玩家数量: 未知");
+            if (roomStatusLabel) roomStatusLabel->setText("状态: 可连接");
+            if (playerListWidget) playerListWidget->clear();
+            
+            // UDP发现的房间默认可以尝试加入
+            if (joinRoomButton) joinRoomButton->setEnabled(validatePlayerName());
+        } else {
+            // 这是本地创建的房间，使用原有逻辑
+            GameRoom room = multiPlayerManager->getRoomInfo(roomKey);
+            updateRoomInfo(room);
+            
+            // 检查是否可以加入房间
+            bool canJoin = !room.isGameStarted && room.currentPlayers < room.maxPlayers;
+            joinRoomButton->setEnabled(canJoin && validatePlayerName());
+        }
     } else {
         clearRoomInfo();
         joinRoomButton->setEnabled(false);
@@ -528,10 +555,18 @@ void MultiPlayerLobby::onPlayerNameChanged()
     
     QListWidgetItem* currentItem = roomList->currentItem();
     if (currentItem) {
-        QString roomId = currentItem->data(Qt::UserRole).toString();
-        GameRoom room = multiPlayerManager->getRoomInfo(roomId);
-        bool canJoin = !room.isGameStarted && room.currentPlayers < room.maxPlayers;
-        joinRoomButton->setEnabled(canJoin && isValid);
+        QString roomKey = currentItem->data(Qt::UserRole).toString();
+        
+        // 检查是否是UDP发现的房间
+        if (roomKey.contains(":")) {
+            // UDP发现的房间，只需要验证玩家名称
+            joinRoomButton->setEnabled(isValid);
+        } else {
+            // 本地房间，使用原有逻辑
+            GameRoom room = multiPlayerManager->getRoomInfo(roomKey);
+            bool canJoin = !room.isGameStarted && room.currentPlayers < room.maxPlayers;
+            joinRoomButton->setEnabled(canJoin && isValid);
+        }
     }
 }
 
@@ -680,27 +715,29 @@ void MultiPlayerLobby::onRoomDestroyed(const QString& roomId)
 
 void MultiPlayerLobby::updateRoomInfo(const GameRoom& room)
 {
-    roomIdLabel->setText(QString("房间ID: %1").arg(room.roomId));
-    roomNameLabel->setText(QString("房间名: %1").arg(room.hostName + "的房间"));
-    playerCountLabel->setText(QString("玩家数量: %1/%2").arg(room.currentPlayers).arg(room.maxPlayers));
+    if (roomIdLabel) roomIdLabel->setText(QString("房间ID: %1").arg(room.roomId));
+    if (roomNameLabel) roomNameLabel->setText(QString("房间名: %1").arg(room.hostName + "的房间"));
+    if (playerCountLabel) playerCountLabel->setText(QString("玩家数量: %1/%2").arg(room.currentPlayers).arg(room.maxPlayers));
     
     QString status = room.isGameStarted ? "游戏中" : "等待中";
-    roomStatusLabel->setText(QString("状态: %1").arg(status));
+    if (roomStatusLabel) roomStatusLabel->setText(QString("状态: %1").arg(status));
     
     // 更新玩家列表
-    playerListWidget->clear();
-    for (const QString& player : room.playerNames) {
-        playerListWidget->addItem(player);
+    if (playerListWidget) {
+        playerListWidget->clear();
+        for (const QString& player : room.playerNames) {
+            playerListWidget->addItem(player);
+        }
     }
 }
 
 void MultiPlayerLobby::clearRoomInfo()
 {
-    roomIdLabel->setText("房间ID: 未选择");
-    roomNameLabel->setText("房间名: 未选择");
-    playerCountLabel->setText("玩家数量: 0/0");
-    roomStatusLabel->setText("状态: 未知");
-    playerListWidget->clear();
+    if (roomIdLabel) roomIdLabel->setText("房间ID: 未选择");
+    if (roomNameLabel) roomNameLabel->setText("房间名: 未选择");
+    if (playerCountLabel) playerCountLabel->setText("玩家数量: 0/0");
+    if (roomStatusLabel) roomStatusLabel->setText("状态: 未知");
+    if (playerListWidget) playerListWidget->clear();
 }
 
 bool MultiPlayerLobby::validatePlayerName() const

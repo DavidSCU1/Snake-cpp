@@ -46,6 +46,7 @@ public:
     void sendPlayerData(const QString& playerName, const QJsonObject& playerData);
     void sendGameState(const QJsonObject& gameState);
     void sendChatMessage(const QString& playerName, const QString& message);
+    void sendMessage(const QString& type, const QJsonObject& data = QJsonObject());
     void broadcastToClients(const QJsonObject& message);
     
     // 房间信息

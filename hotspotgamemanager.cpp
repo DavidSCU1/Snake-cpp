@@ -76,9 +76,8 @@ bool HotspotGameManager::joinRoom(const QString& playerName)
     
     // 发送加入消息到主机
     QJsonObject joinMessage;
-    joinMessage["type"] = "player_join";  // 添加消息类型标识
     joinMessage["player_name"] = playerName;
-    networkManager->sendPlayerData(playerName, joinMessage);
+    networkManager->sendMessage("player_join", joinMessage);
     
     // 注意：不在这里发射playerJoined信号，等待主机确认后再更新界面
     // 主机会通过onNetworkPlayerConnected处理并广播游戏状态
@@ -89,13 +88,28 @@ bool HotspotGameManager::joinRoom(const QString& playerName)
 
 void HotspotGameManager::leaveRoom(const QString& playerName)
 {
-    removePlayer(playerName);
-    
     if (isHost() && playerName == hostPlayerName) {
+        // 房主离开，销毁房间
         destroyRoom();
     } else {
+        // 客户端离开，发送离开消息
+        if (networkManager && !isHost()) {
+            QJsonObject leaveMessage;
+            leaveMessage["player_name"] = playerName;
+            networkManager->sendMessage("player_leave", leaveMessage);
+        }
+        
+        removePlayer(playerName);
         emit playerLeft(playerName);
-        broadcastGameState();
+        
+        if (isHost()) {
+            broadcastGameState();
+        } else {
+            // 客户端断开连接
+            if (networkManager) {
+                networkManager->disconnectFromHost();
+            }
+        }
     }
     
     qDebug() << "Player left:" << playerName;
@@ -368,7 +382,26 @@ void HotspotGameManager::onNetworkGameState(const QJsonObject& gameStateJson)
 {
     // 客户端接收游戏状态更新
     if (!isHost()) {
+        // 保存旧的玩家列表
+        QStringList oldPlayers = gameState.playerSnakes.keys();
+        
         gameStateFromJson(gameStateJson);
+        
+        // 检查是否有新玩家加入
+        QStringList newPlayers = gameState.playerSnakes.keys();
+        for (const QString& playerName : newPlayers) {
+            if (!oldPlayers.contains(playerName)) {
+                emit playerJoined(playerName);
+            }
+        }
+        
+        // 检查是否有玩家离开
+        for (const QString& playerName : oldPlayers) {
+            if (!newPlayers.contains(playerName)) {
+                emit playerLeft(playerName);
+            }
+        }
+        
         emit gameStateUpdated(gameState);
     }
 }

@@ -277,6 +277,18 @@ void HotspotNetworkManager::sendChatMessage(const QString& playerName, const QSt
     }
 }
 
+void HotspotNetworkManager::sendMessage(const QString& type, const QJsonObject& data)
+{
+    QJsonObject message = createMessage(type, data);
+    
+    if (isHosting()) {
+        broadcastToClients(message);
+    } else if (isConnectedToHost()) {
+        QJsonDocument doc(message);
+        tcpClient->write(doc.toJson(QJsonDocument::Compact) + "\n");
+    }
+}
+
 void HotspotNetworkManager::broadcastToClients(const QJsonObject& message)
 {
     if (!isHosting()) {
@@ -731,6 +743,24 @@ void HotspotNetworkManager::processMessage(const QJsonObject& message, QTcpSocke
             clientPlayerNames[sender] = playerName;
             playerSockets[playerName] = sender;
             emit playerConnectedToHost(playerName);
+        }
+    } else if (type == "player_leave") {
+        QString playerName = message["player_name"].toString();
+        if (sender && isHosting()) {
+            // 标记为优雅离开，避免显示连接错误
+            QString socketPlayerName = clientPlayerNames.value(sender);
+            if (!socketPlayerName.isEmpty()) {
+                clientPlayerNames.remove(sender);
+                playerSockets.remove(socketPlayerName);
+                connectedClients.removeOne(sender);
+                emit playerDisconnectedFromHost(socketPlayerName);
+                
+                // 优雅关闭连接
+                sender->disconnectFromHost();
+                if (sender->state() != QAbstractSocket::UnconnectedState) {
+                    sender->waitForDisconnected(1000);
+                }
+            }
         }
     } else if (type == "player_data") {
         QString playerName = message["player_name"].toString();

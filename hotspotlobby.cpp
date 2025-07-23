@@ -151,6 +151,9 @@ void HotspotLobby::setGameManager(HotspotGameManager* manager)
                 this, &HotspotLobby::onGameEnded);
         connect(gameManager, &HotspotGameManager::countdownUpdated,
                 this, &HotspotLobby::onCountdownUpdated);
+        // 连接游戏状态更新信号，确保客户端能接收主机广播的状态更新
+        connect(gameManager, &HotspotGameManager::gameStateUpdated,
+                this, &HotspotLobby::onGameStateUpdated);
     }
 }
 
@@ -776,6 +779,18 @@ void HotspotLobby::onGameEnded(const QString& winner)
 void HotspotLobby::onCountdownUpdated(int seconds)
 {
     showStatusMessage(QString("游戏将在 %1 秒后开始").arg(seconds));
+}
+
+void HotspotLobby::onGameStateUpdated(const HotspotGameState& gameState)
+{
+    // 更新玩家列表显示
+    updatePlayerList();
+    
+    // 如果是客户端，确保界面状态正确
+    if (!isHost && isInRoom) {
+        // 客户端收到游戏状态更新，确保显示正确的界面
+        updateGameControls();
+    }
 }
 
 void HotspotLobby::updatePlayerList()

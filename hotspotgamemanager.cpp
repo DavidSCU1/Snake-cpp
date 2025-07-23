@@ -66,7 +66,7 @@ bool HotspotGameManager::joinRoom(const QString& playerName)
         return false;
     }
     
-    // 添加玩家到游戏状态
+    // 添加玩家到本地游戏状态（客户端临时状态）
     gameState.playerSnakes[playerName] = std::deque<Point>();
     gameState.playerCharacters[playerName] = CharacterType::PATRICK;
     gameState.playerScores[playerName] = 0;
@@ -74,15 +74,16 @@ bool HotspotGameManager::joinRoom(const QString& playerName)
     gameState.playerDirections[playerName] = Direction::RIGHT;
     gameState.playerReadyStatus[playerName] = false;
     
-    // 发送加入消息
+    // 发送加入消息到主机
     QJsonObject joinMessage;
     joinMessage["type"] = "player_join";  // 添加消息类型标识
     joinMessage["player_name"] = playerName;
     networkManager->sendPlayerData(playerName, joinMessage);
     
-    emit playerJoined(playerName);
+    // 注意：不在这里发射playerJoined信号，等待主机确认后再更新界面
+    // 主机会通过onNetworkPlayerConnected处理并广播游戏状态
     
-    qDebug() << "Player joined:" << playerName;
+    qDebug() << "Player join request sent:" << playerName;
     return true;
 }
 

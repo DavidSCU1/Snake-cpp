@@ -71,6 +71,7 @@ private slots:
     void onGameStarted();
     void onGameEnded(const QString& winner);
     void onCountdownUpdated(int seconds);
+    void onGameStateUpdated(const HotspotGameState& gameState);
     
     // UI事件
     void onCreateRoomClicked();

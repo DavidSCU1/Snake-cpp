@@ -61,6 +61,7 @@ private slots:
     void onLocalCoopCharactersSelected(CharacterType player1Character, CharacterType player2Character);
     void showHotspotLobby();
     void onHotspotNetworkError(const QString& error);
+    void onHotspotGameStartRequested();
     
 private:
     void setupUI();

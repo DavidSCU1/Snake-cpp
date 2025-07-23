@@ -111,7 +111,9 @@ void MainWindow::setupUI()
     // 设置gameWidget的热点游戏管理器
     gameWidget->setHotspotGameManager(hotspotGameManager);
     
-    // 热点大厅相关信号连接已简化
+    // 连接热点大厅的游戏开始信号
+    connect(hotspotLobby, &HotspotLobby::gameStartRequested, this, &MainWindow::onHotspotGameStartRequested);
+    
     stackedWidget->addWidget(hotspotLobby);
     
     // 设置样式
@@ -554,5 +556,13 @@ void MainWindow::onLocalCoopCharactersSelected(CharacterType player1Character, C
     gameWidget->setDifficulty(Difficulty::NORMAL); // 本地双人游戏固定普通难度
     stackedWidget->setCurrentWidget(gameWidget);
     gameWidget->startLocalCoopGame();
+    gameWidget->setFocus();
+}
+
+void MainWindow::onHotspotGameStartRequested()
+{
+    // 切换到游戏界面并启动热点多人游戏
+    stackedWidget->setCurrentWidget(gameWidget);
+    gameWidget->startMultiPlayerGame();
     gameWidget->setFocus();
 }

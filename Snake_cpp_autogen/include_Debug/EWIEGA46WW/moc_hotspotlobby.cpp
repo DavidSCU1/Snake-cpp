@@ -69,6 +69,9 @@ template <> constexpr inline auto HotspotLobby::qt_create_metaobjectdata<qt_meta
         "winner",
         "onCountdownUpdated",
         "seconds",
+        "onGameStateUpdated",
+        "HotspotGameState",
+        "gameState",
         "onCreateRoomClicked",
         "onJoinRoomClicked",
         "onRefreshRoomsClicked",
@@ -136,32 +139,36 @@ template <> constexpr inline auto HotspotLobby::qt_create_metaobjectdata<qt_meta
         QtMocHelpers::SlotData<void(int)>(28, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { QMetaType::Int, 29 },
         }}),
+        // Slot 'onGameStateUpdated'
+        QtMocHelpers::SlotData<void(const HotspotGameState &)>(30, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 31, 32 },
+        }}),
         // Slot 'onCreateRoomClicked'
-        QtMocHelpers::SlotData<void()>(30, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onJoinRoomClicked'
-        QtMocHelpers::SlotData<void()>(31, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onRefreshRoomsClicked'
-        QtMocHelpers::SlotData<void()>(32, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onStartGameClicked'
         QtMocHelpers::SlotData<void()>(33, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onLeaveRoomClicked'
+        // Slot 'onJoinRoomClicked'
         QtMocHelpers::SlotData<void()>(34, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onBackClicked'
+        // Slot 'onRefreshRoomsClicked'
         QtMocHelpers::SlotData<void()>(35, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onPlayerNameChanged'
+        // Slot 'onStartGameClicked'
         QtMocHelpers::SlotData<void()>(36, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onCharacterSelectionChanged'
+        // Slot 'onLeaveRoomClicked'
         QtMocHelpers::SlotData<void()>(37, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onBackClicked'
+        QtMocHelpers::SlotData<void()>(38, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onPlayerNameChanged'
+        QtMocHelpers::SlotData<void()>(39, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onCharacterSelectionChanged'
+        QtMocHelpers::SlotData<void()>(40, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onReadyToggled'
-        QtMocHelpers::SlotData<void(bool)>(38, 2, QMC::AccessPrivate, QMetaType::Void, {{
+        QtMocHelpers::SlotData<void(bool)>(41, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { QMetaType::Bool, 24 },
         }}),
         // Slot 'onSendChatMessage'
-        QtMocHelpers::SlotData<void()>(39, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(42, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onRefreshTimer'
-        QtMocHelpers::SlotData<void()>(40, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(43, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onNetworkStatusTimer'
-        QtMocHelpers::SlotData<void()>(41, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(44, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -201,18 +208,19 @@ void HotspotLobby::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         case 13: _t->onGameStarted(); break;
         case 14: _t->onGameEnded((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 15: _t->onCountdownUpdated((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 16: _t->onCreateRoomClicked(); break;
-        case 17: _t->onJoinRoomClicked(); break;
-        case 18: _t->onRefreshRoomsClicked(); break;
-        case 19: _t->onStartGameClicked(); break;
-        case 20: _t->onLeaveRoomClicked(); break;
-        case 21: _t->onBackClicked(); break;
-        case 22: _t->onPlayerNameChanged(); break;
-        case 23: _t->onCharacterSelectionChanged(); break;
-        case 24: _t->onReadyToggled((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
-        case 25: _t->onSendChatMessage(); break;
-        case 26: _t->onRefreshTimer(); break;
-        case 27: _t->onNetworkStatusTimer(); break;
+        case 16: _t->onGameStateUpdated((*reinterpret_cast< std::add_pointer_t<HotspotGameState>>(_a[1]))); break;
+        case 17: _t->onCreateRoomClicked(); break;
+        case 18: _t->onJoinRoomClicked(); break;
+        case 19: _t->onRefreshRoomsClicked(); break;
+        case 20: _t->onStartGameClicked(); break;
+        case 21: _t->onLeaveRoomClicked(); break;
+        case 22: _t->onBackClicked(); break;
+        case 23: _t->onPlayerNameChanged(); break;
+        case 24: _t->onCharacterSelectionChanged(); break;
+        case 25: _t->onReadyToggled((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
+        case 26: _t->onSendChatMessage(); break;
+        case 27: _t->onRefreshTimer(); break;
+        case 28: _t->onNetworkStatusTimer(); break;
         default: ;
         }
     }
@@ -245,14 +253,14 @@ int HotspotLobby::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 28)
+        if (_id < 29)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 28;
+        _id -= 29;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 28)
+        if (_id < 29)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 28;
+        _id -= 29;
     }
     return _id;
 }

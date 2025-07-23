@@ -438,6 +438,13 @@ void NetworkManager::processMessage(const QJsonObject& message, QTcpSocket* send
         
         emit characterSelectionReceived(roomId, playerName, character);
     }
+    else if (type == "joinSuccess") {
+        // 处理加入成功确认消息，通知客户端
+        QString roomId = data["roomId"].toString();
+        QString playerName = data["playerName"].toString();
+        emit playerJoined(roomId, playerName);
+        qDebug() << "Received joinSuccess message for player:" << playerName << "in room:" << roomId;
+    }
     else if (type == "playerJoined") {
         QString roomId = data["roomId"].toString();
         QString playerName = data["playerName"].toString();

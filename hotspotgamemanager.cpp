@@ -52,8 +52,14 @@ bool HotspotGameManager::createRoom(const QString& hostPlayerName, const QString
     gameState.playerDirections[hostPlayerName] = Direction::RIGHT;
     gameState.playerReadyStatus[hostPlayerName] = false;
     
+    // 初始化食物位置
+    generateFood();
+    
     emit roomCreated(roomName);
     emit playerJoined(hostPlayerName);
+    
+    // 广播初始游戏状态，确保后续连接的客户端能看到房主信息
+    broadcastGameState();
     
     qDebug() << "Room created:" << roomName << "by" << hostPlayerName;
     return true;

@@ -490,8 +490,21 @@ void HotspotNetworkManager::onSocketError(QAbstractSocket::SocketError error)
 {
     QTcpSocket* socket = qobject_cast<QTcpSocket*>(sender());
     if (socket) {
-        emit networkError(QString("Socket error: %1").arg(socket->errorString()));
-        qWarning() << "Socket error:" << socket->errorString();
+        // 检查是否为优雅断开连接（玩家主动离开）
+        if (error == QAbstractSocket::RemoteHostClosedError) {
+            // 检查是否为已知的玩家连接
+            QString playerName = clientPlayerNames.value(socket);
+            if (!playerName.isEmpty()) {
+                qDebug() << "Player" << playerName << "gracefully disconnected";
+                return; // 不显示错误，这是正常的玩家离开
+            }
+        }
+        
+        // 只有在非正常断开时才显示错误
+        if (error != QAbstractSocket::RemoteHostClosedError) {
+            emit networkError(QString("Socket error: %1").arg(socket->errorString()));
+            qWarning() << "Socket error:" << socket->errorString();
+        }
     }
 }
 

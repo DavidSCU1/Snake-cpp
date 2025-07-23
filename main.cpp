@@ -1,8 +1,6 @@
 #include "mainwindow.h"
-#include "networkmanager.h"
 
 #include <QApplication>
-#include <QCommandLineParser>
 #include <QDebug>
 #include <QMessageBox>
 #include <iostream>
@@ -28,30 +26,7 @@ int main(int argc, char *argv[])
     std::cout << "QApplication created successfully" << std::endl;
     qDebug() << "QApplication created successfully";
 
-    QCommandLineParser parser;
-    parser.setApplicationDescription("Snake Game Network Manager");
-    parser.addHelpOption();
 
-    // 添加命令行选项
-    QCommandLineOption serverOption("server", "Start as server.");
-    QCommandLineOption clientOption("client", "Start as client with <host>.", "host");
-    parser.addOption(serverOption);
-    parser.addOption(clientOption);
-
-    parser.process(app);
-
-    NetworkManager networkManager;
-
-    if (parser.isSet(serverOption)) {
-        std::cout << "Starting as server..." << std::endl;
-        networkManager.startServer();
-    } else if (parser.isSet(clientOption)) {
-        QString host = parser.value(clientOption);
-        std::cout << "Starting as client, connecting to host: " << host.toStdString() << std::endl;
-        networkManager.connectToServer(host);
-    } else {
-        std::cout << "Starting in normal mode..." << std::endl;
-    }
 
     std::cout << "Creating MainWindow..." << std::endl;
     

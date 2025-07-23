@@ -2,12 +2,11 @@
 #include <EWIEGA46WW/moc_characterselection.cpp>
 #include <EWIEGA46WW/moc_food.cpp>
 #include <EWIEGA46WW/moc_gamewidget.cpp>
+#include <EWIEGA46WW/moc_hotspotgamemanager.cpp>
+#include <EWIEGA46WW/moc_hotspotlobby.cpp>
+#include <EWIEGA46WW/moc_hotspotnetworkmanager.cpp>
 #include <EWIEGA46WW/moc_localcoopcharacterselection.cpp>
 #include <EWIEGA46WW/moc_mainwindow.cpp>
-#include <EWIEGA46WW/moc_multiplayergamemanager.cpp>
-#include <EWIEGA46WW/moc_multiplayerlobby.cpp>
-#include <EWIEGA46WW/moc_multiplayermodeselection.cpp>
-#include <EWIEGA46WW/moc_networkmanager.cpp>
 #include <EWIEGA46WW/moc_oceanbackground.cpp>
 #include <EWIEGA46WW/moc_singlemodeselection.cpp>
 #include <EWIEGA46WW/moc_singleplayergamemanager.cpp>

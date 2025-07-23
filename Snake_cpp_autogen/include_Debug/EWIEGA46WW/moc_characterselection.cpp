@@ -101,8 +101,11 @@ template <> constexpr inline auto CharacterSelection::qt_create_metaobjectdata<q
         "",
         "CharacterType",
         "character",
+        "playerReadyChanged",
+        "ready",
         "backToMenu",
         "startGame",
+        "allPlayersReady",
         "onCharacterButtonClicked",
         "onBackButtonClicked",
         "onStartButtonClicked"
@@ -113,16 +116,22 @@ template <> constexpr inline auto CharacterSelection::qt_create_metaobjectdata<q
         QtMocHelpers::SignalData<void(CharacterType)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
             { 0x80000000 | 3, 4 },
         }}),
+        // Signal 'playerReadyChanged'
+        QtMocHelpers::SignalData<void(bool)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Bool, 6 },
+        }}),
         // Signal 'backToMenu'
-        QtMocHelpers::SignalData<void()>(5, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SignalData<void()>(7, 2, QMC::AccessPublic, QMetaType::Void),
         // Signal 'startGame'
-        QtMocHelpers::SignalData<void()>(6, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SignalData<void()>(8, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'allPlayersReady'
+        QtMocHelpers::SignalData<void()>(9, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'onCharacterButtonClicked'
-        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onBackButtonClicked'
-        QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onStartButtonClicked'
-        QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -147,20 +156,26 @@ void CharacterSelection::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->characterSelected((*reinterpret_cast< std::add_pointer_t<CharacterType>>(_a[1]))); break;
-        case 1: _t->backToMenu(); break;
-        case 2: _t->startGame(); break;
-        case 3: _t->onCharacterButtonClicked(); break;
-        case 4: _t->onBackButtonClicked(); break;
-        case 5: _t->onStartButtonClicked(); break;
+        case 1: _t->playerReadyChanged((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
+        case 2: _t->backToMenu(); break;
+        case 3: _t->startGame(); break;
+        case 4: _t->allPlayersReady(); break;
+        case 5: _t->onCharacterButtonClicked(); break;
+        case 6: _t->onBackButtonClicked(); break;
+        case 7: _t->onStartButtonClicked(); break;
         default: ;
         }
     }
     if (_c == QMetaObject::IndexOfMethod) {
         if (QtMocHelpers::indexOfMethod<void (CharacterSelection::*)(CharacterType )>(_a, &CharacterSelection::characterSelected, 0))
             return;
-        if (QtMocHelpers::indexOfMethod<void (CharacterSelection::*)()>(_a, &CharacterSelection::backToMenu, 1))
+        if (QtMocHelpers::indexOfMethod<void (CharacterSelection::*)(bool )>(_a, &CharacterSelection::playerReadyChanged, 1))
             return;
-        if (QtMocHelpers::indexOfMethod<void (CharacterSelection::*)()>(_a, &CharacterSelection::startGame, 2))
+        if (QtMocHelpers::indexOfMethod<void (CharacterSelection::*)()>(_a, &CharacterSelection::backToMenu, 2))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (CharacterSelection::*)()>(_a, &CharacterSelection::startGame, 3))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (CharacterSelection::*)()>(_a, &CharacterSelection::allPlayersReady, 4))
             return;
     }
 }
@@ -184,14 +199,14 @@ int CharacterSelection::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 8;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 8)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 6;
+        _id -= 8;
     }
     return _id;
 }
@@ -203,14 +218,26 @@ void CharacterSelection::characterSelected(CharacterType _t1)
 }
 
 // SIGNAL 1
-void CharacterSelection::backToMenu()
+void CharacterSelection::playerReadyChanged(bool _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
+    QMetaObject::activate<void>(this, &staticMetaObject, 1, nullptr, _t1);
 }
 
 // SIGNAL 2
-void CharacterSelection::startGame()
+void CharacterSelection::backToMenu()
 {
     QMetaObject::activate(this, &staticMetaObject, 2, nullptr);
+}
+
+// SIGNAL 3
+void CharacterSelection::startGame()
+{
+    QMetaObject::activate(this, &staticMetaObject, 3, nullptr);
+}
+
+// SIGNAL 4
+void CharacterSelection::allPlayersReady()
+{
+    QMetaObject::activate(this, &staticMetaObject, 4, nullptr);
 }
 QT_WARNING_POP

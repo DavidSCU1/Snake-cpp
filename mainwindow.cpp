@@ -76,19 +76,7 @@ void MainWindow::setupUI()
     connect(gameWidget, &GameWidget::backToMenu, this, &MainWindow::showMainMenu);
     stackedWidget->addWidget(gameWidget);
     
-    // 创建网络管理器
-    networkManager = new NetworkManager(this);
-    connect(networkManager, &NetworkManager::connectionError, this, &MainWindow::onNetworkError);
-    
-    // 创建多人游戏大厅
-    multiPlayerLobby = new MultiPlayerLobby(this);
-    multiPlayerLobby->setGameWidget(gameWidget); // 建立GameWidget和MultiPlayerLobby的连接
-    connect(multiPlayerLobby, &MultiPlayerLobby::backToMenu, this, &MainWindow::showMainMenu);
-    connect(multiPlayerLobby, &MultiPlayerLobby::gameStarted, this, [this]() {
-        stackedWidget->setCurrentWidget(gameWidget);
-        gameWidget->setFocus();
-    });
-    stackedWidget->addWidget(multiPlayerLobby);
+
     
     // 创建单人游戏管理器
     singlePlayerGameManager = new SinglePlayerGameManager(this);
@@ -100,17 +88,31 @@ void MainWindow::setupUI()
     connect(singleModeSelection, &SingleModeSelection::backToMenu, this, &MainWindow::showMainMenu);
     stackedWidget->addWidget(singleModeSelection);
     
-    // 创建多人游戏模式选择界面
-    multiplayerModeSelection = new MultiplayerModeSelection(this);
-    connect(multiplayerModeSelection, &MultiplayerModeSelection::modeSelected, this, &MainWindow::onMultiplayerModeSelected);
-    connect(multiplayerModeSelection, &MultiplayerModeSelection::backToMainMenu, this, &MainWindow::showMainMenu);
-    stackedWidget->addWidget(multiplayerModeSelection);
+
     
     // 创建本地双人角色选择界面
     localCoopCharacterSelection = new LocalCoopCharacterSelection(this);
     connect(localCoopCharacterSelection, &LocalCoopCharacterSelection::startLocalCoopGame, this, &MainWindow::onLocalCoopCharactersSelected);
-    connect(localCoopCharacterSelection, &LocalCoopCharacterSelection::backClicked, this, &MainWindow::showMultiplayerModeSelection);
+    connect(localCoopCharacterSelection, &LocalCoopCharacterSelection::backClicked, this, &MainWindow::showMainMenu);
     stackedWidget->addWidget(localCoopCharacterSelection);
+    
+    // 创建热点网络管理器
+    hotspotNetworkManager = new HotspotNetworkManager(this);
+    connect(hotspotNetworkManager, &HotspotNetworkManager::networkError, this, &MainWindow::onHotspotNetworkError);
+    
+    // 创建热点游戏管理器
+    hotspotGameManager = new HotspotGameManager(this);
+    hotspotGameManager->setNetworkManager(hotspotNetworkManager);
+    
+    // 创建热点大厅
+    hotspotLobby = new HotspotLobby(this);
+    hotspotLobby->setNetworkManager(hotspotNetworkManager);
+    hotspotLobby->setGameManager(hotspotGameManager);
+    // 设置gameWidget的热点游戏管理器
+    gameWidget->setHotspotGameManager(hotspotGameManager);
+    
+    // 热点大厅相关信号连接已简化
+    stackedWidget->addWidget(hotspotLobby);
     
     // 设置样式
     setStyleSheet(
@@ -164,7 +166,7 @@ void MainWindow::setupMainMenu()
     // 多人游戏按钮
     multiplayerButton = new QPushButton("👥 多人游戏", buttonContainer);
     multiplayerButton->setFixedSize(200, 50);
-    connect(multiplayerButton, &QPushButton::clicked, this, &MainWindow::showMultiplayerModeSelection);
+    connect(multiplayerButton, &QPushButton::clicked, this, &MainWindow::showMultiplayerMenu);
     buttonLayout->addWidget(multiplayerButton);
     
     // 高分榜按钮
@@ -276,36 +278,43 @@ void MainWindow::setupMultiplayerMenu()
     buttonLayout->setAlignment(Qt::AlignCenter);
     buttonLayout->setSpacing(20);
     
-    // 创建房间按钮
-    hostGameButton = new QPushButton("🏠 创建房间", buttonContainer);
-    hostGameButton->setFixedSize(200, 50);
-    connect(hostGameButton, &QPushButton::clicked, this, &MainWindow::startMultiplayerHost);
-    buttonLayout->addWidget(hostGameButton);
-    
-    // 服务器地址输入
-    QLabel* addressLabel = new QLabel("服务器地址:", buttonContainer);
-    addressLabel->setAlignment(Qt::AlignCenter);
-    buttonLayout->addWidget(addressLabel);
-    
-    serverAddressEdit = new QLineEdit("127.0.0.1", buttonContainer);
-    serverAddressEdit->setFixedSize(200, 30);
-    serverAddressEdit->setAlignment(Qt::AlignCenter);
-    serverAddressEdit->setStyleSheet(
-        "QLineEdit { "
-        "    background-color: white; "
-        "    border: 2px solid #4169E1; "
-        "    border-radius: 8px; "
-        "    padding: 8px; "
-        "    font-size: 14px; "
+    // 热点模式按钮
+    QPushButton* hotspotModeButton = new QPushButton("📶 热点模式", buttonContainer);
+    hotspotModeButton->setFixedSize(200, 50);
+    hotspotModeButton->setStyleSheet(
+        "QPushButton { "
+        "    background-color: #007BFF; "
+        "    color: white; "
+        "    border: none; "
+        "    border-radius: 10px; "
+        "    font-size: 16px; "
+        "    font-weight: bold; "
+        "}"
+        "QPushButton:hover { "
+        "    background-color: #0056B3; "
         "}"
     );
-    buttonLayout->addWidget(serverAddressEdit);
+    connect(hotspotModeButton, &QPushButton::clicked, this, &MainWindow::showHotspotLobby);
+    buttonLayout->addWidget(hotspotModeButton);
     
-    // 加入房间按钮
-    joinGameButton = new QPushButton("🚪 加入房间", buttonContainer);
-    joinGameButton->setFixedSize(200, 50);
-    connect(joinGameButton, &QPushButton::clicked, this, &MainWindow::startMultiplayerJoin);
-    buttonLayout->addWidget(joinGameButton);
+    // 本地合作模式按钮
+    QPushButton* localCoopButton = new QPushButton("🎮 本地合作", buttonContainer);
+    localCoopButton->setFixedSize(200, 50);
+    localCoopButton->setStyleSheet(
+        "QPushButton { "
+        "    background-color: #28A745; "
+        "    color: white; "
+        "    border: none; "
+        "    border-radius: 10px; "
+        "    font-size: 16px; "
+        "    font-weight: bold; "
+        "}"
+        "QPushButton:hover { "
+        "    background-color: #1E7E34; "
+        "}"
+    );
+    connect(localCoopButton, &QPushButton::clicked, this, &MainWindow::showLocalCoopCharacterSelection);
+    buttonLayout->addWidget(localCoopButton);
     
     layout->addWidget(buttonContainer);
     
@@ -390,10 +399,7 @@ void MainWindow::showMultiplayerMenu()
     stackedWidget->setCurrentWidget(multiplayerMenuWidget);
 }
 
-void MainWindow::showMultiplayerLobby()
-{
-    stackedWidget->setCurrentWidget(multiPlayerLobby);
-}
+
 
 void MainWindow::showHighScores()
 {
@@ -422,60 +428,9 @@ void MainWindow::onSingleModeSelected(SinglePlayerMode mode, CharacterType chara
     gameWidget->setFocus();
 }
 
-void MainWindow::startMultiplayerHost()
-{
-    isMultiplayerHost = true;
-    
-    // 先选择角色
-    characterSelection->setSelectedCharacter(selectedCharacter);
-    connect(characterSelection, &CharacterSelection::startGame, this, [this]() {
-            // 先显示准备界面
-            stackedWidget->setCurrentWidget(preparationWidget);
-            
-            // 2秒后进入游戏界面
-            QTimer::singleShot(2000, this, [this]() {
-                gameWidget->setCharacter(selectedCharacter);
-                gameWidget->setDifficulty(Difficulty::NORMAL); // 多人游戏固定普通难度
-                stackedWidget->setCurrentWidget(gameWidget);
-                gameWidget->startMultiPlayerGame(true);
-                gameWidget->setFocus();
-            });
-        }, Qt::SingleShotConnection);
-    
-    stackedWidget->setCurrentWidget(characterSelection);
-}
 
-void MainWindow::startMultiplayerJoin()
-{
-    isMultiplayerHost = false;
-    QString serverAddress = serverAddressEdit->text().trimmed();
-    
-    if (serverAddress.isEmpty()) {
-        QMessageBox::warning(this, "错误", "请输入服务器地址！");
-        return;
-    }
-    
-    // 先选择角色
-    characterSelection->setSelectedCharacter(selectedCharacter);
-    connect(characterSelection, &CharacterSelection::startGame, this, [this, serverAddress]() {
-            // 连接到服务器
-            networkManager->connectToServer(serverAddress);
-            
-            // 先显示准备界面
-            stackedWidget->setCurrentWidget(preparationWidget);
-            
-            // 2秒后进入游戏界面
-            QTimer::singleShot(2000, this, [this]() {
-                gameWidget->setCharacter(selectedCharacter);
-                gameWidget->setDifficulty(Difficulty::NORMAL); // 多人游戏固定普通难度
-                stackedWidget->setCurrentWidget(gameWidget);
-                gameWidget->startMultiPlayerGame(false);
-                gameWidget->setFocus();
-            });
-        }, Qt::SingleShotConnection);
-    
-    stackedWidget->setCurrentWidget(characterSelection);
-}
+
+
 
 void MainWindow::onGameOver(int finalScore)
 {
@@ -495,19 +450,9 @@ void MainWindow::onDifficultySelected()
     startSinglePlayerGame();
 }
 
-void MainWindow::connectToServer()
-{
-    QString serverAddress = serverAddressEdit->text().trimmed();
-    if (!serverAddress.isEmpty()) {
-        networkManager->connectToServer(serverAddress);
-    }
-}
 
-void MainWindow::onNetworkError(const QString& error)
-{
-    QMessageBox::warning(this, "网络错误", error);
-    showMainMenu();
-}
+
+
 
 void MainWindow::updateHighScoresList()
 {
@@ -581,10 +526,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     }
 }
 
-void MainWindow::showMultiplayerModeSelection()
-{
-    stackedWidget->setCurrentWidget(multiplayerModeSelection);
-}
+
 
 void MainWindow::showLocalCoopCharacterSelection()
 {
@@ -592,13 +534,17 @@ void MainWindow::showLocalCoopCharacterSelection()
     stackedWidget->setCurrentWidget(localCoopCharacterSelection);
 }
 
-void MainWindow::onMultiplayerModeSelected(MultiplayerMode mode)
+
+
+void MainWindow::showHotspotLobby()
 {
-    if (mode == MultiplayerMode::LOCAL_COOP) {
-        showLocalCoopCharacterSelection();
-    } else if (mode == MultiplayerMode::NETWORK) {
-        showMultiplayerLobby();
-    }
+    stackedWidget->setCurrentWidget(hotspotLobby);
+}
+
+void MainWindow::onHotspotNetworkError(const QString& error)
+{
+    QMessageBox::warning(this, "热点网络错误", error);
+    showMainMenu();
 }
 
 void MainWindow::onLocalCoopCharactersSelected(CharacterType player1Character, CharacterType player2Character)

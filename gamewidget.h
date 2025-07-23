@@ -17,9 +17,9 @@
 #include "snake.h"
 #include "food.h"
 #include "wall.h"
-#include "networkmanager.h"
-#include "multiplayergamemanager.h"
+
 #include "singleplayergamemanager.h"
+#include "hotspotgamemanager.h"
 
 
 class GameWidget : public QWidget
@@ -37,13 +37,13 @@ public:
     void startMultiPlayerGame(bool isHost = false);
     void startLocalCoopGame();
     void setLocalCoopMode(CharacterType player1Character, CharacterType player2Character);
-    void createRoom(const QString& playerName, int maxPlayers = 4);
-    void joinRoom(const QString& roomId, const QString& playerName);
-    void leaveRoom();
+
     
-    // 多人游戏管理器访问方法
-    MultiPlayerGameManager* getMultiPlayerManager() const { return multiPlayerManager; }
-    void setMultiPlayerManager(MultiPlayerGameManager* manager);
+
+    
+    // 热点游戏管理器访问方法
+    HotspotGameManager* getHotspotGameManager() const { return hotspotGameManager; }
+    void setHotspotGameManager(HotspotGameManager* manager);
     void setCurrentRoomId(const QString& roomId) { currentRoomId = roomId; }
     void setPlayerName(const QString& name) { m_playerName = name; }
     void pauseGame();
@@ -71,22 +71,7 @@ protected:
 private slots:
     void gameLoop();
     void onFoodExpired();
-    void onPlayerConnected(const QString& playerName);
-    void onPlayerDisconnected(const QString& playerName);
-    void onPlayerInfoReceived(const PlayerInfo& playerInfo);
-    void onScoreUpdateReceived(const QString& playerName, int score);
-    void onPlayerPositionReceived(const QString& playerName, const std::deque<Point>& snakeBody);
-    void onNetworkError(const QString& error);
-    
-    // 多人游戏管理器槽函数
-    void onRoomCreated(const QString& roomId, const GameRoom& room);
-    void onPlayerJoinedRoom(const QString& roomId, const QString& playerName);
-    void onPlayerLeftRoom(const QString& roomId, const QString& playerName);
-    void onGameStarted(const QString& roomId);
-    void onGameEnded(const QString& roomId, const QString& winner);
-    void onGameStateUpdated(const QString& roomId, const MultiPlayerGameState& gameState);
-    void onPlayerCollision(const QString& roomId, const QString& playerName);
-    void onFoodEaten(const QString& roomId, const QString& playerName, int points);
+
     void updateCountdown();  // 更新倒计时
     
 private:
@@ -156,9 +141,7 @@ private:
     int remainingTime;  // 时间挑战模式的剩余时间（秒）
     const int TIME_CHALLENGE_DURATION = 300;  // 时间挑战模式的总时长（5分钟 = 300秒）
     
-    // 多人游戏
-    NetworkManager* networkManager;
-    MultiPlayerGameManager* multiPlayerManager;
+
     QString currentRoomId;
     QString m_playerName;
     QMap<QString, std::deque<Point>> otherPlayers;
@@ -168,6 +151,9 @@ private:
     
     // 单人游戏管理器
     SinglePlayerGameManager* singlePlayerManager;
+    
+    // 热点游戏管理器
+    HotspotGameManager* hotspotGameManager;
     
     // 本地双人游戏相关
     CharacterType player1Character;

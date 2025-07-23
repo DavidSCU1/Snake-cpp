@@ -24,26 +24,25 @@ set(PROJECT_SOURCES
         food.cpp
         food.h
         gamestate.h
-        networkmanager.cpp
-        networkmanager.h
         characterselection.cpp
         characterselection.h
-        multiplayergamemanager.cpp
-        multiplayergamemanager.h
-        multiplayerlobby.cpp
-        multiplayerlobby.h
         singleplayergamemanager.cpp
         singleplayergamemanager.h
         singlemodeselection.cpp
         singlemodeselection.h
-        multiplayermodeselection.cpp
-        multiplayermodeselection.h
+
         localcoopcharacterselection.cpp
         localcoopcharacterselection.h
         oceanbackground.cpp
         oceanbackground.h
         wall.cpp
         wall.h
+        hotspotnetworkmanager.cpp
+        hotspotnetworkmanager.h
+        hotspotgamemanager.cpp
+        hotspotgamemanager.h
+        hotspotlobby.cpp
+        hotspotlobby.h
         resources.qrc
 )
 

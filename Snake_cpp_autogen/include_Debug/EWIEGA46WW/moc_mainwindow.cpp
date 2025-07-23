@@ -8,6 +8,7 @@
 
 #include "../../../mainwindow.h"
 #include <QtGui/qtextcursor.h>
+#include <QtGui/qscreen.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -45,31 +46,25 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "showCharacterSelection",
         "showDifficultySelection",
         "showMultiplayerMenu",
-        "showMultiplayerLobby",
-        "showMultiplayerModeSelection",
         "showLocalCoopCharacterSelection",
         "showHighScores",
         "showSingleModeSelection",
         "startSinglePlayerGame",
-        "startMultiplayerHost",
-        "startMultiplayerJoin",
         "onGameOver",
         "finalScore",
         "onCharacterSelected",
         "CharacterType",
         "character",
         "onDifficultySelected",
-        "connectToServer",
-        "onNetworkError",
-        "error",
         "onSingleModeSelected",
         "SinglePlayerMode",
         "mode",
-        "onMultiplayerModeSelected",
-        "MultiplayerMode",
         "onLocalCoopCharactersSelected",
         "player1Character",
-        "player2Character"
+        "player2Character",
+        "showHotspotLobby",
+        "onHotspotNetworkError",
+        "error"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -81,49 +76,37 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'showMultiplayerMenu'
         QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'showMultiplayerLobby'
-        QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'showMultiplayerModeSelection'
-        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'showLocalCoopCharacterSelection'
-        QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'showHighScores'
-        QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'showSingleModeSelection'
-        QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'startSinglePlayerGame'
-        QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'startMultiplayerHost'
-        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'startMultiplayerJoin'
-        QtMocHelpers::SlotData<void()>(13, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onGameOver'
-        QtMocHelpers::SlotData<void(int)>(14, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 15 },
+        QtMocHelpers::SlotData<void(int)>(10, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 11 },
         }}),
         // Slot 'onCharacterSelected'
-        QtMocHelpers::SlotData<void(CharacterType)>(16, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 17, 18 },
+        QtMocHelpers::SlotData<void(CharacterType)>(12, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 13, 14 },
         }}),
         // Slot 'onDifficultySelected'
-        QtMocHelpers::SlotData<void()>(19, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'connectToServer'
-        QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onNetworkError'
-        QtMocHelpers::SlotData<void(const QString &)>(21, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 22 },
-        }}),
+        QtMocHelpers::SlotData<void()>(15, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onSingleModeSelected'
-        QtMocHelpers::SlotData<void(SinglePlayerMode)>(23, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 24, 25 },
-        }}),
-        // Slot 'onMultiplayerModeSelected'
-        QtMocHelpers::SlotData<void(MultiplayerMode)>(26, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 27, 25 },
+        QtMocHelpers::SlotData<void(SinglePlayerMode, CharacterType)>(16, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 17, 18 }, { 0x80000000 | 13, 14 },
         }}),
         // Slot 'onLocalCoopCharactersSelected'
-        QtMocHelpers::SlotData<void(CharacterType, CharacterType)>(28, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 17, 29 }, { 0x80000000 | 17, 30 },
+        QtMocHelpers::SlotData<void(CharacterType, CharacterType)>(19, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 13, 20 }, { 0x80000000 | 13, 21 },
+        }}),
+        // Slot 'showHotspotLobby'
+        QtMocHelpers::SlotData<void()>(22, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onHotspotNetworkError'
+        QtMocHelpers::SlotData<void(const QString &)>(23, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QString, 24 },
         }}),
     };
     QtMocHelpers::UintData qt_properties {
@@ -152,22 +135,17 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 1: _t->showCharacterSelection(); break;
         case 2: _t->showDifficultySelection(); break;
         case 3: _t->showMultiplayerMenu(); break;
-        case 4: _t->showMultiplayerLobby(); break;
-        case 5: _t->showMultiplayerModeSelection(); break;
-        case 6: _t->showLocalCoopCharacterSelection(); break;
-        case 7: _t->showHighScores(); break;
-        case 8: _t->showSingleModeSelection(); break;
-        case 9: _t->startSinglePlayerGame(); break;
-        case 10: _t->startMultiplayerHost(); break;
-        case 11: _t->startMultiplayerJoin(); break;
-        case 12: _t->onGameOver((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 13: _t->onCharacterSelected((*reinterpret_cast< std::add_pointer_t<CharacterType>>(_a[1]))); break;
-        case 14: _t->onDifficultySelected(); break;
-        case 15: _t->connectToServer(); break;
-        case 16: _t->onNetworkError((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 17: _t->onSingleModeSelected((*reinterpret_cast< std::add_pointer_t<SinglePlayerMode>>(_a[1]))); break;
-        case 18: _t->onMultiplayerModeSelected((*reinterpret_cast< std::add_pointer_t<MultiplayerMode>>(_a[1]))); break;
-        case 19: _t->onLocalCoopCharactersSelected((*reinterpret_cast< std::add_pointer_t<CharacterType>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<CharacterType>>(_a[2]))); break;
+        case 4: _t->showLocalCoopCharacterSelection(); break;
+        case 5: _t->showHighScores(); break;
+        case 6: _t->showSingleModeSelection(); break;
+        case 7: _t->startSinglePlayerGame(); break;
+        case 8: _t->onGameOver((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 9: _t->onCharacterSelected((*reinterpret_cast< std::add_pointer_t<CharacterType>>(_a[1]))); break;
+        case 10: _t->onDifficultySelected(); break;
+        case 11: _t->onSingleModeSelected((*reinterpret_cast< std::add_pointer_t<SinglePlayerMode>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<CharacterType>>(_a[2]))); break;
+        case 12: _t->onLocalCoopCharactersSelected((*reinterpret_cast< std::add_pointer_t<CharacterType>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<CharacterType>>(_a[2]))); break;
+        case 13: _t->showHotspotLobby(); break;
+        case 14: _t->onHotspotNetworkError((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         default: ;
         }
     }
@@ -192,14 +170,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 20)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 15;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 20)
+        if (_id < 15)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 20;
+        _id -= 15;
     }
     return _id;
 }

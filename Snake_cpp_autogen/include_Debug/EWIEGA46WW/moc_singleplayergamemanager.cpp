@@ -51,8 +51,6 @@ template <> constexpr inline auto SinglePlayerGameManager::qt_create_metaobjectd
         "achievement",
         "timeWarning",
         "secondsLeft",
-        "waveCompleted",
-        "wave",
         "speedIncreased",
         "multiplier",
         "aiScoreUpdated",
@@ -60,6 +58,7 @@ template <> constexpr inline auto SinglePlayerGameManager::qt_create_metaobjectd
         "playerScore",
         "gameEnded",
         "finalStats",
+        "message",
         "onGameTimer",
         "onModeTimer",
         "onSpeedTimer"
@@ -82,28 +81,28 @@ template <> constexpr inline auto SinglePlayerGameManager::qt_create_metaobjectd
         QtMocHelpers::SignalData<void(int)>(11, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::Int, 12 },
         }}),
-        // Signal 'waveCompleted'
-        QtMocHelpers::SignalData<void(int)>(13, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Int, 14 },
-        }}),
         // Signal 'speedIncreased'
-        QtMocHelpers::SignalData<void(double)>(15, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Double, 16 },
+        QtMocHelpers::SignalData<void(double)>(13, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Double, 14 },
         }}),
         // Signal 'aiScoreUpdated'
-        QtMocHelpers::SignalData<void(int, int)>(17, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Int, 18 }, { QMetaType::Int, 19 },
+        QtMocHelpers::SignalData<void(int, int)>(15, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 16 }, { QMetaType::Int, 17 },
         }}),
         // Signal 'gameEnded'
-        QtMocHelpers::SignalData<void(SinglePlayerMode, const GameStats &)>(20, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { 0x80000000 | 3, 4 }, { 0x80000000 | 6, 21 },
+        QtMocHelpers::SignalData<void(SinglePlayerMode, const GameStats &)>(18, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 3, 4 }, { 0x80000000 | 6, 19 },
+        }}),
+        // Signal 'gameEnded'
+        QtMocHelpers::SignalData<void(const QString &)>(18, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 20 },
         }}),
         // Slot 'onGameTimer'
-        QtMocHelpers::SlotData<void()>(22, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(21, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onModeTimer'
-        QtMocHelpers::SlotData<void()>(23, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(22, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onSpeedTimer'
-        QtMocHelpers::SlotData<void()>(24, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(23, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -131,10 +130,10 @@ void SinglePlayerGameManager::qt_static_metacall(QObject *_o, QMetaObject::Call 
         case 1: _t->statsUpdated((*reinterpret_cast< std::add_pointer_t<GameStats>>(_a[1]))); break;
         case 2: _t->achievementUnlocked((*reinterpret_cast< std::add_pointer_t<Achievement>>(_a[1]))); break;
         case 3: _t->timeWarning((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 4: _t->waveCompleted((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 5: _t->speedIncreased((*reinterpret_cast< std::add_pointer_t<double>>(_a[1]))); break;
-        case 6: _t->aiScoreUpdated((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2]))); break;
-        case 7: _t->gameEnded((*reinterpret_cast< std::add_pointer_t<SinglePlayerMode>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<GameStats>>(_a[2]))); break;
+        case 4: _t->speedIncreased((*reinterpret_cast< std::add_pointer_t<double>>(_a[1]))); break;
+        case 5: _t->aiScoreUpdated((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2]))); break;
+        case 6: _t->gameEnded((*reinterpret_cast< std::add_pointer_t<SinglePlayerMode>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<GameStats>>(_a[2]))); break;
+        case 7: _t->gameEnded((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 8: _t->onGameTimer(); break;
         case 9: _t->onModeTimer(); break;
         case 10: _t->onSpeedTimer(); break;
@@ -150,13 +149,13 @@ void SinglePlayerGameManager::qt_static_metacall(QObject *_o, QMetaObject::Call 
             return;
         if (QtMocHelpers::indexOfMethod<void (SinglePlayerGameManager::*)(int )>(_a, &SinglePlayerGameManager::timeWarning, 3))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SinglePlayerGameManager::*)(int )>(_a, &SinglePlayerGameManager::waveCompleted, 4))
+        if (QtMocHelpers::indexOfMethod<void (SinglePlayerGameManager::*)(double )>(_a, &SinglePlayerGameManager::speedIncreased, 4))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SinglePlayerGameManager::*)(double )>(_a, &SinglePlayerGameManager::speedIncreased, 5))
+        if (QtMocHelpers::indexOfMethod<void (SinglePlayerGameManager::*)(int , int )>(_a, &SinglePlayerGameManager::aiScoreUpdated, 5))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SinglePlayerGameManager::*)(int , int )>(_a, &SinglePlayerGameManager::aiScoreUpdated, 6))
+        if (QtMocHelpers::indexOfMethod<void (SinglePlayerGameManager::*)(SinglePlayerMode , const GameStats & )>(_a, &SinglePlayerGameManager::gameEnded, 6))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SinglePlayerGameManager::*)(SinglePlayerMode , const GameStats & )>(_a, &SinglePlayerGameManager::gameEnded, 7))
+        if (QtMocHelpers::indexOfMethod<void (SinglePlayerGameManager::*)(const QString & )>(_a, &SinglePlayerGameManager::gameEnded, 7))
             return;
     }
 }
@@ -217,26 +216,26 @@ void SinglePlayerGameManager::timeWarning(int _t1)
 }
 
 // SIGNAL 4
-void SinglePlayerGameManager::waveCompleted(int _t1)
+void SinglePlayerGameManager::speedIncreased(double _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 4, nullptr, _t1);
 }
 
 // SIGNAL 5
-void SinglePlayerGameManager::speedIncreased(double _t1)
+void SinglePlayerGameManager::aiScoreUpdated(int _t1, int _t2)
 {
-    QMetaObject::activate<void>(this, &staticMetaObject, 5, nullptr, _t1);
+    QMetaObject::activate<void>(this, &staticMetaObject, 5, nullptr, _t1, _t2);
 }
 
 // SIGNAL 6
-void SinglePlayerGameManager::aiScoreUpdated(int _t1, int _t2)
+void SinglePlayerGameManager::gameEnded(SinglePlayerMode _t1, const GameStats & _t2)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 6, nullptr, _t1, _t2);
 }
 
 // SIGNAL 7
-void SinglePlayerGameManager::gameEnded(SinglePlayerMode _t1, const GameStats & _t2)
+void SinglePlayerGameManager::gameEnded(const QString & _t1)
 {
-    QMetaObject::activate<void>(this, &staticMetaObject, 7, nullptr, _t1, _t2);
+    QMetaObject::activate<void>(this, &staticMetaObject, 7, nullptr, _t1);
 }
 QT_WARNING_POP

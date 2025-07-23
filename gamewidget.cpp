@@ -32,9 +32,9 @@ GameWidget::GameWidget(QWidget *parent)
     , baseSpeed(200)
     , currentSpeed(200)
     , remainingTime(TIME_CHALLENGE_DURATION)
-    , networkManager(new NetworkManager(this))
-    , multiPlayerManager(new MultiPlayerGameManager(this))
+
     , singlePlayerManager(new SinglePlayerGameManager(this))
+    , hotspotGameManager(nullptr)
     , player1Character(CharacterType::SPONGEBOB)
     , player2Character(CharacterType::PATRICK)
     , player1Score(0)
@@ -54,26 +54,7 @@ GameWidget::GameWidget(QWidget *parent)
     connect(food, &Food::foodExpired, this, &GameWidget::onFoodExpired);
     connect(countdownTimer, &QTimer::timeout, this, &GameWidget::updateCountdown);
     
-    // 网络信号
-    connect(networkManager, &NetworkManager::playerConnected, this, &GameWidget::onPlayerConnected);
-    connect(networkManager, &NetworkManager::playerDisconnected, this, &GameWidget::onPlayerDisconnected);
-    connect(networkManager, &NetworkManager::playerInfoReceived, this, &GameWidget::onPlayerInfoReceived);
-    connect(networkManager, &NetworkManager::scoreUpdateReceived, this, &GameWidget::onScoreUpdateReceived);
-    connect(networkManager, &NetworkManager::playerPositionReceived, this, &GameWidget::onPlayerPositionReceived);
-    connect(networkManager, &NetworkManager::connectionError, this, &GameWidget::onNetworkError);
 
-    // 多人游戏管理器信号
-    connect(multiPlayerManager, &MultiPlayerGameManager::roomCreated, this, &GameWidget::onRoomCreated);
-    connect(multiPlayerManager, &MultiPlayerGameManager::playerJoinedRoom, this, &GameWidget::onPlayerJoinedRoom);
-    connect(multiPlayerManager, &MultiPlayerGameManager::playerLeftRoom, this, &GameWidget::onPlayerLeftRoom);
-    connect(multiPlayerManager, &MultiPlayerGameManager::gameStarted, this, &GameWidget::onGameStarted);
-    connect(multiPlayerManager, &MultiPlayerGameManager::gameEnded, this, &GameWidget::onGameEnded);
-    connect(multiPlayerManager, &MultiPlayerGameManager::gameStateUpdated, this, &GameWidget::onGameStateUpdated);
-    connect(multiPlayerManager, &MultiPlayerGameManager::playerCollision, this, &GameWidget::onPlayerCollision);
-    connect(multiPlayerManager, &MultiPlayerGameManager::foodEaten, this, &GameWidget::onFoodEaten);
-    
-    // 设置网络管理器
-    multiPlayerManager->setNetworkManager(networkManager);
     
     // 单人游戏管理器信号连接
     connect(singlePlayerManager, QOverload<SinglePlayerMode, const GameStats&>::of(&SinglePlayerGameManager::gameEnded), this, [this](SinglePlayerMode mode, const GameStats& stats) {
@@ -360,18 +341,7 @@ void GameWidget::startMultiPlayerGame(bool isHost)
     if (playersLabel) playersLabel->setVisible(true);
     if (playersList) playersList->setVisible(true);
     
-    // 使用新的多人游戏管理器
-    if (isHost) {
-        // 创建房间
-        QString hostName = "Player1"; // 可以从设置中获取
-        createRoom(hostName, 4); // 默认4人房间
-    } else {
-        // 这里应该有UI让用户输入房间ID和玩家名
-        // 暂时使用默认值进行测试
-        QString guestName = "Player2";
-        QString roomId = "123456"; // 应该从UI获取
-        joinRoom(roomId, guestName);
-    }
+    // 多人游戏模式已移除，此函数暂时保留但不执行任何操作
     
     // 重置游戏数据但不改变状态
     gameTimer->stop();
@@ -487,10 +457,7 @@ void GameWidget::resetGame()
     player1Character = CharacterType::SPONGEBOB;
     player2Character = CharacterType::PATRICK;
     
-    if (isMultiplayer) {
-        networkManager->stopServer();
-        networkManager->disconnectFromServer();
-    }
+    // 旧联机模式相关代码已移除
     
     isMultiplayer = false;
     currentState = GameState::MENU;
@@ -518,37 +485,10 @@ void GameWidget::gameLoop()
         }
         
         checkLocalCoopCollisions();
-    } else if (currentState == GameState::MULTIPLAYER_GAME && !currentRoomId.isEmpty()) {
-        // 多人游戏模式：通过游戏管理器处理
-        Point head = snake->getHead();
-        Direction currentDirection = snake->getDirection();
-        
-        // 更新玩家方向
-        multiPlayerManager->updatePlayerDirection(currentRoomId, m_playerName, currentDirection);
-        
-        // 移动蛇
+    } else if (currentState == GameState::MULTIPLAYER_GAME) {
+        // 旧多人游戏模式已移除，暂时保留状态检查
         snake->move();
-        
-        // 检查碰撞
-        Point newHead = snake->getHead();
-        if (multiPlayerManager->checkPlayerCollision(currentRoomId, m_playerName, newHead)) {
-            // 玩家碰撞，由管理器处理
-            return;
-        }
-        
-        // 检查食物碰撞
-        if (multiPlayerManager->checkFoodCollision(currentRoomId, newHead)) {
-            snake->grow();
-            // 食物碰撞由管理器处理分数更新
-        }
-        
-        // 更新玩家位置
-        multiPlayerManager->updatePlayerPosition(currentRoomId, m_playerName, snake->getBody());
-        
-        // 发送网络更新
-        if (isMultiplayer) {
-            sendNetworkUpdate();
-        }
+        checkCollisions();
     } else {
         // 单人游戏模式
         snake->move();
@@ -715,10 +655,7 @@ void GameWidget::checkCollisions()
             singlePlayerManager->setFoodPosition(food->getPosition());
         }
         
-        if (isMultiplayer && !currentRoomId.isEmpty()) {
-            // 多人游戏中通过管理器更新分数
-            multiPlayerManager->updatePlayerScore(currentRoomId, m_playerName, score);
-        }
+        // 旧多人游戏模式相关代码已移除
     }
 }
 
@@ -891,9 +828,7 @@ void GameWidget::loadHighScores()
 
 void GameWidget::sendNetworkUpdate()
 {
-    if (networkManager && isMultiplayer && snake) {
-        networkManager->sendPlayerPosition(m_playerName, snake->getBody());
-    }
+    // 旧联机模式相关代码已移除
 }
 
 QList<Point> GameWidget::getSnakeBody() const
@@ -908,60 +843,7 @@ QList<Point> GameWidget::getSnakeBody() const
     return body;
 }
 
-// 网络事件处理
-void GameWidget::onPlayerConnected(const QString& playerName)
-{
-    playersList->addItem(QString("%1 (连接)").arg(playerName));
-}
 
-void GameWidget::onPlayerDisconnected(const QString& playerName)
-{
-    // 从列表中移除玩家
-    for (int i = 0; i < playersList->count(); ++i) {
-        if (playersList->item(i)->text().contains(playerName)) {
-            delete playersList->takeItem(i);
-            break;
-        }
-    }
-    
-    // 清理玩家数据
-    otherPlayers.remove(playerName);
-    playerCharacters.remove(playerName);
-    playerScores.remove(playerName);
-    playerAliveStatus.remove(playerName);
-}
-
-void GameWidget::onPlayerInfoReceived(const PlayerInfo& playerInfo)
-{
-    QString playerName = QString::fromStdString(playerInfo.name);
-    playerCharacters[playerName] = playerInfo.character;
-    playerScores[playerName] = playerInfo.score;
-    playerAliveStatus[playerName] = playerInfo.isAlive;
-}
-
-void GameWidget::onScoreUpdateReceived(const QString& playerName, int score)
-{
-    playerScores[playerName] = score;
-    
-    // 更新玩家列表显示
-    for (int i = 0; i < playersList->count(); ++i) {
-        QListWidgetItem* item = playersList->item(i);
-        if (item->text().contains(playerName)) {
-            item->setText(QString("%1: %2分").arg(playerName).arg(score));
-            break;
-        }
-    }
-}
-
-void GameWidget::onPlayerPositionReceived(const QString& playerName, const std::deque<Point>& snakeBody)
-{
-    otherPlayers[playerName] = snakeBody;
-}
-
-void GameWidget::onNetworkError(const QString& error)
-{
-    QMessageBox::warning(this, "网络错误", error);
-}
 
 void GameWidget::onFoodExpired()
 {
@@ -1524,239 +1406,9 @@ void GameWidget::updateButtonPositions()
     }
 }
 
-// 多人游戏管理器相关函数实现
-void GameWidget::createRoom(const QString& playerName, int maxPlayers)
-{
-    this->m_playerName = playerName;
-    currentRoomId = multiPlayerManager->createRoom(playerName, maxPlayers);
-    isHost = true;
-    
-    if (!networkManager->startServer()) {
-        QMessageBox::warning(this, "错误", "无法启动服务器！");
-        return;
-    }
-    
-    qDebug() << "Room created:" << currentRoomId << "by" << playerName;
-}
 
-void GameWidget::joinRoom(const QString& roomId, const QString& playerName)
-{
-    this->m_playerName = playerName;
-    this->currentRoomId = roomId;
-    isHost = false;
-    
-    if (multiPlayerManager->joinRoom(roomId, playerName)) {
-        qDebug() << "Successfully joined room:" << roomId;
-    } else {
-        QMessageBox::warning(this, "错误", "无法加入房间！");
-    }
-}
 
-void GameWidget::leaveRoom()
-{
-    if (!currentRoomId.isEmpty() && !m_playerName.isEmpty()) {
-        multiPlayerManager->leaveRoom(currentRoomId, m_playerName);
-        currentRoomId.clear();
-        m_playerName.clear();
-        
-        if (isHost) {
-            networkManager->stopServer();
-        } else {
-            networkManager->disconnectFromServer();
-        }
-    }
-}
 
-void GameWidget::onRoomCreated(const QString& roomId, const GameRoom& room)
-{
-    qDebug() << "Room created signal received:" << roomId;
-    // 更新UI显示房间信息
-    playersLabel->setText(QString("房间: %1 (%2/%3)").arg(roomId).arg(room.playerNames.size()).arg(room.maxPlayers));
-    
-    playersList->clear();
-    for (const QString& player : room.playerNames) {
-        playersList->addItem(player + (player == room.hostName ? " (房主)" : ""));
-    }
-}
-
-void GameWidget::onPlayerJoinedRoom(const QString& roomId, const QString& playerName)
-{
-    if (roomId != currentRoomId) return;
-    
-    qDebug() << "Player joined:" << playerName;
-    
-    // 更新玩家列表
-    GameRoom room = multiPlayerManager->getRoomInfo(roomId);
-    playersLabel->setText(QString("房间: %1 (%2/%3)").arg(roomId).arg(room.playerNames.size()).arg(room.maxPlayers));
-    
-    playersList->clear();
-    for (const QString& player : room.playerNames) {
-        playersList->addItem(player + (player == room.hostName ? " (房主)" : ""));
-    }
-    
-    // 如果是房主且人数足够，可以开始游戏
-    if (isHost && room.playerNames.size() >= 2) {
-        // 这里可以添加自动开始游戏的逻辑，或者显示开始按钮
-        QTimer::singleShot(2000, [this, roomId]() {
-            multiPlayerManager->startGame(roomId);
-        });
-    }
-}
-
-void GameWidget::onPlayerLeftRoom(const QString& roomId, const QString& playerName)
-{
-    if (roomId != currentRoomId) return;
-    
-    qDebug() << "Player left:" << playerName;
-    
-    // 更新玩家列表
-    GameRoom room = multiPlayerManager->getRoomInfo(roomId);
-    if (!room.roomId.isEmpty()) {
-        playersLabel->setText(QString("房间: %1 (%2/%3)").arg(roomId).arg(room.playerNames.size()).arg(room.maxPlayers));
-        
-        playersList->clear();
-        for (const QString& player : room.playerNames) {
-            playersList->addItem(player + (player == room.hostName ? " (房主)" : ""));
-        }
-    }
-    
-    // 清理离开玩家的数据
-    otherPlayers.remove(playerName);
-    playerCharacters.remove(playerName);
-    playerScores.remove(playerName);
-    playerAliveStatus.remove(playerName);
-}
-
-void GameWidget::onGameStarted(const QString& roomId)
-{
-    if (roomId != currentRoomId) return;
-    
-    qDebug() << "Game started in room:" << roomId;
-    
-    // 重置游戏状态
-    resetGame();
-    currentState = GameState::MULTIPLAYER_GAME;
-    
-    // 初始化本地玩家的蛇
-    Point startPos(gridWidth / 4, gridHeight / 4);
-    snake->reset(startPos);
-    
-    // 启动游戏循环
-    gameTimer->start(currentSpeed);
-    
-    update();
-}
-
-void GameWidget::onGameEnded(const QString& roomId, const QString& winner)
-{
-    if (roomId != currentRoomId) return;
-    
-    qDebug() << "Game ended. Winner:" << winner;
-    
-    currentState = GameState::GAME_OVER;
-    gameTimer->stop();
-    
-    QString message = winner.isEmpty() ? "游戏结束！" : QString("游戏结束！\n获胜者: %1").arg(winner);
-    QMessageBox::information(this, "游戏结束", message);
-    
-    update();
-}
-
-void GameWidget::onGameStateUpdated(const QString& roomId, const MultiPlayerGameState& gameState)
-{
-    if (roomId != currentRoomId) return;
-    
-    // 更新其他玩家的状态
-    otherPlayers.clear();
-    playerCharacters.clear();
-    playerScores.clear();
-    playerAliveStatus.clear();
-    
-    for (auto it = gameState.playerSnakes.begin(); it != gameState.playerSnakes.end(); ++it) {
-        const QString& playerName = it.key();
-        if (playerName != this->m_playerName) { // 不包括自己
-            otherPlayers[playerName] = it.value();
-            playerCharacters[playerName] = gameState.playerCharacters.value(playerName, CharacterType::SPONGEBOB);
-            playerScores[playerName] = gameState.playerScores.value(playerName, 0);
-            playerAliveStatus[playerName] = gameState.playerAliveStatus.value(playerName, true);
-        }
-    }
-    
-    // 更新食物位置
-    food->setPosition(gameState.foodPosition);
-    food->setSpecial(gameState.isSpecialFood);
-    
-    // 检查游戏是否暂停
-    if (gameState.isPaused && currentState != GameState::PAUSED) {
-        currentState = GameState::PAUSED;
-        gameTimer->stop();
-    } else if (!gameState.isPaused && currentState == GameState::PAUSED) {
-        currentState = GameState::MULTIPLAYER_GAME;
-        gameTimer->start(currentSpeed);
-    }
-    
-    update();
-}
-
-void GameWidget::onPlayerCollision(const QString& roomId, const QString& playerName)
-{
-    if (roomId != currentRoomId) return;
-    
-    qDebug() << "Player collision:" << playerName;
-    
-    if (playerName == this->m_playerName) {
-        // 本地玩家碰撞
-        currentState = GameState::GAME_OVER;
-        gameTimer->stop();
-    }
-    
-    // 标记玩家为死亡状态
-    playerAliveStatus[playerName] = false;
-    
-    update();
-}
-
-void GameWidget::onFoodEaten(const QString& roomId, const QString& playerName, int points)
-{
-    if (roomId != currentRoomId) return;
-    
-    qDebug() << "Food eaten by" << playerName << "for" << points << "points";
-    
-    if (playerName == this->m_playerName) {
-        // 本地玩家吃到食物
-        updateScore(points);
-    } else {
-        // 其他玩家吃到食物，更新分数
-        playerScores[playerName] = playerScores.value(playerName, 0) + points;
-    }
-    
-    update();
-}
-
-void GameWidget::setMultiPlayerManager(MultiPlayerGameManager* manager)
-{
-    if (multiPlayerManager && multiPlayerManager != manager) {
-        // 断开旧的连接
-        disconnect(multiPlayerManager, nullptr, this, nullptr);
-    }
-    
-    multiPlayerManager = manager;
-    
-    if (multiPlayerManager) {
-        // 连接新的信号
-        connect(multiPlayerManager, &MultiPlayerGameManager::roomCreated, this, &GameWidget::onRoomCreated);
-        connect(multiPlayerManager, &MultiPlayerGameManager::playerJoinedRoom, this, &GameWidget::onPlayerJoinedRoom);
-        connect(multiPlayerManager, &MultiPlayerGameManager::playerLeftRoom, this, &GameWidget::onPlayerLeftRoom);
-        connect(multiPlayerManager, &MultiPlayerGameManager::gameStarted, this, &GameWidget::onGameStarted);
-        connect(multiPlayerManager, &MultiPlayerGameManager::gameEnded, this, &GameWidget::onGameEnded);
-        connect(multiPlayerManager, &MultiPlayerGameManager::gameStateUpdated, this, &GameWidget::onGameStateUpdated);
-        connect(multiPlayerManager, &MultiPlayerGameManager::playerCollision, this, &GameWidget::onPlayerCollision);
-        connect(multiPlayerManager, &MultiPlayerGameManager::foodEaten, this, &GameWidget::onFoodEaten);
-        
-        // 设置网络管理器
-        multiPlayerManager->setNetworkManager(networkManager);
-    }
-}
 
 void GameWidget::setLocalCoopMode(CharacterType player1Character, CharacterType player2Character)
 {
@@ -2022,4 +1674,9 @@ void GameWidget::updateCountdown()
         resetGame();
         emit backToMenu();
     }
+}
+
+void GameWidget::setHotspotGameManager(HotspotGameManager* manager)
+{
+    hotspotGameManager = manager;
 }

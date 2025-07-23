@@ -8,6 +8,7 @@
 
 #include "../../../gamewidget.h"
 #include <QtGui/qtextcursor.h>
+#include <QtGui/qscreen.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -48,32 +49,7 @@ template <> constexpr inline auto GameWidget::qt_create_metaobjectdata<qt_meta_t
         "newScore",
         "gameLoop",
         "onFoodExpired",
-        "onPlayerConnected",
-        "playerName",
-        "onPlayerDisconnected",
-        "onPlayerInfoReceived",
-        "data",
-        "QTcpSocket*",
-        "sender",
-        "onScoreUpdateReceived",
-        "onPlayerPositionReceived",
-        "onNetworkError",
-        "error",
-        "onRoomCreated",
-        "roomId",
-        "GameRoom",
-        "room",
-        "onPlayerJoinedRoom",
-        "onPlayerLeftRoom",
-        "onGameStarted",
-        "onGameEnded",
-        "winner",
-        "onGameStateUpdated",
-        "MultiPlayerGameState",
-        "gameState",
-        "onPlayerCollision",
-        "onFoodEaten",
-        "points"
+        "updateCountdown"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -91,66 +67,8 @@ template <> constexpr inline auto GameWidget::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onFoodExpired'
         QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onPlayerConnected'
-        QtMocHelpers::SlotData<void(const QString &)>(9, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 10 },
-        }}),
-        // Slot 'onPlayerDisconnected'
-        QtMocHelpers::SlotData<void(const QString &)>(11, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 10 },
-        }}),
-        // Slot 'onPlayerInfoReceived'
-        QtMocHelpers::SlotData<void(const QJsonObject &, QTcpSocket *)>(12, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QJsonObject, 13 }, { 0x80000000 | 14, 15 },
-        }}),
-        // Slot 'onPlayerInfoReceived'
-        QtMocHelpers::SlotData<void(const QJsonObject &)>(12, 2, QMC::AccessPrivate | QMC::MethodCloned, QMetaType::Void, {{
-            { QMetaType::QJsonObject, 13 },
-        }}),
-        // Slot 'onScoreUpdateReceived'
-        QtMocHelpers::SlotData<void(const QJsonObject &)>(16, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QJsonObject, 13 },
-        }}),
-        // Slot 'onPlayerPositionReceived'
-        QtMocHelpers::SlotData<void(const QJsonObject &)>(17, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QJsonObject, 13 },
-        }}),
-        // Slot 'onNetworkError'
-        QtMocHelpers::SlotData<void(const QString &)>(18, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 19 },
-        }}),
-        // Slot 'onRoomCreated'
-        QtMocHelpers::SlotData<void(const QString &, const GameRoom &)>(20, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 21 }, { 0x80000000 | 22, 23 },
-        }}),
-        // Slot 'onPlayerJoinedRoom'
-        QtMocHelpers::SlotData<void(const QString &, const QString &)>(24, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 21 }, { QMetaType::QString, 10 },
-        }}),
-        // Slot 'onPlayerLeftRoom'
-        QtMocHelpers::SlotData<void(const QString &, const QString &)>(25, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 21 }, { QMetaType::QString, 10 },
-        }}),
-        // Slot 'onGameStarted'
-        QtMocHelpers::SlotData<void(const QString &)>(26, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 21 },
-        }}),
-        // Slot 'onGameEnded'
-        QtMocHelpers::SlotData<void(const QString &, const QString &)>(27, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 21 }, { QMetaType::QString, 28 },
-        }}),
-        // Slot 'onGameStateUpdated'
-        QtMocHelpers::SlotData<void(const QString &, const MultiPlayerGameState &)>(29, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 21 }, { 0x80000000 | 30, 31 },
-        }}),
-        // Slot 'onPlayerCollision'
-        QtMocHelpers::SlotData<void(const QString &, const QString &)>(32, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 21 }, { QMetaType::QString, 10 },
-        }}),
-        // Slot 'onFoodEaten'
-        QtMocHelpers::SlotData<void(const QString &, const QString &, int)>(33, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 21 }, { QMetaType::QString, 10 }, { QMetaType::Int, 34 },
-        }}),
+        // Slot 'updateCountdown'
+        QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -179,34 +97,8 @@ void GameWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 2: _t->scoreChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         case 3: _t->gameLoop(); break;
         case 4: _t->onFoodExpired(); break;
-        case 5: _t->onPlayerConnected((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 6: _t->onPlayerDisconnected((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 7: _t->onPlayerInfoReceived((*reinterpret_cast< std::add_pointer_t<QJsonObject>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QTcpSocket*>>(_a[2]))); break;
-        case 8: _t->onPlayerInfoReceived((*reinterpret_cast< std::add_pointer_t<QJsonObject>>(_a[1]))); break;
-        case 9: _t->onScoreUpdateReceived((*reinterpret_cast< std::add_pointer_t<QJsonObject>>(_a[1]))); break;
-        case 10: _t->onPlayerPositionReceived((*reinterpret_cast< std::add_pointer_t<QJsonObject>>(_a[1]))); break;
-        case 11: _t->onNetworkError((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 12: _t->onRoomCreated((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<GameRoom>>(_a[2]))); break;
-        case 13: _t->onPlayerJoinedRoom((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 14: _t->onPlayerLeftRoom((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 15: _t->onGameStarted((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 16: _t->onGameEnded((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 17: _t->onGameStateUpdated((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<MultiPlayerGameState>>(_a[2]))); break;
-        case 18: _t->onPlayerCollision((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 19: _t->onFoodEaten((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[3]))); break;
+        case 5: _t->updateCountdown(); break;
         default: ;
-        }
-    }
-    if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        switch (_id) {
-        default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-        case 7:
-            switch (*reinterpret_cast<int*>(_a[1])) {
-            default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-            case 1:
-                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QTcpSocket* >(); break;
-            }
-            break;
         }
     }
     if (_c == QMetaObject::IndexOfMethod) {
@@ -238,14 +130,14 @@ int GameWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 20)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 6;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 20)
-            qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        if (_id < 6)
+            *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
+        _id -= 6;
     }
     return _id;
 }

@@ -15,13 +15,15 @@
 #include "gamestate.h"
 #include "gamewidget.h"
 #include "characterselection.h"
-#include "networkmanager.h"
-#include "multiplayerlobby.h"
+
 #include "singlemodeselection.h"
 #include "oceanbackground.h"
-#include "multiplayermodeselection.h"
+
 #include "localcoopcharacterselection.h"
 #include "singleplayergamemanager.h"
+#include "hotspotnetworkmanager.h"
+#include "hotspotgamemanager.h"
+#include "hotspotlobby.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -46,22 +48,19 @@ private slots:
     void showCharacterSelection();
     void showDifficultySelection();
     void showMultiplayerMenu();
-    void showMultiplayerLobby();
-    void showMultiplayerModeSelection();
     void showLocalCoopCharacterSelection();
     void showHighScores();
     void showSingleModeSelection();
     void startSinglePlayerGame();
-    void startMultiplayerHost();
-    void startMultiplayerJoin();
     void onGameOver(int finalScore);
     void onCharacterSelected(CharacterType character);
     void onDifficultySelected();
-    void connectToServer();
-    void onNetworkError(const QString& error);
+
     void onSingleModeSelected(SinglePlayerMode mode, CharacterType character);
-    void onMultiplayerModeSelected(MultiplayerMode mode);
+
     void onLocalCoopCharactersSelected(CharacterType player1Character, CharacterType player2Character);
+    void showHotspotLobby();
+    void onHotspotNetworkError(const QString& error);
     
 private:
     void setupUI();
@@ -78,13 +77,17 @@ private:
     QWidget* preparationWidget;
     GameWidget* gameWidget;
     CharacterSelection* characterSelection;
-    NetworkManager* networkManager;
-    MultiPlayerLobby* multiPlayerLobby;
+
     SingleModeSelection* singleModeSelection;
-    MultiplayerModeSelection* multiplayerModeSelection;
+
     LocalCoopCharacterSelection* localCoopCharacterSelection;
     OceanBackground* oceanBackground;
     SinglePlayerGameManager* singlePlayerGameManager;
+    
+    // 热点相关组件
+    HotspotNetworkManager* hotspotNetworkManager;
+    HotspotGameManager* hotspotGameManager;
+    HotspotLobby* hotspotLobby;
     
     // 菜单页面
     QWidget* mainMenuWidget;
@@ -107,9 +110,6 @@ private:
     
     // 多人游戏组件
     QLabel* multiplayerLabel;
-    QPushButton* hostGameButton;
-    QPushButton* joinGameButton;
-    QLineEdit* serverAddressEdit;
     QPushButton* backFromMultiplayerButton;
     
     // 高分榜组件

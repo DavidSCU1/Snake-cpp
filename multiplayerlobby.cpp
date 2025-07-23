@@ -392,7 +392,7 @@ void MultiPlayerLobby::onJoinRoomClicked()
         });
         
         // 连接成功处理
-        connect(networkManager, &NetworkManager::playerConnected, this, [this, connectionTimer, roomKey](const QString& playerName) {
+        connect(networkManager, &NetworkManager::playerConnected, this, [this, connectionTimer, roomKey, networkManager](const QString& playerName) {
             Q_UNUSED(playerName)
             if (connectionTimer) {
                 connectionTimer->stop();

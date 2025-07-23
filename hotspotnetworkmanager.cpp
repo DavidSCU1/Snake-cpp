@@ -4,6 +4,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QDebug>
+#include <random>
 #include <QRandomGenerator>
 
 HotspotNetworkManager::HotspotNetworkManager(QObject *parent)

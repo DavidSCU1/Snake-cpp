@@ -690,6 +690,17 @@ void HotspotLobby::onHostStopped()
 
 void HotspotLobby::onHostDiscovered(const QString& hostAddress, const QString& roomName, int playerCount, int maxPlayers)
 {
+    // 检查房间是否已存在
+    for (int i = 0; i < availableRoomsList->count(); ++i) {
+        QListWidgetItem* item = availableRoomsList->item(i);
+        if (item->data(Qt::UserRole).toString() == hostAddress) {
+            // 更新已有房间信息
+            item->setText(QString("%1 (%2/%3)").arg(roomName).arg(playerCount).arg(maxPlayers));
+            return;
+        }
+    }
+    
+    // 新增房间条目
     QString itemText = QString("%1 (%2/%3)").arg(roomName).arg(playerCount).arg(maxPlayers);
     QListWidgetItem* item = new QListWidgetItem(itemText);
     item->setData(Qt::UserRole, hostAddress);

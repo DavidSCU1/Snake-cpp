@@ -76,6 +76,7 @@ bool HotspotGameManager::joinRoom(const QString& playerName)
     
     // 发送加入消息
     QJsonObject joinMessage;
+    joinMessage["type"] = "player_join";  // 添加消息类型标识
     joinMessage["player_name"] = playerName;
     networkManager->sendPlayerData(playerName, joinMessage);
     

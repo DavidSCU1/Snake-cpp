@@ -715,10 +715,15 @@ void HotspotLobby::onHostDiscovered(const QString& hostAddress, const QString& r
 
 void HotspotLobby::onConnectedToHost(const QString& hostAddress)
 {
-    if (gameManager && gameManager->joinRoom(currentPlayerName)) {
-        showGameLobby();
-        roomInfoLabel->setText(QString("已连接到: %1").arg(hostAddress));
-        showStatusMessage("成功加入房间");
+    isInRoom = true;
+    isHost = false; // 客户端标记为非主机
+    showGameLobby(); // 先切换到游戏大厅界面
+    roomInfoLabel->setText(QString("已连接到: %1").arg(hostAddress));
+    showStatusMessage("成功连接到主机");
+    
+    // 自动发送加入请求
+    if (gameManager && !currentPlayerName.isEmpty()) {
+        gameManager->joinRoom(currentPlayerName);
     }
 }
 

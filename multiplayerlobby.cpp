@@ -401,10 +401,17 @@ void MultiPlayerLobby::onJoinRoomClicked()
             joinRoomButton->setEnabled(true);
             joinRoomButton->setText("加入房间");
             
-            // 设置当前房间ID并显示等待界面
-            currentRoomId = roomKey;
-            QMessageBox::information(this, "成功", "成功连接到房间！");
-            showWaitingInterface();
+            // 连接成功后，通过MultiPlayerGameManager正式加入房间
+            QString actualPlayerName = this->playerName.isEmpty() ? playerNameEdit->text().trimmed() : this->playerName;
+            if (multiPlayerManager->joinRoom(roomKey, actualPlayerName)) {
+                currentRoomId = roomKey;
+                this->playerName = actualPlayerName;
+                QMessageBox::information(this, "成功", "成功加入房间！");
+                // 注意：showWaitingInterface()会在onPlayerJoinedRoom信号中自动调用
+            } else {
+                QMessageBox::warning(this, "错误", "连接成功但无法加入房间！");
+                networkManager->disconnectFromServer();
+            }
         });
         
         // 开始连接

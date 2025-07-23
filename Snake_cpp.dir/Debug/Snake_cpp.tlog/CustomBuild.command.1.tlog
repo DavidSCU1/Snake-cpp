@@ -1,0 +1,36 @@
+^D:\SNAKE_CPP\CMAKEFILES\7F69EC29AE505AECDC1B78E1FF400CC9\AUTOUIC_(CONFIG).STAMP.RULE
+setlocal
+cd D:\Snake_cpp
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\SNAKE_CPP\CMAKEFILES\C23C90BA26B8AF88BDE4F4B072D89E6E\QRC_RESOURCES.CPP.RULE
+setlocal
+cd D:\Snake_cpp
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+D:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autorcc D:/Snake_cpp/CMakeFiles/Snake_cpp_autogen.dir/AutoRcc_resources_EWIEGA46WW_Info.json Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\SNAKE_CPP\CMAKELISTS.TXT
+setlocal
+D:\Qt\Tools\CMake_64\bin\cmake.exe -SD:/Snake_cpp -BD:/Snake_cpp --check-stamp-file D:/Snake_cpp/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

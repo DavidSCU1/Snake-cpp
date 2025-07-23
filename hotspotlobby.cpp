@@ -803,9 +803,20 @@ void HotspotLobby::updatePlayerList()
     
     QStringList playerNames = gameManager->getPlayerNames();
     HotspotGameState gameState = gameManager->getGameState();
+    QString hostPlayerName = gameManager->getHostPlayerName();
+    
+    // 确保房主信息在列表中（如果房主不在playerNames中，则添加）
+    if (!hostPlayerName.isEmpty() && !playerNames.contains(hostPlayerName)) {
+        playerNames.prepend(hostPlayerName);
+    }
     
     for (const QString& playerName : playerNames) {
         QString itemText = playerName;
+        
+        // 添加房主标识
+        if (playerName == hostPlayerName) {
+            itemText += " [房主]";
+        }
         
         if (gameState.playerCharacters.contains(playerName)) {
             CharacterType character = gameState.playerCharacters[playerName];
@@ -823,6 +834,11 @@ void HotspotLobby::updatePlayerList()
         QListWidgetItem* item = new QListWidgetItem(itemText);
         if (gameState.playerReadyStatus.value(playerName, false)) {
             item->setBackground(QBrush(QColor(200, 255, 200)));
+        }
+        
+        // 为房主设置特殊背景色
+        if (playerName == hostPlayerName) {
+            item->setBackground(QBrush(QColor(255, 215, 0, 100))); // 金色背景
         }
         
         playerListWidget->addItem(item);

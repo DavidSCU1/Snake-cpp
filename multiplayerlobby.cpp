@@ -845,17 +845,30 @@ void MultiPlayerLobby::showWaitingInterface()
         
         // 更新玩家列表
         waitingPlayerListWidget->clear();
+        bool isHost = !room.playerNames.isEmpty() && room.playerNames.first() == playerName;
         for (const QString& player : room.playerNames) {
             QListWidgetItem* item = new QListWidgetItem(player);
             if (player == playerName) {
                 item->setForeground(QColor("#FF6347")); // 高亮自己
+                if (isHost) {
+                    item->setText(player + " (房主)");
+                } else {
+                    item->setText(player);
+                }
+            } else if (player == room.playerNames.first()) {
+                // 标记真正的房主
                 item->setText(player + " (房主)");
             }
             waitingPlayerListWidget->addItem(item);
         }
         
-        // 检查是否可以开始游戏（至少2个玩家）
-        startGameButton->setEnabled(room.currentPlayers >= 2);
+        // 只有房主才能看到并启用开始游戏按钮
+        if (isHost) {
+            startGameButton->setVisible(true);
+            startGameButton->setEnabled(room.currentPlayers >= 2);
+        } else {
+            startGameButton->setVisible(false);
+        }
     }
     
     // 显示等待界面

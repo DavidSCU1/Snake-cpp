@@ -35,6 +35,16 @@ bool NetworkManager::startServer(quint16 port)
     
     if (server->listen(QHostAddress::Any, port)) {
         isServer = true;
+        heartbeatTimer->start();
+        
+        // 确保UDP socket准备好用于广播
+        if (udpSocket->state() != QAbstractSocket::BoundState) {
+            // 如果UDP socket未绑定，尝试绑定到任意端口用于发送广播
+            if (!udpSocket->bind()) {
+                qDebug() << "Warning: Failed to bind UDP socket for broadcasting:" << udpSocket->errorString();
+            }
+        }
+        
         roomBroadcastTimer->setInterval(5000); // 设置广播间隔为5秒
         roomBroadcastTimer->start(); // 启动房间广播定时器
         qDebug() << "Server started on port" << port;

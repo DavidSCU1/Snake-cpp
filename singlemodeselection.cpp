@@ -71,8 +71,23 @@ void SingleModeSelection::setupUI()
     contentLayout->setSpacing(30);
     
     setupModeButtons();
+    
+    // 添加15像素的空白区域，使模式介绍框向右移动
+    QSpacerItem* detailsSpacer = new QSpacerItem(15, 10, QSizePolicy::Fixed, QSizePolicy::Minimum);
+    contentLayout->addSpacerItem(detailsSpacer);
+    
     setupDetailsPanel();
+    
+    // 添加20像素的空白区域，使选择角色界面向右移动20像素
+    QSpacerItem* spacer = new QSpacerItem(20, 10, QSizePolicy::Fixed, QSizePolicy::Minimum);
+    contentLayout->addSpacerItem(spacer);
+    
     setupCharacterSelection();
+    
+    // 添加15像素的空白区域，使成就框向右移动
+    QSpacerItem* achievementSpacer = new QSpacerItem(15, 10, QSizePolicy::Fixed, QSizePolicy::Minimum);
+    contentLayout->addSpacerItem(achievementSpacer);
+    
     setupAchievementPanel();
     
     mainLayout->addLayout(contentLayout);
@@ -181,7 +196,7 @@ void SingleModeSelection::setupModeButtons()
 void SingleModeSelection::setupDetailsPanel()
 {
     detailsWidget = new QWidget(this);
-    detailsWidget->setFixedWidth(400);
+    detailsWidget->setFixedWidth(300); // 缩小介绍模式界面宽度，从350改为300
     detailsLayout = new QVBoxLayout(detailsWidget);
     detailsLayout->setSpacing(20);
     
@@ -266,7 +281,7 @@ void SingleModeSelection::setupDetailsPanel()
 void SingleModeSelection::setupCharacterSelection()
 {
     characterSelectionWidget = new QWidget(this);
-    characterSelectionWidget->setFixedWidth(300);
+    characterSelectionWidget->setFixedWidth(300); // 减小选择角色界面宽度，从350改为300
     characterLayout = new QVBoxLayout(characterSelectionWidget);
     characterLayout->setSpacing(15);
     
@@ -274,10 +289,10 @@ void SingleModeSelection::setupCharacterSelection()
     characterTitleLabel->setAlignment(Qt::AlignCenter);
     characterTitleLabel->setStyleSheet(
         "QLabel { "
-        "    font-size: 20px; "
+        "    font-size: 24px; "
         "    font-weight: bold; "
         "    color: #FFD700; "
-        "    margin-bottom: 10px; "
+        "    margin-bottom: 15px; "
         "}"
     );
     characterLayout->addWidget(characterTitleLabel);
@@ -285,7 +300,7 @@ void SingleModeSelection::setupCharacterSelection()
     // 创建角色按钮容器
     characterButtonContainer = new QWidget(characterSelectionWidget);
     characterButtonLayout = new QGridLayout(characterButtonContainer);
-    characterButtonLayout->setSpacing(10);
+    characterButtonLayout->setSpacing(15); // 增加角色按钮间距，从10改为15
     
     // 创建角色按钮
     spongebobButton = new QPushButton("🧽 海绵宝宝", characterButtonContainer);
@@ -303,7 +318,7 @@ void SingleModeSelection::setupCharacterSelection()
         QPushButton* button = buttons[i];
         CharacterType character = characters[i];
         
-        button->setFixedSize(130, 50);
+        button->setFixedSize(130, 55); // 调整角色按钮尺寸，从150x60改为130x55
         button->setProperty("character", static_cast<int>(character));
         updateCharacterButton(button, character);
         

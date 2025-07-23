@@ -28,6 +28,7 @@ struct GameStats {
     int maxLength = 0;
     int perfectMoves = 0;  // 完美移动次数
     double efficiency = 0.0;  // 效率百分比
+    bool diedByWallCollision = false;  // 是否撞墙而死
 };
 
 // 成就系统
@@ -38,6 +39,7 @@ struct Achievement {
     bool unlocked = false;
     int progress = 0;
     int target = 0;
+    bool displayed = true; // 是否已经显示过，默认为true表示不需要显示
 };
 
 class SinglePlayerGameManager : public QObject
@@ -64,6 +66,7 @@ public:
     // 统计数据
     const GameStats& getGameStats() const { return gameStats; }
     void updateStats(int score, int foodCount, int snakeLength);
+    void updateGameStats(const GameStats& stats) { gameStats = stats; }
     void recordFoodEaten(bool isSpecial = false);
     void recordPerfectMove();
     
@@ -78,7 +81,11 @@ public:
     // 成就系统
     QList<Achievement> getAchievements() const { return achievements; }
     QList<Achievement> getUnlockedAchievements() const;
+    QList<Achievement> getUnDisplayedAchievements() const;
     void checkAchievements();
+    void updateAchievements(const QList<Achievement>& newAchievements);
+    void markAchievementsAsDisplayed();
+    void showPendingAchievements();
     
     // 获取游戏状态
     int getTimeRemaining() const;  // 时间挑战模式
@@ -128,6 +135,7 @@ private:
     void checkTimeAchievements();
     void checkEfficiencyAchievements();
     void checkSpecialAchievements();
+    void checkWallCollisionAchievement();
     
     // 游戏状态
     SinglePlayerMode currentMode;

@@ -1,4 +1,5 @@
 #include "gamewidget.h"
+#include "singleplayergamemanager.h"
 #include <QPainter>
 #include <QKeyEvent>
 #include <QMessageBox>
@@ -6,6 +7,8 @@
 #include <QFont>
 #include <QDebug>
 #include <QApplication>
+#include <QMetaObject>
+#include <QCoreApplication>
 
 GameWidget::GameWidget(QWidget *parent)
     : QWidget(parent)
@@ -78,6 +81,12 @@ GameWidget::GameWidget(QWidget *parent)
         currentState = GameState::GAME_OVER;
         gameTimer->stop();
         update();
+    });
+    
+    // 连接成就解锁信号
+    connect(singlePlayerManager, &SinglePlayerGameManager::achievementUnlocked, this, [this](const Achievement& achievement) {
+        qDebug() << "Achievement unlocked:" << achievement.name;
+        // 成就解锁后的处理逻辑已经在 QMetaObject::invokeMethod 中实现
     });
     
     // 连接极速模式速度增加信号
@@ -253,6 +262,9 @@ void GameWidget::startSinglePlayerGame()
     playerScores.clear();
     playerAliveStatus.clear();
     playersList->clear();
+    
+    // 清空墙体 - 确保每次开始新游戏时墙体都被清理
+    if (wall) wall->clear();
     
     // 设置正确的游戏状态
     currentState = GameState::PLAYING;
@@ -558,6 +570,12 @@ void GameWidget::checkCollisions()
         gameTimer->stop();
         specialFoodTimer->stop();
         saveHighScore();
+        
+        // 结束游戏并显示成就
+        if (singlePlayerManager) {
+            singlePlayerManager->endGame();
+        }
+        
         emit gameOver(score);
         update();
         return;
@@ -569,6 +587,12 @@ void GameWidget::checkCollisions()
         gameTimer->stop();
         specialFoodTimer->stop();
         saveHighScore();
+        
+        // 结束游戏并显示成就
+        if (singlePlayerManager) {
+            singlePlayerManager->endGame();
+        }
+        
         emit gameOver(score);
         update();
         return;
@@ -579,6 +603,17 @@ void GameWidget::checkCollisions()
         currentState = GameState::GAME_OVER;
         gameTimer->stop();
         specialFoodTimer->stop();
+        
+        // 设置撞墙而死的标志
+        if (singlePlayerManager) {
+            GameStats stats = singlePlayerManager->getGameStats();
+            stats.diedByWallCollision = true;
+            singlePlayerManager->updateGameStats(stats);
+            
+            // 结束游戏并显示成就
+            singlePlayerManager->endGame();
+        }
+        
         saveHighScore();
         emit gameOver(score);
         update();
@@ -594,6 +629,12 @@ void GameWidget::checkCollisions()
                 gameTimer->stop();
                 specialFoodTimer->stop();
                 saveHighScore();
+                
+                // 结束游戏并显示成就
+                if (singlePlayerManager) {
+                    singlePlayerManager->endGame();
+                }
+                
                 emit gameOver(score);
                 update();
                 return;
@@ -620,6 +661,43 @@ void GameWidget::checkCollisions()
         if (singlePlayerManager && singlePlayerManager->getCurrentMode() == SinglePlayerMode::CHALLENGE) {
             QSet<Point> occupiedPositions = getOccupiedPositions();
             wall->generateChallengeWalls(5, gridWidth, gridHeight, occupiedPositions);
+            
+            // 检查墙体成就
+            int totalWalls = wall->getWallPositions().size();
+            qDebug() << "Challenge mode: Total walls now:" << totalWalls;
+            
+            // 检查是否达成墙体成就 - 使用 QMetaObject::invokeMethod 在主线程中显示消息框
+            QList<Achievement> achievements = singlePlayerManager->getAchievements();
+            bool achievementUpdated = false;
+            
+            for (int i = 0; i < achievements.size(); i++) {
+                if (achievements[i].id == "challenge_walls_50") {
+                    if (!achievements[i].unlocked && totalWalls >= achievements[i].target) {
+                        // 解锁成就
+                        achievements[i].unlocked = true;
+                        achievements[i].progress = totalWalls;
+                        achievementUpdated = true;
+                        
+                        // 创建一个副本用于信号发送，但不立即显示
+                        Achievement achievementCopy = achievements[i];
+                        achievementCopy.displayed = false; // 标记为未显示
+                        achievements[i].displayed = false; // 标记为未显示
+                        
+                        // 发送成就解锁信号
+                        emit singlePlayerManager->achievementUnlocked(achievementCopy);
+                    } else if (!achievements[i].unlocked) {
+                        // 更新进度
+                        achievements[i].progress = totalWalls;
+                        achievementUpdated = true;
+                    }
+                    break;
+                }
+            }
+            
+            // 如果成就有更新，保存回 singlePlayerManager
+            if (achievementUpdated) {
+                singlePlayerManager->updateAchievements(achievements);
+            }
         }
         
         // 更新AI蛇的目标食物位置
@@ -668,7 +746,7 @@ void GameWidget::generateWalls()
         }
     }
 
-    int wallCount = isMultiplayer ? 20 : 10; // More walls in multiplayer
+    int wallCount = isMultiplayer ? 20 : 0; // 多人模式使用固定数量，单人模式使用随机范围(100-150)
     
     wall->generateWalls(gridWidth, gridHeight, occupiedPositions, wallCount);
 }

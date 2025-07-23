@@ -21,8 +21,8 @@ void Wall::generateWalls(int gridWidth, int gridHeight, const QSet<Point>& occup
     }
     
     // 使用更严格的逐个放置策略
-    int targetWallCount = (wallCount > 0) ? wallCount : QRandomGenerator::global()->bounded(80, 121); // 降低目标数量以确保质量
-    int maxAttempts = 2000; // 增加尝试次数
+    int targetWallCount = (wallCount > 0) ? wallCount : QRandomGenerator::global()->bounded(100, 151); // 调整为100-150块墙体
+    int maxAttempts = 3000; // 增加尝试次数以确保能生成足够的墙体
     
     for (int attempt = 0; attempt < maxAttempts && wallPositions.size() < targetWallCount; ++attempt) {
         // 随机选择一个位置

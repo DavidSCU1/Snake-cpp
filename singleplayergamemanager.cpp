@@ -1,6 +1,7 @@
 #include "singleplayergamemanager.h"
 #include "gamewidget.h"
 #include <QDebug>
+#include <QSettings>
 #include <QRandomGenerator>
 #include <QMessageBox>
 
@@ -154,6 +155,9 @@ void SinglePlayerGameManager::endGame()
         // 检查成就
         checkAchievements();
         
+        // 显示未显示的成就
+        showPendingAchievements();
+        
         // 保存进度
         saveProgress();
         
@@ -306,33 +310,34 @@ void SinglePlayerGameManager::initializeAchievements()
     achievements.clear();
     
     // 分数成就
-    achievements.append({"score_100", "初学者", "获得100分", false, 0, 100});
-    achievements.append({"score_500", "进步者", "获得500分", false, 0, 500});
-    achievements.append({"score_1000", "高手", "获得1000分", false, 0, 1000});
-    achievements.append({"score_5000", "大师", "获得5000分", false, 0, 5000});
+    achievements.append({"score_100", "初学者", "获得100分", false, 0, 100, true});
+    achievements.append({"score_500", "进步者", "获得500分", false, 0, 500, true});
+    achievements.append({"score_1000", "高手", "获得1000分", false, 0, 1000, true});
+    achievements.append({"score_5000", "大师", "获得5000分", false, 0, 5000, true});
     
     // 时间成就
-    achievements.append({"time_60", "坚持者", "游戏时间超过1分钟", false, 0, 60});
-    achievements.append({"time_300", "耐力王", "游戏时间超过5分钟", false, 0, 300});
-    achievements.append({"time_600", "马拉松", "游戏时间超过10分钟", false, 0, 600});
+    achievements.append({"time_60", "坚持者", "游戏时间超过1分钟", false, 0, 60, true});
+    achievements.append({"time_300", "耐力王", "游戏时间超过5分钟", false, 0, 300, true});
+    achievements.append({"time_600", "马拉松", "游戏时间超过10分钟", false, 0, 600, true});
     
     // 长度成就
-    achievements.append({"length_20", "小蛇", "蛇身长度达到20", false, 0, 20});
-    achievements.append({"length_50", "大蛇", "蛇身长度达到50", false, 0, 50});
-    achievements.append({"length_100", "巨蛇", "蛇身长度达到100", false, 0, 100});
+    achievements.append({"length_20", "小蛇", "蛇身长度达到20", false, 0, 20, true});
+    achievements.append({"length_50", "大蛇", "蛇身长度达到50", false, 0, 50, true});
+    achievements.append({"length_100", "巨蛇", "蛇身长度达到100", false, 0, 100, true});
     
     // 特殊成就
-    achievements.append({"perfect_10", "完美主义者", "连续10次完美移动", false, 0, 10});
-    achievements.append({"special_food_10", "美食家", "吃掉10个特殊食物", false, 0, 10});
-    achievements.append({"efficiency_80", "效率专家", "游戏效率达到80%", false, 0, 80});
+    achievements.append({"perfect_10", "完美主义者", "连续10次完美移动", false, 0, 10, true});
+    achievements.append({"special_food_10", "美食家", "吃掉10个特殊食物", false, 0, 10, true});
+    achievements.append({"efficiency_80", "效率专家", "游戏效率达到80%", false, 0, 80, true});
+    achievements.append({"wall_collision", "硬！", "在游戏中撞墙而死", false, 0, 1, true});
     
     // 模式特定成就
-    achievements.append({"time_attack_master", "时间大师", "时间挑战模式获得1000分", false, 0, 1000});
-    achievements.append({"challenge_walls_50", "墙体大师", "挑战模式生成50块墙体", false, 0, 50});
-    achievements.append({"speed_run_5x", "极速之王", "极速模式达到5倍速度", false, 0, 5});
-    achievements.append({"ai_battle_win", "人机对战胜利者", "在人机对战中击败AI", false, 0, 1});
-    achievements.append({"ai_battle_500", "AI挑战者", "人机对战模式获得500分", false, 0, 500});
-    achievements.append({"ai_battle_master", "AI征服者", "人机对战模式获得1000分", false, 0, 1000});
+    achievements.append({"time_attack_master", "时间大师", "时间挑战模式获得1000分", false, 0, 1000, true});
+    achievements.append({"challenge_walls_50", "墙体大师", "挑战模式生成50块墙体", false, 0, 50, true});
+    achievements.append({"speed_run_5x", "极速之王", "极速模式达到5倍速度", false, 0, 5, true});
+    achievements.append({"ai_battle_win", "人机对战胜利者", "在人机对战中击败AI", false, 0, 1, true});
+    achievements.append({"ai_battle_500", "AI挑战者", "人机对战模式获得500分", false, 0, 500, true});
+    achievements.append({"ai_battle_master", "AI征服者", "人机对战模式获得1000分", false, 0, 1000, true});
 }
 
 void SinglePlayerGameManager::setupModeTimers()
@@ -391,6 +396,72 @@ void SinglePlayerGameManager::checkAchievements()
     checkTimeAchievements();
     checkEfficiencyAchievements();
     checkSpecialAchievements();
+    checkWallCollisionAchievement();
+}
+
+void SinglePlayerGameManager::updateAchievements(const QList<Achievement>& newAchievements)
+{
+    achievements = newAchievements;
+    saveProgress(); // 保存更新后的成就进度
+}
+
+QList<Achievement> SinglePlayerGameManager::getUnDisplayedAchievements() const
+{
+    QList<Achievement> unDisplayedAchievements;
+    for (const auto& achievement : achievements) {
+        if (achievement.unlocked && !achievement.displayed) {
+            unDisplayedAchievements.append(achievement);
+        }
+    }
+    return unDisplayedAchievements;
+}
+
+void SinglePlayerGameManager::markAchievementsAsDisplayed()
+{
+    bool updated = false;
+    for (auto& achievement : achievements) {
+        if (achievement.unlocked && !achievement.displayed) {
+            achievement.displayed = true;
+            updated = true;
+        }
+    }
+    
+    if (updated) {
+        saveProgress(); // 保存更新后的成就进度
+    }
+}
+
+void SinglePlayerGameManager::showPendingAchievements()
+{
+    QList<Achievement> unDisplayedAchievements = getUnDisplayedAchievements();
+    if (!unDisplayedAchievements.isEmpty()) {
+        QString message = "恭喜！你解锁了以下成就：\n\n";
+        
+        for (const auto& achievement : unDisplayedAchievements) {
+            message += QString("• %1: %2\n")
+                      .arg(achievement.name)
+                      .arg(achievement.description);
+        }
+        
+        QMessageBox::information(nullptr, "成就解锁", message);
+        markAchievementsAsDisplayed();
+    }
+}
+
+void SinglePlayerGameManager::checkWallCollisionAchievement()
+{
+    // 检查撞墙而死成就
+    for (auto& achievement : achievements) {
+        if (achievement.id == "wall_collision" && !achievement.unlocked) {
+            if (gameStats.diedByWallCollision) {
+                achievement.unlocked = true;
+                achievement.progress = 1;
+                achievement.displayed = false; // 标记为未显示
+                emit achievementUnlocked(achievement);
+                // 不再立即显示成就解锁提示，而是在游戏结束时统一显示
+            }
+        }
+    }
 }
 
 void SinglePlayerGameManager::checkScoreAchievements()
@@ -402,6 +473,7 @@ void SinglePlayerGameManager::checkScoreAchievements()
             if (gameStats.totalScore >= achievement.target) {
                 achievement.unlocked = true;
                 achievement.progress = achievement.target;
+                achievement.displayed = false; // 标记为未显示
                 emit achievementUnlocked(achievement);
             } else {
                 achievement.progress = gameStats.totalScore;
@@ -419,6 +491,7 @@ void SinglePlayerGameManager::checkTimeAchievements()
             if (gameStats.timeElapsed >= achievement.target) {
                 achievement.unlocked = true;
                 achievement.progress = achievement.target;
+                achievement.displayed = false; // 标记为未显示
                 emit achievementUnlocked(achievement);
             } else {
                 achievement.progress = gameStats.timeElapsed;
@@ -434,6 +507,7 @@ void SinglePlayerGameManager::checkEfficiencyAchievements()
             if (gameStats.efficiency >= achievement.target) {
                 achievement.unlocked = true;
                 achievement.progress = achievement.target;
+                achievement.displayed = false; // 标记为未显示
                 emit achievementUnlocked(achievement);
             } else {
                 achievement.progress = (int)gameStats.efficiency;
@@ -451,6 +525,7 @@ void SinglePlayerGameManager::checkSpecialAchievements()
             if (gameStats.maxLength >= achievement.target) {
                 achievement.unlocked = true;
                 achievement.progress = achievement.target;
+                achievement.displayed = false; // 标记为未显示
                 emit achievementUnlocked(achievement);
             } else {
                 achievement.progress = gameStats.maxLength;
@@ -464,6 +539,7 @@ void SinglePlayerGameManager::checkSpecialAchievements()
             if (gameStats.specialFoodEaten >= achievement.target) {
                 achievement.unlocked = true;
                 achievement.progress = achievement.target;
+                achievement.displayed = false; // 标记为未显示
                 emit achievementUnlocked(achievement);
             } else {
                 achievement.progress = gameStats.specialFoodEaten;
@@ -478,6 +554,7 @@ void SinglePlayerGameManager::checkSpecialAchievements()
                 if (gameStats.totalScore >= achievement.target) {
                     achievement.unlocked = true;
                     achievement.progress = achievement.target;
+                    achievement.displayed = false; // 标记为未显示
                     emit achievementUnlocked(achievement);
                 }
             }
@@ -489,18 +566,21 @@ void SinglePlayerGameManager::checkSpecialAchievements()
                 if (playerScore > aiScore) {
                     achievement.unlocked = true;
                     achievement.progress = 1;
+                    achievement.displayed = false; // 标记为未显示
                     emit achievementUnlocked(achievement);
                 }
             } else if (achievement.id == "ai_battle_500" && !achievement.unlocked) {
                 if (gameStats.totalScore >= 500) {
                     achievement.unlocked = true;
                     achievement.progress = achievement.target;
+                    achievement.displayed = false; // 标记为未显示
                     emit achievementUnlocked(achievement);
                 }
             } else if (achievement.id == "ai_battle_master" && !achievement.unlocked) {
                 if (gameStats.totalScore >= 1000) {
                     achievement.unlocked = true;
                     achievement.progress = achievement.target;
+                    achievement.displayed = false; // 标记为未显示
                     emit achievementUnlocked(achievement);
                 }
             }
@@ -517,6 +597,7 @@ void SinglePlayerGameManager::saveProgress()
         settings->setValue("id", achievements[i].id);
         settings->setValue("unlocked", achievements[i].unlocked);
         settings->setValue("progress", achievements[i].progress);
+        settings->setValue("displayed", achievements[i].displayed);
     }
     settings->endArray();
     
@@ -539,6 +620,7 @@ void SinglePlayerGameManager::loadProgress()
             if (achievement.id == id) {
                 achievement.unlocked = settings->value("unlocked", false).toBool();
                 achievement.progress = settings->value("progress", 0).toInt();
+                achievement.displayed = settings->value("displayed", true).toBool();
                 break;
             }
         }

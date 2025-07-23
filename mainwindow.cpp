@@ -90,8 +90,12 @@ void MainWindow::setupUI()
     });
     stackedWidget->addWidget(multiPlayerLobby);
     
+    // 创建单人游戏管理器
+    singlePlayerGameManager = new SinglePlayerGameManager(this);
+    
     // 创建单人模式选择界面
     singleModeSelection = new SingleModeSelection(this);
+    singleModeSelection->setGameManager(singlePlayerGameManager);
     connect(singleModeSelection, QOverload<SinglePlayerMode, CharacterType>::of(&SingleModeSelection::modeSelected), this, &MainWindow::onSingleModeSelected);
     connect(singleModeSelection, &SingleModeSelection::backToMenu, this, &MainWindow::showMainMenu);
     stackedWidget->addWidget(singleModeSelection);

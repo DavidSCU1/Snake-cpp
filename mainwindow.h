@@ -21,6 +21,7 @@
 #include "oceanbackground.h"
 #include "multiplayermodeselection.h"
 #include "localcoopcharacterselection.h"
+#include "singleplayergamemanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -83,6 +84,7 @@ private:
     MultiplayerModeSelection* multiplayerModeSelection;
     LocalCoopCharacterSelection* localCoopCharacterSelection;
     OceanBackground* oceanBackground;
+    SinglePlayerGameManager* singlePlayerGameManager;
     
     // 菜单页面
     QWidget* mainMenuWidget;

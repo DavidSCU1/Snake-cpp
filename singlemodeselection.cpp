@@ -8,6 +8,8 @@
 #include <QParallelAnimationGroup>
 #include <QSequentialAnimationGroup>
 #include <QDebug>
+#include <QDialog>
+#include <QMessageBox>
 
 SingleModeSelection::SingleModeSelection(QWidget *parent)
     : QWidget(parent)
@@ -554,7 +556,197 @@ void SingleModeSelection::onAchievementUnlocked(const Achievement& achievement)
 
 void SingleModeSelection::showAchievements()
 {
-    emit achievementsRequested();
+    if (!gameManager) {
+        QMessageBox::information(this, "成就系统", "游戏管理器未初始化，无法显示成就。");
+        return;
+    }
+    
+    // 获取所有成就
+    QList<Achievement> allAchievements = gameManager->getAchievements();
+    
+    // 创建成就显示对话框
+    QDialog* achievementDialog = new QDialog(this);
+    achievementDialog->setWindowTitle("🏆 成就系统");
+    achievementDialog->setFixedSize(600, 500);
+    achievementDialog->setStyleSheet(
+        "QDialog { "
+        "    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, "
+        "        stop:0 #1e3c72, stop:1 #2a5298); "
+        "    border-radius: 10px; "
+        "}"
+    );
+    
+    QVBoxLayout* mainLayout = new QVBoxLayout(achievementDialog);
+    mainLayout->setSpacing(15);
+    mainLayout->setContentsMargins(20, 20, 20, 20);
+    
+    // 标题
+    QLabel* titleLabel = new QLabel("🏆 成就列表", achievementDialog);
+    titleLabel->setAlignment(Qt::AlignCenter);
+    titleLabel->setStyleSheet(
+        "QLabel { "
+        "    font-size: 24px; "
+        "    font-weight: bold; "
+        "    color: #FFD700; "
+        "    margin-bottom: 10px; "
+        "    font-family: '华文彩云'; "
+        "}"
+    );
+    mainLayout->addWidget(titleLabel);
+    
+    // 统计信息
+    int unlockedCount = 0;
+    for (const auto& achievement : allAchievements) {
+        if (achievement.unlocked) {
+            unlockedCount++;
+        }
+    }
+    
+    QLabel* statsLabel = new QLabel(QString("已解锁: %1/%2").arg(unlockedCount).arg(allAchievements.size()), achievementDialog);
+    statsLabel->setAlignment(Qt::AlignCenter);
+    statsLabel->setStyleSheet(
+        "QLabel { "
+        "    font-size: 16px; "
+        "    color: #E8E8E8; "
+        "    margin-bottom: 15px; "
+        "}"
+    );
+    mainLayout->addWidget(statsLabel);
+    
+    // 创建滚动区域
+    QScrollArea* scrollArea = new QScrollArea(achievementDialog);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea->setStyleSheet(
+        "QScrollArea { "
+        "    background: transparent; "
+        "    border: none; "
+        "    border-radius: 8px; "
+        "} "
+        "QScrollBar:vertical { "
+        "    background: rgba(255,255,255,0.1); "
+        "    width: 12px; "
+        "    border-radius: 6px; "
+        "} "
+        "QScrollBar::handle:vertical { "
+        "    background: rgba(255,255,255,0.3); "
+        "    border-radius: 6px; "
+        "    min-height: 20px; "
+        "} "
+        "QScrollBar::handle:vertical:hover { "
+        "    background: rgba(255,255,255,0.5); "
+        "}"
+    );
+    
+    QWidget* scrollWidget = new QWidget();
+    QVBoxLayout* scrollLayout = new QVBoxLayout(scrollWidget);
+    scrollLayout->setSpacing(8);
+    scrollLayout->setContentsMargins(10, 10, 10, 10);
+    
+    // 分类显示成就
+    // 已解锁成就
+    QLabel* unlockedTitle = new QLabel("✅ 已达成成就", scrollWidget);
+    unlockedTitle->setStyleSheet(
+        "QLabel { "
+        "    font-size: 18px; "
+        "    font-weight: bold; "
+        "    color: #4CAF50; "
+        "    margin: 10px 0 5px 0; "
+        "}"
+    );
+    scrollLayout->addWidget(unlockedTitle);
+    
+    bool hasUnlocked = false;
+    for (const auto& achievement : allAchievements) {
+        if (achievement.unlocked) {
+            hasUnlocked = true;
+            AchievementWidget* widget = new AchievementWidget(achievement, scrollWidget);
+            scrollLayout->addWidget(widget);
+        }
+    }
+    
+    if (!hasUnlocked) {
+        QLabel* noUnlockedLabel = new QLabel("暂无已达成的成就", scrollWidget);
+        noUnlockedLabel->setStyleSheet(
+            "QLabel { "
+            "    font-size: 14px; "
+            "    color: #888888; "
+            "    font-style: italic; "
+            "    margin: 5px 0 15px 20px; "
+            "}"
+        );
+        scrollLayout->addWidget(noUnlockedLabel);
+    }
+    
+    // 未解锁成就
+    QLabel* lockedTitle = new QLabel("🔒 未达成成就", scrollWidget);
+    lockedTitle->setStyleSheet(
+        "QLabel { "
+        "    font-size: 18px; "
+        "    font-weight: bold; "
+        "    color: #FF9800; "
+        "    margin: 15px 0 5px 0; "
+        "}"
+    );
+    scrollLayout->addWidget(lockedTitle);
+    
+    bool hasLocked = false;
+    for (const auto& achievement : allAchievements) {
+        if (!achievement.unlocked) {
+            hasLocked = true;
+            AchievementWidget* widget = new AchievementWidget(achievement, scrollWidget);
+            scrollLayout->addWidget(widget);
+        }
+    }
+    
+    if (!hasLocked) {
+        QLabel* noLockedLabel = new QLabel("恭喜！所有成就已达成！", scrollWidget);
+        noLockedLabel->setStyleSheet(
+            "QLabel { "
+            "    font-size: 14px; "
+            "    color: #4CAF50; "
+            "    font-weight: bold; "
+            "    margin: 5px 0 15px 20px; "
+            "}"
+        );
+        scrollLayout->addWidget(noLockedLabel);
+    }
+    
+    scrollLayout->addStretch();
+    scrollArea->setWidget(scrollWidget);
+    mainLayout->addWidget(scrollArea);
+    
+    // 关闭按钮
+    QPushButton* closeButton = new QPushButton("关闭", achievementDialog);
+    closeButton->setFixedSize(100, 35);
+    closeButton->setStyleSheet(
+        "QPushButton { "
+        "    background-color: #6C757D; "
+        "    border: none; "
+        "    border-radius: 8px; "
+        "    color: white; "
+        "    font-size: 14px; "
+        "    font-weight: bold; "
+        "} "
+        "QPushButton:hover { "
+        "    background-color: #5A6268; "
+        "} "
+        "QPushButton:pressed { "
+        "    background-color: #495057; "
+        "}"
+    );
+    connect(closeButton, &QPushButton::clicked, achievementDialog, &QDialog::accept);
+    
+    QHBoxLayout* buttonLayout = new QHBoxLayout();
+    buttonLayout->addStretch();
+    buttonLayout->addWidget(closeButton);
+    buttonLayout->addStretch();
+    mainLayout->addLayout(buttonLayout);
+    
+    // 显示对话框
+    achievementDialog->exec();
+    achievementDialog->deleteLater();
 }
 
 void SingleModeSelection::onCharacterButtonClicked()

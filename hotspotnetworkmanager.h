@@ -87,6 +87,7 @@ private slots:
     void onHeartbeatTimeout();
     void processHostDiscovery();
     void broadcastHostInfo();
+    void onUdpDataReceived();
     
 private:
     void processMessage(const QJsonObject& message, QTcpSocket* sender = nullptr);

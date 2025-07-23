@@ -64,6 +64,7 @@ bool HotspotNetworkManager::startHotspotHost(const QString& roomName, int maxPla
     if (!udpSocket->bind(QHostAddress::Any, DISCOVERY_PORT)) {
         qWarning() << "Failed to bind UDP socket:" << udpSocket->errorString();
     }
+    connect(udpSocket, &QUdpSocket::readyRead, this, &HotspotNetworkManager::onUdpDataReceived);
     
     // 设置房间信息
     currentRoomName = roomName;
@@ -135,6 +136,10 @@ void HotspotNetworkManager::startHostDiscovery()
     // 创建UDP套接字用于发现
     if (!udpSocket) {
         udpSocket = new QUdpSocket(this);
+        if (!udpSocket->bind(QHostAddress::Any, DISCOVERY_PORT)) {
+            qWarning() << "Failed to bind UDP socket for discovery:" << udpSocket->errorString();
+        }
+        connect(udpSocket, &QUdpSocket::readyRead, this, &HotspotNetworkManager::onUdpDataReceived);
     }
     
     // 开始定期发现主机
@@ -429,6 +434,40 @@ void HotspotNetworkManager::broadcastHostInfo()
     udpSocket->writeDatagram(data, QHostAddress::Broadcast, DISCOVERY_PORT);
 }
 
+void HotspotNetworkManager::onUdpDataReceived()
+{
+    if (!udpSocket) return;
+    
+    while (udpSocket->hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocket->pendingDatagramSize());
+        QHostAddress sender;
+        quint16 senderPort;
+        
+        udpSocket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+        
+        QJsonParseError error;
+        QJsonDocument doc = QJsonDocument::fromJson(datagram, &error);
+        
+        if (error.error == QJsonParseError::NoError && doc.isObject()) {
+            QJsonObject message = doc.object();
+            QString type = message["type"].toString();
+            
+            if (type == "host_info" && !isHosting()) {
+                QString hostAddr = message["host_address"].toString();
+                QString roomName = message["room_name"].toString();
+                int playerCount = message["player_count"].toInt();
+                int maxPlayers = message["max_players"].toInt();
+                emit hostDiscovered(hostAddr, roomName, playerCount, maxPlayers);
+                qDebug() << "Discovered host:" << roomName << "at" << hostAddr;
+            } else if (type == "discover_hosts" && isHosting()) {
+                // 响应发现请求
+                broadcastHostInfo();
+            }
+        }
+    }
+}
+
 void HotspotNetworkManager::processMessage(const QJsonObject& message, QTcpSocket* sender)
 {
     QString type = message["type"].toString();
@@ -451,12 +490,6 @@ void HotspotNetworkManager::processMessage(const QJsonObject& message, QTcpSocke
         QString playerName = message["player_name"].toString();
         QString chatMessage = message["message"].toString();
         emit chatMessageReceived(playerName, chatMessage);
-    } else if (type == "host_info" && !isHosting()) {
-        QString hostAddr = message["host_address"].toString();
-        QString roomName = message["room_name"].toString();
-        int playerCount = message["player_count"].toInt();
-        int maxPlayers = message["max_players"].toInt();
-        emit hostDiscovered(hostAddr, roomName, playerCount, maxPlayers);
     }
 }
 

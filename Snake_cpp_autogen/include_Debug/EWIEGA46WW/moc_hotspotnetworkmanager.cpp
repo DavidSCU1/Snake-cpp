@@ -71,7 +71,8 @@ template <> constexpr inline auto HotspotNetworkManager::qt_create_metaobjectdat
         "onDiscoveryTimeout",
         "onHeartbeatTimeout",
         "processHostDiscovery",
-        "broadcastHostInfo"
+        "broadcastHostInfo",
+        "onUdpDataReceived"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -135,6 +136,8 @@ template <> constexpr inline auto HotspotNetworkManager::qt_create_metaobjectdat
         QtMocHelpers::SlotData<void()>(32, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'broadcastHostInfo'
         QtMocHelpers::SlotData<void()>(33, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onUdpDataReceived'
+        QtMocHelpers::SlotData<void()>(34, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -178,6 +181,7 @@ void HotspotNetworkManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c
         case 17: _t->onHeartbeatTimeout(); break;
         case 18: _t->processHostDiscovery(); break;
         case 19: _t->broadcastHostInfo(); break;
+        case 20: _t->onUdpDataReceived(); break;
         default: ;
         }
     }
@@ -238,14 +242,14 @@ int HotspotNetworkManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 20)
+        if (_id < 21)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 21;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 20)
+        if (_id < 21)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 21;
     }
     return _id;
 }

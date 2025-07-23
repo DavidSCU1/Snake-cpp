@@ -555,7 +555,7 @@ void MultiPlayerLobby::onPlayerJoinedRoom(const QString& roomId, const QString& 
         currentRoomId = roomId;
         showWaitingInterface();
         qDebug() << "Player" << playerName << "joined, switching to waiting interface";
-        sendJoinSuccessAck(); // 发送显式加入成功确认消息
+        sendJoinSuccessAck();
     } else if (roomId == currentRoomId) {
         if (waitingWidget && waitingWidget->isVisible()) {
             showWaitingInterface();
@@ -569,12 +569,20 @@ void MultiPlayerLobby::onPlayerJoinedRoom(const QString& roomId, const QString& 
 // 新增函数，发送加入成功确认消息
 void MultiPlayerLobby::sendJoinSuccessAck()
 {
-    if (!multiPlayerManager || !multiPlayerManager->getNetworkManager()) return;
+    if (!multiPlayerManager) {
+        qWarning() << "multiPlayerManager is null, cannot send join success ack.";
+        return;
+    }
+    NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+    if (!networkManager) {
+        qWarning() << "NetworkManager is null, cannot send join success ack.";
+        return;
+    }
     QJsonObject data;
     data["roomId"] = currentRoomId;
     data["playerName"] = playerName;
-    QJsonObject msg = multiPlayerManager->getNetworkManager()->createMessage("joinSuccess", data);
-    multiPlayerManager->getNetworkManager()->sendMessage(QJsonDocument(msg).toJson(QJsonDocument::Compact));
+    QJsonObject msg = networkManager->createMessage("joinSuccess", data);
+    networkManager->sendMessage(QJsonDocument(msg).toJson(QJsonDocument::Compact));
 }
 
 void MultiPlayerLobby::onPlayerLeftRoom(const QString& roomId, const QString& playerName)

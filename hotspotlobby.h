@@ -41,6 +41,7 @@ public:
     void setGameManager(HotspotGameManager* manager);
     
     // 界面控制
+    void showModeSelection();
     void showHostMode();
     void showClientMode();
     void showGameLobby();

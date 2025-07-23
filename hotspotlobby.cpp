@@ -88,7 +88,7 @@ HotspotLobby::HotspotLobby(QWidget *parent)
     networkStatusTimer->start(2000);
     
     // 显示模式选择界面
-    showHostMode();
+    showModeSelection();
 }
 
 HotspotLobby::~HotspotLobby()
@@ -161,6 +161,20 @@ void HotspotLobby::showHostMode()
         currentWidget->hide();
     }
     
+    currentWidget = hostModeWidget;
+    mainLayout->addWidget(currentWidget);
+    currentWidget->show();
+    
+    updateNetworkStatus();
+}
+
+void HotspotLobby::showModeSelection()
+{
+    if (currentWidget) {
+        mainLayout->removeWidget(currentWidget);
+        currentWidget->hide();
+    }
+    
     currentWidget = modeSelectionWidget;
     mainLayout->addWidget(currentWidget);
     currentWidget->show();
@@ -221,7 +235,7 @@ void HotspotLobby::resetLobby()
     playerListWidget->clear();
     chatDisplay->clear();
     
-    showHostMode();
+    showModeSelection();
 }
 
 void HotspotLobby::setupUI()
@@ -264,15 +278,7 @@ void HotspotLobby::setupModeSelectionUI()
     // 主机模式按钮
     hostModeButton = new QPushButton("创建房间 (主机模式)");
     hostModeButton->setMinimumHeight(50);
-    connect(hostModeButton, &QPushButton::clicked, [this]() {
-        if (currentWidget) {
-            mainLayout->removeWidget(currentWidget);
-            currentWidget->hide();
-        }
-        currentWidget = hostModeWidget;
-        mainLayout->addWidget(currentWidget);
-        currentWidget->show();
-    });
+    connect(hostModeButton, &QPushButton::clicked, this, &HotspotLobby::showHostMode);
     layout->addWidget(hostModeButton);
     
     layout->addSpacing(10);
@@ -344,7 +350,7 @@ void HotspotLobby::setupHostModeUI()
         "QPushButton { background-color: #f44336; }"
         "QPushButton:hover { background-color: #da190b; }"
     );
-    connect(backFromHostButton, &QPushButton::clicked, this, &HotspotLobby::showHostMode);
+    connect(backFromHostButton, &QPushButton::clicked, this, &HotspotLobby::showModeSelection);
     buttonLayout->addWidget(backFromHostButton);
     
     layout->addLayout(buttonLayout);
@@ -401,7 +407,7 @@ void HotspotLobby::setupClientModeUI()
         "QPushButton { background-color: #f44336; }"
         "QPushButton:hover { background-color: #da190b; }"
     );
-    connect(backFromClientButton, &QPushButton::clicked, this, &HotspotLobby::showHostMode);
+    connect(backFromClientButton, &QPushButton::clicked, this, &HotspotLobby::showModeSelection);
     layout->addWidget(backFromClientButton);
     
     layout->addStretch();

@@ -1,0 +1,1183 @@
+#include "multiplayerlobby.h"
+#include "gamewidget.h"
+#include <QDebug>
+#include <QHostInfo>
+#include <QProcess>
+#include <QCheckBox>
+#include <QInputDialog>
+#include <QTimer>
+#include <QJsonDocument>
+#include <QJsonObject>
+
+MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
+    : QWidget(parent)
+    , gameWidget(nullptr)
+    , multiPlayerManager(new MultiPlayerGameManager(this))
+    , refreshTimer(new QTimer(this))
+    , countdownTimer(new QTimer(this))
+    , countdownLabel(new QLabel(this))
+{
+    setupUI();
+    
+    // 初始化NetworkManager并设置给MultiPlayerGameManager
+    NetworkManager* networkManager = new NetworkManager(this);
+    multiPlayerManager->setNetworkManager(networkManager);
+    
+    // 连接NetworkManager的房间发现信号
+    connect(networkManager, &NetworkManager::roomDiscovered, this, &MultiPlayerLobby::onRoomDiscovered);
+    
+    // 启动房间发现功能
+    networkManager->startRoomDiscovery(12345);
+    
+    // 连接MultiPlayerGameManager信号
+    connect(multiPlayerManager, &MultiPlayerGameManager::roomCreated, this, &MultiPlayerLobby::onRoomCreated);
+    connect(multiPlayerManager, &MultiPlayerGameManager::playerJoinedRoom, this, &MultiPlayerLobby::onPlayerJoinedRoom);
+    connect(multiPlayerManager, &MultiPlayerGameManager::playerLeftRoom, this, &MultiPlayerLobby::onPlayerLeftRoom);
+    connect(multiPlayerManager, &MultiPlayerGameManager::gameStarted, this, &MultiPlayerLobby::onGameStarted);
+    connect(multiPlayerManager, &MultiPlayerGameManager::roomDestroyed, this, &MultiPlayerLobby::onRoomDestroyed);
+    connect(multiPlayerManager, &MultiPlayerGameManager::gameEnded, this, &MultiPlayerLobby::onGameEnded);
+    
+    // 连接网络管理器的新信号
+    connect(networkManager, &NetworkManager::characterSelectionStarted, this, &MultiPlayerLobby::onCharacterSelectionStarted);
+    connect(networkManager, &NetworkManager::characterSelectionReceived, this, &MultiPlayerLobby::onPlayerCharacterSelected);
+    connect(networkManager, &NetworkManager::playerReadyReceived, this, &MultiPlayerLobby::onPlayerReadyReceived);
+    connect(networkManager, &NetworkManager::gameCountdownReceived, this, &MultiPlayerLobby::onGameCountdownReceived);
+    
+    // 连接网络管理器的错误信号
+    connect(networkManager, &NetworkManager::connectionError, this, &MultiPlayerLobby::onConnectionError);
+    
+    // 连接网络管理器的playerJoined信号，更新玩家加入界面
+    connect(networkManager, &NetworkManager::playerJoined, this, [this](const QString& roomId, const QString& playerName) {
+        onPlayerJoinedRoom(roomId, playerName);
+    });
+    
+    // 设置定时刷新
+    connect(refreshTimer, &QTimer::timeout, this, &MultiPlayerLobby::refreshRoomList);
+    refreshTimer->start(3000); // 每3秒刷新一次房间列表
+    
+    // 初始刷新
+    refreshRoomList();
+    
+    // 初始化房间清理定时器
+    roomCleanupTimer = new QTimer(this);
+    connect(roomCleanupTimer, &QTimer::timeout, this, [this]() {
+        qint64 now = QDateTime::currentMSecsSinceEpoch();
+        QList<QString> toRemove;
+        for (auto it = discoveredRooms.begin(); it != discoveredRooms.end(); ++it) {
+            // 超过5秒未收到广播则移除
+            if (now - it.value() > 5000) {
+                toRemove.append(it.key());
+            }
+        }
+        for (const QString& key : toRemove) {
+            discoveredRooms.remove(key);
+            // 同步移除房间列表中的项
+            for (int i = 0; i < roomList->count(); ++i) {
+                QListWidgetItem* item = roomList->item(i);
+                if (item->data(Qt::UserRole).toString() == key) {
+                    delete roomList->takeItem(i);
+                    break;
+                }
+            }
+        }
+    });
+    roomCleanupTimer->start(1000); // 每秒检查一次
+    
+    // 初始化玩家名称
+    playerName = playerNameEdit->text();
+    
+    // 初始化倒计时
+    countdownTimer = new QTimer(this);
+    countdownTimer->setSingleShot(true);
+    connect(countdownTimer, &QTimer::timeout, this, [this]() {
+        // 倒计时结束，开始游戏
+        if (characterSelectionWidget) {
+            emit characterSelectionWidget->startGame();
+        }
+    });
+}
+
+MultiPlayerLobby::~MultiPlayerLobby()
+{
+    if (!currentRoomId.isEmpty() && !playerName.isEmpty()) {
+        multiPlayerManager->leaveRoom(currentRoomId, playerName);
+    }
+}
+
+void MultiPlayerLobby::setupUI()
+{
+    mainLayout = new QVBoxLayout(this);
+    mainLayout->setContentsMargins(20, 20, 20, 20);
+    mainLayout->setSpacing(15);
+    
+    // 标题
+    QLabel* titleLabel = new QLabel("多人游戏大厅", this);
+    titleLabel->setAlignment(Qt::AlignCenter);
+    QFont titleFont = titleLabel->font();
+    titleFont.setPointSize(18);
+    titleFont.setBold(true);
+    titleLabel->setFont(titleFont);
+    titleLabel->setStyleSheet("color: #FF6347; margin: 10px;");
+    mainLayout->addWidget(titleLabel);
+    
+    // 主要内容区域
+    contentLayout = new QHBoxLayout();
+    contentLayout->setSpacing(20);
+    
+    // 左侧房间列表
+    roomListWidget = new QWidget(this);
+    roomListWidget->setFixedWidth(300);
+    roomListLayout = new QVBoxLayout(roomListWidget);
+    
+    roomListLabel = new QLabel("房间列表", roomListWidget);
+    roomListLabel->setAlignment(Qt::AlignCenter);
+    QFont labelFont = roomListLabel->font();
+    labelFont.setPointSize(12);
+    labelFont.setBold(true);
+    roomListLabel->setFont(labelFont);
+    roomListLayout->addWidget(roomListLabel);
+    
+    roomList = new QListWidget(roomListWidget);
+    roomList->setMinimumHeight(200);
+    connect(roomList, &QListWidget::itemSelectionChanged, this, &MultiPlayerLobby::onRoomSelectionChanged);
+    roomListLayout->addWidget(roomList);
+    
+    refreshButton = new QPushButton("刷新房间列表", roomListWidget);
+    refreshButton->setStyleSheet("QPushButton { background-color: #4CAF50; color: white; border: none; padding: 8px; border-radius: 4px; }"
+                                "QPushButton:hover { background-color: #45a049; }");
+    connect(refreshButton, &QPushButton::clicked, this, &MultiPlayerLobby::onRefreshClicked);
+    roomListLayout->addWidget(refreshButton);
+    
+    contentLayout->addWidget(roomListWidget);
+    
+    // 右侧房间信息和控制
+    roomInfoWidget = new QWidget(this);
+    roomInfoLayout = new QVBoxLayout(roomInfoWidget);
+    
+    // 房间信息显示
+    roomInfoGroup = new QGroupBox("房间信息", roomInfoWidget);
+    roomInfoGroupLayout = new QVBoxLayout(roomInfoGroup);
+    
+    roomIdLabel = new QLabel("房间ID: 未选择", roomInfoGroup);
+    roomNameLabel = new QLabel("房间名: 未选择", roomInfoGroup);
+    playerCountLabel = new QLabel("玩家数量: 0/0", roomInfoGroup);
+    roomStatusLabel = new QLabel("状态: 未知", roomInfoGroup);
+    
+    roomInfoGroupLayout->addWidget(roomIdLabel);
+    roomInfoGroupLayout->addWidget(roomNameLabel);
+    roomInfoGroupLayout->addWidget(playerCountLabel);
+    roomInfoGroupLayout->addWidget(roomStatusLabel);
+    
+    playerListWidget = new QListWidget(roomInfoGroup);
+    playerListWidget->setMaximumHeight(100);
+    roomInfoGroupLayout->addWidget(new QLabel("房间内玩家:", roomInfoGroup));
+    roomInfoGroupLayout->addWidget(playerListWidget);
+    
+    roomInfoLayout->addWidget(roomInfoGroup);
+    
+    // 玩家设置
+    playerSettingsGroup = new QGroupBox("玩家设置", roomInfoWidget);
+    playerSettingsLayout = new QVBoxLayout(playerSettingsGroup);
+    
+    playerNameLabel = new QLabel("玩家名称:", playerSettingsGroup);
+    playerNameEdit = new QLineEdit(playerSettingsGroup);
+    playerNameEdit->setPlaceholderText("请输入玩家名称");
+    playerNameEdit->setText("Player1"); // 默认名称
+    connect(playerNameEdit, &QLineEdit::textChanged, this, &MultiPlayerLobby::onPlayerNameChanged);
+    
+    playerSettingsLayout->addWidget(playerNameLabel);
+    playerSettingsLayout->addWidget(playerNameEdit);
+    
+    // 新增：手动输入IP和按钮
+    manualIpEdit = new QLineEdit(playerSettingsGroup);
+    manualIpEdit->setPlaceholderText("手动输入房主IP地址");
+    manualConnectButton = new QPushButton("手动连接", playerSettingsGroup);
+    manualConnectButton->setStyleSheet("QPushButton { background-color: #8BC34A; color: white; border: none; padding: 8px; border-radius: 4px; }QPushButton:hover { background-color: #689F38; }");
+    connect(manualConnectButton, &QPushButton::clicked, this, &MultiPlayerLobby::onManualConnectClicked);
+    playerSettingsLayout->addWidget(manualIpEdit);
+    playerSettingsLayout->addWidget(manualConnectButton);
+    
+    // 最大玩家数设置
+    QLabel* maxPlayersLabel = new QLabel("最大玩家数:", playerSettingsGroup);
+    maxPlayersSpinBox = new QSpinBox(playerSettingsGroup);
+    maxPlayersSpinBox->setMinimum(2);
+    maxPlayersSpinBox->setMaximum(8);
+    maxPlayersSpinBox->setValue(4); // 默认4人
+    
+    playerSettingsLayout->addWidget(maxPlayersLabel);
+    playerSettingsLayout->addWidget(maxPlayersSpinBox);
+    
+    roomInfoLayout->addWidget(playerSettingsGroup);
+    
+    // 控制按钮
+    buttonWidget = new QWidget(roomInfoWidget);
+    buttonLayout = new QHBoxLayout(buttonWidget);
+    
+    createRoomButton = new QPushButton("创建房间", buttonWidget);
+    createRoomButton->setStyleSheet("QPushButton { background-color: #2196F3; color: white; border: none; padding: 10px; border-radius: 4px; }"
+                                   "QPushButton:hover { background-color: #1976D2; }"
+                                   "QPushButton:disabled { background-color: #CCCCCC; }");
+    connect(createRoomButton, &QPushButton::clicked, this, &MultiPlayerLobby::onCreateRoomClicked);
+    
+    joinRoomButton = new QPushButton("加入房间", buttonWidget);
+    joinRoomButton->setStyleSheet("QPushButton { background-color: #FF9800; color: white; border: none; padding: 10px; border-radius: 4px; }"
+                                 "QPushButton:hover { background-color: #F57C00; }"
+                                 "QPushButton:disabled { background-color: #CCCCCC; }");
+    joinRoomButton->setEnabled(false);
+    connect(joinRoomButton, &QPushButton::clicked, this, &MultiPlayerLobby::onJoinRoomClicked);
+    
+    // 添加允许加入游戏中房间的勾选框
+    allowJoinCheckBox = new QCheckBox("允许加入游戏中的房间", playerSettingsGroup);
+    allowJoinCheckBox->setChecked(false);
+    playerSettingsLayout->addWidget(allowJoinCheckBox);
+    
+    // 勾选框状态变化时，控制加入按钮
+    connect(allowJoinCheckBox, &QCheckBox::stateChanged, this, [this](int state){
+        QListWidgetItem* currentItem = roomList->currentItem();
+        if (currentItem) {
+            QString roomId = currentItem->data(Qt::UserRole).toString();
+            GameRoom room = multiPlayerManager->getRoomInfo(roomId);
+            bool canJoin = (!room.isGameStarted || state == Qt::Checked) && room.currentPlayers < room.maxPlayers;
+            joinRoomButton->setEnabled(canJoin && validatePlayerName());
+        }
+    });
+    
+    buttonLayout->addWidget(createRoomButton);
+    buttonLayout->addWidget(joinRoomButton);
+    
+    roomInfoLayout->addWidget(buttonWidget);
+    
+    // 返回按钮
+    backButton = new QPushButton("返回主菜单", roomInfoWidget);
+    backButton->setStyleSheet("QPushButton { background-color: #6C757D; color: white; border: none; padding: 10px; border-radius: 4px; }"
+                             "QPushButton:hover { background-color: #5A6268; }");
+    connect(backButton, &QPushButton::clicked, this, &MultiPlayerLobby::onBackClicked);
+    roomInfoLayout->addWidget(backButton);
+    
+    contentLayout->addWidget(roomInfoWidget);
+    
+    mainLayout->addLayout(contentLayout);
+
+    // 创建等待界面
+    setupWaitingInterface();
+
+    // 创建角色选择界面
+    setupCharacterSelection();
+
+    // 将倒计时标签添加到布局的顶层
+    mainLayout->addWidget(countdownLabel);
+    countdownLabel->raise();
+    countdownLabel->hide();
+
+    // 初始状态
+    clearRoomInfo();
+}
+
+void MultiPlayerLobby::setGameWidget(GameWidget* gameWidget)
+{
+    this->gameWidget = gameWidget;
+    if (gameWidget) {
+        // 设置共享的MultiPlayerGameManager实例
+        gameWidget->setMultiPlayerManager(multiPlayerManager);
+    }
+}
+
+void MultiPlayerLobby::refreshRoomList()
+{
+    if (!multiPlayerManager) {
+        return;
+    }
+    
+    QStringList availableRooms = multiPlayerManager->getAvailableRooms();
+    roomList->clear();
+    
+    for (const QString& roomId : availableRooms) {
+        GameRoom room = multiPlayerManager->getRoomInfo(roomId);
+        QString displayText = QString("房间 %1 (%2/%3)")
+                             .arg(roomId)
+                             .arg(room.currentPlayers)
+                             .arg(room.maxPlayers);
+        
+        QListWidgetItem* item = new QListWidgetItem(displayText);
+        item->setData(Qt::UserRole, roomId);
+        
+        // 根据房间状态设置颜色
+        if (room.currentPlayers >= room.maxPlayers) {
+            item->setForeground(QColor("#FF5722")); // 红色表示已满
+        } else if (room.isGameStarted) {
+            item->setForeground(QColor("#FF9800")); // 橙色表示游戏中
+        } else {
+            item->setForeground(QColor("#4CAF50")); // 绿色表示可加入
+        }
+        
+        roomList->addItem(item);
+    }
+}
+
+void MultiPlayerLobby::onCreateRoomClicked()
+{
+    if (gameWidget) {
+        gameWidget->setPlayerName(playerNameEdit->text());
+    }
+    if (!validatePlayerName()) {
+        return;
+    }
+    
+    playerName = playerNameEdit->text().trimmed();
+    int maxPlayers = maxPlayersSpinBox->value();
+    
+    currentRoomId = multiPlayerManager->createRoom(playerName, maxPlayers);
+    
+    if (!currentRoomId.isEmpty()) {
+        // 显示等待界面
+        showWaitingInterface();
+        refreshRoomList();
+    } else {
+        QMessageBox::warning(this, "错误", "房间创建失败！");
+    }
+}
+
+void MultiPlayerLobby::onJoinRoomClicked()
+{
+    if (gameWidget) {
+        gameWidget->setPlayerName(playerNameEdit->text());
+    }
+    if (!validatePlayerName()) {
+        return;
+    }
+    
+    QListWidgetItem* currentItem = roomList->currentItem();
+    if (!currentItem) {
+        QMessageBox::warning(this, "错误", "请先选择一个房间！");
+        return;
+    }
+    
+    QString roomKey = currentItem->data(Qt::UserRole).toString();
+    playerName = playerNameEdit->text().trimmed();
+    
+    // 检查是否是发现的房间（包含IP:端口格式）
+    if (roomKey.contains(":")) {
+        // 这是通过UDP发现的房间
+        QString hostIp = currentItem->data(Qt::UserRole + 1).toString();
+        int hostPort = currentItem->data(Qt::UserRole + 2).toInt();
+        
+        if (hostIp.isEmpty() || hostPort == 0) {
+            QMessageBox::warning(this, "错误", "房间信息不完整！");
+            return;
+        }
+        
+        // 获取网络管理器
+        NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+        // 设置待发送玩家名
+        networkManager->setPendingPlayerName(playerName);
+        // 禁用加入按钮防止重复点击
+        joinRoomButton->setEnabled(false);
+        joinRoomButton->setText("连接中...");
+        
+        // 设置连接超时定时器
+        QTimer* connectionTimer = new QTimer(this);
+        connectionTimer->setSingleShot(true);
+        connectionTimer->setInterval(10000); // 10秒超时
+        
+        // 连接超时处理
+        connect(connectionTimer, &QTimer::timeout, [this, networkManager, connectionTimer]() {
+            if (networkManager->getClientSocket() && 
+                networkManager->getClientSocket()->state() != QAbstractSocket::ConnectedState) {
+                networkManager->disconnectFromServer();
+                QMessageBox::warning(this, "连接超时", "连接超时，请检查网络或重试。");
+                joinRoomButton->setEnabled(true);
+                joinRoomButton->setText("加入房间");
+            }
+            connectionTimer->deleteLater();
+        });
+        
+        // 连接成功处理
+        connect(networkManager, &NetworkManager::playerConnected, this, [this, connectionTimer, roomKey, networkManager](const QString& playerName) {
+            Q_UNUSED(playerName)
+            if (connectionTimer) {
+                connectionTimer->stop();
+                connectionTimer->deleteLater();
+            }
+            joinRoomButton->setEnabled(true);
+            joinRoomButton->setText("加入房间");
+            
+            // 连接成功后，先设置玩家名称，再通过MultiPlayerGameManager正式加入房间
+            QString actualPlayerName = this->playerName.isEmpty() ? playerNameEdit->text().trimmed() : this->playerName;
+            this->playerName = actualPlayerName;  // 提前设置playerName，确保onPlayerJoinedRoom能正确匹配
+            currentRoomId = roomKey;  // 提前设置roomId
+            
+            if (multiPlayerManager->joinRoom(roomKey, actualPlayerName)) {
+                QMessageBox::information(this, "成功", "成功加入房间！");
+                showWaitingInterface(); // 显式调用界面跳转
+                // 注意：showWaitingInterface()会在onPlayerJoinedRoom信号中自动调用
+            } else {
+                QMessageBox::warning(this, "错误", "连接成功但无法加入房间！");
+                // 如果加入失败，清理状态
+                this->playerName.clear();
+                currentRoomId.clear();
+                networkManager->disconnectFromServer();
+            }
+        });
+        
+        // 开始连接
+        networkManager->connectToServer(hostIp, hostPort);
+        connectionTimer->start();
+        
+        // 注意：玩家信息会在NetworkManager::onClientConnected中自动发送
+    } else {
+        // 这是本地房间，直接加入
+        QString roomId = roomKey;
+        if (multiPlayerManager->joinRoom(roomId, playerName)) {
+            currentRoomId = roomId;
+            QMessageBox::information(this, "成功", "成功加入房间！");
+            showWaitingInterface();
+            refreshRoomList();
+        } else {
+            QMessageBox::warning(this, "错误", "无法加入房间！房间可能已满或游戏已开始。");
+        }
+     }
+}
+
+// 处理接收到的游戏倒计时
+void MultiPlayerLobby::onGameCountdownReceived(const QString& roomId, int countdown)
+{
+    if (roomId == currentRoomId && countdownLabel) {
+        countdownLabel->setText(QString("游戏将在%1秒后开始...").arg(countdown));
+        countdownLabel->show();
+        
+        // 启动本地倒计时显示更新
+        QTimer* displayTimer = new QTimer(this);
+        int remainingTime = countdown;
+        connect(displayTimer, &QTimer::timeout, [this, displayTimer, &remainingTime]() mutable {
+            remainingTime--;
+            if (remainingTime > 0) {
+                countdownLabel->setText(QString("游戏将在%1秒后开始...").arg(remainingTime));
+            } else {
+                countdownLabel->hide();
+                displayTimer->deleteLater();
+            }
+        });
+        displayTimer->start(1000);
+        
+        // 启动游戏倒计时
+        if (!countdownTimer->isActive()) {
+            countdownTimer->start(countdown * 1000);
+        }
+    }
+}
+
+void MultiPlayerLobby::onRefreshClicked()
+{
+    refreshRoomList();
+}
+
+void MultiPlayerLobby::onBackClicked()
+{
+    if (!currentRoomId.isEmpty() && !playerName.isEmpty()) {
+        multiPlayerManager->leaveRoom(currentRoomId, playerName);
+        currentRoomId.clear();
+        playerName.clear();
+    }
+    emit backToMenu();
+}
+
+// 角色选择相关槽函数实现
+void MultiPlayerLobby::onCharacterSelected(CharacterType character)
+{
+    if (!currentRoomId.isEmpty() && !playerName.isEmpty()) {
+        // 通过网络发送角色选择信息
+        NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+        if (networkManager) {
+            // 发送角色选择消息
+            QJsonObject message;
+            message["type"] = "characterSelection";
+            message["roomId"] = currentRoomId;
+            message["playerName"] = playerName;
+            message["character"] = static_cast<int>(character);
+            
+            QJsonDocument doc(message);
+            networkManager->broadcastMessage(message);
+            
+            // 更新本地游戏管理器中的角色信息
+            multiPlayerManager->setPlayerCharacter(currentRoomId, playerName, character);
+        }
+    }
+}
+
+
+
+
+void MultiPlayerLobby::onRoomSelectionChanged()
+{
+    QListWidgetItem* currentItem = roomList->currentItem();
+    if (currentItem) {
+        QString roomId = currentItem->data(Qt::UserRole).toString();
+        GameRoom room = multiPlayerManager->getRoomInfo(roomId);
+        updateRoomInfo(room);
+        
+        // 检查是否可以加入房间
+        bool canJoin = !room.isGameStarted && room.currentPlayers < room.maxPlayers;
+        joinRoomButton->setEnabled(canJoin && validatePlayerName());
+    } else {
+        clearRoomInfo();
+        joinRoomButton->setEnabled(false);
+    }
+}
+
+void MultiPlayerLobby::onPlayerNameChanged()
+{
+    bool isValid = validatePlayerName();
+    createRoomButton->setEnabled(isValid);
+    
+    QListWidgetItem* currentItem = roomList->currentItem();
+    if (currentItem) {
+        QString roomId = currentItem->data(Qt::UserRole).toString();
+        GameRoom room = multiPlayerManager->getRoomInfo(roomId);
+        bool canJoin = !room.isGameStarted && room.currentPlayers < room.maxPlayers;
+        joinRoomButton->setEnabled(canJoin && isValid);
+    }
+}
+
+void MultiPlayerLobby::onRoomCreated(const QString& roomId, const GameRoom& room)
+{
+    Q_UNUSED(room)
+    if (roomId == currentRoomId) {
+        QMessageBox::information(this, "房间创建", QString("房间 %1 创建成功！等待其他玩家加入...").arg(roomId));
+    }
+    refreshRoomList();
+}
+
+void MultiPlayerLobby::onPlayerJoinedRoom(const QString& roomId, const QString& playerName)
+{
+    GameRoom room = multiPlayerManager->getRoomInfo(roomId);
+    updateRoomInfo(room);
+    
+    if (playerName == this->playerName) {
+        currentRoomId = roomId;
+        showWaitingInterface();
+        qDebug() << "Player" << playerName << "joined, switching to waiting interface";
+        sendJoinSuccessAck();
+    } else if (roomId == currentRoomId) {
+        if (waitingWidget && waitingWidget->isVisible()) {
+            showWaitingInterface();
+        } else {
+            QMessageBox::information(this, "玩家加入", QString("玩家 %1 加入了房间！").arg(playerName));
+        }
+    }
+    refreshRoomList();
+}
+
+// 新增函数，发送加入成功确认消息
+void MultiPlayerLobby::sendJoinSuccessAck()
+{
+    if (!multiPlayerManager) {
+        qWarning() << "multiPlayerManager is null, cannot send join success ack.";
+        return;
+    }
+    NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+    if (!networkManager) {
+        qWarning() << "NetworkManager is null, cannot send join success ack.";
+        return;
+    }
+    QJsonObject data;
+    data["roomId"] = currentRoomId;
+    data["playerName"] = playerName;
+    QJsonObject msg = networkManager->createMessage("joinSuccess", data);
+    networkManager->sendMessage(QJsonDocument(msg).toJson(QJsonDocument::Compact));
+}
+
+void MultiPlayerLobby::onPlayerLeftRoom(const QString& roomId, const QString& playerName)
+{
+    if (roomId == currentRoomId) {
+        // 如果等待界面正在显示，更新等待界面
+        if (waitingWidget && waitingWidget->isVisible()) {
+            showWaitingInterface(); // 刷新等待界面信息
+        } else {
+            QMessageBox::information(this, "玩家离开", QString("玩家 %1 离开了房间。").arg(playerName));
+            GameRoom room = multiPlayerManager->getRoomInfo(roomId);
+            updateRoomInfo(room);
+        }
+    }
+    refreshRoomList();
+}
+
+void MultiPlayerLobby::onGameStarted(const QString& roomId)
+{
+    if (roomId == currentRoomId) {
+        // 隐藏所有大厅界面
+        if (waitingWidget && waitingWidget->isVisible()) {
+            hideWaitingInterface();
+        }
+        if (characterSelectionWidget && characterSelectionWidget->isVisible()) {
+            hideCharacterSelection();
+        }
+        roomListWidget->hide();
+        roomInfoWidget->hide();
+
+        // 设置倒计时标签
+        countdownLabel->setText("3");
+        countdownLabel->setAlignment(Qt::AlignCenter);
+        QFont font = countdownLabel->font();
+        font.setPointSize(72);
+        font.setBold(true);
+        countdownLabel->setFont(font);
+        countdownLabel->setStyleSheet("color: white;");
+        countdownLabel->setFixedSize(this->size());
+        countdownLabel->show();
+
+        // 启动倒计时
+        int countdown = 3;
+        connect(countdownTimer, &QTimer::timeout, this, [this, countdown]() mutable {
+            countdown--;
+            if (countdown > 0) {
+                countdownLabel->setText(QString::number(countdown));
+            } else {
+                countdownTimer->stop();
+                countdownLabel->hide();
+                
+                // 设置游戏参数
+                if (gameWidget) {
+                    gameWidget->setCurrentRoomId(currentRoomId);
+                    gameWidget->setPlayerName(playerName);
+                }
+                emit gameStarted();
+            }
+        });
+        countdownTimer->start(1000);
+    }
+    refreshRoomList();
+}
+
+void MultiPlayerLobby::onGameEnded(const QString& roomId, const QString& winner)
+{
+    if (roomId == currentRoomId) {
+        QString message;
+        if (winner.isEmpty()) {
+            message = "游戏结束！";
+        } else {
+            message = QString("游戏结束！获胜者: %1").arg(winner);
+        }
+        QMessageBox::information(this, "游戏结束", message);
+        
+        // 清理当前房间信息
+        currentRoomId.clear();
+        clearRoomInfo();
+    }
+    refreshRoomList();
+}
+
+void MultiPlayerLobby::onRoomDestroyed(const QString& roomId)
+{
+    if (roomId == currentRoomId) {
+        // 隐藏等待界面
+        if (waitingWidget && waitingWidget->isVisible()) {
+            hideWaitingInterface();
+        }
+        
+        QMessageBox::information(this, "房间关闭", "房间已被关闭。");
+        currentRoomId.clear();
+        clearRoomInfo();
+    }
+    refreshRoomList();
+}
+
+void MultiPlayerLobby::updateRoomInfo(const GameRoom& room)
+{
+    roomIdLabel->setText(QString("房间ID: %1").arg(room.roomId));
+    roomNameLabel->setText(QString("房间名: %1").arg(room.hostName + "的房间"));
+    playerCountLabel->setText(QString("玩家数量: %1/%2").arg(room.currentPlayers).arg(room.maxPlayers));
+    
+    QString status = room.isGameStarted ? "游戏中" : "等待中";
+    roomStatusLabel->setText(QString("状态: %1").arg(status));
+    
+    // 更新玩家列表
+    playerListWidget->clear();
+    for (const QString& player : room.playerNames) {
+        playerListWidget->addItem(player);
+    }
+}
+
+void MultiPlayerLobby::clearRoomInfo()
+{
+    roomIdLabel->setText("房间ID: 未选择");
+    roomNameLabel->setText("房间名: 未选择");
+    playerCountLabel->setText("玩家数量: 0/0");
+    roomStatusLabel->setText("状态: 未知");
+    playerListWidget->clear();
+}
+
+bool MultiPlayerLobby::validatePlayerName() const
+{
+    QString name = playerNameEdit->text().trimmed();
+    return !name.isEmpty() && name.length() >= 2 && name.length() <= 20;
+}
+
+// 处理发现的房间
+void MultiPlayerLobby::onRoomDiscovered(const QString& host, int port)
+{
+    QString roomKey = QString("%1:%2").arg(host).arg(port);
+    qint64 now = QDateTime::currentMSecsSinceEpoch();
+    // 记录房间最后一次广播时间
+    discoveredRooms[roomKey] = now;
+    // 检查房间是否已存在于列表
+    bool found = false;
+    for (int i = 0; i < roomList->count(); ++i) {
+        QListWidgetItem* item = roomList->item(i);
+        if (item->data(Qt::UserRole).toString() == roomKey) {
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        QString displayText = QString("发现服务器 %1:%2").arg(host).arg(port);
+        QListWidgetItem* item = new QListWidgetItem(displayText);
+        item->setData(Qt::UserRole, roomKey);
+        item->setData(Qt::UserRole + 1, host);
+        item->setData(Qt::UserRole + 2, port);
+        roomList->addItem(item);
+        qDebug() << "Room discovered:" << host << ":" << port;
+    }
+}
+
+void MultiPlayerLobby::onManualConnectClicked()
+{
+    QString ip = manualIpEdit->text().trimmed();
+    if (ip.isEmpty()) {
+        QMessageBox::warning(this, "错误", "请输入房主的IP地址！");
+        return;
+    }
+    // ping 检测
+    QProcess pingProcess;
+    QString pingCmd = QString("ping -n 1 %1").arg(ip);
+    pingProcess.start(pingCmd);
+    if (!pingProcess.waitForFinished(2000)) {
+        QMessageBox::warning(this, "错误", "Ping 超时，无法连接到房主！");
+        return;
+    }
+    QString output = pingProcess.readAllStandardOutput();
+    if (!output.contains("TTL=")) {
+        QMessageBox::warning(this, "错误", "Ping 失败，无法连接到房主！");
+        return;
+    }
+    // 自动尝试端口区间
+    NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+    if (networkManager) {
+        // 设置玩家名称（需要先获取）
+        QString currentPlayerName = playerNameEdit->text().trimmed();
+        if (currentPlayerName.isEmpty()) {
+            QMessageBox::warning(this, "错误", "请先输入玩家名称！");
+            return;
+        }
+        networkManager->setPendingPlayerName(currentPlayerName);
+        
+        bool connected = false;
+        for (quint16 port = 12345; port < 12365; ++port) {
+            QTcpSocket testSocket;
+            testSocket.connectToHost(ip, port);
+            if (testSocket.waitForConnected(300)) {
+                testSocket.disconnectFromHost();
+                networkManager->connectToServer(ip, port);
+                QMessageBox::information(this, "提示", QString("已连接到房主（端口%1），请继续加入房间。\n如加入失败请重试。\n如多次失败请联系房主或检查防火墙。").arg(port));
+                connected = true;
+                break;
+            }
+        }
+        if (!connected) {
+            QMessageBox::warning(this, "错误", "未能自动检测到可用端口，可能房主未开启或网络异常。");
+        }
+    } else {
+        QMessageBox::warning(this, "错误", "未找到网络管理器，无法连接！");
+    }
+}
+
+// 设置等待界面
+void MultiPlayerLobby::setupWaitingInterface()
+{
+    waitingWidget = new QWidget(this);
+    waitingLayout = new QVBoxLayout(waitingWidget);
+    waitingLayout->setContentsMargins(50, 50, 50, 50);
+    waitingLayout->setSpacing(20);
+    
+    // 等待界面标题
+    waitingTitleLabel = new QLabel("房间等待中", waitingWidget);
+    waitingTitleLabel->setAlignment(Qt::AlignCenter);
+    QFont titleFont = waitingTitleLabel->font();
+    titleFont.setPointSize(24);
+    titleFont.setBold(true);
+    waitingTitleLabel->setFont(titleFont);
+    waitingTitleLabel->setStyleSheet("color: #FF6347; margin: 20px;");
+    waitingLayout->addWidget(waitingTitleLabel);
+    
+    // 房间信息
+    waitingRoomIdLabel = new QLabel("房间ID: ", waitingWidget);
+    waitingRoomIdLabel->setAlignment(Qt::AlignCenter);
+    QFont infoFont = waitingRoomIdLabel->font();
+    infoFont.setPointSize(14);
+    waitingRoomIdLabel->setFont(infoFont);
+    waitingLayout->addWidget(waitingRoomIdLabel);
+    
+    waitingPlayerCountLabel = new QLabel("玩家数量: 1/4", waitingWidget);
+    waitingPlayerCountLabel->setAlignment(Qt::AlignCenter);
+    waitingPlayerCountLabel->setFont(infoFont);
+    waitingLayout->addWidget(waitingPlayerCountLabel);
+    
+    // 玩家列表
+    QLabel* playersLabel = new QLabel("房间内玩家:", waitingWidget);
+    playersLabel->setAlignment(Qt::AlignCenter);
+    playersLabel->setFont(infoFont);
+    waitingLayout->addWidget(playersLabel);
+    
+    waitingPlayerListWidget = new QListWidget(waitingWidget);
+    waitingPlayerListWidget->setMaximumHeight(150);
+    waitingPlayerListWidget->setStyleSheet("QListWidget { border: 2px solid #ddd; border-radius: 8px; padding: 10px; }");
+    waitingLayout->addWidget(waitingPlayerListWidget);
+    
+    // 按钮区域
+    QWidget* waitingButtonWidget = new QWidget(waitingWidget);
+    QHBoxLayout* waitingButtonLayout = new QHBoxLayout(waitingButtonWidget);
+    waitingButtonLayout->setSpacing(20);
+    
+    startGameButton = new QPushButton("选择角色", waitingButtonWidget);
+    startGameButton->setStyleSheet("QPushButton { background-color: #4CAF50; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-size: 16px; }"
+                                  "QPushButton:hover { background-color: #45a049; }"
+                                  "QPushButton:disabled { background-color: #CCCCCC; }");
+    startGameButton->setEnabled(false); // 默认禁用，需要至少2个玩家
+    connect(startGameButton, &QPushButton::clicked, this, &MultiPlayerLobby::onStartGameClicked);
+    
+    leaveRoomButton = new QPushButton("离开房间", waitingButtonWidget);
+    leaveRoomButton->setStyleSheet("QPushButton { background-color: #f44336; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-size: 16px; }"
+                                  "QPushButton:hover { background-color: #da190b; }");
+    connect(leaveRoomButton, &QPushButton::clicked, this, &MultiPlayerLobby::onLeaveRoomClicked);
+    
+    waitingButtonLayout->addWidget(startGameButton);
+    waitingButtonLayout->addWidget(leaveRoomButton);
+    waitingLayout->addWidget(waitingButtonWidget);
+    
+    // 添加到主布局但初始隐藏
+    mainLayout->addWidget(waitingWidget);
+    waitingWidget->hide();
+}
+
+// 显示等待界面
+void MultiPlayerLobby::showWaitingInterface()
+{
+    qDebug() << "Showing waiting interface for room:" << currentRoomId;
+    // 隐藏主界面内容
+    roomListWidget->hide();
+    roomInfoWidget->hide();
+    
+    // 更新等待界面信息
+    if (!currentRoomId.isEmpty()) {
+        GameRoom room = multiPlayerManager->getRoomInfo(currentRoomId);
+        waitingRoomIdLabel->setText(QString("房间ID: %1").arg(currentRoomId));
+        waitingPlayerCountLabel->setText(QString("玩家数量: %1/%2").arg(room.currentPlayers).arg(room.maxPlayers));
+        
+        // 更新玩家列表
+        waitingPlayerListWidget->clear();
+        bool isHost = !room.playerNames.isEmpty() && room.playerNames.first() == playerName;
+        for (const QString& player : room.playerNames) {
+            QListWidgetItem* item = new QListWidgetItem(player);
+            if (player == playerName) {
+                item->setForeground(QColor("#FF6347")); // 高亮自己
+                if (isHost) {
+                    item->setText(player + " (房主)");
+                } else {
+                    item->setText(player);
+                }
+            } else if (player == room.playerNames.first()) {
+                // 标记真正的房主
+                item->setText(player + " (房主)");
+            }
+            waitingPlayerListWidget->addItem(item);
+        }
+        
+        // 只有房主才能看到并启用开始游戏按钮
+        if (isHost) {
+            startGameButton->setVisible(true);
+            startGameButton->setEnabled(room.currentPlayers >= 2);
+        } else {
+            startGameButton->setVisible(false);
+        }
+    }
+    
+    // 显示等待界面
+    waitingWidget->show();
+}
+
+// 隐藏等待界面
+void MultiPlayerLobby::hideWaitingInterface()
+{
+    waitingWidget->hide();
+    roomListWidget->show();
+    roomInfoWidget->show();
+}
+
+// 开始游戏按钮点击
+void MultiPlayerLobby::onStartGameClicked()
+{
+    if (!currentRoomId.isEmpty()) {
+        // 房主点击选择角色，通知所有玩家进入角色选择界面
+        NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+        if (networkManager) {
+            networkManager->sendCharacterSelectionStart();
+        }
+        
+        // 进入角色选择界面
+        hideWaitingInterface();
+        showCharacterSelection();
+    }
+}
+
+// 离开房间按钮点击
+void MultiPlayerLobby::onLeaveRoomClicked()
+{
+    if (!currentRoomId.isEmpty() && !playerName.isEmpty()) {
+        multiPlayerManager->leaveRoom(currentRoomId, playerName);
+        currentRoomId.clear();
+        hideWaitingInterface();
+        clearRoomInfo();
+        refreshRoomList();
+    }
+}
+
+// 处理连接错误
+void MultiPlayerLobby::onConnectionError(const QString& error)
+{
+    qDebug() << "Connection error:" << error;
+    
+    // 如果错误信息是关于玩家断开连接的，只在调试日志中记录，不显示错误对话框
+    if (error.contains("玩家") && error.contains("断开了连接")) {
+        qDebug() << "Player disconnection notification:" << error;
+        return; // 不显示错误对话框
+    }
+    
+    // 对于真正的连接错误，显示错误对话框
+    QMessageBox::warning(this, "连接错误", QString("连接失败: %1\n\n请检查:\n1. 房主是否已开启房间\n2. 网络连接是否正常\n3. 防火墙设置是否正确").arg(error));
+    
+    // 重置按钮状态，允许用户重新尝试
+    joinRoomButton->setEnabled(true);
+    joinRoomButton->setText("加入房间");
+    
+    // 断开连接以清理状态
+    if (multiPlayerManager) {
+        NetworkManager* nm = multiPlayerManager->getNetworkManager();
+        if (nm) {
+            nm->disconnectFromServer();
+        }
+    }
+}
+
+// 设置角色选择界面
+void MultiPlayerLobby::setupCharacterSelection()
+{
+    characterSelectionWidget = new CharacterSelection(this);
+    
+    // 连接角色选择信号
+    connect(characterSelectionWidget, &CharacterSelection::characterSelected, this, &MultiPlayerLobby::onCharacterSelected);
+    connect(characterSelectionWidget, &CharacterSelection::backToMenu, this, &MultiPlayerLobby::onCharacterSelectionBack);
+    connect(characterSelectionWidget, &CharacterSelection::startGame, this, &MultiPlayerLobby::onCharacterSelectionStart);
+    connect(characterSelectionWidget, &CharacterSelection::playerReadyChanged, this, &MultiPlayerLobby::onPlayerReadyChanged);
+    connect(characterSelectionWidget, &CharacterSelection::allPlayersReady, this, &MultiPlayerLobby::onAllPlayersReadyInSelection);
+    
+    // 添加到主布局但初始隐藏
+    mainLayout->addWidget(characterSelectionWidget);
+    characterSelectionWidget->hide();
+}
+
+// 显示角色选择界面
+void MultiPlayerLobby::showCharacterSelection()
+{
+    // 隐藏其他界面
+    roomListWidget->hide();
+    roomInfoWidget->hide();
+    waitingWidget->hide();
+
+    if (!characterSelectionWidget) {
+        setupCharacterSelection();
+    }
+
+    // 连接信号
+    connect(characterSelectionWidget, &CharacterSelection::characterSelected, this, &MultiPlayerLobby::onCharacterSelected);
+    connect(characterSelectionWidget, &CharacterSelection::startGame, this, &MultiPlayerLobby::onCharacterSelectionStart);
+    connect(characterSelectionWidget, &CharacterSelection::backToMenu, this, &MultiPlayerLobby::onCharacterSelectionBack);
+    connect(characterSelectionWidget, &CharacterSelection::playerReadyChanged, this, &MultiPlayerLobby::onPlayerReadyChanged);
+    connect(characterSelectionWidget, &CharacterSelection::allPlayersReady, this, &MultiPlayerLobby::onAllPlayersReadyInSelection);
+    
+    // 初始化角色选择界面的玩家信息
+    if (multiPlayerManager && !currentRoomId.isEmpty()) {
+        GameRoom room = multiPlayerManager->getRoomInfo(currentRoomId);
+        characterSelectionWidget->setPlayerNames(room.playerNames);
+        characterSelectionWidget->setCurrentPlayerName(playerName);
+        
+        // 设置是否为房主
+        bool isHost = !room.playerNames.isEmpty() && room.playerNames.first() == playerName;
+        characterSelectionWidget->setIsHost(isHost);
+    }
+    
+    // 显示角色选择界面
+    characterSelectionWidget->show();
+}
+
+// 隐藏角色选择界面
+void MultiPlayerLobby::hideCharacterSelection()
+{
+    if (characterSelectionWidget) {
+        characterSelectionWidget->hide();
+    }
+    roomListWidget->show();
+    roomInfoWidget->show();
+}
+
+
+
+void MultiPlayerLobby::onCharacterSelectionBack()
+{
+    // 返回到房间列表
+    hideCharacterSelection();
+    
+    // 如果已经在房间中，离开房间
+    if (!currentRoomId.isEmpty() && !playerName.isEmpty()) {
+        if (multiPlayerManager) {
+             multiPlayerManager->leaveRoom(currentRoomId, playerName);
+        }
+        currentRoomId.clear();
+        clearRoomInfo();
+        refreshRoomList();
+    }
+}
+
+void MultiPlayerLobby::onCharacterSelectionStart()
+{
+    // 角色选择完成，开始游戏
+    if (!currentRoomId.isEmpty()) {
+        hideCharacterSelection();
+        // 通知游戏管理器开始游戏
+        multiPlayerManager->startGame(currentRoomId);
+    }
+}
+
+// 处理角色选择开始信号
+void MultiPlayerLobby::onCharacterSelectionStarted(const QString& roomId)
+{
+    if (roomId == currentRoomId) {
+        // 进入角色选择界面
+        hideWaitingInterface();
+        showCharacterSelection();
+    }
+}
+
+// 处理玩家角色选择信号
+void MultiPlayerLobby::onPlayerCharacterSelected(const QString& roomId, const QString& playerName, int character)
+{
+    if (roomId == currentRoomId && characterSelectionWidget) {
+        // 更新角色选择界面的玩家状态
+        characterSelectionWidget->updatePlayerCharacter(playerName, static_cast<CharacterType>(character));
+    }
+}
+
+// 处理所有玩家准备完成信号
+void MultiPlayerLobby::onAllPlayersReady(const QString& roomId)
+{
+    if (roomId == currentRoomId) {
+        // 所有玩家都选择了角色，可以开始游戏
+        QMessageBox::information(this, "准备完成", "所有玩家都已选择角色，游戏即将开始！");
+        onCharacterSelectionStart();
+    }
+}
+
+// 处理玩家准备状态改变
+void MultiPlayerLobby::onPlayerReadyChanged(bool ready)
+{
+    // 通过网络发送玩家准备状态
+    NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+    if (networkManager && !currentRoomId.isEmpty() && !playerName.isEmpty()) {
+        // 发送准备状态消息
+        QJsonObject message;
+        message["type"] = "playerReady";
+        message["roomId"] = currentRoomId;
+        message["playerName"] = playerName;
+        message["ready"] = ready;
+        
+        QJsonDocument doc(message);
+        networkManager->sendMessage(doc.toJson());
+        
+        // 更新本地角色选择界面
+        if (characterSelectionWidget) {
+            characterSelectionWidget->setPlayerReady(playerName, ready);
+        }
+    }
+}
+
+// 处理角色选择界面中所有玩家准备完成
+void MultiPlayerLobby::onAllPlayersReadyInSelection()
+{
+    // 只有房主才能开始游戏
+    if (characterSelectionWidget && multiPlayerManager) {
+        GameRoom room = multiPlayerManager->getRoomInfo(currentRoomId);
+        if (!room.playerNames.isEmpty() && room.playerNames.first() == playerName) {
+            // 房主显示开始游戏按钮
+            characterSelectionWidget->showStartButton();
+        }
+    }
+}
+
+// 开始游戏倒计时
+void MultiPlayerLobby::startGameCountdown()
+{
+    if (!characterSelectionWidget) {
+        return;
+    }
+    
+    // 通知所有玩家开始倒计时
+    NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+    if (networkManager && !currentRoomId.isEmpty()) {
+        QJsonObject message;
+        message["type"] = "gameCountdown";
+        message["roomId"] = currentRoomId;
+        message["countdown"] = 5;
+        
+        networkManager->broadcastMessage(message);
+    }
+    
+    // 启动本地倒计时
+    countdownTimer->start(5000); // 5秒后开始游戏
+    
+    // 显示倒计时UI
+    if (countdownLabel) {
+        countdownLabel->setText("游戏将在5秒后开始...");
+        countdownLabel->show();
+        
+        // 创建一个定时器来更新倒计时显示
+        QTimer* displayTimer = new QTimer(this);
+        int remainingTime = 5;
+        connect(displayTimer, &QTimer::timeout, [this, displayTimer, &remainingTime]() mutable {
+            remainingTime--;
+            if (remainingTime > 0) {
+                countdownLabel->setText(QString("游戏将在%1秒后开始...").arg(remainingTime));
+            } else {
+                countdownLabel->hide();
+                displayTimer->deleteLater();
+            }
+        });
+        displayTimer->start(1000);
+    }
+}
+
+// 处理接收到的玩家准备状态
+void MultiPlayerLobby::onPlayerReadyReceived(const QString& roomId, const QString& playerName, bool ready)
+{
+    if (roomId == currentRoomId && characterSelectionWidget) {
+        // 更新角色选择界面中的玩家准备状态
+        characterSelectionWidget->setPlayerReady(playerName, ready);
+        
+        // 检查是否所有玩家都准备好了
+        if (characterSelectionWidget->checkAllPlayersReady()) {
+            // 如果是房主，启动倒计时
+            GameRoom room = multiPlayerManager->getRoomInfo(currentRoomId);
+            bool isHost = !room.playerNames.isEmpty() && room.playerNames.first() == this->playerName;
+            if (isHost) {
+                startGameCountdown();
+            }
+        }
+    }
+}

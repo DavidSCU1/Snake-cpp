@@ -45,6 +45,7 @@ bool NetworkManager::startServer(quint16 port)
             }
         }
         
+        roomBroadcastTimer->setInterval(5000); // 设置广播间隔为5秒
         roomBroadcastTimer->start(); // 启动房间广播定时器
         qDebug() << "Server started on port" << port;
 
@@ -272,6 +273,8 @@ void NetworkManager::onClientConnected()
 {
     qDebug() << "Connected to server";
     heartbeatTimer->start();
+    // 连接成功后停止房间发现
+    udpSocket->close();
     // 新增：客户端连接成功后立即发送玩家信息
     if (!isServer && clientSocket) {
         // 发送完整的玩家信息
@@ -404,6 +407,7 @@ void NetworkManager::processMessage(const QJsonObject& message, QTcpSocket* send
         
         emit scoreUpdateReceived(playerName, score);
     }
+
     else if (type == "playerPosition") {
         QString playerName = clientNames.value(sender, "Unknown");
         QJsonArray bodyArray = data["body"].toArray();
@@ -437,6 +441,13 @@ void NetworkManager::processMessage(const QJsonObject& message, QTcpSocket* send
         }
         
         emit characterSelectionReceived(roomId, playerName, character);
+    }
+    else if (type == "joinSuccess") {
+        // 处理加入成功确认消息，通知客户端
+        QString roomId = data["roomId"].toString();
+        QString playerName = data["playerName"].toString();
+        emit playerJoined(roomId, playerName);
+        qDebug() << "Received joinSuccess message for player:" << playerName << "in room:" << roomId;
     }
     else if (type == "playerJoined") {
         QString roomId = data["roomId"].toString();
@@ -473,12 +484,30 @@ void NetworkManager::broadcastMessage(const QJsonObject& message, QTcpSocket* ex
 {
     QJsonDocument doc(message);
     QByteArray data = doc.toJson(QJsonDocument::Compact) + "\n";
-    
+
     for (auto client : clients) {
         if (client != excludeSocket && client->state() == QAbstractSocket::ConnectedState) {
             client->write(data);
         }
     }
+}
+
+void NetworkManager::sendDirectMessage(const QJsonObject& message, const QString& playerName)
+{
+    QJsonDocument doc(message);
+    QByteArray data = doc.toJson(QJsonDocument::Compact) + "\n";
+
+    // 查找玩家对应的客户端socket
+    for (auto it = clientNames.constBegin(); it != clientNames.constEnd(); ++it) {
+        if (it.value() == playerName) {
+            QTcpSocket* clientSocket = it.key();
+            if (clientSocket->state() == QAbstractSocket::ConnectedState) {
+                clientSocket->write(data);
+                return;
+            }
+        }
+    }
+    qDebug() << "Failed to send direct message to" << playerName << ": client not found";
 }
 
 QJsonObject NetworkManager::createMessage(const QString& type, const QJsonObject& data)

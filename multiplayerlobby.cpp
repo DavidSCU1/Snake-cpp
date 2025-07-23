@@ -47,9 +47,7 @@ MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     connect(networkManager, &NetworkManager::connectionError, this, &MultiPlayerLobby::onConnectionError);
     
     // 连接网络管理器的playerJoined信号，更新玩家加入界面
-    connect(networkManager, &NetworkManager::playerJoined, this, [this](const QString& roomId, const QString& playerName) {
-        onPlayerJoinedRoom(roomId, playerName);
-    });
+    connect(networkManager, &NetworkManager::playerJoined, this, &MultiPlayerLobby::onPlayerJoinedRoom);
     
     // 设置定时刷新
     connect(refreshTimer, &QTimer::timeout, this, &MultiPlayerLobby::refreshRoomList);
@@ -401,15 +399,19 @@ void MultiPlayerLobby::onJoinRoomClicked()
             joinRoomButton->setEnabled(true);
             joinRoomButton->setText("加入房间");
             
-            // 连接成功后，通过MultiPlayerGameManager正式加入房间
+            // 连接成功后，先设置玩家名称，再通过MultiPlayerGameManager正式加入房间
             QString actualPlayerName = this->playerName.isEmpty() ? playerNameEdit->text().trimmed() : this->playerName;
+            this->playerName = actualPlayerName;  // 提前设置playerName，确保onPlayerJoinedRoom能正确匹配
+            currentRoomId = roomKey;  // 提前设置roomId
+            
             if (multiPlayerManager->joinRoom(roomKey, actualPlayerName)) {
-                currentRoomId = roomKey;
-                this->playerName = actualPlayerName;
-                QMessageBox::information(this, "成功", "成功加入房间！");
+                QMessageBox::information(this, "成功", "成功加入房间！等待主机确认...");
                 // 注意：showWaitingInterface()会在onPlayerJoinedRoom信号中自动调用
             } else {
                 QMessageBox::warning(this, "错误", "连接成功但无法加入房间！");
+                // 如果加入失败，清理状态
+                this->playerName.clear();
+                currentRoomId.clear();
                 networkManager->disconnectFromServer();
             }
         });
@@ -544,24 +546,41 @@ void MultiPlayerLobby::onRoomCreated(const QString& roomId, const GameRoom& room
 
 void MultiPlayerLobby::onPlayerJoinedRoom(const QString& roomId, const QString& playerName)
 {
-    // 更新房间信息（确保房主能看到成员）
     GameRoom room = multiPlayerManager->getRoomInfo(roomId);
     updateRoomInfo(room);
     
-    // 关键：如果加入的是当前成员自己，则切换到等待界面
-    if (playerName == this->playerName) {
-        currentRoomId = roomId; // 保存当前房间ID
-        showWaitingInterface(); // 显示等待页面
+    // 只要房间ID匹配就显示等待界面，确保客户端能正确跳转
+    if (roomId == currentRoomId) {
+        currentRoomId = roomId;
+        showWaitingInterface();
         qDebug() << "Player" << playerName << "joined, switching to waiting interface";
-    } else if (roomId == currentRoomId) {
-        // 如果是其他玩家加入当前房间
-        if (waitingWidget && waitingWidget->isVisible()) {
-            showWaitingInterface(); // 刷新等待界面信息
-        } else {
+        sendJoinSuccessAck();
+
+        // 检查是否需要显示玩家加入信息
+        if (waitingWidget && !waitingWidget->isVisible()) {
             QMessageBox::information(this, "玩家加入", QString("玩家 %1 加入了房间！").arg(playerName));
         }
     }
     refreshRoomList();
+}
+
+// 新增函数，发送加入成功确认消息
+void MultiPlayerLobby::sendJoinSuccessAck()
+{
+    if (!multiPlayerManager) {
+        qWarning() << "multiPlayerManager is null, cannot send join success ack.";
+        return;
+    }
+    NetworkManager* networkManager = multiPlayerManager->getNetworkManager();
+    if (!networkManager) {
+        qWarning() << "NetworkManager is null, cannot send join success ack.";
+        return;
+    }
+    QJsonObject data;
+    data["roomId"] = currentRoomId;
+    data["playerName"] = playerName;
+    QJsonObject msg = networkManager->createMessage("joinSuccess", data);
+    networkManager->sendMessage(QJsonDocument(msg).toJson(QJsonDocument::Compact));
 }
 
 void MultiPlayerLobby::onPlayerLeftRoom(const QString& roomId, const QString& playerName)

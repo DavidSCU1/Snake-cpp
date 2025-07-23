@@ -80,6 +80,7 @@ private slots:
     void onGameCountdownReceived(const QString& roomId, int countdown); // 新增：处理游戏倒计时
     
 private:
+    void sendJoinSuccessAck();
     void setupUI();
     void setupWaitingInterface();
     void setupCharacterSelection();

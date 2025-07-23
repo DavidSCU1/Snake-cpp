@@ -61,6 +61,15 @@ void MainWindow::setupUI()
     connect(characterSelection, &CharacterSelection::startGame, this, &MainWindow::showDifficultySelection);
     stackedWidget->addWidget(characterSelection);
     
+    // 创建准备界面
+    preparationWidget = new QWidget(this);
+    QVBoxLayout* prepLayout = new QVBoxLayout(preparationWidget);
+    QLabel* prepLabel = new QLabel("准备界面 - 等待游戏开始...", preparationWidget);
+    prepLabel->setAlignment(Qt::AlignCenter);
+    prepLabel->setStyleSheet("font-size: 24px; color: #FF6347;");
+    prepLayout->addWidget(prepLabel);
+    stackedWidget->addWidget(preparationWidget);
+
     // 创建游戏页面
     gameWidget = new GameWidget(this);
     connect(gameWidget, &GameWidget::gameOver, this, &MainWindow::onGameOver);
@@ -416,12 +425,18 @@ void MainWindow::startMultiplayerHost()
     // 先选择角色
     characterSelection->setSelectedCharacter(selectedCharacter);
     connect(characterSelection, &CharacterSelection::startGame, this, [this]() {
-        gameWidget->setCharacter(selectedCharacter);
-        gameWidget->setDifficulty(Difficulty::NORMAL); // 多人游戏固定普通难度
-        stackedWidget->setCurrentWidget(gameWidget);
-        gameWidget->startMultiPlayerGame(true);
-        gameWidget->setFocus();
-    }, Qt::SingleShotConnection);
+            // 先显示准备界面
+            stackedWidget->setCurrentWidget(preparationWidget);
+            
+            // 2秒后进入游戏界面
+            QTimer::singleShot(2000, this, [this]() {
+                gameWidget->setCharacter(selectedCharacter);
+                gameWidget->setDifficulty(Difficulty::NORMAL); // 多人游戏固定普通难度
+                stackedWidget->setCurrentWidget(gameWidget);
+                gameWidget->startMultiPlayerGame(true);
+                gameWidget->setFocus();
+            });
+        }, Qt::SingleShotConnection);
     
     stackedWidget->setCurrentWidget(characterSelection);
 }
@@ -439,15 +454,21 @@ void MainWindow::startMultiplayerJoin()
     // 先选择角色
     characterSelection->setSelectedCharacter(selectedCharacter);
     connect(characterSelection, &CharacterSelection::startGame, this, [this, serverAddress]() {
-        // 连接到服务器
-        networkManager->connectToServer(serverAddress);
-        
-        gameWidget->setCharacter(selectedCharacter);
-        gameWidget->setDifficulty(Difficulty::NORMAL); // 多人游戏固定普通难度
-        stackedWidget->setCurrentWidget(gameWidget);
-        gameWidget->startMultiPlayerGame(false);
-        gameWidget->setFocus();
-    }, Qt::SingleShotConnection);
+            // 连接到服务器
+            networkManager->connectToServer(serverAddress);
+            
+            // 先显示准备界面
+            stackedWidget->setCurrentWidget(preparationWidget);
+            
+            // 2秒后进入游戏界面
+            QTimer::singleShot(2000, this, [this]() {
+                gameWidget->setCharacter(selectedCharacter);
+                gameWidget->setDifficulty(Difficulty::NORMAL); // 多人游戏固定普通难度
+                stackedWidget->setCurrentWidget(gameWidget);
+                gameWidget->startMultiPlayerGame(false);
+                gameWidget->setFocus();
+            });
+        }, Qt::SingleShotConnection);
     
     stackedWidget->setCurrentWidget(characterSelection);
 }

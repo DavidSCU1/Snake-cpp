@@ -46,6 +46,7 @@ public:
     void sendCharacterSelection(const QString& playerName, int character); // 新增：发送角色选择消息
     void sendMessage(const QByteArray& message); // 新增：发送自定义消息
     void broadcastMessage(const QJsonObject& message, QTcpSocket* excludeSocket = nullptr);
+    void sendDirectMessage(const QJsonObject& message, const QString& playerName);
     
     // 获取连接的玩家数量
     int getConnectedPlayersCount() const;

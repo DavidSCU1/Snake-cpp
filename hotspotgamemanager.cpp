@@ -393,10 +393,10 @@ void HotspotGameManager::onNetworkPlayerConnected(const QString& playerName)
 
 void HotspotGameManager::onNetworkPlayerDisconnected(const QString& playerName)
 {
-    removePlayer(playerName);
-    emit playerLeft(playerName);
-    
+    // 只有房主才处理玩家断开连接事件
     if (isHost()) {
+        removePlayer(playerName);
+        emit playerLeft(playerName);
         broadcastGameState();
         
         // 检查是否需要结束游戏
@@ -761,6 +761,7 @@ void HotspotGameManager::gameStateFromJson(const QJsonObject& json)
 {
     // 解析玩家蛇身
     QJsonObject snakes = json["snakes"].toObject();
+    gameState.playerSnakes.clear();
     for (auto it = snakes.begin(); it != snakes.end(); ++it) {
         std::deque<Point> snake;
         QJsonArray snakeArray = it.value().toArray();
@@ -771,9 +772,54 @@ void HotspotGameManager::gameStateFromJson(const QJsonObject& json)
         gameState.playerSnakes[it.key()] = snake;
     }
     
-    // 解析其他状态...
-    // (为了简洁，这里省略了完整的解析代码)
+    // 解析玩家角色
+    QJsonObject characters = json["characters"].toObject();
+    gameState.playerCharacters.clear();
+    for (auto it = characters.begin(); it != characters.end(); ++it) {
+        gameState.playerCharacters[it.key()] = static_cast<CharacterType>(it.value().toInt());
+    }
     
+    // 解析玩家分数
+    QJsonObject scores = json["scores"].toObject();
+    gameState.playerScores.clear();
+    for (auto it = scores.begin(); it != scores.end(); ++it) {
+        gameState.playerScores[it.key()] = it.value().toInt();
+    }
+    
+    // 解析玩家存活状态
+    QJsonObject aliveStatus = json["alive_status"].toObject();
+    gameState.playerAliveStatus.clear();
+    for (auto it = aliveStatus.begin(); it != aliveStatus.end(); ++it) {
+        gameState.playerAliveStatus[it.key()] = it.value().toBool();
+    }
+    
+    // 解析玩家方向
+    QJsonObject directions = json["directions"].toObject();
+    gameState.playerDirections.clear();
+    for (auto it = directions.begin(); it != directions.end(); ++it) {
+        gameState.playerDirections[it.key()] = static_cast<Direction>(it.value().toInt());
+    }
+    
+    // 解析玩家准备状态
+    QJsonObject readyStatus = json["ready_status"].toObject();
+    gameState.playerReadyStatus.clear();
+    for (auto it = readyStatus.begin(); it != readyStatus.end(); ++it) {
+        gameState.playerReadyStatus[it.key()] = it.value().toBool();
+    }
+    
+    // 解析食物位置
+    QJsonObject food = json["food"].toObject();
+    gameState.foodPosition = Point(food["x"].toInt(), food["y"].toInt());
+    
+    // 解析特殊食物
+    gameState.isSpecialFood = json["is_special_food"].toBool();
+    if (gameState.isSpecialFood && json.contains("special_food")) {
+        QJsonObject specialFood = json["special_food"].toObject();
+        gameState.specialFoodPosition = Point(specialFood["x"].toInt(), specialFood["y"].toInt());
+    }
+    
+    // 解析游戏状态
+    gameState.gameSpeed = json["game_speed"].toInt();
     gameState.isGameStarted = json["is_game_started"].toBool();
     gameState.isPaused = json["is_paused"].toBool();
     gameState.gameWinner = json["game_winner"].toString();

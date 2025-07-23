@@ -47,9 +47,7 @@ MultiPlayerLobby::MultiPlayerLobby(QWidget *parent)
     connect(networkManager, &NetworkManager::connectionError, this, &MultiPlayerLobby::onConnectionError);
     
     // 连接网络管理器的playerJoined信号，更新玩家加入界面
-    connect(networkManager, &NetworkManager::playerJoined, this, [this](const QString& roomId, const QString& playerName) {
-        onPlayerJoinedRoom(roomId, playerName);
-    });
+    connect(networkManager, &NetworkManager::playerJoined, this, &MultiPlayerLobby::onPlayerJoinedRoom);
     
     // 设置定时刷新
     connect(refreshTimer, &QTimer::timeout, this, &MultiPlayerLobby::refreshRoomList);

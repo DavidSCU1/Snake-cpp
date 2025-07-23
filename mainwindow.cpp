@@ -90,10 +90,16 @@ void MainWindow::setupUI()
     
 
     
+    // 创建本地双人模式选择界面
+    localCoopModeSelection = new LocalCoopModeSelection(this);
+    connect(localCoopModeSelection, &LocalCoopModeSelection::modeSelected, this, &MainWindow::onLocalCoopModeSelected);
+    connect(localCoopModeSelection, &LocalCoopModeSelection::backToMenu, this, &MainWindow::showMainMenu);
+    stackedWidget->addWidget(localCoopModeSelection);
+    
     // 创建本地双人角色选择界面
     localCoopCharacterSelection = new LocalCoopCharacterSelection(this);
     connect(localCoopCharacterSelection, &LocalCoopCharacterSelection::startLocalCoopGame, this, &MainWindow::onLocalCoopCharactersSelected);
-    connect(localCoopCharacterSelection, &LocalCoopCharacterSelection::backClicked, this, &MainWindow::showMainMenu);
+    connect(localCoopCharacterSelection, &LocalCoopCharacterSelection::backClicked, this, &MainWindow::showLocalCoopModeSelection);
     stackedWidget->addWidget(localCoopCharacterSelection);
     
     // 创建热点网络管理器
@@ -315,7 +321,7 @@ void MainWindow::setupMultiplayerMenu()
         "    background-color: #1E7E34; "
         "}"
     );
-    connect(localCoopButton, &QPushButton::clicked, this, &MainWindow::showLocalCoopCharacterSelection);
+    connect(localCoopButton, &QPushButton::clicked, this, &MainWindow::showLocalCoopModeSelection);
     buttonLayout->addWidget(localCoopButton);
     
     layout->addWidget(buttonContainer);
@@ -530,6 +536,11 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
 
 
+void MainWindow::showLocalCoopModeSelection()
+{
+    stackedWidget->setCurrentWidget(localCoopModeSelection);
+}
+
 void MainWindow::showLocalCoopCharacterSelection()
 {
     localCoopCharacterSelection->resetSelection();
@@ -549,13 +560,23 @@ void MainWindow::onHotspotNetworkError(const QString& error)
     showMainMenu();
 }
 
-void MainWindow::onLocalCoopCharactersSelected(CharacterType player1Character, CharacterType player2Character)
+void MainWindow::onLocalCoopModeSelected(SinglePlayerMode mode)
+{
+    localCoopCharacterSelection->setGameMode(mode);
+    showLocalCoopCharacterSelection();
+}
+
+void MainWindow::onLocalCoopCharactersSelected(CharacterType player1Character, CharacterType player2Character, SinglePlayerMode mode)
 {
     // 设置本地双人游戏模式
     gameWidget->setLocalCoopMode(player1Character, player2Character);
     gameWidget->setDifficulty(Difficulty::NORMAL); // 本地双人游戏固定普通难度
+    
+    // 根据选择的模式设置游戏
+    gameWidget->setSinglePlayerGameMode(mode);
+    
     stackedWidget->setCurrentWidget(gameWidget);
-    gameWidget->startLocalCoopGame();
+    gameWidget->startLocalCoopGame(mode);
     gameWidget->setFocus();
 }
 

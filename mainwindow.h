@@ -20,6 +20,7 @@
 #include "oceanbackground.h"
 
 #include "localcoopcharacterselection.h"
+#include "localcoopmodeselection.h"
 #include "singleplayergamemanager.h"
 #include "hotspotnetworkmanager.h"
 #include "hotspotgamemanager.h"
@@ -48,6 +49,7 @@ private slots:
     void showCharacterSelection();
     void showDifficultySelection();
     void showMultiplayerMenu();
+    void showLocalCoopModeSelection();
     void showLocalCoopCharacterSelection();
     void showHighScores();
     void showSingleModeSelection();
@@ -57,8 +59,8 @@ private slots:
     void onDifficultySelected();
 
     void onSingleModeSelected(SinglePlayerMode mode, CharacterType character);
-
-    void onLocalCoopCharactersSelected(CharacterType player1Character, CharacterType player2Character);
+    void onLocalCoopModeSelected(SinglePlayerMode mode);
+    void onLocalCoopCharactersSelected(CharacterType player1Character, CharacterType player2Character, SinglePlayerMode mode);
     void showHotspotLobby();
     void onHotspotNetworkError(const QString& error);
     void onHotspotGameStartRequested();
@@ -81,6 +83,7 @@ private:
 
     SingleModeSelection* singleModeSelection;
 
+    LocalCoopModeSelection* localCoopModeSelection;
     LocalCoopCharacterSelection* localCoopCharacterSelection;
     OceanBackground* oceanBackground;
     SinglePlayerGameManager* singlePlayerGameManager;

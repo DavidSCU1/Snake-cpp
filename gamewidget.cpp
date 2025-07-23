@@ -37,10 +37,20 @@ GameWidget::GameWidget(QWidget *parent)
     , hotspotGameManager(nullptr)
     , player1Character(CharacterType::SPONGEBOB)
     , player2Character(CharacterType::PATRICK)
+    , localCoopMode(SinglePlayerMode::CLASSIC)
     , player1Score(0)
     , player2Score(0)
     , player1Alive(true)
     , player2Alive(true)
+    , player1Lives(MAX_LIVES)
+    , player2Lives(MAX_LIVES)
+    , player1Respawning(false)
+    , player2Respawning(false)
+    , player1RespawnTime(0)
+    , player2RespawnTime(0)
+    , respawnTimer(new QTimer(this))
+    , gameTimeTimer(new QTimer(this))
+    , totalGameTime(0)
     , settings(new QSettings("SnakeGame", "SpongeBobSnake", this))
     , specialFoodCounter(0)
 {
@@ -190,6 +200,12 @@ void GameWidget::setupGame()
     connect(specialFoodTimer, &QTimer::timeout, [this]() {
         generateSpecialFood();
     });
+    
+    // 设置复活计时器
+    connect(respawnTimer, &QTimer::timeout, this, &GameWidget::updateRespawnTimer);
+    
+    // 设置游戏总时间计时器
+    connect(gameTimeTimer, &QTimer::timeout, this, &GameWidget::updateGameTimer);
 }
 
 void GameWidget::setCharacter(CharacterType character)
@@ -662,7 +678,13 @@ void GameWidget::checkCollisions()
 void GameWidget::generateFood()
 {
     QSet<Point> occupiedPositions = getOccupiedPositions();
-    food->generateFood(gridWidth, gridHeight, occupiedPositions);
+    
+    // 在本地双人模式中，有20%的概率生成特殊食物
+    if (isLocalCoop && QRandomGenerator::global()->bounded(100) < 20) {
+        food->generateSpecialFood(gridWidth, gridHeight, occupiedPositions);
+    } else {
+        food->generateFood(gridWidth, gridHeight, occupiedPositions);
+    }
 
     if (isMultiplayer) {
         // In multiplayer, schedule the next food to appear faster
@@ -896,29 +918,12 @@ void GameWidget::paintEvent(QPaintEvent *event)
         painter.setPen(QPen(Qt::black, 3)); // 黑色边框，3像素宽度
         painter.drawRect(gameRect);
         
-        // 绘制本地双人游戏的分数
+        // 绘制本地双人游戏的分数和状态
         if (isLocalCoop) {
             painter.setClipRect(rect()); // 重置裁剪区域以绘制UI
-            painter.setPen(Qt::black);
-            painter.setFont(QFont("Arial", 14, QFont::Bold));
             
-            QString player1Text = QString("玩家1 (WASD): %1").arg(player1Score);
-            QString player2Text = QString("玩家2 (方向键): %1").arg(player2Score);
-            
-            painter.drawText(10, 30, player1Text);
-            painter.drawText(10, 55, player2Text);
-            
-            // 显示存活状态
-            if (!player1Alive) {
-                painter.setPen(Qt::red);
-                painter.drawText(200, 30, "已死亡");
-                painter.setPen(Qt::black);
-            }
-            if (!player2Alive) {
-                painter.setPen(Qt::red);
-                painter.drawText(200, 55, "已死亡");
-                painter.setPen(Qt::black);
-            }
+            // 绘制玩家状态面板
+            drawPlayerStatusPanel(painter);
         }
         
 
@@ -1418,19 +1423,27 @@ void GameWidget::setLocalCoopMode(CharacterType player1Character, CharacterType 
     isMultiplayer = false;
 }
 
-void GameWidget::startLocalCoopGame()
+void GameWidget::startLocalCoopGame(SinglePlayerMode mode)
 {
-    qDebug() << "Starting local coop game";
+    qDebug() << "Starting local coop game with mode:" << static_cast<int>(mode);
     
     currentState = GameState::PLAYING;
     isLocalCoop = true;
     isMultiplayer = false;
+    localCoopMode = mode;  // 保存游戏模式
     
     // 重置游戏状态
     player1Score = 0;
     player2Score = 0;
     player1Alive = true;
     player2Alive = true;
+    player1Lives = MAX_LIVES;
+    player2Lives = MAX_LIVES;
+    player1Respawning = false;
+    player2Respawning = false;
+    player1RespawnTime = 0;
+    player2RespawnTime = 0;
+    totalGameTime = 0;
     level = 1;
     currentSpeed = baseSpeed;
     
@@ -1457,6 +1470,28 @@ void GameWidget::startLocalCoopGame()
     // 启动游戏循环
     gameTimer->start(currentSpeed);
     
+    // 根据游戏模式决定是否启动倒计时器
+    if (mode == SinglePlayerMode::TIME_ATTACK) {
+        // 时间挑战模式：启动倒计时器
+        remainingTime = TIME_CHALLENGE_DURATION;
+        countdownTimer->start(1000);
+        if (timeLabel) {
+            timeLabel->setVisible(true);
+        }
+    } else {
+        // 经典模式和挑战模式：不启动倒计时器
+        countdownTimer->stop();
+        if (timeLabel) {
+            timeLabel->setVisible(false);
+        }
+    }
+    
+    // 启动游戏时间计时器（每秒更新一次）
+    gameTimeTimer->start(1000);
+    
+    // 启动复活计时器（每秒更新一次）
+    respawnTimer->start(1000);
+    
     update();
 }
 
@@ -1469,6 +1504,15 @@ void GameWidget::checkLocalCoopCollisions()
         // 检查边界碰撞
         if (head1.x < 0 || head1.x >= gridWidth || head1.y < 0 || head1.y >= gridHeight) {
             player1Alive = false;
+            player1Lives--;
+            if (player1Lives > 0) {
+                player1Respawning = true;
+                player1RespawnTime = RESPAWN_TIME;
+            } else {
+                // 玩家1生命耗尽，游戏结束
+                endLocalCoopGame(); // 游戏结束
+                return;
+            }
         }
         
         // 检查自身碰撞
@@ -1476,6 +1520,15 @@ void GameWidget::checkLocalCoopCollisions()
         for (size_t i = 1; i < body1.size(); ++i) {
             if (head1 == body1[i]) {
                 player1Alive = false;
+                player1Lives--;
+                if (player1Lives > 0) {
+                    player1Respawning = true;
+                    player1RespawnTime = RESPAWN_TIME;
+                } else {
+                    // 玩家1生命耗尽，游戏结束
+                    endLocalCoopGame(); // 游戏结束
+                    return;
+                }
                 break;
             }
         }
@@ -1486,6 +1539,15 @@ void GameWidget::checkLocalCoopCollisions()
             for (const auto& segment : body2) {
                 if (head1 == segment) {
                     player1Alive = false;
+                    player1Lives--;
+                    if (player1Lives > 0) {
+                        player1Respawning = true;
+                        player1RespawnTime = RESPAWN_TIME;
+                    } else {
+                        // 玩家1生命耗尽，游戏结束
+                        endLocalCoopGame(); // 游戏结束
+                        return;
+                    }
                     break;
                 }
             }
@@ -1494,12 +1556,33 @@ void GameWidget::checkLocalCoopCollisions()
         // 检查墙体碰撞
         if (wall && wall->hasWallAt(head1)) {
             player1Alive = false;
+            player1Lives--;
+            if (player1Lives > 0) {
+                player1Respawning = true;
+                player1RespawnTime = RESPAWN_TIME;
+            } else {
+                // 玩家1生命耗尽，游戏结束
+                currentState = GameState::GAME_OVER;
+                gameTimer->stop();
+                respawnTimer->stop();
+                gameTimeTimer->stop();
+                emit gameOver(player2Score); // 玩家2获胜
+                return;
+            }
         }
         
         // 检查食物碰撞
         if (head1 == food->getPosition()) {
             snake->grow();
-            player1Score += 10;
+            if (food->isSpecial()) {
+                player1Score += 20;
+                // 特殊食物回复生命
+                if (player1Lives < MAX_LIVES) {
+                    player1Lives++;
+                }
+            } else {
+                player1Score += 10;
+            }
             generateFood();
         }
     }
@@ -1511,6 +1594,15 @@ void GameWidget::checkLocalCoopCollisions()
         // 检查边界碰撞
         if (head2.x < 0 || head2.x >= gridWidth || head2.y < 0 || head2.y >= gridHeight) {
             player2Alive = false;
+            player2Lives--;
+            if (player2Lives > 0) {
+                player2Respawning = true;
+                player2RespawnTime = RESPAWN_TIME;
+            } else {
+                // 玩家2生命耗尽，游戏结束
+                endLocalCoopGame(); // 游戏结束
+                return;
+            }
         }
         
         // 检查自身碰撞
@@ -1518,6 +1610,15 @@ void GameWidget::checkLocalCoopCollisions()
         for (size_t i = 1; i < body2.size(); ++i) {
             if (head2 == body2[i]) {
                 player2Alive = false;
+                player2Lives--;
+                if (player2Lives > 0) {
+                    player2Respawning = true;
+                    player2RespawnTime = RESPAWN_TIME;
+                } else {
+                    // 玩家2生命耗尽，游戏结束
+                    endLocalCoopGame(); // 游戏结束
+                    return;
+                }
                 break;
             }
         }
@@ -1528,6 +1629,15 @@ void GameWidget::checkLocalCoopCollisions()
             for (const auto& segment : body1) {
                 if (head2 == segment) {
                     player2Alive = false;
+                    player2Lives--;
+                    if (player2Lives > 0) {
+                        player2Respawning = true;
+                        player2RespawnTime = RESPAWN_TIME;
+                    } else {
+                        // 玩家2生命耗尽，游戏结束
+                        endLocalCoopGame(); // 游戏结束
+                        return;
+                    }
                     break;
                 }
             }
@@ -1536,33 +1646,39 @@ void GameWidget::checkLocalCoopCollisions()
         // 检查墙体碰撞
         if (wall && wall->hasWallAt(head2)) {
             player2Alive = false;
+            player2Lives--;
+            if (player2Lives > 0) {
+                player2Respawning = true;
+                player2RespawnTime = RESPAWN_TIME;
+            } else {
+                // 玩家2生命耗尽，游戏结束
+                currentState = GameState::GAME_OVER;
+                gameTimer->stop();
+                respawnTimer->stop();
+                gameTimeTimer->stop();
+                emit gameOver(player1Score); // 玩家1获胜
+                return;
+            }
         }
         
         // 检查食物碰撞
         if (head2 == food->getPosition()) {
             player2Snake->grow();
-            player2Score += 10;
+            if (food->isSpecial()) {
+                player2Score += 20;
+                // 特殊食物回复生命
+                if (player2Lives < MAX_LIVES) {
+                    player2Lives++;
+                }
+            } else {
+                player2Score += 10;
+            }
             generateFood();
         }
     }
     
-    // 检查游戏结束条件
-    if (!player1Alive && !player2Alive) {
-        // 平局
-        gameTimer->stop();
-        currentState = GameState::GAME_OVER;
-        QMessageBox::information(this, "游戏结束", "平局！");
-    } else if (!player1Alive) {
-        // 玩家2胜利
-        gameTimer->stop();
-        currentState = GameState::GAME_OVER;
-        QMessageBox::information(this, "游戏结束", "玩家2胜利！");
-    } else if (!player2Alive) {
-        // 玩家1胜利
-        gameTimer->stop();
-        currentState = GameState::GAME_OVER;
-        QMessageBox::information(this, "游戏结束", "玩家1胜利！");
-     }
+    // 时间挑战模式下不会因为玩家死亡而结束游戏
+    // 游戏只会在5分钟倒计时结束后结束
  }
 
 void GameWidget::drawLocalCoopSnakes(QPainter& painter, const QRect& gameRect)
@@ -1673,6 +1789,231 @@ void GameWidget::updateCountdown()
         // 重置游戏
         resetGame();
         emit backToMenu();
+    }
+}
+
+void GameWidget::updateRespawnTimer()
+{
+    // 更新玩家1复活倒计时
+    if (player1Respawning && player1RespawnTime > 0) {
+        player1RespawnTime--;
+        if (player1RespawnTime <= 0) {
+            respawnPlayer(1);
+        }
+    }
+    
+    // 更新玩家2复活倒计时
+    if (player2Respawning && player2RespawnTime > 0) {
+        player2RespawnTime--;
+        if (player2RespawnTime <= 0) {
+            respawnPlayer(2);
+        }
+    }
+    
+    update();
+}
+
+void GameWidget::updateGameTimer()
+{
+    totalGameTime++;
+    
+    // 检查是否达到游戏总时长（5分钟）
+    if (totalGameTime >= TOTAL_GAME_TIME) {
+        endTimeAttackGame();
+    }
+    
+    update();
+}
+
+void GameWidget::respawnPlayer(int playerNum)
+{
+    if (playerNum == 1) {
+        player1Alive = true;
+        player1Respawning = false;
+        player1RespawnTime = 0;
+        
+        // 重置玩家1蛇的位置
+        snake->reset(Point(5, gridHeight / 2));
+        snake->setDirection(Direction::RIGHT);
+        snake->setCharacter(player1Character);
+    } else if (playerNum == 2) {
+        player2Alive = true;
+        player2Respawning = false;
+        player2RespawnTime = 0;
+        
+        // 重置玩家2蛇的位置
+        player2Snake->reset(Point(gridWidth - 6, gridHeight / 2));
+        player2Snake->setDirection(Direction::LEFT);
+        player2Snake->setCharacter(player2Character);
+    }
+}
+
+void GameWidget::endTimeAttackGame()
+{
+    // 停止所有计时器
+    gameTimer->stop();
+    gameTimeTimer->stop();
+    respawnTimer->stop();
+    
+    currentState = GameState::GAME_OVER;
+    
+    // 比较得分并显示结果
+    QString result;
+    if (player1Score > player2Score) {
+        result = QString("玩家1胜利！\n玩家1得分: %1\n玩家2得分: %2").arg(player1Score).arg(player2Score);
+    } else if (player2Score > player1Score) {
+        result = QString("玩家2胜利！\n玩家1得分: %1\n玩家2得分: %2").arg(player1Score).arg(player2Score);
+    } else {
+        result = QString("平局！\n玩家1得分: %1\n玩家2得分: %2").arg(player1Score).arg(player2Score);
+    }
+    
+    QMessageBox::information(this, "时间挑战结束", result);
+}
+
+void GameWidget::endLocalCoopGame()
+{
+    // 停止所有计时器
+    gameTimer->stop();
+    gameTimeTimer->stop();
+    respawnTimer->stop();
+    countdownTimer->stop();
+    
+    currentState = GameState::GAME_OVER;
+    
+    // 根据游戏模式显示结果
+    QString modeText;
+    switch (localCoopMode) {
+    case SinglePlayerMode::CLASSIC:
+        modeText = "经典模式";
+        break;
+    case SinglePlayerMode::CHALLENGE:
+        modeText = "挑战模式";
+        break;
+    case SinglePlayerMode::TIME_ATTACK:
+        modeText = "时间挑战";
+        break;
+    default:
+        modeText = "未知模式";
+        break;
+    }
+    
+    // 自动判断获胜者
+    QString result;
+    if (player1Score > player2Score) {
+        result = QString("%1 - 玩家1胜利！\n\n最终得分:\n玩家1: %2 分\n玩家2: %3 分\n\n游戏时长: %4 秒")
+                .arg(modeText)
+                .arg(player1Score)
+                .arg(player2Score)
+                .arg(totalGameTime);
+    } else if (player2Score > player1Score) {
+        result = QString("%1 - 玩家2胜利！\n\n最终得分:\n玩家1: %2 分\n玩家2: %3 分\n\n游戏时长: %4 秒")
+                .arg(modeText)
+                .arg(player1Score)
+                .arg(player2Score)
+                .arg(totalGameTime);
+    } else {
+        result = QString("%1 - 平局！\n\n最终得分:\n玩家1: %2 分\n玩家2: %3 分\n\n游戏时长: %4 秒")
+                .arg(modeText)
+                .arg(player1Score)
+                .arg(player2Score)
+                .arg(totalGameTime);
+    }
+    
+    QMessageBox::information(this, "游戏结束", result);
+}
+
+void GameWidget::drawPlayerStatusPanel(QPainter& painter)
+{
+    // 在游戏界面右侧绘制玩家状态面板，调整大小避免遮挡
+    int panelX = width() - 160;
+    int panelY = 80;
+    int panelWidth = 150;
+    int panelHeight = 180;
+    
+    // 绘制面板背景
+    painter.fillRect(panelX, panelY, panelWidth, panelHeight, QColor(0, 0, 0, 180));
+    painter.setPen(QPen(Qt::white, 2));
+    painter.drawRect(panelX, panelY, panelWidth, panelHeight);
+    
+    // 绘制标题
+    painter.setFont(QFont("Arial", 12, QFont::Bold));
+    painter.setPen(Qt::white);
+    painter.drawText(panelX + 8, panelY + 18, "玩家状态");
+    
+    painter.setFont(QFont("Arial", 10));
+    
+    if (localCoopMode == SinglePlayerMode::TIME_ATTACK) {
+        // 时间模式：显示玩家状态和死亡倒计时
+        // 绘制玩家1状态
+        painter.setPen(Qt::white);
+        painter.drawText(panelX + 8, panelY + 38, "P1(WASD):");
+        if (player1Alive) {
+            painter.setPen(Qt::green);
+            painter.drawText(panelX + 8, panelY + 52, "存活");
+        } else if (player1Respawning) {
+            painter.setPen(Qt::yellow);
+            painter.drawText(panelX + 8, panelY + 52, QString("复活%1s").arg(player1RespawnTime));
+        } else {
+            painter.setPen(Qt::red);
+            painter.drawText(panelX + 8, panelY + 52, "死亡");
+        }
+        
+        // 绘制玩家2状态
+        painter.setPen(Qt::white);
+        painter.drawText(panelX + 8, panelY + 80, "P2(方向键):");
+        if (player2Alive) {
+            painter.setPen(Qt::green);
+            painter.drawText(panelX + 8, panelY + 94, "存活");
+        } else if (player2Respawning) {
+            painter.setPen(Qt::yellow);
+            painter.drawText(panelX + 8, panelY + 94, QString("复活%1s").arg(player2RespawnTime));
+        } else {
+            painter.setPen(Qt::red);
+            painter.drawText(panelX + 8, panelY + 94, "死亡");
+        }
+        
+        // 绘制游戏剩余时间
+        int remainingTime = TOTAL_GAME_TIME - totalGameTime;
+        int minutes = remainingTime / 60;
+        int seconds = remainingTime % 60;
+        painter.setPen(Qt::cyan);
+        painter.setFont(QFont("Arial", 11, QFont::Bold));
+        painter.drawText(panelX + 8, panelY + 120, "剩余时间:");
+        painter.drawText(panelX + 8, panelY + 137, QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0')));
+        
+        // 绘制分隔线
+        painter.setPen(QPen(Qt::white, 1));
+        painter.drawLine(panelX + 8, panelY + 70, panelX + panelWidth - 8, panelY + 70);
+        painter.drawLine(panelX + 8, panelY + 110, panelX + panelWidth - 8, panelY + 110);
+    } else {
+        // 经典模式和挑战模式：显示剩余生命和复活倒计时
+        // 绘制玩家1状态
+        painter.setPen(Qt::white);
+        painter.drawText(panelX + 8, panelY + 38, "P1(WASD):");
+        painter.drawText(panelX + 8, panelY + 52, QString("生命:%1").arg(player1Lives));
+        if (player1Respawning) {
+            painter.setPen(Qt::yellow);
+            painter.drawText(panelX + 8, panelY + 66, QString("复活%1s").arg(player1RespawnTime));
+        } else if (!player1Alive) {
+            painter.setPen(Qt::red);
+            painter.drawText(panelX + 8, panelY + 66, "死亡");
+        }
+        
+        // 绘制玩家2状态
+        painter.setPen(Qt::white);
+        painter.drawText(panelX + 8, panelY + 90, "P2(方向键):");
+        painter.drawText(panelX + 8, panelY + 104, QString("生命:%1").arg(player2Lives));
+        if (player2Respawning) {
+            painter.setPen(Qt::yellow);
+            painter.drawText(panelX + 8, panelY + 118, QString("复活%1s").arg(player2RespawnTime));
+        } else if (!player2Alive) {
+            painter.setPen(Qt::red);
+            painter.drawText(panelX + 8, panelY + 118, "死亡");
+        }
+        
+        // 绘制分隔线
+        painter.setPen(QPen(Qt::white, 1));
+        painter.drawLine(panelX + 8, panelY + 80, panelX + panelWidth - 8, panelY + 80);
     }
 }
 

@@ -162,6 +162,7 @@ LocalCoopCharacterSelection::LocalCoopCharacterSelection(QWidget *parent)
     , player2Character(CharacterType::PATRICK)
     , isPlayer1Turn(true)
     , selectedButton(nullptr)
+    , gameMode(SinglePlayerMode::CLASSIC)
 {
     setupUI();
     setupPlayer1Selection();
@@ -319,7 +320,7 @@ void LocalCoopCharacterSelection::onNextClicked()
         setupPlayer2Selection();
     } else {
         // 玩家2选择完成，开始游戏
-        emit startLocalCoopGame(player1Character, player2Character);
+        emit startLocalCoopGame(player1Character, player2Character, gameMode);
     }
 }
 
@@ -331,6 +332,16 @@ CharacterType LocalCoopCharacterSelection::getPlayer1Character() const
 CharacterType LocalCoopCharacterSelection::getPlayer2Character() const
 {
     return player2Character;
+}
+
+SinglePlayerMode LocalCoopCharacterSelection::getSelectedMode() const
+{
+    return gameMode;
+}
+
+void LocalCoopCharacterSelection::setGameMode(SinglePlayerMode mode)
+{
+    gameMode = mode;
 }
 
 void LocalCoopCharacterSelection::resetSelection()

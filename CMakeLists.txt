@@ -33,6 +33,8 @@ set(PROJECT_SOURCES
 
         localcoopcharacterselection.cpp
         localcoopcharacterselection.h
+        localcoopmodeselection.cpp
+        localcoopmodeselection.h
         oceanbackground.cpp
         oceanbackground.h
         wall.cpp

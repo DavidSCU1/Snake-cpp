@@ -9,6 +9,7 @@
 #include <QGroupBox>
 #include <QGridLayout>
 #include "gamestate.h"
+#include "singleplayergamemanager.h"
 
 class LocalCoopCharacterButton : public QPushButton
 {
@@ -44,14 +45,16 @@ public:
     
     CharacterType getPlayer1Character() const;
     CharacterType getPlayer2Character() const;
+    SinglePlayerMode getSelectedMode() const;
     void resetSelection();
+    void setGameMode(SinglePlayerMode mode);
 
 private slots:
     void onCharacterButtonClicked(CharacterType character);
     void onNextClicked();
 
 signals:
-    void startLocalCoopGame(CharacterType player1Character, CharacterType player2Character);
+    void startLocalCoopGame(CharacterType player1Character, CharacterType player2Character, SinglePlayerMode mode);
     void backClicked();
 
 private:
@@ -71,6 +74,7 @@ private:
     CharacterType player2Character;
     bool isPlayer1Turn;
     LocalCoopCharacterButton* selectedButton;
+    SinglePlayerMode gameMode;
     
     // 角色按钮映射
     QMap<CharacterType, LocalCoopCharacterButton*> characterButtons;

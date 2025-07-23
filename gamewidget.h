@@ -35,7 +35,7 @@ public:
     void setSinglePlayerGameMode(SinglePlayerMode mode);
     void startSinglePlayerGame();
     void startMultiPlayerGame(bool isHost = false);
-    void startLocalCoopGame();
+    void startLocalCoopGame(SinglePlayerMode mode = SinglePlayerMode::CLASSIC);
     void setLocalCoopMode(CharacterType player1Character, CharacterType player2Character);
 
     
@@ -71,8 +71,9 @@ protected:
 private slots:
     void gameLoop();
     void onFoodExpired();
-
     void updateCountdown();  // 更新倒计时
+    void updateRespawnTimer();  // 更新复活倒计时
+    void updateGameTimer();     // 更新游戏总时间
     
 private:
     void setupUI();
@@ -94,8 +95,12 @@ private:
     void drawWalls(QPainter& painter, const QRect& gameRect);
     void drawMultiplayerSnakes(QPainter& painter, const QRect& gameRect);
     void drawUI(QPainter& painter);
+    void drawPlayerStatusPanel(QPainter& painter);  // 绘制玩家状态面板
     void drawPauseOverlay(QPainter& painter, const QRect& gameRect);
     void drawGameOverOverlay(QPainter& painter, const QRect& gameRect);
+    void respawnPlayer(int playerNum);  // 复活玩家
+    void endTimeAttackGame();           // 结束时间挑战游戏
+    void endLocalCoopGame();            // 结束本地双人游戏
 
     
     QSet<Point> getOccupiedPositions() const;
@@ -158,10 +163,27 @@ private:
     // 本地双人游戏相关
     CharacterType player1Character;
     CharacterType player2Character;
+    SinglePlayerMode localCoopMode;  // 本地双人游戏模式
     int player1Score;
     int player2Score;
     bool player1Alive;
     bool player2Alive;
+    
+    // 生命机制相关
+    int player1Lives;
+    int player2Lives;
+    const int MAX_LIVES = 3;  // 最大生命数
+    
+    // 复活机制相关
+    bool player1Respawning;
+    bool player2Respawning;
+    int player1RespawnTime;
+    int player2RespawnTime;
+    QTimer* respawnTimer;
+    QTimer* gameTimeTimer;  // 游戏总时间计时器
+    int totalGameTime;      // 游戏总时间（秒）
+    const int RESPAWN_TIME = 10;  // 复活时间（秒）
+    const int TOTAL_GAME_TIME = 300;  // 游戏总时长（5分钟）
     
     // 高分记录
     QList<int> highScores;

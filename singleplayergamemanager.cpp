@@ -419,6 +419,27 @@ void SinglePlayerGameManager::setupModeTimers()
             int aiSpeed = playerSpeed; // AI蛇移动速度与玩家相同
             aiMoveTimer->start(aiSpeed);
             initializeAI();
+            
+            // 在AI对战模式中生成障碍物
+            if (gameWidget) {
+                QSet<Point> occupiedPositions;
+                // 添加玩家蛇的位置
+                QList<Point> playerBody = gameWidget->getSnakeBody();
+                for (const Point& segment : playerBody) {
+                    occupiedPositions.insert(segment);
+                }
+                // 添加AI蛇的位置
+                for (const Point& segment : aiSnake) {
+                    occupiedPositions.insert(segment);
+                }
+                // 添加食物位置
+                occupiedPositions.insert(foodPosition);
+                
+                // 生成30-50个障碍物
+                int wallCount = QRandomGenerator::global()->bounded(30, 51);
+                gameWidget->generateWalls(occupiedPositions, wallCount);
+                qDebug() << "Generated" << wallCount << "walls for AI battle mode";
+            }
             break;
         }
     default:
@@ -1123,6 +1144,13 @@ void SinglePlayerGameManager::updateAIMovement()
         }
     }
     
+    // 检查障碍物碰撞
+    if (gameWidget && gameWidget->hasWallAt(newHead)) {
+        // AI撞到障碍物，重新初始化
+        initializeAI();
+        return;
+    }
+    
     aiSnake.push_front(newHead);
     
     // 检查是否吃到食物
@@ -1136,8 +1164,24 @@ void SinglePlayerGameManager::updateAIMovement()
         }
         
         emit aiScoreUpdated(aiScore, playerScore);
+        
+        // 检查分数差距是否达到结束条件（AI领先100分）
+        if (aiScore - playerScore >= 100) {
+            qDebug() << "AI wins! Score difference reached 100 points. AI:" << aiScore << ", Player:" << playerScore;
+            endGame();
+            emit gameEnded("AI获胜！领先10个食物的分数！");
+            return;
+        }
     } else {
         aiSnake.pop_back();
+    }
+    
+    // 检查玩家分数是否领先AI 100分
+    if (playerScore - aiScore >= 100) {
+        qDebug() << "Player wins! Score difference reached 100 points. Player:" << playerScore << ", AI:" << aiScore;
+        endGame();
+        emit gameEnded("玩家获胜！领先10个食物的分数！");
+        return;
     }
 }
 
@@ -1266,6 +1310,11 @@ bool SinglePlayerGameManager::isValidAIMove(const Point& aiHead, Direction direc
                 return false;
             }
         }
+        
+        // 检查是否撞到障碍物（墙体）
+        if (gameWidget->hasWallAt(newHead)) {
+            return false;
+        }
     }
     
     // 检查前方两格是否有障碍物（用于提前规避）
@@ -1291,6 +1340,11 @@ bool SinglePlayerGameManager::isValidAIMove(const Point& aiHead, Direction direc
             if (segment.x == twoStepsAhead.x && segment.y == twoStepsAhead.y) {
                 return false;
             }
+        }
+        
+        // 检查前方两格是否有障碍物
+        if (gameWidget->hasWallAt(twoStepsAhead)) {
+            return false;
         }
     }
     

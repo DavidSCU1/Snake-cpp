@@ -50,6 +50,8 @@ public:
     void resumeGame();
     void resetGame();
     void generateFood();  // 公开食物生成函数供SinglePlayerGameManager调用
+    void generateWalls(const QSet<Point>& occupiedPositions, int wallCount = 0);  // 支持传入占用位置的墙体生成
+    bool hasWallAt(const Point& position) const;  // 检查指定位置是否有墙体
     
     GameState getCurrentState() const { return currentState; }
     int getCurrentScore() const { return score; }

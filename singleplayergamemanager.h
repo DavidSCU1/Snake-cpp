@@ -144,6 +144,7 @@ signals:
     void speedIncreased(double multiplier);  // 极速模式速度提升
     void aiScoreUpdated(int aiScore, int playerScore);  // AI对战分数更新
     void gameEnded(SinglePlayerMode mode, const GameStats& finalStats);
+    void gameEnded(const QString& message);  // AI对战模式游戏结束消息
     
 public:
     // AI对战相关方法

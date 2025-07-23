@@ -76,10 +76,20 @@ GameWidget::GameWidget(QWidget *parent)
     multiPlayerManager->setNetworkManager(networkManager);
     
     // 单人游戏管理器信号连接
-    connect(singlePlayerManager, &SinglePlayerGameManager::gameEnded, this, [this](SinglePlayerMode mode, const GameStats& stats) {
+    connect(singlePlayerManager, QOverload<SinglePlayerMode, const GameStats&>::of(&SinglePlayerGameManager::gameEnded), this, [this](SinglePlayerMode mode, const GameStats& stats) {
         qDebug() << "Single player game ended, mode:" << (int)mode;
         currentState = GameState::GAME_OVER;
         gameTimer->stop();
+        update();
+    });
+    
+    // AI对战模式游戏结束信号连接
+    connect(singlePlayerManager, QOverload<const QString&>::of(&SinglePlayerGameManager::gameEnded), this, [this](const QString& message) {
+        qDebug() << "AI Battle game ended:" << message;
+        currentState = GameState::GAME_OVER;
+        gameTimer->stop();
+        // 显示游戏结束消息
+        QMessageBox::information(this, "游戏结束", message);
         update();
     });
     
@@ -749,6 +759,18 @@ void GameWidget::generateWalls()
     int wallCount = isMultiplayer ? 20 : 0; // 多人模式使用固定数量，单人模式使用随机范围(100-150)
     
     wall->generateWalls(gridWidth, gridHeight, occupiedPositions, wallCount);
+}
+
+void GameWidget::generateWalls(const QSet<Point>& occupiedPositions, int wallCount)
+{
+    if (wall) {
+        wall->generateWalls(gridWidth, gridHeight, occupiedPositions, wallCount);
+    }
+}
+
+bool GameWidget::hasWallAt(const Point& position) const
+{
+    return wall ? wall->hasWallAt(position) : false;
 }
 
 QSet<Point> GameWidget::getOccupiedPositions() const

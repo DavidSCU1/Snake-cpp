@@ -277,6 +277,18 @@ void HotspotNetworkManager::sendChatMessage(const QString& playerName, const QSt
     }
 }
 
+void HotspotNetworkManager::sendMessage(const QString& type, const QJsonObject& data)
+{
+    QJsonObject message = createMessage(type, data);
+    
+    if (isHosting()) {
+        broadcastToClients(message);
+    } else if (isConnectedToHost()) {
+        QJsonDocument doc(message);
+        tcpClient->write(doc.toJson(QJsonDocument::Compact) + "\n");
+    }
+}
+
 void HotspotNetworkManager::broadcastToClients(const QJsonObject& message)
 {
     if (!isHosting()) {
@@ -478,8 +490,21 @@ void HotspotNetworkManager::onSocketError(QAbstractSocket::SocketError error)
 {
     QTcpSocket* socket = qobject_cast<QTcpSocket*>(sender());
     if (socket) {
-        emit networkError(QString("Socket error: %1").arg(socket->errorString()));
-        qWarning() << "Socket error:" << socket->errorString();
+        // 检查是否为优雅断开连接（玩家主动离开）
+        if (error == QAbstractSocket::RemoteHostClosedError) {
+            // 检查是否为已知的玩家连接
+            QString playerName = clientPlayerNames.value(socket);
+            if (!playerName.isEmpty()) {
+                qDebug() << "Player" << playerName << "gracefully disconnected";
+                return; // 不显示错误，这是正常的玩家离开
+            }
+        }
+        
+        // 只有在非正常断开时才显示错误
+        if (error != QAbstractSocket::RemoteHostClosedError) {
+            emit networkError(QString("Socket error: %1").arg(socket->errorString()));
+            qWarning() << "Socket error:" << socket->errorString();
+        }
     }
 }
 
@@ -731,6 +756,24 @@ void HotspotNetworkManager::processMessage(const QJsonObject& message, QTcpSocke
             clientPlayerNames[sender] = playerName;
             playerSockets[playerName] = sender;
             emit playerConnectedToHost(playerName);
+        }
+    } else if (type == "player_leave") {
+        QString playerName = message["player_name"].toString();
+        if (sender && isHosting()) {
+            // 标记为优雅离开，避免显示连接错误
+            QString socketPlayerName = clientPlayerNames.value(sender);
+            if (!socketPlayerName.isEmpty()) {
+                clientPlayerNames.remove(sender);
+                playerSockets.remove(socketPlayerName);
+                connectedClients.removeOne(sender);
+                emit playerDisconnectedFromHost(socketPlayerName);
+                
+                // 优雅关闭连接
+                sender->disconnectFromHost();
+                if (sender->state() != QAbstractSocket::UnconnectedState) {
+                    sender->waitForDisconnected(1000);
+                }
+            }
         }
     } else if (type == "player_data") {
         QString playerName = message["player_name"].toString();

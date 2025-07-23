@@ -79,6 +79,7 @@ public:
     bool isGameActive() const { return gameState.isGameStarted && !gameState.isPaused; }
     int getPlayerCount() const { return gameState.playerSnakes.size(); }
     QStringList getPlayerNames() const { return gameState.playerSnakes.keys(); }
+    QString getHostPlayerName() const { return hostPlayerName; }
     
     // 网络管理
     void setNetworkManager(HotspotNetworkManager* manager);

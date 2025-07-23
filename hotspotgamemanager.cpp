@@ -52,8 +52,14 @@ bool HotspotGameManager::createRoom(const QString& hostPlayerName, const QString
     gameState.playerDirections[hostPlayerName] = Direction::RIGHT;
     gameState.playerReadyStatus[hostPlayerName] = false;
     
+    // 初始化食物位置
+    generateFood();
+    
     emit roomCreated(roomName);
     emit playerJoined(hostPlayerName);
+    
+    // 广播初始游戏状态，确保后续连接的客户端能看到房主信息
+    broadcastGameState();
     
     qDebug() << "Room created:" << roomName << "by" << hostPlayerName;
     return true;
@@ -76,9 +82,8 @@ bool HotspotGameManager::joinRoom(const QString& playerName)
     
     // 发送加入消息到主机
     QJsonObject joinMessage;
-    joinMessage["type"] = "player_join";  // 添加消息类型标识
     joinMessage["player_name"] = playerName;
-    networkManager->sendPlayerData(playerName, joinMessage);
+    networkManager->sendMessage("player_join", joinMessage);
     
     // 注意：不在这里发射playerJoined信号，等待主机确认后再更新界面
     // 主机会通过onNetworkPlayerConnected处理并广播游戏状态
@@ -89,13 +94,28 @@ bool HotspotGameManager::joinRoom(const QString& playerName)
 
 void HotspotGameManager::leaveRoom(const QString& playerName)
 {
-    removePlayer(playerName);
-    
     if (isHost() && playerName == hostPlayerName) {
+        // 房主离开，销毁房间
         destroyRoom();
     } else {
+        // 客户端离开，发送离开消息
+        if (networkManager && !isHost()) {
+            QJsonObject leaveMessage;
+            leaveMessage["player_name"] = playerName;
+            networkManager->sendMessage("player_leave", leaveMessage);
+        }
+        
+        removePlayer(playerName);
         emit playerLeft(playerName);
-        broadcastGameState();
+        
+        if (isHost()) {
+            broadcastGameState();
+        } else {
+            // 客户端断开连接
+            if (networkManager) {
+                networkManager->disconnectFromHost();
+            }
+        }
     }
     
     qDebug() << "Player left:" << playerName;
@@ -368,7 +388,26 @@ void HotspotGameManager::onNetworkGameState(const QJsonObject& gameStateJson)
 {
     // 客户端接收游戏状态更新
     if (!isHost()) {
+        // 保存旧的玩家列表
+        QStringList oldPlayers = gameState.playerSnakes.keys();
+        
         gameStateFromJson(gameStateJson);
+        
+        // 检查是否有新玩家加入
+        QStringList newPlayers = gameState.playerSnakes.keys();
+        for (const QString& playerName : newPlayers) {
+            if (!oldPlayers.contains(playerName)) {
+                emit playerJoined(playerName);
+            }
+        }
+        
+        // 检查是否有玩家离开
+        for (const QString& playerName : oldPlayers) {
+            if (!newPlayers.contains(playerName)) {
+                emit playerLeft(playerName);
+            }
+        }
+        
         emit gameStateUpdated(gameState);
     }
 }
@@ -393,10 +432,10 @@ void HotspotGameManager::onNetworkPlayerConnected(const QString& playerName)
 
 void HotspotGameManager::onNetworkPlayerDisconnected(const QString& playerName)
 {
-    removePlayer(playerName);
-    emit playerLeft(playerName);
-    
+    // 只有房主才处理玩家断开连接事件
     if (isHost()) {
+        removePlayer(playerName);
+        emit playerLeft(playerName);
         broadcastGameState();
         
         // 检查是否需要结束游戏
@@ -761,6 +800,7 @@ void HotspotGameManager::gameStateFromJson(const QJsonObject& json)
 {
     // 解析玩家蛇身
     QJsonObject snakes = json["snakes"].toObject();
+    gameState.playerSnakes.clear();
     for (auto it = snakes.begin(); it != snakes.end(); ++it) {
         std::deque<Point> snake;
         QJsonArray snakeArray = it.value().toArray();
@@ -771,9 +811,54 @@ void HotspotGameManager::gameStateFromJson(const QJsonObject& json)
         gameState.playerSnakes[it.key()] = snake;
     }
     
-    // 解析其他状态...
-    // (为了简洁，这里省略了完整的解析代码)
+    // 解析玩家角色
+    QJsonObject characters = json["characters"].toObject();
+    gameState.playerCharacters.clear();
+    for (auto it = characters.begin(); it != characters.end(); ++it) {
+        gameState.playerCharacters[it.key()] = static_cast<CharacterType>(it.value().toInt());
+    }
     
+    // 解析玩家分数
+    QJsonObject scores = json["scores"].toObject();
+    gameState.playerScores.clear();
+    for (auto it = scores.begin(); it != scores.end(); ++it) {
+        gameState.playerScores[it.key()] = it.value().toInt();
+    }
+    
+    // 解析玩家存活状态
+    QJsonObject aliveStatus = json["alive_status"].toObject();
+    gameState.playerAliveStatus.clear();
+    for (auto it = aliveStatus.begin(); it != aliveStatus.end(); ++it) {
+        gameState.playerAliveStatus[it.key()] = it.value().toBool();
+    }
+    
+    // 解析玩家方向
+    QJsonObject directions = json["directions"].toObject();
+    gameState.playerDirections.clear();
+    for (auto it = directions.begin(); it != directions.end(); ++it) {
+        gameState.playerDirections[it.key()] = static_cast<Direction>(it.value().toInt());
+    }
+    
+    // 解析玩家准备状态
+    QJsonObject readyStatus = json["ready_status"].toObject();
+    gameState.playerReadyStatus.clear();
+    for (auto it = readyStatus.begin(); it != readyStatus.end(); ++it) {
+        gameState.playerReadyStatus[it.key()] = it.value().toBool();
+    }
+    
+    // 解析食物位置
+    QJsonObject food = json["food"].toObject();
+    gameState.foodPosition = Point(food["x"].toInt(), food["y"].toInt());
+    
+    // 解析特殊食物
+    gameState.isSpecialFood = json["is_special_food"].toBool();
+    if (gameState.isSpecialFood && json.contains("special_food")) {
+        QJsonObject specialFood = json["special_food"].toObject();
+        gameState.specialFoodPosition = Point(specialFood["x"].toInt(), specialFood["y"].toInt());
+    }
+    
+    // 解析游戏状态
+    gameState.gameSpeed = json["game_speed"].toInt();
     gameState.isGameStarted = json["is_game_started"].toBool();
     gameState.isPaused = json["is_paused"].toBool();
     gameState.gameWinner = json["game_winner"].toString();

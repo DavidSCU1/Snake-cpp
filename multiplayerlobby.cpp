@@ -581,21 +581,22 @@ void MultiPlayerLobby::onRoomCreated(const QString& roomId, const GameRoom& room
 
 void MultiPlayerLobby::onPlayerJoinedRoom(const QString& roomId, const QString& playerName)
 {
+    // 先设置当前房间ID
+    currentRoomId = roomId;
+    
     GameRoom room = multiPlayerManager->getRoomInfo(roomId);
     updateRoomInfo(room);
     
-    // 只要房间ID匹配就显示等待界面，确保客户端能正确跳转
-    if (roomId == currentRoomId) {
-        currentRoomId = roomId;
-        showWaitingInterface();
-        qDebug() << "Player" << playerName << "joined, switching to waiting interface";
-        sendJoinSuccessAck();
+    // 显示等待界面
+    showWaitingInterface();
+    qDebug() << "Player" << playerName << "joined, switching to waiting interface";
+    sendJoinSuccessAck();
 
-        // 检查是否需要显示玩家加入信息
-        if (waitingWidget && !waitingWidget->isVisible()) {
-            QMessageBox::information(this, "玩家加入", QString("玩家 %1 加入了房间！").arg(playerName));
-        }
+    // 检查是否需要显示玩家加入信息
+    if (waitingWidget && !waitingWidget->isVisible()) {
+        QMessageBox::information(this, "玩家加入", QString("玩家 %1 加入了房间！").arg(playerName));
     }
+    
     refreshRoomList();
 }
 

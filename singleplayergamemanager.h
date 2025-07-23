@@ -29,6 +29,44 @@ struct GameStats {
     int perfectMoves = 0;  // 完美移动次数
     double efficiency = 0.0;  // 效率百分比
     bool diedByWallCollision = false;  // 是否撞墙而死
+    bool diedBySelfCollision = false;  // 是否撞到自己而死
+    
+    // 连击相关
+    int currentCombo = 0;  // 当前连击数
+    int maxCombo = 0;      // 最大连击数
+    
+    // 速度相关
+    int highSpeedTime = 0;  // 高速维持时间（秒）
+    bool neverSlowed = true;  // 是否从未减速
+    
+    // 生存相关
+    int nearDeathEscapes = 0;  // 险些死亡但逃脱次数
+    int cornerEscapes = 0;     // 角落脱困次数
+    
+    // 收集相关
+    int foodTypesEaten = 0;    // 吃过的食物类型数
+    int goldenFoodEaten = 0;   // 金色食物数量
+    
+    // 探索相关
+    int mapCoverage = 0;       // 地图覆盖率（百分比）
+    int cornersVisited = 0;    // 访问过的角落数
+    int borderSteps = 0;       // 沿边界移动步数
+    
+    // 技巧相关
+    int quickTurns = 0;        // 急转弯次数
+    bool spiralCompleted = false;  // 是否完成螺旋移动
+    int zigzagMoves = 0;       // 之字形移动次数
+    
+    // 挑战相关
+    bool neverPaused = true;   // 是否从未暂停
+    int blindMoves = 0;        // 盲打移动次数
+    int totalMoves = 0;        // 总移动次数
+    int wastedMoves = 0;       // 无效移动次数
+    
+    // 里程碑相关
+    int gamesPlayed = 0;       // 游戏局数
+    int comebackWins = 0;      // 逆转胜利次数
+    int achievementsThisGame = 0;  // 本局解锁成就数
 };
 
 // 成就系统
@@ -133,9 +171,18 @@ private:
     // 成就检查函数
     void checkScoreAchievements();
     void checkTimeAchievements();
+    void checkLengthAchievements();
+    void checkComboAchievements();
+    void checkSpeedAchievements();
     void checkEfficiencyAchievements();
+    void checkSurvivalAchievements();
+    void checkCollectionAchievements();
+    void checkExplorationAchievements();
+    void checkSkillAchievements();
+    void checkChallengeAchievements();
     void checkSpecialAchievements();
     void checkWallCollisionAchievement();
+    void checkMilestoneAchievements();
     
     // 游戏状态
     SinglePlayerMode currentMode;

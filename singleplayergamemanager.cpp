@@ -314,30 +314,87 @@ void SinglePlayerGameManager::initializeAchievements()
     achievements.append({"score_500", "进步者", "获得500分", false, 0, 500, true});
     achievements.append({"score_1000", "高手", "获得1000分", false, 0, 1000, true});
     achievements.append({"score_5000", "大师", "获得5000分", false, 0, 5000, true});
+    achievements.append({"score_10000", "传奇", "获得10000分", false, 0, 10000, true});
+    achievements.append({"score_25000", "神话", "获得25000分", false, 0, 25000, true});
     
     // 时间成就
     achievements.append({"time_60", "坚持者", "游戏时间超过1分钟", false, 0, 60, true});
     achievements.append({"time_300", "耐力王", "游戏时间超过5分钟", false, 0, 300, true});
     achievements.append({"time_600", "马拉松", "游戏时间超过10分钟", false, 0, 600, true});
+    achievements.append({"time_1200", "超级马拉松", "游戏时间超过20分钟", false, 0, 1200, true});
+    achievements.append({"time_1800", "铁人", "游戏时间超过30分钟", false, 0, 1800, true});
     
     // 长度成就
     achievements.append({"length_20", "小蛇", "蛇身长度达到20", false, 0, 20, true});
     achievements.append({"length_50", "大蛇", "蛇身长度达到50", false, 0, 50, true});
     achievements.append({"length_100", "巨蛇", "蛇身长度达到100", false, 0, 100, true});
+    achievements.append({"length_200", "超级巨蛇", "蛇身长度达到200", false, 0, 200, true});
+    achievements.append({"length_500", "蛇王", "蛇身长度达到500", false, 0, 500, true});
     
-    // 特殊成就
+    // 连击成就
+    achievements.append({"combo_5", "连击新手", "连续吃掉5个食物", false, 0, 5, true});
+    achievements.append({"combo_10", "连击高手", "连续吃掉10个食物", false, 0, 10, true});
+    achievements.append({"combo_20", "连击大师", "连续吃掉20个食物", false, 0, 20, true});
+    achievements.append({"combo_50", "连击之王", "连续吃掉50个食物", false, 0, 50, true});
+    
+    // 速度成就
+    achievements.append({"speed_fast", "速度恶魔", "游戏速度达到最快级别", false, 0, 1, true});
+    achievements.append({"speed_maintain_60", "稳定高速", "在高速下维持60秒", false, 0, 60, true});
+    achievements.append({"speed_no_slow", "永不减速", "整局游戏从不减速", false, 0, 1, true});
+    
+    // 精准成就
     achievements.append({"perfect_10", "完美主义者", "连续10次完美移动", false, 0, 10, true});
-    achievements.append({"special_food_10", "美食家", "吃掉10个特殊食物", false, 0, 10, true});
+    achievements.append({"perfect_50", "精准大师", "连续50次完美移动", false, 0, 50, true});
+    achievements.append({"no_waste_move", "零浪费", "整局游戏无无效移动", false, 0, 1, true});
     achievements.append({"efficiency_80", "效率专家", "游戏效率达到80%", false, 0, 80, true});
+    achievements.append({"efficiency_95", "完美效率", "游戏效率达到95%", false, 0, 95, true});
+    
+    // 生存成就
+    achievements.append({"near_death_5", "死里逃生", "5次险些撞墙但成功避开", false, 0, 5, true});
+    achievements.append({"corner_escape", "绝境求生", "在角落中成功脱困", false, 0, 1, true});
     achievements.append({"wall_collision", "硬！", "在游戏中撞墙而死", false, 0, 1, true});
+    achievements.append({"self_collision", "自食其果", "撞到自己的身体而死", false, 0, 1, true});
+    
+    // 收集成就
+    achievements.append({"special_food_10", "美食家", "吃掉10个特殊食物", false, 0, 10, true});
+    achievements.append({"special_food_50", "特殊收集家", "吃掉50个特殊食物", false, 0, 50, true});
+    achievements.append({"food_variety", "营养均衡", "吃掉所有类型的食物", false, 0, 5, true});
+    achievements.append({"golden_food", "黄金猎手", "吃掉金色特殊食物", false, 0, 1, true});
+    
+    // 探索成就
+    achievements.append({"map_explorer", "地图探索者", "访问游戏区域的80%", false, 0, 80, true});
+    achievements.append({"corner_visitor", "角落访客", "访问所有四个角落", false, 0, 4, true});
+    achievements.append({"border_runner", "边界行者", "沿着边界移动100步", false, 0, 100, true});
+    
+    // 技巧成就
+    achievements.append({"quick_turn", "急转弯大师", "连续进行20次急转弯", false, 0, 20, true});
+    achievements.append({"spiral_master", "螺旋大师", "完成一个完整的螺旋移动", false, 0, 1, true});
+    achievements.append({"zigzag_king", "之字形之王", "连续进行50次之字形移动", false, 0, 50, true});
+    
+    // 挑战成就
+    achievements.append({"no_pause", "一气呵成", "整局游戏从不暂停", false, 0, 1, true});
+    achievements.append({"blindfold", "盲打高手", "在高速下不看屏幕移动20步", false, 0, 20, true});
+    achievements.append({"minimalist", "极简主义", "用最少的移动次数达到50分", false, 0, 50, true});
     
     // 模式特定成就
     achievements.append({"time_attack_master", "时间大师", "时间挑战模式获得1000分", false, 0, 1000, true});
+    achievements.append({"time_attack_speed", "时间竞速者", "时间挑战模式在2分钟内获得500分", false, 0, 500, true});
     achievements.append({"challenge_walls_50", "墙体大师", "挑战模式生成50块墙体", false, 0, 50, true});
+    achievements.append({"challenge_survivor", "挑战生存者", "挑战模式下生存10分钟", false, 0, 600, true});
     achievements.append({"speed_run_5x", "极速之王", "极速模式达到5倍速度", false, 0, 5, true});
+    achievements.append({"speed_run_master", "极速大师", "极速模式获得2000分", false, 0, 2000, true});
     achievements.append({"ai_battle_win", "人机对战胜利者", "在人机对战中击败AI", false, 0, 1, true});
     achievements.append({"ai_battle_500", "AI挑战者", "人机对战模式获得500分", false, 0, 500, true});
     achievements.append({"ai_battle_master", "AI征服者", "人机对战模式获得1000分", false, 0, 1000, true});
+    achievements.append({"ai_dominator", "AI统治者", "连续3局击败AI", false, 0, 3, true});
+    
+    // 特殊里程碑成就
+    achievements.append({"first_game", "初次体验", "完成第一局游戏", false, 0, 1, true});
+    achievements.append({"comeback_king", "逆转之王", "从濒死状态逆转获胜", false, 0, 1, true});
+    achievements.append({"perfectionist", "完美主义", "一局游戏中解锁5个成就", false, 0, 5, true});
+    achievements.append({"achievement_hunter", "成就猎人", "解锁30个成就", false, 0, 30, true});
+    achievements.append({"completionist", "完美收集家", "解锁所有成就", false, 0, 50, true});
+    achievements.append({"genius_youth", "天才少年", "在时间模式下吃到10个特殊食物。如果那是你的真实实力,那么所有质疑都是对你的认可", false, 0, 10, true});
 }
 
 void SinglePlayerGameManager::setupModeTimers()
@@ -394,9 +451,18 @@ void SinglePlayerGameManager::checkAchievements()
 {
     checkScoreAchievements();
     checkTimeAchievements();
+    checkLengthAchievements();
+    checkComboAchievements();
+    checkSpeedAchievements();
     checkEfficiencyAchievements();
+    checkSurvivalAchievements();
+    checkCollectionAchievements();
+    checkExplorationAchievements();
+    checkSkillAchievements();
+    checkChallengeAchievements();
     checkSpecialAchievements();
     checkWallCollisionAchievement();
+    checkMilestoneAchievements();
 }
 
 void SinglePlayerGameManager::updateAchievements(const QList<Achievement>& newAchievements)
@@ -466,7 +532,7 @@ void SinglePlayerGameManager::checkWallCollisionAchievement()
 
 void SinglePlayerGameManager::checkScoreAchievements()
 {
-    QStringList scoreAchievements = {"score_100", "score_500", "score_1000", "score_5000"};
+    QStringList scoreAchievements = {"score_100", "score_500", "score_1000", "score_5000", "score_10000", "score_25000"};
     
     for (auto& achievement : achievements) {
         if (scoreAchievements.contains(achievement.id) && !achievement.unlocked) {
@@ -484,7 +550,7 @@ void SinglePlayerGameManager::checkScoreAchievements()
 
 void SinglePlayerGameManager::checkTimeAchievements()
 {
-    QStringList timeAchievements = {"time_60", "time_300", "time_600"};
+    QStringList timeAchievements = {"time_60", "time_300", "time_600", "time_1200", "time_1800"};
     
     for (auto& achievement : achievements) {
         if (timeAchievements.contains(achievement.id) && !achievement.unlocked) {
@@ -502,15 +568,316 @@ void SinglePlayerGameManager::checkTimeAchievements()
 
 void SinglePlayerGameManager::checkEfficiencyAchievements()
 {
+    QStringList efficiencyAchievements = {"efficiency_80", "efficiency_95", "perfect_10", "perfect_50", "no_waste_move"};
+    
     for (auto& achievement : achievements) {
-        if (achievement.id == "efficiency_80" && !achievement.unlocked) {
-            if (gameStats.efficiency >= achievement.target) {
+        if (efficiencyAchievements.contains(achievement.id) && !achievement.unlocked) {
+            if (achievement.id == "efficiency_80" || achievement.id == "efficiency_95") {
+                if (gameStats.efficiency >= achievement.target) {
+                    achievement.unlocked = true;
+                    achievement.progress = achievement.target;
+                    achievement.displayed = false;
+                    emit achievementUnlocked(achievement);
+                } else {
+                    achievement.progress = (int)gameStats.efficiency;
+                }
+            } else if (achievement.id == "perfect_10" || achievement.id == "perfect_50") {
+                if (gameStats.perfectMoves >= achievement.target) {
+                    achievement.unlocked = true;
+                    achievement.progress = achievement.target;
+                    achievement.displayed = false;
+                    emit achievementUnlocked(achievement);
+                } else {
+                    achievement.progress = gameStats.perfectMoves;
+                }
+            } else if (achievement.id == "no_waste_move") {
+                if (gameStats.wastedMoves == 0 && gameStats.totalScore > 100) {
+                    achievement.unlocked = true;
+                    achievement.progress = 1;
+                    achievement.displayed = false;
+                    emit achievementUnlocked(achievement);
+                }
+            }
+        }
+    }
+}
+
+void SinglePlayerGameManager::checkLengthAchievements()
+{
+    QStringList lengthAchievements = {"length_20", "length_50", "length_100", "length_200", "length_500"};
+    for (auto& achievement : achievements) {
+        if (lengthAchievements.contains(achievement.id) && !achievement.unlocked) {
+            if (gameStats.maxLength >= achievement.target) {
                 achievement.unlocked = true;
                 achievement.progress = achievement.target;
-                achievement.displayed = false; // 标记为未显示
+                achievement.displayed = false;
                 emit achievementUnlocked(achievement);
             } else {
-                achievement.progress = (int)gameStats.efficiency;
+                achievement.progress = gameStats.maxLength;
+            }
+        }
+    }
+}
+
+void SinglePlayerGameManager::checkComboAchievements()
+{
+    QStringList comboAchievements = {"combo_5", "combo_10", "combo_20", "combo_50"};
+    for (auto& achievement : achievements) {
+        if (comboAchievements.contains(achievement.id) && !achievement.unlocked) {
+            if (gameStats.currentCombo >= achievement.target) {
+                achievement.unlocked = true;
+                achievement.progress = achievement.target;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            } else {
+                achievement.progress = gameStats.currentCombo;
+            }
+        }
+    }
+}
+
+void SinglePlayerGameManager::checkSpeedAchievements()
+{
+    for (auto& achievement : achievements) {
+        if (achievement.id == "speed_fast" && !achievement.unlocked) {
+            if (gameWidget && gameWidget->getCurrentSpeed() <= 50) { // 最快速度
+                achievement.unlocked = true;
+                achievement.progress = 1;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            }
+        } else if (achievement.id == "speed_maintain_60" && !achievement.unlocked) {
+            if (gameStats.highSpeedTime >= 60) {
+                achievement.unlocked = true;
+                achievement.progress = 60;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            } else {
+                achievement.progress = gameStats.highSpeedTime;
+            }
+        } else if (achievement.id == "speed_no_slow" && !achievement.unlocked) {
+            if (gameStats.neverSlowed && gameStats.totalScore > 200) {
+                achievement.unlocked = true;
+                achievement.progress = 1;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            }
+        }
+    }
+}
+
+void SinglePlayerGameManager::checkSurvivalAchievements()
+{
+    for (auto& achievement : achievements) {
+        if (achievement.id == "near_death_5" && !achievement.unlocked) {
+            if (gameStats.nearDeathEscapes >= 5) {
+                achievement.unlocked = true;
+                achievement.progress = 5;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            } else {
+                achievement.progress = gameStats.nearDeathEscapes;
+            }
+        } else if (achievement.id == "corner_escape" && !achievement.unlocked) {
+            if (gameStats.cornerEscapes >= 1) {
+                achievement.unlocked = true;
+                achievement.progress = 1;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            }
+        } else if (achievement.id == "self_collision" && !achievement.unlocked) {
+            if (gameStats.diedBySelfCollision) {
+                achievement.unlocked = true;
+                achievement.progress = 1;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            }
+        }
+    }
+}
+
+void SinglePlayerGameManager::checkCollectionAchievements()
+{
+    QStringList collectionAchievements = {"special_food_10", "special_food_50", "food_variety", "golden_food"};
+    for (auto& achievement : achievements) {
+        if (collectionAchievements.contains(achievement.id) && !achievement.unlocked) {
+            if (achievement.id == "special_food_10" || achievement.id == "special_food_50") {
+                if (gameStats.specialFoodEaten >= achievement.target) {
+                    achievement.unlocked = true;
+                    achievement.progress = achievement.target;
+                    achievement.displayed = false;
+                    emit achievementUnlocked(achievement);
+                } else {
+                    achievement.progress = gameStats.specialFoodEaten;
+                }
+            } else if (achievement.id == "food_variety") {
+                if (gameStats.foodTypesEaten >= 5) {
+                    achievement.unlocked = true;
+                    achievement.progress = 5;
+                    achievement.displayed = false;
+                    emit achievementUnlocked(achievement);
+                } else {
+                    achievement.progress = gameStats.foodTypesEaten;
+                }
+            } else if (achievement.id == "golden_food") {
+                if (gameStats.goldenFoodEaten >= 1) {
+                    achievement.unlocked = true;
+                    achievement.progress = 1;
+                    achievement.displayed = false;
+                    emit achievementUnlocked(achievement);
+                }
+            }
+        }
+    }
+}
+
+void SinglePlayerGameManager::checkExplorationAchievements()
+{
+    for (auto& achievement : achievements) {
+        if (achievement.id == "map_explorer" && !achievement.unlocked) {
+            if (gameStats.mapCoverage >= 80) {
+                achievement.unlocked = true;
+                achievement.progress = 80;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            } else {
+                achievement.progress = gameStats.mapCoverage;
+            }
+        } else if (achievement.id == "corner_visitor" && !achievement.unlocked) {
+            if (gameStats.cornersVisited >= 4) {
+                achievement.unlocked = true;
+                achievement.progress = 4;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            } else {
+                achievement.progress = gameStats.cornersVisited;
+            }
+        } else if (achievement.id == "border_runner" && !achievement.unlocked) {
+            if (gameStats.borderSteps >= 100) {
+                achievement.unlocked = true;
+                achievement.progress = 100;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            } else {
+                achievement.progress = gameStats.borderSteps;
+            }
+        }
+    }
+}
+
+void SinglePlayerGameManager::checkSkillAchievements()
+{
+    for (auto& achievement : achievements) {
+        if (achievement.id == "quick_turn" && !achievement.unlocked) {
+            if (gameStats.quickTurns >= 20) {
+                achievement.unlocked = true;
+                achievement.progress = 20;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            } else {
+                achievement.progress = gameStats.quickTurns;
+            }
+        } else if (achievement.id == "spiral_master" && !achievement.unlocked) {
+            if (gameStats.spiralCompleted) {
+                achievement.unlocked = true;
+                achievement.progress = 1;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            }
+        } else if (achievement.id == "zigzag_king" && !achievement.unlocked) {
+            if (gameStats.zigzagMoves >= 50) {
+                achievement.unlocked = true;
+                achievement.progress = 50;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            } else {
+                achievement.progress = gameStats.zigzagMoves;
+            }
+        }
+    }
+}
+
+void SinglePlayerGameManager::checkChallengeAchievements()
+{
+    for (auto& achievement : achievements) {
+        if (achievement.id == "no_pause" && !achievement.unlocked) {
+            if (gameStats.neverPaused && gameStats.totalScore > 100) {
+                achievement.unlocked = true;
+                achievement.progress = 1;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            }
+        } else if (achievement.id == "blindfold" && !achievement.unlocked) {
+            if (gameStats.blindMoves >= 20) {
+                achievement.unlocked = true;
+                achievement.progress = 20;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            } else {
+                achievement.progress = gameStats.blindMoves;
+            }
+        } else if (achievement.id == "minimalist" && !achievement.unlocked) {
+            if (gameStats.totalScore >= 50 && gameStats.totalMoves <= gameStats.totalScore / 2) {
+                achievement.unlocked = true;
+                achievement.progress = 50;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            }
+        }
+    }
+}
+
+void SinglePlayerGameManager::checkMilestoneAchievements()
+{
+    for (auto& achievement : achievements) {
+        if (achievement.id == "first_game" && !achievement.unlocked) {
+            if (gameStats.gamesPlayed >= 1) {
+                achievement.unlocked = true;
+                achievement.progress = 1;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            }
+        } else if (achievement.id == "comeback_king" && !achievement.unlocked) {
+            if (gameStats.comebackWins >= 1) {
+                achievement.unlocked = true;
+                achievement.progress = 1;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            }
+        } else if (achievement.id == "perfectionist" && !achievement.unlocked) {
+            if (gameStats.achievementsThisGame >= 5) {
+                achievement.unlocked = true;
+                achievement.progress = 5;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            } else {
+                achievement.progress = gameStats.achievementsThisGame;
+            }
+        } else if (achievement.id == "achievement_hunter" && !achievement.unlocked) {
+            int unlockedCount = 0;
+            for (const auto& ach : achievements) {
+                if (ach.unlocked) unlockedCount++;
+            }
+            if (unlockedCount >= 30) {
+                achievement.unlocked = true;
+                achievement.progress = 30;
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            } else {
+                achievement.progress = unlockedCount;
+            }
+        } else if (achievement.id == "completionist" && !achievement.unlocked) {
+            int unlockedCount = 0;
+            for (const auto& ach : achievements) {
+                if (ach.unlocked) unlockedCount++;
+            }
+            if (unlockedCount >= achievements.size() - 1) { // 除了自己
+                achievement.unlocked = true;
+                achievement.progress = achievements.size();
+                achievement.displayed = false;
+                emit achievementUnlocked(achievement);
+            } else {
+                achievement.progress = unlockedCount;
             }
         }
     }
@@ -518,34 +885,6 @@ void SinglePlayerGameManager::checkEfficiencyAchievements()
 
 void SinglePlayerGameManager::checkSpecialAchievements()
 {
-    // 检查长度成就
-    QStringList lengthAchievements = {"length_20", "length_50", "length_100"};
-    for (auto& achievement : achievements) {
-        if (lengthAchievements.contains(achievement.id) && !achievement.unlocked) {
-            if (gameStats.maxLength >= achievement.target) {
-                achievement.unlocked = true;
-                achievement.progress = achievement.target;
-                achievement.displayed = false; // 标记为未显示
-                emit achievementUnlocked(achievement);
-            } else {
-                achievement.progress = gameStats.maxLength;
-            }
-        }
-    }
-    
-    // 检查特殊食物成就
-    for (auto& achievement : achievements) {
-        if (achievement.id == "special_food_10" && !achievement.unlocked) {
-            if (gameStats.specialFoodEaten >= achievement.target) {
-                achievement.unlocked = true;
-                achievement.progress = achievement.target;
-                achievement.displayed = false; // 标记为未显示
-                emit achievementUnlocked(achievement);
-            } else {
-                achievement.progress = gameStats.specialFoodEaten;
-            }
-        }
-    }
     
     // 检查模式特定成就
     if (currentMode == SinglePlayerMode::TIME_ATTACK) {
@@ -556,6 +895,15 @@ void SinglePlayerGameManager::checkSpecialAchievements()
                     achievement.progress = achievement.target;
                     achievement.displayed = false; // 标记为未显示
                     emit achievementUnlocked(achievement);
+                }
+            } else if (achievement.id == "genius_youth" && !achievement.unlocked) {
+                if (gameStats.specialFoodEaten >= 10) {
+                    achievement.unlocked = true;
+                    achievement.progress = 10;
+                    achievement.displayed = false; // 标记为未显示
+                    emit achievementUnlocked(achievement);
+                } else {
+                    achievement.progress = gameStats.specialFoodEaten;
                 }
             }
         }

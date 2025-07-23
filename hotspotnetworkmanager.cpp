@@ -4,6 +4,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QDebug>
+#include <QRandomGenerator>
 
 HotspotNetworkManager::HotspotNetworkManager(QObject *parent)
     : QObject(parent)
@@ -36,6 +37,8 @@ HotspotNetworkManager::~HotspotNetworkManager()
 
 bool HotspotNetworkManager::startHotspotHost(const QString& roomName, int maxPlayers)
 {
+    qDebug() << "Starting hotspot host - Room:" << roomName << "Max players:" << maxPlayers;
+    
     if (isHosting()) {
         qWarning() << "Already hosting a room";
         return false;
@@ -43,9 +46,13 @@ bool HotspotNetworkManager::startHotspotHost(const QString& roomName, int maxPla
     
     // 检查是否在热点网络中
     if (!isInHotspotNetwork()) {
-        emit networkError("Not connected to a hotspot network");
+        QString error = "Not connected to a hotspot network";
+        qWarning() << error;
+        emit networkError(error);
         return false;
     }
+    
+    qDebug() << "Hotspot network check passed, proceeding with host setup";
     
     // 创建TCP服务器
     tcpServer = new QTcpServer(this);
@@ -71,13 +78,15 @@ bool HotspotNetworkManager::startHotspotHost(const QString& roomName, int maxPla
     this->maxPlayers = maxPlayers;
     isHost = true;
     
-    // 开始广播房间信息
+    // 立即广播一次房间信息，然后开始定期广播
+    QTimer::singleShot(500, this, &HotspotNetworkManager::broadcastHostInfo); // 延迟500ms确保初始化完成
     broadcastTimer->start(BROADCAST_INTERVAL);
     
     QString localIP = getLocalIPAddress();
     emit hostStarted(roomName, localIP);
     
     qDebug() << "Hotspot host started:" << roomName << "on" << localIP << ":" << DEFAULT_PORT;
+    qDebug() << "Host will start broadcasting in 500ms to ensure full initialization";
     return true;
 }
 
@@ -128,24 +137,56 @@ bool HotspotNetworkManager::isHosting() const
 
 void HotspotNetworkManager::startHostDiscovery()
 {
+    qDebug() << "Starting host discovery...";
+    
     if (!isInHotspotNetwork()) {
-        emit networkError("Not connected to a hotspot network");
+        QString error = "Not connected to a hotspot network";
+        qWarning() << error;
+        emit networkError(error);
         return;
     }
     
-    // 创建UDP套接字用于发现
+    qDebug() << "Hotspot network check passed for discovery";
+    
+    // 创建或重用UDP套接字用于发现
     if (!udpSocket) {
+        qDebug() << "Creating UDP socket for discovery";
         udpSocket = new QUdpSocket(this);
-        if (!udpSocket->bind(QHostAddress::Any, DISCOVERY_PORT)) {
-            qWarning() << "Failed to bind UDP socket for discovery:" << udpSocket->errorString();
+        
+        // 尝试绑定到发现端口，如果失败则尝试其他端口
+        bool bindSuccess = false;
+        QList<quint16> portsToTry = {DISCOVERY_PORT, DISCOVERY_PORT + 1, DISCOVERY_PORT + 2, 0}; // 0表示系统分配
+        
+        for (quint16 port : portsToTry) {
+            if (udpSocket->bind(QHostAddress::Any, port)) {
+                qDebug() << "UDP socket bound to port" << udpSocket->localPort();
+                bindSuccess = true;
+                break;
+            } else {
+                qDebug() << "Failed to bind to port" << port << ":" << udpSocket->errorString();
+            }
         }
+        
+        if (!bindSuccess) {
+            qWarning() << "Failed to bind UDP socket to any port";
+            emit networkError(QString("Failed to bind UDP socket: %1").arg(udpSocket->errorString()));
+            udpSocket->deleteLater();
+            udpSocket = nullptr;
+            return;
+        }
+        
         connect(udpSocket, &QUdpSocket::readyRead, this, &HotspotNetworkManager::onUdpDataReceived);
+    } else {
+        qDebug() << "Using existing UDP socket for discovery, bound to port" << udpSocket->localPort();
     }
     
     // 开始定期发现主机
     discoveryTimer->start(DISCOVERY_INTERVAL);
     
-    qDebug() << "Started host discovery";
+    qDebug() << "Started host discovery with interval" << DISCOVERY_INTERVAL << "ms";
+    
+    // 延迟执行第一次发现，确保网络状态稳定
+    QTimer::singleShot(200, this, &HotspotNetworkManager::processHostDiscovery);
 }
 
 void HotspotNetworkManager::stopHostDiscovery()
@@ -268,23 +309,88 @@ QStringList HotspotNetworkManager::getConnectedPlayerNames() const
 QString HotspotNetworkManager::getLocalIPAddress() const
 {
     // 获取热点网络的IP地址
-    QList<QHostAddress> addresses = QNetworkInterface::allAddresses();
+    QList<QNetworkInterface> interfaces = QNetworkInterface::allInterfaces();
     
-    for (const QHostAddress& address : addresses) {
-        if (address.protocol() == QAbstractSocket::IPv4Protocol &&
-            !address.isLoopback() &&
-            isValidHotspotIP(address.toString())) {
-            return address.toString();
+    qDebug() << "Searching for local IP address, found" << interfaces.size() << "network interfaces:";
+    
+    QString bestIP;
+    QString fallbackIP;
+    
+    for (const QNetworkInterface& interface : interfaces) {
+        if (!(interface.flags() & QNetworkInterface::IsUp) ||
+            !(interface.flags() & QNetworkInterface::IsRunning) ||
+            (interface.flags() & QNetworkInterface::IsLoopBack)) {
+            continue;
+        }
+        
+        qDebug() << "Checking interface:" << interface.name() << "Type:" << interface.type();
+        
+        QList<QNetworkAddressEntry> entries = interface.addressEntries();
+        for (const QNetworkAddressEntry& entry : entries) {
+            QHostAddress address = entry.ip();
+            if (address.protocol() != QAbstractSocket::IPv4Protocol) {
+                continue;
+            }
+            
+            QString ipStr = address.toString();
+            qDebug() << "  Checking address:" << ipStr 
+                     << "Interface:" << interface.name()
+                     << "ValidHotspot:" << isValidHotspotIP(ipStr);
+            
+            // 优先选择热点IP
+            if (isValidHotspotIP(ipStr)) {
+                // 优先级：Android热点 > iOS热点 > Windows热点 > 其他
+                if (ipStr.startsWith("192.168.43.") || ipStr.startsWith("172.20.")) {
+                    qDebug() << "Found high-priority hotspot IP:" << ipStr;
+                    return ipStr;
+                } else if (bestIP.isEmpty()) {
+                    bestIP = ipStr;
+                }
+            } else if (fallbackIP.isEmpty() && !address.isLoopback()) {
+                // 备选IP（非回环的IPv4地址）
+                fallbackIP = ipStr;
+            }
         }
     }
     
+    if (!bestIP.isEmpty()) {
+        qDebug() << "Selected best hotspot IP:" << bestIP;
+        return bestIP;
+    }
+    
+    if (!fallbackIP.isEmpty()) {
+        qWarning() << "No hotspot IP found, using fallback IP:" << fallbackIP;
+        return fallbackIP;
+    }
+    
+    qWarning() << "No valid IP found, returning 127.0.0.1";
     return "127.0.0.1";
 }
 
 bool HotspotNetworkManager::isInHotspotNetwork() const
 {
     QString localIP = getLocalIPAddress();
-    return isValidHotspotIP(localIP) && localIP != "127.0.0.1";
+    
+    // 放宽检测条件：只要不是回环地址就认为可能在网络中
+    bool hasValidIP = localIP != "127.0.0.1" && !localIP.isEmpty();
+    bool isHotspotIP = isValidHotspotIP(localIP);
+    
+    // 如果有热点IP，直接返回true
+    if (isHotspotIP) {
+        qDebug() << "In hotspot network - IP:" << localIP << "(hotspot IP detected)";
+        return true;
+    }
+    
+    // 如果有有效的非回环IP，也认为可能在网络中（放宽条件）
+    if (hasValidIP) {
+        qDebug() << "Possibly in network - IP:" << localIP << "(non-loopback IP, allowing connection)";
+        return true;
+    }
+    
+    qDebug() << "Not in hotspot network - Local IP:" << localIP 
+             << "Valid IP:" << hasValidIP
+             << "Hotspot IP:" << isHotspotIP;
+    return false;
 }
 
 void HotspotNetworkManager::onNewClientConnection()
@@ -392,80 +498,226 @@ void HotspotNetworkManager::onHeartbeatTimeout()
 
 void HotspotNetworkManager::processHostDiscovery()
 {
-    if (!udpSocket) return;
+    if (!udpSocket) {
+        qWarning() << "UDP socket is null in processHostDiscovery";
+        return;
+    }
+    
+    // 检查网络状态
+    QString networkBase = getLocalIPAddress();
+    if (networkBase.isEmpty() || networkBase == "127.0.0.1") {
+        qWarning() << "Invalid network base for discovery:" << networkBase;
+        return;
+    }
+    
+    qDebug() << "Starting host discovery from IP:" << networkBase;
     
     // 发送发现请求
     QJsonObject discoveryRequest = createMessage("discover_hosts");
     QJsonDocument doc(discoveryRequest);
     QByteArray data = doc.toJson(QJsonDocument::Compact);
     
-    // 广播到热点网络
-    QString networkBase = getLocalIPAddress();
-    if (networkBase.isEmpty()) return;
+    qDebug() << "Discovery request data:" << data;
     
-    // 简化的网络扫描：只扫描常见的热点网络段
-    QStringList networkPrefixes = {"192.168.43.", "192.168.137.", "10.0.0."};
+    // 首先尝试广播
+    qint64 broadcastBytes = udpSocket->writeDatagram(data, QHostAddress::Broadcast, DISCOVERY_PORT);
+    qDebug() << "Sent broadcast discovery request, bytes written:" << broadcastBytes;
     
+    // 扫描多个可能的网络段
+    QStringList networkPrefixes = {
+        "192.168.43.",   // Android热点
+        "192.168.137.",  // Windows热点
+        "172.20.",       // iOS热点
+        "10.0.0.",       // 通用热点
+        "192.168.1.",    // 常见路由器
+        "192.168.0.",    // 常见路由器
+        "10.0.1.",       // 扩展热点段
+        "172.16.",       // 私有网络段
+    };
+    
+    bool foundMatchingSegment = false;
+    
+    // 首先扫描当前网络段
     for (const QString& prefix : networkPrefixes) {
         if (networkBase.startsWith(prefix)) {
+            qDebug() << "Scanning current network segment:" << prefix << "*";
+            int sentCount = 0;
             for (int i = 1; i < 255; ++i) {
                 QString targetIP = prefix + QString::number(i);
-                udpSocket->writeDatagram(data, QHostAddress(targetIP), DISCOVERY_PORT);
+                if (targetIP != networkBase) { // 不发送给自己
+                    qint64 bytes = udpSocket->writeDatagram(data, QHostAddress(targetIP), DISCOVERY_PORT);
+                    if (bytes > 0) sentCount++;
+                }
             }
+            qDebug() << "Sent discovery requests to" << sentCount << "addresses in current segment" << prefix << "*";
+            foundMatchingSegment = true;
             break;
+        }
+    }
+    
+    // 如果当前网络段不匹配，扫描常见的热点网络段
+    if (!foundMatchingSegment) {
+        qDebug() << "Current network segment not recognized, scanning common hotspot segments";
+        QStringList commonHotspotPrefixes = {"192.168.43.", "172.20.", "192.168.137."};
+        
+        for (const QString& prefix : commonHotspotPrefixes) {
+            qDebug() << "Scanning hotspot segment:" << prefix << "*";
+            int sentCount = 0;
+            for (int i = 1; i < 255; ++i) {
+                QString targetIP = prefix + QString::number(i);
+                qint64 bytes = udpSocket->writeDatagram(data, QHostAddress(targetIP), DISCOVERY_PORT);
+                if (bytes > 0) sentCount++;
+            }
+            qDebug() << "Sent discovery requests to" << sentCount << "addresses in hotspot segment" << prefix << "*";
         }
     }
 }
 
 void HotspotNetworkManager::broadcastHostInfo()
 {
-    if (!isHosting() || !udpSocket) return;
+    if (!isHosting() || !udpSocket) {
+        qDebug() << "Cannot broadcast: isHosting=" << isHosting() << ", udpSocket=" << (udpSocket != nullptr);
+        return;
+    }
+    
+    QString localIP = getLocalIPAddress();
+    if (localIP == "127.0.0.1" || localIP.isEmpty()) {
+        qWarning() << "Invalid local IP for broadcasting:" << localIP << ", retrying IP detection...";
+        // 重新检测IP地址
+        QTimer::singleShot(1000, this, &HotspotNetworkManager::broadcastHostInfo);
+        return;
+    }
     
     QJsonObject hostInfo = createMessage("host_info");
     hostInfo["room_name"] = currentRoomName;
     hostInfo["player_count"] = getConnectedPlayersCount();
     hostInfo["max_players"] = maxPlayers;
-    hostInfo["host_address"] = getLocalIPAddress();
+    hostInfo["host_address"] = localIP;
     
     QJsonDocument doc(hostInfo);
     QByteArray data = doc.toJson(QJsonDocument::Compact);
     
-    // 广播主机信息
-    udpSocket->writeDatagram(data, QHostAddress::Broadcast, DISCOVERY_PORT);
+    // 多种方式广播主机信息
+    int successfulBroadcasts = 0;
+    
+    // 1. 标准广播
+    qint64 broadcastBytes = udpSocket->writeDatagram(data, QHostAddress::Broadcast, DISCOVERY_PORT);
+    if (broadcastBytes > 0) {
+        successfulBroadcasts++;
+        qDebug() << "Standard broadcast successful, bytes:" << broadcastBytes;
+    }
+    
+    // 2. 向常见热点网络段广播
+    QStringList hotspotPrefixes = {"192.168.43.", "172.20.", "192.168.137.", "192.168.1.", "192.168.0."};
+    for (const QString& prefix : hotspotPrefixes) {
+        if (localIP.startsWith(prefix)) {
+            // 向同网段的广播地址发送
+            QString broadcastAddr = prefix + "255";
+            qint64 bytes = udpSocket->writeDatagram(data, QHostAddress(broadcastAddr), DISCOVERY_PORT);
+            if (bytes > 0) {
+                successfulBroadcasts++;
+                qDebug() << "Segment broadcast to" << broadcastAddr << "successful, bytes:" << bytes;
+            }
+            break;
+        }
+    }
+    
+    qDebug() << "Broadcasting host info:" << currentRoomName << "on IP:" << localIP 
+             << "successful broadcasts:" << successfulBroadcasts << "data size:" << data.size();
+    
+    if (successfulBroadcasts == 0) {
+        qWarning() << "All broadcast attempts failed, will retry in next interval";
+    }
 }
 
 void HotspotNetworkManager::onUdpDataReceived()
 {
-    if (!udpSocket) return;
+    if (!udpSocket) {
+        qWarning() << "UDP socket is null in onUdpDataReceived";
+        return;
+    }
     
+    qDebug() << "UDP data received, pending datagrams:" << udpSocket->hasPendingDatagrams();
+    
+    int processedCount = 0;
     while (udpSocket->hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(udpSocket->pendingDatagramSize());
         QHostAddress sender;
         quint16 senderPort;
         
-        udpSocket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+        qint64 bytesRead = udpSocket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+        processedCount++;
+        
+        if (bytesRead <= 0) {
+            qWarning() << "Failed to read UDP datagram, bytes read:" << bytesRead;
+            continue;
+        }
+        
+        qDebug() << "Received UDP datagram" << processedCount << "from" << sender.toString() << ":" << senderPort 
+                 << "size:" << bytesRead;
+        
+        // 忽略来自自己的消息
+        QString localIP = getLocalIPAddress();
+        if (sender.toString() == localIP) {
+            qDebug() << "Ignoring message from self:" << sender.toString();
+            continue;
+        }
         
         QJsonParseError error;
         QJsonDocument doc = QJsonDocument::fromJson(datagram, &error);
         
-        if (error.error == QJsonParseError::NoError && doc.isObject()) {
-            QJsonObject message = doc.object();
-            QString type = message["type"].toString();
+        if (error.error != QJsonParseError::NoError) {
+            qWarning() << "Failed to parse UDP JSON:" << error.errorString() 
+                       << "at offset:" << error.offset << "data:" << datagram;
+            continue;
+        }
+        
+        if (!doc.isObject()) {
+            qWarning() << "UDP message is not a JSON object:" << datagram;
+            continue;
+        }
+        
+        QJsonObject message = doc.object();
+        QString type = message["type"].toString();
+        
+        if (type.isEmpty()) {
+            qWarning() << "UDP message missing type field:" << datagram;
+            continue;
+        }
+        
+        qDebug() << "Processing UDP message type:" << type << "from:" << sender.toString() 
+                 << "isHosting:" << isHosting();
+        
+        if (type == "host_info" && !isHosting()) {
+            QString hostAddr = message["host_address"].toString();
+            QString roomName = message["room_name"].toString();
+            int playerCount = message["player_count"].toInt();
+            int maxPlayers = message["max_players"].toInt();
             
-            if (type == "host_info" && !isHosting()) {
-                QString hostAddr = message["host_address"].toString();
-                QString roomName = message["room_name"].toString();
-                int playerCount = message["player_count"].toInt();
-                int maxPlayers = message["max_players"].toInt();
-                emit hostDiscovered(hostAddr, roomName, playerCount, maxPlayers);
-                qDebug() << "Discovered host:" << roomName << "at" << hostAddr;
-            } else if (type == "discover_hosts" && isHosting()) {
-                // 响应发现请求
-                broadcastHostInfo();
+            // 验证主机信息的有效性
+            if (hostAddr.isEmpty() || roomName.isEmpty() || maxPlayers <= 0) {
+                qWarning() << "Invalid host info received:" << "addr=" << hostAddr 
+                           << "room=" << roomName << "maxPlayers=" << maxPlayers;
+                continue;
             }
+            
+            qDebug() << "Discovered valid host:" << roomName << "at" << hostAddr 
+                     << "players:" << playerCount << "/" << maxPlayers;
+            emit hostDiscovered(hostAddr, roomName, playerCount, maxPlayers);
+            
+        } else if (type == "discover_hosts" && isHosting()) {
+            qDebug() << "Received discovery request from" << sender.toString() 
+                     << ", responding with host info";
+            // 延迟响应，避免网络拥塞
+            QTimer::singleShot(100 + QRandomGenerator::global()->bounded(200), this, &HotspotNetworkManager::broadcastHostInfo);
+            
+        } else {
+            qDebug() << "Ignoring UDP message type:" << type << "(isHosting:" << isHosting() << ")";
         }
     }
+    
+    qDebug() << "Processed" << processedCount << "UDP datagrams";
 }
 
 void HotspotNetworkManager::processMessage(const QJsonObject& message, QTcpSocket* sender)
@@ -553,8 +805,16 @@ QString HotspotNetworkManager::detectHotspotNetwork()
 bool HotspotNetworkManager::isValidHotspotIP(const QString& ipAddress) const
 {
     // 检查是否为常见的热点网络IP段
-    return ipAddress.startsWith("192.168.43.") ||  // Android热点
-           ipAddress.startsWith("192.168.137.") || // Windows热点
-           ipAddress.startsWith("172.20.") ||      // iOS热点
-           ipAddress.startsWith("10.0.0.");        // 其他热点
+    bool isValid = ipAddress.startsWith("192.168.43.") ||  // Android热点
+                   ipAddress.startsWith("192.168.137.") || // Windows热点
+                   ipAddress.startsWith("172.20.") ||      // iOS热点
+                   ipAddress.startsWith("10.0.0.") ||      // 其他热点
+                   ipAddress.startsWith("192.168.1.") ||   // 常见路由器热点
+                   ipAddress.startsWith("192.168.0.") ||   // 常见路由器热点
+                   ipAddress.startsWith("10.0.1.") ||      // 扩展热点段
+                   ipAddress.startsWith("172.16.") ||      // 私有网络段
+                   ipAddress.startsWith("192.168.");       // 通用192.168段
+    
+    qDebug() << "Checking IP validity:" << ipAddress << "-> Valid:" << isValid;
+    return isValid;
 }

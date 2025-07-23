@@ -404,11 +404,7 @@ void NetworkManager::processMessage(const QJsonObject& message, QTcpSocket* send
         
         emit scoreUpdateReceived(playerName, score);
     }
-    else if (type == "joinSuccess") {
-        QString roomId = data["roomId"].toString();
-        QString playerName = data["playerName"].toString();
-        emit playerJoined(roomId, playerName);
-    }
+
     else if (type == "playerPosition") {
         QString playerName = clientNames.value(sender, "Unknown");
         QJsonArray bodyArray = data["body"].toArray();

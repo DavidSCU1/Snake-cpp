@@ -74,6 +74,7 @@ private:
     
     // 主要组件
     QStackedWidget* stackedWidget;
+    QWidget* preparationWidget;
     GameWidget* gameWidget;
     CharacterSelection* characterSelection;
     NetworkManager* networkManager;

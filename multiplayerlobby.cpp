@@ -405,8 +405,7 @@ void MultiPlayerLobby::onJoinRoomClicked()
             currentRoomId = roomKey;  // 提前设置roomId
             
             if (multiPlayerManager->joinRoom(roomKey, actualPlayerName)) {
-                QMessageBox::information(this, "成功", "成功加入房间！");
-                showWaitingInterface(); // 显式调用界面跳转
+                QMessageBox::information(this, "成功", "成功加入房间！等待主机确认...");
                 // 注意：showWaitingInterface()会在onPlayerJoinedRoom信号中自动调用
             } else {
                 QMessageBox::warning(this, "错误", "连接成功但无法加入房间！");
@@ -550,15 +549,15 @@ void MultiPlayerLobby::onPlayerJoinedRoom(const QString& roomId, const QString& 
     GameRoom room = multiPlayerManager->getRoomInfo(roomId);
     updateRoomInfo(room);
     
-    if (playerName == this->playerName) {
+    // 只要房间ID匹配就显示等待界面，确保客户端能正确跳转
+    if (roomId == currentRoomId) {
         currentRoomId = roomId;
         showWaitingInterface();
         qDebug() << "Player" << playerName << "joined, switching to waiting interface";
         sendJoinSuccessAck();
-    } else if (roomId == currentRoomId) {
-        if (waitingWidget && waitingWidget->isVisible()) {
-            showWaitingInterface();
-        } else {
+
+        // 检查是否需要显示玩家加入信息
+        if (waitingWidget && !waitingWidget->isVisible()) {
             QMessageBox::information(this, "玩家加入", QString("玩家 %1 加入了房间！").arg(playerName));
         }
     }

@@ -89,7 +89,7 @@ QString SinglePlayerGameManager::getModeDescription(SinglePlayerMode mode) const
     case SinglePlayerMode::SPEED_RUN:
         return "极速模式：速度会不断增加，考验你的反应能力！";
     case SinglePlayerMode::AI_BATTLE:
-        return "人机对战：与智能AI比拼积分，看谁能获得更高的分数！";
+        return "人机对战：与智能AI比拼积分，看谁能获得更高的分数！\n\n• 玩家与AI同时游戏\n• 领先对手10个食物即可获胜\n• 随机生成障碍物增加挑战性\n• 考验策略和反应能力";
     default:
         return "未知模式";
     }

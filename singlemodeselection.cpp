@@ -470,7 +470,7 @@ void SingleModeSelection::showModeDetails(SinglePlayerMode mode)
         break;
     case SinglePlayerMode::AI_BATTLE:
         modeName = "🤖 人机对战";
-        description = "与智能AI比拼积分！\n\n• AI自动寻路觅食\n• 比较双方得分\n• 考验策略技巧\n• 挑战人工智能";
+        description = "与智能AI比拼积分！\n\n• 玩家与AI同时游戏\n• 领先对手10个食物即可获胜\n• 随机生成障碍物增加挑战性\n• 考验策略和反应能力";
         break;
     }
     

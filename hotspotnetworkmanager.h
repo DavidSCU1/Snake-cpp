@@ -119,12 +119,12 @@ private:
     int maxPlayers;
     bool isHost;
     
-    // 网络配置
+    // 网络配置 - 优化网络参数以减少延迟
     static const quint16 DEFAULT_PORT = 23456;
     static const quint16 DISCOVERY_PORT = 23457;
-    static const int HEARTBEAT_INTERVAL = 3000;  // 3秒心跳
-    static const int DISCOVERY_INTERVAL = 2000;  // 2秒发现间隔
-    static const int BROADCAST_INTERVAL = 1000;  // 1秒广播间隔
+    static const int HEARTBEAT_INTERVAL = 1500;  // 优化：缩短心跳间隔到1.5秒
+    static const int DISCOVERY_INTERVAL = 1000;  // 优化：缩短发现间隔到1秒
+    static const int BROADCAST_INTERVAL = 500;   // 优化：缩短广播间隔到0.5秒
 };
 
 #endif // HOTSPOTNETWORKMANAGER_H

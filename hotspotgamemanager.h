@@ -31,7 +31,7 @@ struct HotspotGameState {
     
     HotspotGameState() 
         : isSpecialFood(false)
-        , gameSpeed(200)
+        , gameSpeed(100)  // 优化：提高游戏更新频率，从200ms降低到100ms
         , isPaused(false)
         , isGameStarted(false)
         , countdownTimer(0) {}
@@ -117,6 +117,7 @@ signals:
 private slots:
     void onGameTick();
     void onCountdownTick();
+    void onSyncTick();  // 新增：智能同步定时器槽函数
     void onNetworkPlayerData(const QString& playerName, const QJsonObject& playerData);
     void onNetworkGameState(const QJsonObject& gameState);
     void onNetworkPlayerConnected(const QString& playerName);
@@ -131,6 +132,12 @@ private:
     void checkWinCondition();
     void broadcastGameState();
     void syncPlayerData(const QString& playerName);
+    
+    // 新增：优化的同步方法
+    void smartBroadcastGameState();     // 智能游戏状态广播
+    bool hasGameStateChanged() const;   // 检查游戏状态是否变化
+    void updateLastSyncedState();       // 更新上次同步状态
+    void setupSyncTimer();              // 设置同步定时器
     
     // 碰撞检测
     bool checkSelfCollision(const QString& playerName);
@@ -156,8 +163,14 @@ private:
     HotspotNetworkManager* networkManager;
     QTimer* gameTimer;
     QTimer* countdownTimer;
+    QTimer* syncTimer;  // 新增：数据同步定时器
     QString hostPlayerName;
     QString roomName;
+    
+    // 优化：同步状态管理
+    HotspotGameState lastSyncedState;  // 上次同步的游戏状态
+    qint64 lastGameStateSyncTime;      // 上次游戏状态同步时间
+    bool hasStateChanged;              // 状态是否发生变化
     
     // 游戏配置
     static const int GRID_WIDTH = 40;
@@ -166,6 +179,17 @@ private:
     static const int COUNTDOWN_SECONDS = 3;
     static const int FOOD_POINTS = 10;
     static const int SPECIAL_FOOD_POINTS = 50;
+    
+    // 网络配置 - 优化网络参数以减少延迟
+    static const quint16 DEFAULT_PORT = 23456;
+    static const quint16 DISCOVERY_PORT = 23457;
+    static const int HEARTBEAT_INTERVAL = 1500;  // 优化：缩短心跳间隔到1.5秒
+    static const int DISCOVERY_INTERVAL = 1000;  // 优化：缩短发现间隔到1秒
+    static const int BROADCAST_INTERVAL = 500;   // 优化：缩短广播间隔到0.5秒
+    
+    // 新增：数据同步优化参数
+    static const int GAME_STATE_SYNC_INTERVAL = 200;  // 游戏状态同步间隔(ms)
+    static const int PLAYER_INPUT_SYNC_INTERVAL = 50; // 玩家输入同步间隔(ms)
 };
 
 #endif // HOTSPOTGAMEMANAGER_H

@@ -3,6 +3,7 @@
 #include <QJsonArray>
 #include <QRandomGenerator>
 #include <QDebug>
+#include <QDateTime>  // 新增：用于时间戳管理
 #include <algorithm>
 
 HotspotGameManager::HotspotGameManager(QObject *parent)
@@ -10,6 +11,9 @@ HotspotGameManager::HotspotGameManager(QObject *parent)
     , networkManager(nullptr)
     , gameTimer(new QTimer(this))
     , countdownTimer(new QTimer(this))
+    , syncTimer(new QTimer(this))  // 新增：初始化同步定时器
+    , lastGameStateSyncTime(0)
+    , hasStateChanged(false)
 {
     // 设置游戏定时器
     gameTimer->setSingleShot(false);
@@ -18,6 +22,9 @@ HotspotGameManager::HotspotGameManager(QObject *parent)
     // 设置倒计时定时器
     countdownTimer->setSingleShot(false);
     connect(countdownTimer, &QTimer::timeout, this, &HotspotGameManager::onCountdownTick);
+    
+    // 设置智能同步定时器
+    setupSyncTimer();
     
     // 初始化游戏状态
     initializeGame();
@@ -290,13 +297,23 @@ void HotspotGameManager::updatePlayerDirection(const QString& playerName, Direct
         return;
     }
     
+    Direction oldDirection = gameState.playerDirections[playerName];
     gameState.playerDirections[playerName] = direction;
     
-    // 只同步方向变化，不需要广播整个游戏状态
-    if (networkManager) {
-        QJsonObject directionData;
-        directionData["direction"] = static_cast<int>(direction);
-        networkManager->sendPlayerData(playerName, directionData);
+    // 优化：方向变化立即同步，不等待游戏状态同步
+    if (oldDirection != direction && networkManager) {
+        if (isHost()) {
+            // 主机立即广播方向变化
+            QJsonObject directionData;
+            directionData["player_name"] = playerName;
+            directionData["direction"] = static_cast<int>(direction);
+            networkManager->sendMessage("player_direction", directionData);
+        } else {
+            // 客户端立即发送方向变化
+            QJsonObject directionData;
+            directionData["direction"] = static_cast<int>(direction);
+            networkManager->sendPlayerData(playerName, directionData);
+        }
     }
 }
 
@@ -344,6 +361,9 @@ void HotspotGameManager::onGameTick()
     }
     
     updateGameLogic();
+    
+    // 优化：标记状态已变化，但不立即广播
+    hasStateChanged = true;
 }
 
 void HotspotGameManager::onCountdownTick()
@@ -479,7 +499,7 @@ void HotspotGameManager::updateGameLogic()
     checkCollisions();
     checkWinCondition();
     
-    broadcastGameState();
+    // 优化：移除每次都广播状态，改为智能同步
     emit gameStateUpdated(gameState);
 }
 
@@ -898,3 +918,102 @@ void HotspotGameManager::playerDataFromJson(const QString& playerName, const QJs
         gameState.playerReadyStatus[playerName] = json["ready"].toBool();
     }
 }
+
+// 新增：智能同步方法实现
+void HotspotGameManager::setupSyncTimer()
+{
+    syncTimer->setSingleShot(false);
+    connect(syncTimer, &QTimer::timeout, this, &HotspotGameManager::onSyncTick);
+    syncTimer->start(GAME_STATE_SYNC_INTERVAL);  // 使用优化的同步间隔
+}
+
+void HotspotGameManager::onSyncTick()
+{
+    if (isHost() && hasStateChanged) {
+        smartBroadcastGameState();
+    }
+}
+
+void HotspotGameManager::smartBroadcastGameState()
+{
+    if (!networkManager || !isHost()) {
+        return;
+    }
+    
+    qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
+    
+    // 检查是否需要同步（避免过于频繁的同步）
+    if (currentTime - lastGameStateSyncTime < GAME_STATE_SYNC_INTERVAL) {
+        return;
+    }
+    
+    // 只有状态真正变化时才同步
+    if (hasGameStateChanged()) {
+        QJsonObject gameStateJson = gameStateToJson();
+        networkManager->sendGameState(gameStateJson);
+        
+        updateLastSyncedState();
+        lastGameStateSyncTime = currentTime;
+        hasStateChanged = false;
+        
+        qDebug() << "Smart sync: Game state broadcasted";
+    }
+}
+
+bool HotspotGameManager::hasGameStateChanged() const
+{
+    // 简化的状态比较 - 比较关键游戏数据
+    if (gameState.playerSnakes.size() != lastSyncedState.playerSnakes.size()) {
+        return true;
+    }
+    
+    // 比较玩家位置（只比较蛇头位置以提高效率）
+    for (auto it = gameState.playerSnakes.begin(); it != gameState.playerSnakes.end(); ++it) {
+        const QString& playerName = it.key();
+        if (!lastSyncedState.playerSnakes.contains(playerName)) {
+            return true;
+        }
+        
+        const auto& currentSnake = it.value();
+        const auto& lastSnake = lastSyncedState.playerSnakes[playerName];
+        
+        if (currentSnake.empty() != lastSnake.empty()) {
+            return true;
+        }
+        
+        if (!currentSnake.empty() && !lastSnake.empty()) {
+            if (currentSnake.front() != lastSnake.front()) {
+                return true;
+            }
+        }
+    }
+    
+    // 比较分数
+    if (gameState.playerScores != lastSyncedState.playerScores) {
+        return true;
+    }
+    
+    // 比较存活状态
+    if (gameState.playerAliveStatus != lastSyncedState.playerAliveStatus) {
+        return true;
+    }
+    
+    // 比较食物位置
+    if (gameState.foodPosition != lastSyncedState.foodPosition) {
+        return true;
+    }
+    
+    // 比较游戏状态
+    if (gameState.isGameStarted != lastSyncedState.isGameStarted ||
+        gameState.isPaused != lastSyncedState.isPaused ||
+        gameState.gameWinner != lastSyncedState.gameWinner) {
+        return true;
+    }
+    
+    return false;
+}
+
+void HotspotGameManager::updateLastSyncedState()
+ {
+     lastSyncedState = gameState;
+ }

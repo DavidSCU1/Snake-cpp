@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QDateTime>
+#include <QTime>
 #include <QNetworkInterface>
 #include <QDebug>
 
@@ -755,12 +756,26 @@ void HotspotLobby::onPlayerLeft(const QString& playerName)
 
 void HotspotLobby::onPlayerCharacterChanged(const QString& playerName, CharacterType character)
 {
+    // 防止频繁更新UI导致卡顿
+    static QTime lastUpdateTime;
+    if (lastUpdateTime.isValid() && lastUpdateTime.msecsTo(QTime::currentTime()) < 100) {
+        return; // 100ms内的重复更新直接忽略
+    }
+    lastUpdateTime = QTime::currentTime();
+    
     updatePlayerList();
     addChatMessage(QString("玩家 %1 选择了角色: %2").arg(playerName, getCharacterName(character)));
 }
 
 void HotspotLobby::onPlayerReadyChanged(const QString& playerName, bool ready)
 {
+    // 防止频繁更新UI导致卡顿
+    static QTime lastUpdateTime;
+    if (lastUpdateTime.isValid() && lastUpdateTime.msecsTo(QTime::currentTime()) < 100) {
+        return; // 100ms内的重复更新直接忽略
+    }
+    lastUpdateTime = QTime::currentTime();
+    
     updatePlayerList();
     updateGameControls();
     addChatMessage(QString("玩家 %1 %2").arg(playerName, ready ? "已准备" : "取消准备"));

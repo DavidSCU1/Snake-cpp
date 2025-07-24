@@ -395,12 +395,24 @@ void HotspotGameManager::onNetworkPlayerData(const QString& playerName, const QJ
     
     if (playerData.contains("character")) {
         CharacterType character = static_cast<CharacterType>(playerData["character"].toInt());
-        setPlayerCharacter(playerName, character);
+        // 直接更新状态，避免循环调用syncPlayerData
+        CharacterType oldCharacter = gameState.playerCharacters.value(playerName, CharacterType::SPONGEBOB);
+        if (oldCharacter != character) {
+            gameState.playerCharacters[playerName] = character;
+            emit playerCharacterChanged(playerName, character);
+            qDebug() << "Player" << playerName << "character updated from network:" << static_cast<int>(character);
+        }
     }
     
     if (playerData.contains("ready")) {
         bool ready = playerData["ready"].toBool();
-        setPlayerReady(playerName, ready);
+        // 直接更新状态，避免循环调用syncPlayerData
+        bool oldReady = gameState.playerReadyStatus.value(playerName, false);
+        if (oldReady != ready) {
+            gameState.playerReadyStatus[playerName] = ready;
+            emit playerReadyChanged(playerName, ready);
+            qDebug() << "Player" << playerName << "ready status updated from network:" << ready;
+        }
     }
 }
 

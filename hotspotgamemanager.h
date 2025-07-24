@@ -188,8 +188,8 @@ private:
     static const int BROADCAST_INTERVAL = 500;   // 优化：缩短广播间隔到0.5秒
     
     // 新增：数据同步优化参数
-    static const int GAME_STATE_SYNC_INTERVAL = 200;  // 游戏状态同步间隔(ms)
-    static const int PLAYER_INPUT_SYNC_INTERVAL = 50; // 玩家输入同步间隔(ms)
+    static const int GAME_STATE_SYNC_INTERVAL = 300;  // 游戏状态同步间隔(ms) - 降低同步频率减少卡顿
+    static const int PLAYER_INPUT_SYNC_INTERVAL = 100; // 玩家输入同步间隔(ms) - 降低输入同步频率
 };
 
 #endif // HOTSPOTGAMEMANAGER_H
